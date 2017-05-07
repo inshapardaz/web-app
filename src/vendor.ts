@@ -7,8 +7,7 @@ import '@angular/http';
 import '@angular/router';
 // RxJS
 import 'rxjs';
-// Other vendors for example jQuery, Bootstrap etc
-// You can import js, ts, css, sass, ...
+import 'jquery';
 
 import './assets/css/oneui.css';
 import './assets/css/styles.scss';
