@@ -37,7 +37,8 @@ module.exports = {
                 loaders: ['raw-loader', 'sass-loader'] // sass-loader not scss-loader
             }, {
                 test: /\.css$/,
-                loaders: ['to-string-loader', 'css-loader']
+                //loaders: ['to-string-loader', 'css-loader']
+                use: [ 'style-loader', 'css-loader' ]
             },{
                 test: /[\/\\]node_modules[\/\\]some-module[\/\\]index\.js$/,
                 loader: "imports-loader?this=>window"}

@@ -11,7 +11,7 @@ devtool: 'cheap-module-eval-source-map',
 
 output: {
     path: path.resolve(rootDir, 'dist'),
-    publicPath: 'http://localhost:8080/',
+    publicPath: 'http://localhost:5000/',
     filename: '[name].js',
         chunkFilename: '[id].chunk.js'
     },

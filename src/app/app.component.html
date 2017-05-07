@@ -1,16 +1,4 @@
- <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Inshapardaz</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">JavaScript</a></li>
-      </ul>
-    </div>
-  </nav>
-<div id="page-container" class="header-navbar-fixed enable-cookies"
-    [class.header-navbar-transparent] = "isHome"
-    [class.side-scroll] = "!isHome">
+<div id="page-container" class="side-scroll header-navbar-fixed">
     <header id="header-navbar" class="content-mini content-mini-full"  [miniHeader] = "!isHome">
     </header>
 
@@ -18,13 +6,6 @@
         <router-outlet></router-outlet>
     </main>
 
-    <footer id="page-footer" 
-        [class.bg-white] = "isHome"
-        [class.content-mini] = "!isHome"
-        [class.content-mini-full] = "!isHome"
-        [class.font-s12] = "!isHome"
-        [class.bg-gray-lighter] = "!isHome"
-        [class.clearfix] = "!isHome"
-        [miniFooter]="!isHome" >
+    <footer id="page-footer"  class="content-mini content-mini-full font-s12 bg-gray-lighter clearfix">
     </footer>
 </div>

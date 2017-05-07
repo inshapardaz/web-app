@@ -5,9 +5,11 @@ import '@angular/core';
 import '@angular/common';
 import '@angular/http';
 import '@angular/router';
-// RxJS
+
+// 3rd party libs
 import 'rxjs';
 import 'jquery';
+import 'bootstrap/dist/js/bootstrap';
 
-import './assets/css/oneui.css';
 import './assets/css/styles.scss';
+import './assets/css/oneui.css';
