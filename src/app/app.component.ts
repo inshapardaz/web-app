@@ -12,14 +12,12 @@ import {Auth} from '../services/auth.service';
 })
 
 export class AppComponent {
-  isHome :boolean = false;
     currentRoute: string = "";
     constructor(private router: Router, private auth: Auth) {
         this.router.events
         .subscribe(event => {
             if (event instanceof NavigationStart){
                  this.currentRoute = event.url;
-                 this.isHome = event.url === '/home' || event.url === '/404' || event.url === '/';
             }
         });
     }

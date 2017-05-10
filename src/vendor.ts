@@ -11,5 +11,6 @@ import 'rxjs';
 import 'jquery';
 import 'bootstrap/dist/js/bootstrap';
 
-import './assets/css/styles.scss';
+import 'bootstrap/dist/css/bootstrap.css';
 import './assets/css/oneui.css';
+import './assets/css/styles.scss';

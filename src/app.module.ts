@@ -7,6 +7,8 @@ import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { Auth } from './services/auth.service';
 
+import { UIToggleDirective } from './components/ui-toggle/ui-toggle.component';
+
 import { AppComponent } from './app/app.component';
 import { HomeComponent } from './app/home/home.component';
 import { HeaderComponent } from './app/header/header.component';
@@ -28,6 +30,7 @@ import { routing  } from './app.routes';
     Auth
   ],
   declarations: [
+    UIToggleDirective,
     AppComponent,
     HomeComponent,
     HeaderComponent,
