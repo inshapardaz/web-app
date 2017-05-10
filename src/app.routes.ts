@@ -25,7 +25,7 @@ const appRoutes: Routes = [
     // { path: 'search/:searchText/:pageNumber',      component: SearchComponent },
     // { path: 'dictionaries',        component: DictionariesComponent },
     // { path: 'dictionary/:id', component : DictionaryDetailComponent },
-    { path: 'dictionary',        component: DictionaryComponent},
+    { path: 'dictionaries',        component: DictionaryComponent},
     //   children: [
     //     { path: 'overview', component: DictionaryOverviewComponent },
     //     { path: 'words/:startWith', component: WordListComponent },        
