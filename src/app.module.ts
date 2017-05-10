@@ -7,13 +7,16 @@ import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { Auth } from './services/auth.service';
 
-import { UIToggleDirective } from './components/ui-toggle/ui-toggle.component';
-
+import { UIToggleDirective } from './components/ui-toggle.component';
+import { AppearDirective } from './components/appear.component';
 import { AppComponent } from './app/app.component';
 import { HomeComponent } from './app/home/home.component';
 import { HeaderComponent } from './app/header/header.component';
 import { FooterComponent } from './app/footer/footer.component';
 import { DictionaryComponent } from './app/dictionary/dictionary.component';
+import { ThesaurusComponent }      from './app/thesaurus/thesaurus.component';
+import { TranslationsComponent }      from './app/translations/translations.component';
+
 import { routing  } from './app.routes';
 
 @NgModule({
@@ -31,11 +34,15 @@ import { routing  } from './app.routes';
   ],
   declarations: [
     UIToggleDirective,
+    AppearDirective,
+
     AppComponent,
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    DictionaryComponent
+    DictionaryComponent,
+    ThesaurusComponent,
+    TranslationsComponent
   ],
 
   bootstrap: [AppComponent]

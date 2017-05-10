@@ -12,8 +12,8 @@ import { DictionaryComponent }      from './app/dictionary/dictionary.component'
 // import { WordListComponent }      from './components/dictionary/wordList.component';
 // import { WordComponent }      from './components/dictionary/word.component';
 
-// import { ThesaurusComponent }      from './components/thesaurus/thesaurus.component';
-// import { TranslatorComponent }      from './components/translator/translator.component';
+import { ThesaurusComponent }      from './app/thesaurus/thesaurus.component';
+import { TranslationsComponent }      from './app/translations/translations.component';
 // import { EditorComponent }      from './components/editor/editor.component';
 
 // import {PageNotFoundComponent} from "./components/pages/notfound.component";
@@ -33,8 +33,8 @@ const appRoutes: Routes = [
     //     { path: 'word/:id', component: WordComponent }
     //   ]
     // },
-    // { path: 'thesaurus',     component: ThesaurusComponent },
-    // { path: 'translator',    component: TranslatorComponent },
+    { path: 'thesaurus',     component: ThesaurusComponent },
+    { path: 'translations',    component: TranslationsComponent },
     // { path: 'editor',        component: EditorComponent },
     // { path: '404',           component: PageNotFoundComponent},
     // { path: '**',            redirectTo: '/404', pathMatch: 'full' }

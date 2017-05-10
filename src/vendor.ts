@@ -11,6 +11,8 @@ import 'rxjs';
 import 'jquery';
 import 'bootstrap/dist/js/bootstrap';
 
+import './lib/jquery.appear.min';
+
 import 'bootstrap/dist/css/bootstrap.css';
 import './assets/css/oneui.css';
 import './assets/css/styles.scss';
