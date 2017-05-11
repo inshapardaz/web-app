@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { Auth } from './services/auth.service';
+import { DictionaryService } from './services/dictionary.service';
 
 import { UIToggleDirective } from './components/ui-toggle.component';
 import { AppearDirective } from './components/appear.component';
@@ -30,7 +31,8 @@ import { routing  } from './app.routes';
   providers: [
     HttpModule,
     AUTH_PROVIDERS,
-    Auth
+    Auth,
+    DictionaryService
   ],
   declarations: [
     UIToggleDirective,
