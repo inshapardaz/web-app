@@ -23,8 +23,8 @@ import { Entry } from '../models/entry';
 export class DictionaryService {
     private serverAddress = 'http://localhost:5000';
     private entryUrl = this.serverAddress + '/api';
-    private indexUrl = '/api/dictionary/index';
-    private dictionaryUrl = '/api/dictionary/';
+    private indexUrl = this.serverAddress + '/api/dictionary/index';
+    private dictionaryUrl = this.serverAddress + '/api/dictionaries/';
     private wordUrl = '/api/word/';
     private searchUrl = '/api/words/search/';
     private staringWithUrl = '/api/words/StartWith/';
@@ -34,7 +34,10 @@ export class DictionaryService {
 
     getEntry() : Observable<Entry>{
         return this.getHttp().get(this.entryUrl)
-            .map(r => this.extractData(r, Mapper.MapEntry))
+            .map(r => {
+                var e = this.extractData(r, Mapper.MapEntry);
+                return e;
+            })
             .catch(this.handleError);
     }
     
@@ -44,9 +47,21 @@ export class DictionaryService {
             .catch(this.handleError);
     }
 
-    getDictionary(id : number) : Observable<Dictionary> {
+    getDictionary( id: number) : Observable<Dictionary> {
         return this.getHttp().get(this.dictionaryUrl + id)
             .map(r => this.extractData(r, Mapper.MapDictionary))
+            .catch(this.handleError);
+    }
+
+    searchWords(url : string, pageNumber : number = 1, pageSize : number = 10) : Observable<WordPage>{
+        return this.getHttp().get(url + "?query=" + url + "&pageNumber=" + pageNumber + "&pageSize=" + pageSize )
+            .map(r => this.extractData(r, Mapper.MapWordPage))
+            .catch(this.handleError);
+    }
+
+    getWords(url : string, pageNumber : number = 1, pageSize : number = 10) : Observable<WordPage>{
+        return this.getHttp().get(url + "?pageNumber=" + pageNumber + "&pageSize=" + pageSize )
+            .map(r => this.extractData(r, Mapper.MapWordPage))
             .catch(this.handleError);
     }
 

@@ -32,17 +32,26 @@ export class Mapper{
          if (createLink){
              dictionaries.createLink = createLink.href;
          }
-        dictionaries.dictionaries = _.forEach(source.items, d => Mapper.MapDictionary(d));
+         dictionaries.dictionaries = Mapper.MapDictionaryList(source.items);
         return dictionaries;
+    }
+
+    public static MapDictionaryList(source : any) : Array<Dictionary>{
+        var dictionariesCol = new Array<Dictionary>();
+        _.forEach(source, (d) => dictionariesCol.push(Mapper.MapDictionary(d)));        
+         return dictionariesCol;
     }
 
     public static MapDictionary(source : any) : Dictionary{
         let dictionary = new Dictionary();
+        dictionary.id = source.id;
         dictionary.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
         dictionary.name = source.name;
         dictionary.isPublic = source.isPublic;
         dictionary.wordCount = source.wordCount;
         dictionary.language  = source.language;
+        dictionary.searchLink = _.find<string[], Link>(source.links, ['rel', 'search']).href;
+        dictionary.indexLink = _.find<string[], Link>(source.links, ['rel', 'index']).href;
         return dictionary;
     }
 
@@ -52,6 +61,7 @@ export class Mapper{
         index.indexes = source.indexes;
         return index;
     }
+
     public static MapWordPage(source : any) : WordPage {
         let page = new WordPage();
         page.currentPageIndex = source.currentPageIndex;
@@ -70,7 +80,9 @@ export class Mapper{
     }
 
     public static MapWords(source : any) : Word[]{
-        return _.forEach(source, (v) => Mapper.MapWord(v));
+        var words = [];
+        _.forEach(source, (v) => words.push(Mapper.MapWord(v)));
+        return words;
     }
 
     public static MapWord(source : any) : Word{
@@ -89,9 +101,9 @@ export class Mapper{
     }
 
     public static MapWordDetails(source : any) : WordDetail[]{
-        return _.forEach(source, (v) => 
-            Mapper.MapWordDetail(v)
-        );        
+        var details = []
+        _.forEach(source, (v) => details.push(Mapper.MapWordDetail(v)));        
+        return details;
     }
 
     public static MapWordDetail(source : any) : WordDetail{
@@ -116,7 +128,9 @@ export class Mapper{
     }
 
     public static MapTranslations(source: any) : Translation[]{
-        return _.forEach(source, (v) => Mapper.MapTranslation(v));
+        var translations = [];
+        _.forEach(source, (v) => translations.push(Mapper.MapTranslation(v)));
+        return translations;
     }
 
     public static MapTranslation(source: any) : Translation{
@@ -133,7 +147,9 @@ export class Mapper{
     }
 
     public static MapMeaningContexts(source: any) : MeaningContext[]{
-        return _.forEach(source, (v) => Mapper.MapMeaningContext(v));
+        var contexts = [];
+        _.forEach(source, (v) => contexts.push(Mapper.MapMeaningContext(v)));
+        return contexts;
     }
 
     public static MapMeaningContext(source: any) : MeaningContext{
@@ -148,7 +164,9 @@ export class Mapper{
 
     
     public static MapMeanings(source: any) : Meaning[]{
-        return _.forEach(source, (v) => Mapper.MapMeaning(v));        
+        var meanings = [];
+        _.forEach(source, (v) => meanings.push(Mapper.MapMeaning(v)));        
+        return meanings;
     }
 
     public static MapMeaning(source: any) : Meaning{
@@ -164,7 +182,9 @@ export class Mapper{
     }
 
     public static MapRelations(source: any) : Relation[]{
-        return _.forEach(source.relationships, (v) => Mapper.MapRelation(v));        
+        var relations = [];
+        _.forEach(source.relationships, (v) => relations.push(Mapper.MapRelation(v)));
+        return relations;
     }
 
     public static MapRelation(source: any) : Relation{

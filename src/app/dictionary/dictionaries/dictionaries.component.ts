@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { DictionaryService } from '../../services/dictionary.service';
-import { Dictionary } from '../../models/dictionary';
+import { DictionaryService } from '../../../services/dictionary.service';
+import { Dictionary } from '../../../models/dictionary';
 
 @Component({
-    selector: 'dictionary',
-    templateUrl: './dictionary.component.html',
-    styleUrls: ['./dictionary.component.scss'],
+    selector: 'dictionaries',
+    templateUrl: './dictionaries.component.html'
 })
 
-export class DictionaryComponent {
+export class DictionariesComponent {
     isLoading : boolean = false;
     errorMessage: string;
     dictionaries : Dictionary[];
@@ -28,7 +27,7 @@ export class DictionaryComponent {
             entry => { 
                 this.dictionaryService.getDictionaries(entry.dictionariesLink)
                     .subscribe(data => {
-                        this.dictionaries = data.dictionaries;        
+                        this.dictionaries = data.dictionaries;
                         this.createLink = data.createLink;
                     },
                     this.handlerError);

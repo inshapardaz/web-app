@@ -1,7 +1,8 @@
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent }      from './app/home/home.component';
-import { DictionaryComponent }      from './app/dictionary/dictionary.component';
+import { DictionariesComponent }      from './app/dictionary/dictionaries/dictionaries.component';
+import { DictionaryComponent }      from './app/dictionary/dictionary/dictionary.component';
 
 // import { SearchComponent }      from './components/search/search.component';
 
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
     // { path: 'search/:searchText/:pageNumber',      component: SearchComponent },
     // { path: 'dictionaries',        component: DictionariesComponent },
     // { path: 'dictionary/:id', component : DictionaryDetailComponent },
-    { path: 'dictionaries',        component: DictionaryComponent},
+    { path: 'dictionaries',        component: DictionariesComponent},
+    { path: 'dictionary/:id',      component: DictionaryComponent},
     //   children: [
     //     { path: 'overview', component: DictionaryOverviewComponent },
     //     { path: 'words/:startWith', component: WordListComponent },        

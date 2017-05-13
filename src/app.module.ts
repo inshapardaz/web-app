@@ -14,7 +14,8 @@ import { AppComponent } from './app/app.component';
 import { HomeComponent } from './app/home/home.component';
 import { HeaderComponent } from './app/header/header.component';
 import { FooterComponent } from './app/footer/footer.component';
-import { DictionaryComponent } from './app/dictionary/dictionary.component';
+import { DictionariesComponent } from './app/dictionary/dictionaries/dictionaries.component';
+import { DictionaryComponent } from './app/dictionary/dictionary/dictionary.component';
 import { ThesaurusComponent }      from './app/thesaurus/thesaurus.component';
 import { TranslationsComponent }      from './app/translations/translations.component';
 
@@ -42,6 +43,7 @@ import { routing  } from './app.routes';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
+    DictionariesComponent,
     DictionaryComponent,
     ThesaurusComponent,
     TranslationsComponent
