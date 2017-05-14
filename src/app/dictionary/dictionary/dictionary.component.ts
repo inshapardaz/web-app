@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { FormBuilder } from '@angular/forms';
+import { FormsModule , FormBuilder } from '@angular/forms';
 
 import { DictionaryService } from '../../../services/dictionary.service';
 import { Dictionary } from '../../../models/dictionary';
@@ -22,8 +22,13 @@ export class DictionaryComponent {
     searchText : string;
     wordPage : WordPage;
 
+    public searchForm = this.fb.group({
+        query: [""]
+    });
+
     constructor(private route: ActivatedRoute,
         private router: Router,
+        public fb: FormBuilder,
         private dictionaryService: DictionaryService){
     }i
     ngOnInit() {
@@ -53,7 +58,7 @@ export class DictionaryComponent {
             .subscribe(
                 words => {
                     this.wordPage = words;
-                    this.isLoadingWords = true;
+                    this.isLoadingWords = false;
                 },
                 error => {
                 this.errorMessage = <any>error;
@@ -61,13 +66,14 @@ export class DictionaryComponent {
     }
 
     doSearch() {
-        if(this.searchText != null && this.searchText.length > 0){
+        var searchValue = this.searchForm.controls.query.value;
+        if(searchValue != null && searchValue.length > 0){
               this.isLoadingWords = true; 
-              this.dictionaryService.searchWords(this.dictionary.searchLink)
+              this.dictionaryService.searchWords(this.dictionary.searchLink, searchValue)
               .subscribe(
                 words => {
                     this.wordPage = words;
-                    this.isLoadingWords = true;
+                    this.isLoadingWords = false;
                 },
                 error => {
                 this.errorMessage = <any>error;

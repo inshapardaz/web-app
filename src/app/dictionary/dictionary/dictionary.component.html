@@ -22,9 +22,9 @@
         <!-- Section Content -->
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2">
-                <form action="frontend_search.html" method="post">
+                <form [formGroup]="searchForm" (ngSubmit)="doSearch($event)">
                     <div class="input-group input-group-lg">
-                        <input class="form-control" type="text" placeholder="Search in this dictionary.." >
+                        <input class="form-control" type="text" placeholder="Search in this dictionary.." formControlName="query" >
                         <div class="input-group-btn">
                             <button class="btn btn-default"><i class="fa fa-search" (keydown)="getSearch()"></i></button>
                         </div>
@@ -38,18 +38,25 @@
 <!-- END Search Form -->
 
 
+<div class="row" *ngIf="isLoadingWords">
+    <div class="block block-opt-refresh"></div>
+</div>
+
 <!-- Full Table -->
-<div class="block" *ngIf="wordPage">
+<div class="block" *ngIf="!isLoading && !isLoadingWords">
     <div class="block-header">
         <h3 class="block-title">Words in dictionary</h3>
     </div>
     <div class="block-content">
         <div class="table-responsive">
-            <table class="table table-striped table-vcenter">
+            <table class="table-striped js-table-checkable table table-hover rtl">
                 <tbody>
                     <tr *ngFor="let word of wordPage.words">
                         <td class="font-w600 urdu">
                             <a [routerLink]="['/word', word.id]">{{word.title}}</a>
+                        </td>
+                        <td class="font-w600 urdu">
+                            {{word.description}}
                         </td>
                         <!--<td class="text-center">
                             <div class="btn-group">

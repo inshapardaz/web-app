@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { HttpModule, JsonpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { Auth } from './services/auth.service';
@@ -26,8 +26,9 @@ import { routing  } from './app.routes';
     BrowserModule,
     routing,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
-    JsonpModule,
+    JsonpModule
   ],
   providers: [
     HttpModule,

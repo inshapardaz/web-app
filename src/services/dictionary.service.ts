@@ -53,8 +53,8 @@ export class DictionaryService {
             .catch(this.handleError);
     }
 
-    searchWords(url : string, pageNumber : number = 1, pageSize : number = 10) : Observable<WordPage>{
-        return this.getHttp().get(url + "?query=" + url + "&pageNumber=" + pageNumber + "&pageSize=" + pageSize )
+    searchWords(url : string, query : string, pageNumber : number = 1, pageSize : number = 10) : Observable<WordPage>{
+        return this.getHttp().get(url + "?query=" + query + "&pageNumber=" + pageNumber + "&pageSize=" + pageSize )
             .map(r => this.extractData(r, Mapper.MapWordPage))
             .catch(this.handleError);
     }
