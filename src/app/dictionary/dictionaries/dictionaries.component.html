@@ -12,6 +12,20 @@
         <!-- Section Content -->
         <div class="content-grid">
             <div class="row">
+                <div class="col-sm-12" *ngIf="isLoading">
+                    <div class="block block-opt-refresh">
+                        <div class="block-header">
+                        </div>
+                        <div class="block-content">
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-sm-3 visibility-hidden" appear data-class="animated fadeInDown" *ngFor="let dictionary of dictionaries" >
                     <a class="block block-bordered block-rounded block-link-hover3" [routerLink]="['/dictionary', dictionary.id]">
                         <div class="block-content block-content-full border-b text-center">

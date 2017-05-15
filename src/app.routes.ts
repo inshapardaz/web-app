@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent }      from './app/home/home.component';
 import { DictionariesComponent }      from './app/dictionary/dictionaries/dictionaries.component';
 import { DictionaryComponent }      from './app/dictionary/dictionary/dictionary.component';
+import { WordComponent }      from './app/dictionary/word/word.component';
 
 // import { SearchComponent }      from './components/search/search.component';
 
@@ -11,7 +12,6 @@ import { DictionaryComponent }      from './app/dictionary/dictionary/dictionary
 // import { DictionaryDetailComponent } from './components/dictionary/dictionaryDetail.Compontent';
 // import { DictionaryOverviewComponent }      from './components/dictionary/overview.component';
 // import { WordListComponent }      from './components/dictionary/wordList.component';
-// import { WordComponent }      from './components/dictionary/word.component';
 
 import { ThesaurusComponent }      from './app/thesaurus/thesaurus.component';
 import { TranslationsComponent }      from './app/translations/translations.component';
@@ -32,7 +32,7 @@ const appRoutes: Routes = [
     //     { path: 'overview', component: DictionaryOverviewComponent },
     //     { path: 'words/:startWith', component: WordListComponent },        
     //     { path: 'words/:startWith/:pageNumber', component: WordListComponent },
-    //     { path: 'word/:id', component: WordComponent }
+    { path: 'word/:id', component: WordComponent },
     //   ]
     // },
     { path: 'thesaurus',     component: ThesaurusComponent },

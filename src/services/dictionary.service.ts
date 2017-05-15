@@ -25,7 +25,7 @@ export class DictionaryService {
     private entryUrl = this.serverAddress + '/api';
     private indexUrl = this.serverAddress + '/api/dictionary/index';
     private dictionaryUrl = this.serverAddress + '/api/dictionaries/';
-    private wordUrl = '/api/word/';
+    private wordUrl = this.serverAddress + '/api/words/';
     private searchUrl = '/api/words/search/';
     private staringWithUrl = '/api/words/StartWith/';
 
@@ -71,7 +71,7 @@ export class DictionaryService {
             .catch(this.handleError);
     }
 
-    getWordByid(wordId): Observable<Word> {
+    getWordById(wordId): Observable<Word> {
         return this.getHttp().get(this.wordUrl + wordId)
             .map(r => this.extractData(r, Mapper.MapWord))
             .catch(this.handleError);

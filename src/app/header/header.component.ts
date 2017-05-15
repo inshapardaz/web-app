@@ -17,16 +17,11 @@ export class HeaderComponent {
         private router: Router,
         private auth: Auth
     ) {
-
      }
 
     onSearch(event : any): void {
         if (event.keyCode == 13) {
             this.router.navigate(['/search', this.searchText]);
         }
-    }
-
-    toggleSidebar(){
-        
     }
 }

@@ -183,7 +183,7 @@ export class Mapper{
 
     public static MapRelations(source: any) : Relation[]{
         var relations = [];
-        _.forEach(source.relationships, (v) => relations.push(Mapper.MapRelation(v)));
+        _.forEach(source, (v) => relations.push(Mapper.MapRelation(v)));
         return relations;
     }
 
@@ -195,7 +195,7 @@ export class Mapper{
         meaning.relationType = source.relationType;
         meaning.relationTypeId = source.relationTypeId;
         meaning.selfLink =  _.find<string[], Link>(source.links, ['rel', 'self']).href;
-        meaning.relatedWordLink =  _.find<string[], Link>(source.links, ['rel', 'word']).href;
+        meaning.relatedWordLink =  _.find<string[], Link>(source.links, ['rel', 'related-word']).href;
         
         return meaning;
     }

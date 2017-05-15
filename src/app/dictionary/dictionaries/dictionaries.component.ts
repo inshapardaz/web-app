@@ -29,9 +29,9 @@ export class DictionariesComponent {
                     .subscribe(data => {
                         this.dictionaries = data.dictionaries;
                         this.createLink = data.createLink;
+                        this.isLoading = false;
                     },
                     this.handlerError);
-                this.isLoading = false;
             },
             this.handlerError);
     }

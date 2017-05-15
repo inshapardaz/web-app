@@ -1,0 +1,15 @@
+<div class="col-sm-12 col-lg-12" *ngFor="let detail of wordDetails">
+    <div class="block block-themed">
+        <div class="block-header bg-primary-light">
+            <ul class="block-options">
+                <li>
+                    <button type="button"><i class="si si-settings"></i></button>
+                </li>
+            </ul>
+            <h3 class="block-title">{{detail.attributes}} - {{detail.language}}</h3>
+        </div>
+        <div class="block-content">
+            <p>Block’s content..</p>
+        </div>
+    </div>
+</div>

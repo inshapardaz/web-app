@@ -14,13 +14,14 @@ import { WordPage } from '../../../models/WordPage';
 
 export class DictionaryComponent {
     private sub: Subscription;
+    isInSearch : boolean = false;
     isLoading : boolean = false;
-    isLoadingWords : boolean = false;
     errorMessage: string;
     id : number;
     dictionary : Dictionary;
     searchText : string;
     wordPage : WordPage;
+    private loadedLink : string;
 
     public searchForm = this.fb.group({
         query: [""]
@@ -45,35 +46,46 @@ export class DictionaryComponent {
             dict => { 
                 this.dictionary = dict;
                 this.isLoading = false;
-                this.getWords();
+                this.getWords(this.dictionary.indexLink);
             },
             error => {
                 this.errorMessage = <any>error;
             });
     }
-
-    getWords(){
-        this.isLoadingWords = true;
-        this.dictionaryService.getWords(this.dictionary.indexLink)
+    
+    getWords(link){
+        this.isInSearch = false;
+        this.isLoading = true;
+        this.dictionaryService.getWords(link)
             .subscribe(
                 words => {
                     this.wordPage = words;
-                    this.isLoadingWords = false;
+                    this.isLoading = false;
+                    this.loadedLink = link;
                 },
                 error => {
                 this.errorMessage = <any>error;
             });
     }
 
+    loadPage(link){
+        this.getWords(link);
+    }
+    clearSearch(){
+        this.searchForm.setValue({ query : ''});
+        this.getWords(this.loadedLink);
+    }
+
     doSearch() {
         var searchValue = this.searchForm.controls.query.value;
         if(searchValue != null && searchValue.length > 0){
-              this.isLoadingWords = true; 
+              this.isInSearch = true;
+              this.isLoading = true; 
               this.dictionaryService.searchWords(this.dictionary.searchLink, searchValue)
               .subscribe(
                 words => {
                     this.wordPage = words;
-                    this.isLoadingWords = false;
+                    this.isLoading = false;
                 },
                 error => {
                 this.errorMessage = <any>error;
@@ -84,6 +96,5 @@ export class DictionaryComponent {
     handlerError(error : any) {
         this.errorMessage = <any>error;
         this.isLoading = false;
-        this.isLoadingWords = true;
     }
 }
