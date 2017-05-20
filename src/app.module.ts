@@ -19,6 +19,7 @@ import { DictionaryComponent } from './app/dictionary/dictionary/dictionary.comp
 import { WordComponent } from './app/dictionary/word/word.component';
 import { WordDetailsComponent } from './app/dictionary/wordDetail/wordDetail.component';
 import { RelationsComponent } from './app/dictionary/relations/relations.component';
+import { MeaningsComponent } from './app/dictionary/meanings/meanings.component';
 import { ThesaurusComponent }      from './app/thesaurus/thesaurus.component';
 import { TranslationsComponent }      from './app/translations/translations.component';
 
@@ -52,6 +53,7 @@ import { routing  } from './app.routes';
     WordComponent,
     WordDetailsComponent,
     RelationsComponent,
+    MeaningsComponent,
     ThesaurusComponent,
     TranslationsComponent
   ],

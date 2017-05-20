@@ -16,7 +16,9 @@ import { Link } from '../models/link';
 import { Word } from '../models/word';
 import { WordDetail } from '../models/worddetail';
 import { WordPage } from '../models/wordpage';
+import { Meaning } from '../models/meaning';
 import { Relation } from '../models/relation';
+import { Translation } from '../models/translation';
 import { Entry } from '../models/entry';
 
 @Injectable()
@@ -110,6 +112,18 @@ export class DictionaryService {
     getWordRelations(url : string) : Observable<Array<Relation>>{
         return this.getHttp().get(url)
             .map(r => this.extractData(r, Mapper.MapRelations))
+            .catch(this.handleError);
+    }
+
+    getWordTranslations(url : string) : Observable<Array<Translation>>{
+        return this.getHttp().get(url)
+            .map(r => this.extractData(r, Mapper.MapTranslations))
+            .catch(this.handleError);
+    }
+
+    getMeanings(url : string) : Observable<Array<Meaning>>{
+        return this.getHttp().get(url)
+            .map(r => this.extractData(r, Mapper.MapMeanings))
             .catch(this.handleError);
     }
 
