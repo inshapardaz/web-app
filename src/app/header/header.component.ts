@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Router, RouterModule  } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
-import {Auth} from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'header',
@@ -12,14 +12,24 @@ import {Auth} from '../../services/auth.service';
 export class HeaderComponent {
     @Input() miniHeader: boolean = false;
     searchText: string = "";
+    profile : any;
     
     constructor(
         private router: Router,
-        private auth: Auth
+        private auth: AuthService
     ) {
-     }
+    }
 
-    onSearch(event : any): void {
+    ngOnInit() {
+        if (this.auth.userProfile) {
+            this.profile = this.auth.userProfile;
+        } else {
+            this.auth.getProfile((err, profile) => {
+                this.profile = profile;
+            });
+        }
+    }
+    onSearch(event: any): void {
         if (event.keyCode == 13) {
             this.router.navigate(['/search', this.searchText]);
         }

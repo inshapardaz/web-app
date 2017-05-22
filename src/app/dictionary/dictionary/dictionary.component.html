@@ -37,7 +37,27 @@
     </section>
 </div>
 <!-- END Search Form -->
-
+<div class="bg-white">
+    <section class="content content-boxed overflow-hidden">
+        <!-- Section Content -->
+        <div class="content-grid">
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 visibility-hidden" appear data-class="animated fadeInDown" *ngFor="let index of indexes" >
+                    <a class="block block-bordered block-rounded block-link-hover3" (click)="gotoIndex('{{index}}')">
+                        <div class="block-content block-content-full border-b text-center">
+                            <div class="item">
+                                <i class="si si-book-open text-amethyst"></i>
+                            </div>
+                        </div>
+                        <div class="block-content block-content-full block-content-mini">
+                            <span class="font-w600 text-uppercase">{{index}}</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
 <div class="row">
     <div class="col-sm-12">

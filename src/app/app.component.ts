@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { RouterModule , Router, NavigationStart } from '@angular/router';
 
-import {Auth} from '../services/auth.service';
+import {AuthService} from '../services/auth.service';
 
 @Component({
     selector: 'my-app',
@@ -13,12 +13,13 @@ import {Auth} from '../services/auth.service';
 
 export class AppComponent {
     currentRoute: string = "";
-    constructor(private router: Router, private auth: Auth) {
+    constructor(private router: Router, private auth: AuthService) {
         this.router.events
         .subscribe(event => {
             if (event instanceof NavigationStart){
                  this.currentRoute = event.url;
             }
         });
+        auth.handleAuthentication();
     }
  }

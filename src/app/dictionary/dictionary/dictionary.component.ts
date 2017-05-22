@@ -7,6 +7,10 @@ import { DictionaryService } from '../../../services/dictionary.service';
 import { Dictionary } from '../../../models/dictionary';
 import { WordPage } from '../../../models/WordPage';
 
+export class Index{
+    title : string;
+    link : string;
+}
 @Component({
     selector: 'dictionary',
     templateUrl: './dictionary.component.html'
@@ -22,6 +26,7 @@ export class DictionaryComponent {
     searchText : string;
     wordPage : WordPage;
     private loadedLink : string;
+    indexes : Array<string>;
 
     public searchForm = this.fb.group({
         query: [""]
@@ -31,12 +36,30 @@ export class DictionaryComponent {
         private router: Router,
         public fb: FormBuilder,
         private dictionaryService: DictionaryService){
-    }i
+
+        this.indexes = ['آ', 'ا', 'ب', 'پ', 'ت', 'ٹ', 'ث', 'ج', 'چ', 'ح', 'خ', 'د', 'ڈ', 'ذ', 'ر', 'ڑ', 'ز', 'ژ', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف'
+        , 'ق', 'ک', 'گ', 'ل', 'م', 'ن', 'و', 'ہ', 'ء', 'ی'];
+    }
+
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
             this.id = params['id'];
             this.getDictionary();
         });
+    }
+
+    gotoIndex(index : string){
+        this.isInSearch = false;
+        this.isLoading = true;
+        this.dictionaryService.getWordStartingWith(index)
+            .subscribe(
+                words => {
+                    this.wordPage = words;
+                    this.isLoading = false;
+                },
+                error => {
+                this.errorMessage = <any>error;
+            });
     }
 
     getDictionary() {

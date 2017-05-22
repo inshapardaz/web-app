@@ -33,14 +33,16 @@
             <a [routerLink]="['/translations']">Translations</a>
         </li>
         <li>
-            <button class="btn btn-primary btn-margin" (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
+            <button class="btn btn-primary btn-margin" (click)="auth.login()" *ngIf="!auth.isAuthenticated()">Log In</button>
             <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button"
-                            *ngIf="auth.authenticated()">
-                        <img [src]="auth.userProfile.picture" alt="Avatar">
+                            *ngIf="auth.isAuthenticated()">
+                        <!--<img [src]="auth.userProfile.picture" alt="Avatar" />-->
                                 <span class="caret"></span>
                 </button>
-            <ul class="dropdown-menu dropdown-menu-right" *ngIf="auth.authenticated()">
-                <li class="dropdown-header">Profile</li>
+            <ul class="dropdown-menu dropdown-menu-right" *ngIf="auth.isAuthenticated()">
+                <li class="dropdown-header">
+                    <a [routerLink]="['/profile']">Profile</a>
+                </li>
                 <li>
                     <a tabindex="-1">
                         <i class="si si-user pull-right"></i>

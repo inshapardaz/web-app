@@ -5,7 +5,8 @@ import { DictionariesComponent }      from './app/dictionary/dictionaries/dictio
 import { DictionaryComponent }      from './app/dictionary/dictionary/dictionary.component';
 import { WordComponent }      from './app/dictionary/word/word.component';
 
-// import { SearchComponent }      from './components/search/search.component';
+import { CallbackComponent }      from './app/callback/callback.component';
+import { ProfileComponent } from './app/profile/profile.component';
 
 // import { DictionariesComponent } from './components/dictionary/dictionaries.component';
 // import { DictionaryComponent }      from './components/dictionary/dictionary.component';
@@ -22,8 +23,8 @@ import { TranslationsComponent }      from './app/translations/translations.comp
 const appRoutes: Routes = [
     { path: '',            component: HomeComponent },
     { path: 'home',        component: HomeComponent },
-    // { path: 'search/:searchText',      component: SearchComponent },
-    // { path: 'search/:searchText/:pageNumber',      component: SearchComponent },
+    { path: 'callback',    component: CallbackComponent },
+    { path: 'profile',      component: ProfileComponent },
     // { path: 'dictionaries',        component: DictionariesComponent },
     // { path: 'dictionary/:id', component : DictionaryDetailComponent },
     { path: 'dictionaries',        component: DictionariesComponent},

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response  } from '@angular/http';
-import { Auth } from './auth.service';
+import { AuthService } from './auth.service';
 import { AuthHttp } from 'angular2-jwt';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -31,7 +31,7 @@ export class DictionaryService {
     private searchUrl = '/api/words/search/';
     private staringWithUrl = '/api/words/StartWith/';
 
-    constructor(private auth: Auth, private authHttp: AuthHttp, private http : Http) {
+    constructor(private auth: AuthService, private authHttp: AuthHttp, private http : Http) {
     }
 
     getEntry() : Observable<Entry>{
@@ -148,6 +148,6 @@ export class DictionaryService {
     }
 
     private getHttp(){
-        return this.auth.authenticated() ? this.authHttp : this.http; 
+        return this.auth.isAuthenticated() ? this.authHttp : this.http; 
     }
 }

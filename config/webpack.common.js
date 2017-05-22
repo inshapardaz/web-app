@@ -39,9 +39,10 @@ module.exports = {
                 test: /\.css$/,
                 //loaders: ['to-string-loader', 'css-loader']
                 use: [ 'style-loader', 'css-loader' ]
-            },{
-                test: /[\/\\]node_modules[\/\\]some-module[\/\\]index\.js$/,
-                loader: "imports-loader?this=>window"}
+            }
+            //,{
+            //     test: /[\/\\]node_modules[\/\\]some-module[\/\\]index\.js$/,
+            //     loader: "imports-loader?this=>window"}
         ]
     },
 

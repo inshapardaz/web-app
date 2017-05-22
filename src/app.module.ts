@@ -5,12 +5,16 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 
-import { Auth } from './services/auth.service';
+import { AuthService } from './services/auth.service';
 import { DictionaryService } from './services/dictionary.service';
 
 import { UIToggleDirective } from './components/ui-toggle.component';
 import { AppearDirective } from './components/appear.component';
+
 import { AppComponent } from './app/app.component';
+import { CallbackComponent } from './app/callback/callback.component';
+import { ProfileComponent } from './app/profile/profile.component';
+
 import { HomeComponent } from './app/home/home.component';
 import { HeaderComponent } from './app/header/header.component';
 import { FooterComponent } from './app/footer/footer.component';
@@ -37,7 +41,7 @@ import { routing  } from './app.routes';
   providers: [
     HttpModule,
     AUTH_PROVIDERS,
-    Auth,
+    AuthService,
     DictionaryService
   ],
   declarations: [
@@ -45,6 +49,9 @@ import { routing  } from './app.routes';
     AppearDirective,
 
     AppComponent,
+    CallbackComponent,
+    ProfileComponent,
+    
     HomeComponent,
     HeaderComponent,
     FooterComponent,

@@ -1,66 +1,88 @@
-import { Injectable }      from '@angular/core';
-import { tokenNotExpired } from 'angular2-jwt';
-import { myConfig }        from '../auth.config';
-
-// Avoid name not found warnings
-declare var Auth0Lock: any;
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import 'rxjs/add/operator/filter';
+import * as auth0 from 'auth0-js';
 
 @Injectable()
-export class Auth {
-  // Configure Auth0
-  lock = new Auth0Lock(myConfig.clientID, myConfig.domain, {
-    additionalSignUpFields: [{
-      name: "address",                              // required
-      placeholder: "enter your address",            // required
-      icon: "https://example.com/address_icon.png", // optional
-      validator: function(value : any) {                  // optional
-        // only accept addresses with more than 10 chars
-        return value.length > 10;
-      }
-    }]
+export class AuthService {
+  _auth0 = new auth0.WebAuth({
+    clientID: '2DiLndh8lUjbpEITfbMZUViXYMFoTOir',
+    domain: 'inshapardaz.eu.auth0.com',
+    responseType: 'token id_token',
+    audience: 'https://inshapardaz.eu.auth0.com/userinfo',
+    redirectUri: 'http://localhost:5001/callback',
+    scope: 'openid'
   });
 
-  //Store profile object in auth class
+  auth0: any;
   userProfile: any;
 
-  constructor() {
-    // Set userProfile attribute if already saved profile
-    this.userProfile = JSON.parse(localStorage.getItem('profile'));
+  constructor(public router: Router) {
+  }
 
-    // Add callback for lock `authenticated` event
-    this.lock.on("authenticated", (authResult : any) => {
-      localStorage.setItem('id_token', authResult.idToken);
+  ngOnInit() {
+    if (this.isAuthenticated()) {
+      this.getProfile(() => console.log('profile loaded'));
+    }
+  }
 
-      // Fetch profile information
-      this.lock.getProfile(authResult.idToken, (error : any, profile : any) => {
-        if (error) {
-          // Handle error
-          alert(error);
-          return;
-        }
 
-        profile.user_metadata = profile.user_metadata || {};
-        localStorage.setItem('profile', JSON.stringify(profile));
-        this.userProfile = profile;
-      });
+  public login(): void {
+    this._auth0.authorize({});
+  }
+
+  public handleAuthentication(): void {
+    console.log('Handling authentication');
+    this._auth0.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        window.location.hash = '';
+        this.setSession(authResult);
+        this.getProfile(() => this.router.navigate(['/']));
+      } else if (err) {
+        this.router.navigate(['/']);
+        console.log(err);
+      }
     });
-  };
+  }
 
-  public login() {
-    // Call the show method to display the widget.
-    this.lock.show();
-  };
+  private setSession(authResult): void {
+    console.log('Saving session');
+    console.log(authResult);
 
-  public authenticated() {
-    // Check if there's an unexpired JWT
-    // It searches for an item in localStorage with key == 'id_token'
-    return tokenNotExpired();
-  };
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
+  }
 
-  public logout() {
-    // Remove token and profile from localStorage
+  public logout(): void {
+    // Remove tokens and expiry time from localStorage
+    localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
-    localStorage.removeItem('profile');
-    this.userProfile = undefined;
-  };
+    localStorage.removeItem('expires_at');
+    // Go back to the home route
+    this.router.navigate(['/']);
+  }
+
+  public isAuthenticated(): boolean {
+    // Check whether the current time is past the
+    // access token's expiry time
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return new Date().getTime() < expiresAt;
+  }
+
+  public getProfile(cb): void {
+    /*const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      throw new Error('Access token must exist to fetch profile');
+    }
+
+    const self = this;
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        self.userProfile = profile;
+      }
+      cb(err, profile);
+    });*/
+  }
 }
