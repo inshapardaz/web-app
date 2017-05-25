@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { FormsModule , FormBuilder } from '@angular/forms';
+import { Observable }  from 'rxjs/Observable';
 
 import { DictionaryService } from '../../../services/dictionary.service';
 import { Dictionary } from '../../../models/dictionary';
@@ -23,7 +24,8 @@ export class DictionaryComponent {
     errorMessage: string;
     id : number;
     dictionary : Dictionary;
-    searchText : string;
+    searchText : Observable<string>;
+    selectedIndex : Observable<string>;
     wordPage : WordPage;
     private loadedLink : string;
     indexes : Array<string>;
@@ -46,9 +48,50 @@ export class DictionaryComponent {
             this.id = params['id'];
             this.getDictionary();
         });
+
+        this.searchText = this.route
+            .queryParams
+            .map(params => params['search'] || '');
+
+        this.selectedIndex = this.route
+            .queryParams
+            .map(params => params['startWith'] || '');
+
+        this.searchText.subscribe(
+            (val) => {
+                if (val !== "") {
+                    this.searchForm.controls.query.setValue(val);
+                    this.doSearch(val);
+                }
+            });
+        this.selectedIndex.subscribe(
+            (val) => {
+                if (val !== "") this.loadIndex(val);
+            });
+        
     }
 
-    gotoIndex(index : string){
+    gotoIndex(index:string){
+        let navigationExtras: NavigationExtras = {
+            queryParams: { 'startWith': index },
+        };
+        this.router.navigate(['/dictionary', this.id], navigationExtras);
+        
+    }
+
+    gotoSearch(){
+        let query = this.searchForm.controls.query.value;
+        if (query == null || query.length < 0) return;
+
+        console.debug("going to search")
+        console.debug(query)
+        let navigationExtras: NavigationExtras = {
+            queryParams: { 'search': query }
+        };
+        this.router.navigate(['/dictionary', this.id], navigationExtras);
+    }
+
+    getIndex(index : string){
         this.isInSearch = false;
         this.isLoading = true;
         this.dictionaryService.getWordStartingWith(index)
@@ -91,6 +134,9 @@ export class DictionaryComponent {
             });
     }
 
+    loadIndex(index : string){
+
+    }
     reloadPage(){
         this.getWords(this.loadedLink);
     }
@@ -102,7 +148,7 @@ export class DictionaryComponent {
         this.getWords(this.loadedLink);
     }
 
-    doSearch() {
+    doSearch(searchValue) {
         var searchValue = this.searchForm.controls.query.value;
         if(searchValue != null && searchValue.length > 0){
               this.isInSearch = true;

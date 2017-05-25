@@ -23,13 +23,13 @@
         <!-- Section Content -->
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2">
-                <form [formGroup]="searchForm" (ngSubmit)="doSearch($event)">
+                <form [formGroup]="searchForm" (ngSubmit)="gotoSearch($event)">
                     <div class="input-group input-group-lg">
                         <div class="input-group-btn">
-                            <button class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
                             <a class="btn btn-default" *ngIf="isInSearch" (click)="clearSearch()"><i class="fa fa-close" ></i></a>
                         </div>
-                        <input class="form-control" type="text" placeholder="Search in this dictionary.." formControlName="query">                        
+                        <input class="form-control text-right" type="text" placeholder="Search in this dictionary.." formControlName="query">                        
                     </div>
                 </form>
             </div>

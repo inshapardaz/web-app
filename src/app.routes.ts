@@ -25,8 +25,7 @@ const appRoutes: Routes = [
     { path: 'home',        component: HomeComponent },
     { path: 'callback',    component: CallbackComponent },
     { path: 'profile',      component: ProfileComponent },
-    // { path: 'dictionaries',        component: DictionariesComponent },
-    // { path: 'dictionary/:id', component : DictionaryDetailComponent },
+    
     { path: 'dictionaries',        component: DictionariesComponent},
     { path: 'dictionary/:id',      component: DictionaryComponent},
     //   children: [
