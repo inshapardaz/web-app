@@ -1,17 +1,18 @@
 <!-- Page Header -->
 <div class="content bg-gray-lighter" *ngIf="!isLoading">
     <div class="row items-push">
-        <div class="col-sm-7">
-            <h1 class="page-heading">
-                {{dictionary.name}} <small>{{dictionary.language}} dictionary with {{dictionary.wordCount}} words</small>
-            </h1>
-        </div>
-        <div class="col-sm-5 text-right hidden-xs">
+        <div class="col-sm-5 text-left hidden-xs">
             <ol class="breadcrumb push-10-t">
                 <li>Dictionaries</li>
                 <li><a class="link-effect" href="">{{dictionary.name}}</a></li>
             </ol>
         </div>
+        <div class="col-sm-7 text-right ">
+            <h1 class="page-heading">
+                {{dictionary.name}}
+            </h1>
+        </div>
+        
     </div>
 </div>
 <!-- END Page Header -->
@@ -24,11 +25,11 @@
             <div class="col-sm-8 col-sm-offset-2">
                 <form [formGroup]="searchForm" (ngSubmit)="doSearch($event)">
                     <div class="input-group input-group-lg">
-                        <input class="form-control" type="text" placeholder="Search in this dictionary.." formControlName="query">
                         <div class="input-group-btn">
                             <button class="btn btn-default"><i class="fa fa-search"></i></button>
                             <a class="btn btn-default" *ngIf="isInSearch" (click)="clearSearch()"><i class="fa fa-close" ></i></a>
                         </div>
+                        <input class="form-control" type="text" placeholder="Search in this dictionary.." formControlName="query">                        
                     </div>
                 </form>
             </div>
@@ -36,56 +37,45 @@
         <!-- END Section Content -->
     </section>
 </div>
-<!-- END Search Form -->
-<div class="bg-white">
-    <section class="content content-boxed overflow-hidden">
-        <!-- Section Content -->
-        <div class="content-grid">
-            <div class="row">
-                <div class="col-xs-6 col-sm-3 visibility-hidden" appear data-class="animated fadeInDown" *ngFor="let index of indexes" >
-                    <a class="block block-bordered block-rounded block-link-hover3" (click)="gotoIndex('{{index}}')">
-                        <div class="block-content block-content-full border-b text-center">
-                            <div class="item">
-                                <i class="si si-book-open text-amethyst"></i>
-                            </div>
-                        </div>
-                        <div class="block-content block-content-full block-content-mini">
-                            <span class="font-w600 text-uppercase">{{index}}</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="block" [class.block-opt-refresh]="isLoading">
-            <div class="block-header">
-            </div>
-            <div class="block-content">
-                <div *ngIf="isLoading" style="min-height: 300px"></div>
-                <div class="table-responsive">
-                    <nav *ngIf="!isLoading">
-                        <ul class="pager">
-                            <li class="previous">
-                                <a (click)="loadPage(wordPage.prevLink)" *ngIf="wordPage.prevLink" data-toggle="tooltip" title="Previous"><i class="fa fa-chevron-left"></i></a>
-                            </li>
-                            <li class="next">
-                                <a (click)="loadPage(wordPage.nextLink)" *ngIf="wordPage.nextLink" data-toggle="tooltip" title="Next"><i class="fa fa-chevron-right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <table class="table table-hover table-striped" *ngIf="!isLoading">
+<div class="content">
+    <div class="row">
+
+        <div class="col-sm-7 col-lg-9">
+            <!-- Tickets List -->
+            <div class="block">
+                <div class="block-header bg-gray-lighter">
+                    <ul class="block-options">
+                        <li *ngIf="!isLoading">
+                            <button class="js-tooltip" (click)="loadPage(wordPage.prevLink)" title="Previous {{wordPage.pageSize}} words"
+                                type="button" data-toggle="block-option"><i class="si si-arrow-left"></i></button>
+                        </li>
+                        <li *ngIf="!isLoading">
+                            <button class="js-tooltip" (click)="loadPage(wordPage.nextLink)"  title="Next {{wordPage.pageSize}} words"
+                                type="button" data-toggle="block-option"><i class="si si-arrow-right"></i></button>
+                        </li>
+                        <li *ngIf="!isLoading">
+                            <button type="button" (click)="reloadPage()" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+                        </li>
+                    </ul>
+                    <div class="block-title text-normal" *ngIf="!isLoading">
+                        <span class="font-w400">Page</span> <strong>{{wordPage.currentPageIndex}}</strong> <span class="font-w400">of</span> <strong>{{wordPage.pageCount}}</strong>
+                    </div>
+                </div>
+                <div class="block-content" [class.block-opt-refresh]="isLoading">
+                    <table class="table table-hover table-striped table-vcenter" *ngIf="!isLoading">
                         <tbody>
                             <tr *ngFor="let word of wordPage.words" [routerLink]="['/word', word.id]">
-                                <td class="font-w600 urdu">
-                                    <a [routerLink]="['/word', word.id]">{{word.title}}</a>
-                                </td>
-                                <td class="font-w600 urdu">
+                                <td class="font-w600 urdu text-right">
                                     {{word.description}}
                                 </td>
+                                <td class="font-w600 urdu text-right">
+                                    <a [routerLink]="['/word', word.id]">{{word.title}}</a>
+                                </td>
+                                
                                 <!--<td class="text-center">
                             <div class="btn-group">
                                 <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit Client"><i class="fa fa-pencil"></i></button>
@@ -100,17 +90,62 @@
                             </tr>
                         </tbody>
                     </table>
-                    <nav>
-                        <ul class="pager" *ngIf="!isLoading">
-                            <li class="previous">
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Previous"><i class="fa fa-chevron-left"></i></a>
-                            </li>
-                            <li class="next">
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Next"><i class="fa fa-chevron-right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
+        <div class="col-sm-5 col-lg-3">
+            <button class="btn btn-block btn-primary visible-xs push" data-toggle="collapse" data-target="#tickets-nav" type="button">Navigation</button>
+            <div class="collapse navbar-collapse remove-padding" id="tickets-nav">
+                <div class="block">
+                    <div class="block-header bg-gray-lighter">
+                        <h3 class="block-title">Details</h3>
+                    </div>
+                    <div class="block-content">
+                        <ul class="nav nav-pills nav-stacked push text-right" *ngIf="dictionary">
+                            <li class="active">
+                                <a href="base_pages_tickets.html">
+                                <span class="badge pull-left">{{dictionary.wordCount}}</span>Word Conut <i class="fa fa-fw fa-tasks push-5-r"></i>
+                            </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">
+                                <span class="badge pull-left">{{dictionary.language}}</span>Language <i class="fa fa-fw fa-language push-5-r"></i>
+                            </a>
+                            </li>
+                            <li *ngIf="dictionary.isPublic">
+                                <a href="javascript:void(0)">
+                                    Public Dictionary<i class="fa fa-fw fa-globe push-5-r"></i>
+                            </a>
+                            </li>
+                            <li *ngIf="!dictionary.isPublic">
+                                <a href="javascript:void(0)">
+                                Private Dictionary<i class="fa fa-fw fa-lock push-5-r"></i>
+                            </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="block">
+                    <div class="block-header bg-gray-lighter">
+                        <h3 class="block-title">Index</h3>
+                        <ul class="block-options">
+                            <li>
+                                <button type="button" data-toggle="block-option" data-action="content_toggle"><i class="si si-arrow-up"></i></button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="block-content">
+                        <div class="list-group" *ngIf="dictionary">
+                            <a class="list-group-item text-right" *ngFor="let index of indexes" href="javascript:void(0)" (click)="gotoIndex(index)">
+                            {{index}} <i class="fa fa-fw fa-angle-left push-5-r"></i> 
+                        </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Quick Stats -->
+            </div>
+            <!-- END Collapsible Tickets Navigation -->
+        </div>
     </div>
+</div>

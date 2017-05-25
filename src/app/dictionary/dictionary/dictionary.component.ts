@@ -91,6 +91,9 @@ export class DictionaryComponent {
             });
     }
 
+    reloadPage(){
+        this.getWords(this.loadedLink);
+    }
     loadPage(link){
         this.getWords(link);
     }
