@@ -8,7 +8,7 @@ import { AUTH_PROVIDERS } from 'angular2-jwt';
 import { AuthService } from './services/auth.service';
 import { DictionaryService } from './services/dictionary.service';
 
-import { UIToggleDirective } from './components/ui-toggle.component';
+import { UIToggleDirective, SideBarToggleDirective } from './components/ui-toggle.component';
 import { AppearDirective } from './components/appear.component';
 
 import { AppComponent } from './app/app.component';
@@ -17,7 +17,9 @@ import { ProfileComponent } from './app/profile/profile.component';
 
 import { HomeComponent } from './app/home/home.component';
 import { HeaderComponent } from './app/header/header.component';
+import { SidebarComponent } from './app/sidebar/sidebar.component';
 import { FooterComponent } from './app/footer/footer.component';
+
 import { DictionariesComponent } from './app/dictionary/dictionaries/dictionaries.component';
 import { DictionaryComponent } from './app/dictionary/dictionary/dictionary.component';
 import { WordComponent } from './app/dictionary/word/word.component';
@@ -46,6 +48,7 @@ import { routing  } from './app.routes';
   ],
   declarations: [
     UIToggleDirective,
+    SideBarToggleDirective,
     AppearDirective,
 
     AppComponent,
@@ -54,6 +57,7 @@ import { routing  } from './app.routes';
     
     HomeComponent,
     HeaderComponent,
+    SidebarComponent,
     FooterComponent,
     DictionariesComponent,
     DictionaryComponent,
