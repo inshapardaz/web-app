@@ -46,12 +46,12 @@
             <div class="block">
                 <div class="block-header bg-gray-lighter">
                     <ul class="block-options">
-                        <li *ngIf="!isLoading">
-                            <button class="js-tooltip" (click)="loadPage(wordPage.prevLink)" title="Previous {{wordPage.pageSize}} words"
+                        <li *ngIf="!isLoading && wordPage.nextLink">
+                            <button class="js-tooltip" (click)="loadPage(wordPage.nextLink)"  title="Next {{wordPage.pageSize}} words"
                                 type="button" data-toggle="block-option"><i class="si si-arrow-left"></i></button>
                         </li>
-                        <li *ngIf="!isLoading">
-                            <button class="js-tooltip" (click)="loadPage(wordPage.nextLink)"  title="Next {{wordPage.pageSize}} words"
+                        <li *ngIf="!isLoading && wordPage.prevLink">
+                            <button class="js-tooltip" (click)="loadPage(wordPage.prevLink)" title="Previous {{wordPage.pageSize}} words"
                                 type="button" data-toggle="block-option"><i class="si si-arrow-right"></i></button>
                         </li>
                         <li *ngIf="!isLoading">
@@ -102,7 +102,7 @@
                     </div>
                     <div class="block-content">
                         <ul class="nav nav-pills nav-stacked push text-right" *ngIf="dictionary">
-                            <li class="active">
+                            <li>
                                 <a href="base_pages_tickets.html">
                                 <span class="badge pull-left">{{dictionary.wordCount}}</span>Word Conut <i class="fa fa-fw fa-tasks push-5-r"></i>
                             </a>
@@ -137,8 +137,8 @@
                     </div>
                     <div class="block-content">
                         <div class="list-group" *ngIf="dictionary">
-                            <a class="list-group-item text-right" *ngFor="let index of indexes" href="javascript:void(0)" (click)="gotoIndex(index)">
-                            {{index}} <i class="fa fa-fw fa-angle-left push-5-r"></i> 
+                            <a class="list-group-item text-right" *ngFor="let index of dictionary.indexes" href="javascript:void(0)" (click)="gotoIndex(index.link)">
+                            {{index.title}} <i class="fa fa-fw fa-angle-left push-5-r"></i> 
                         </a>
                         </div>
                     </div>

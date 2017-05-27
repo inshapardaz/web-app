@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 import * as _ from 'lodash';
 
 import { Mapper } from '../mapper';
-import { DictionaryIndex } from '../models/dictionaryIndex';
+//import { DictionaryIndex } from '../models/dictionaryIndex';
 import { Dictionaries } from '../models/dictionaries';
 import { Dictionary } from '../models/dictionary';
 import { Link } from '../models/link';
@@ -67,11 +67,11 @@ export class DictionaryService {
             .catch(this.handleError);
     }
 
-    getIndex(): Observable<DictionaryIndex> {
-        return this.getHttp().get(this.indexUrl)
-            .map(r => this.extractData(r, Mapper.MapDictionaryIndex))
-            .catch(this.handleError);
-    }
+    // getIndex(): Observable<DictionaryIndex> {
+    //     return this.getHttp().get(this.indexUrl)
+    //         .map(r => this.extractData(r, Mapper.MapDictionaryIndex))
+    //         .catch(this.handleError);
+    // }
 
     getWordById(wordId): Observable<Word> {
         return this.getHttp().get(this.wordUrl + wordId)

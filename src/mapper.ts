@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Entry } from './models/entry';
 import { Link } from './models/link';
 import { Dictionaries } from './models/dictionaries';
-import { Dictionary } from './models/Dictionary';
+import { Dictionary, DictionaryIndex } from './models/Dictionary';
 import { Word } from './models/word';
 import { WordPage } from './models/wordpage';
 import { WordDetail } from './models/WordDetail';
@@ -11,7 +11,6 @@ import { Translation } from './models/Translation';
 import { MeaningContext } from './models/MeaningContext';
 import { Meaning } from './models/Meaning';
 import { Relation } from './models/relation';
-import { DictionaryIndex } from './models/DictionaryIndex';
 
 export class Mapper{
     public static MapEntry(source : any) : Entry{
@@ -52,13 +51,17 @@ export class Mapper{
         dictionary.language  = source.language;
         dictionary.searchLink = _.find<string[], Link>(source.links, ['rel', 'search']).href;
         dictionary.indexLink = _.find<string[], Link>(source.links, ['rel', 'index']).href;
+        var indexes = new Array<DictionaryIndex>();
+        _.forEach(source.indexes, (i) => indexes.push(Mapper.MapDictionaryIndex(i)));
+        dictionary.indexes = indexes;
+
         return dictionary;
     }
 
-    public static MapDictionaryIndex(source : any) : DictionaryIndex{
+    public static MapDictionaryIndex(sourceIndex : any) : DictionaryIndex{
         let index = new DictionaryIndex();
-        index.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
-        index.indexes = source.indexes;
+        index.link = sourceIndex.href;
+        index.title = sourceIndex.rel;
         return index;
     }
 

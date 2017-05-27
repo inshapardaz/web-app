@@ -38,9 +38,6 @@ export class DictionaryComponent {
         private router: Router,
         public fb: FormBuilder,
         private dictionaryService: DictionaryService){
-
-        this.indexes = ['آ', 'ا', 'ب', 'پ', 'ت', 'ٹ', 'ث', 'ج', 'چ', 'ح', 'خ', 'د', 'ڈ', 'ذ', 'ر', 'ڑ', 'ز', 'ژ', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف'
-        , 'ق', 'ک', 'گ', 'ل', 'م', 'ن', 'و', 'ہ', 'ء', 'ی'];
     }
 
     ngOnInit() {
@@ -112,6 +109,7 @@ export class DictionaryComponent {
             dict => { 
                 this.dictionary = dict;
                 this.isLoading = false;
+                console.log(dict);
                 this.getWords(this.dictionary.indexLink);
             },
             error => {
@@ -135,7 +133,16 @@ export class DictionaryComponent {
     }
 
     loadIndex(index : string){
-
+        this.isLoading = true;
+        this.dictionaryService.getWordStartingWith(index)
+            .subscribe(
+                words => {
+                    this.wordPage = words;
+                    this.isLoading = false;
+                },
+                error => {
+                this.errorMessage = <any>error;
+            });
     }
     reloadPage(){
         this.getWords(this.loadedLink);

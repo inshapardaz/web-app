@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'callback',
@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 
 export class CallbackComponent {
-     constructor(){
-
+     constructor(private router: Router,){
+        this.router.navigateByUrl('/home');
      }
 }

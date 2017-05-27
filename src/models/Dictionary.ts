@@ -9,4 +9,10 @@ export class Dictionary{
     public wordCount : number;
     public searchLink : string;
     public indexLink : string;
+    public indexes : Array<DictionaryIndex>;
+}
+
+export class DictionaryIndex{
+    public title : string;
+    public link : string;
 }
