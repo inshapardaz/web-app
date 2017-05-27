@@ -7,7 +7,6 @@ import {AuthService} from '../services/auth.service';
 @Component({
     selector: 'my-app',
     templateUrl: './app.component.html',
-    styleUrls: ['../assets/css/styles.scss','./app.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 
