@@ -37,9 +37,9 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        this.getProfile(() => this.router.navigate(['/']));
+        this.getProfile(() => this.router.navigate(['/home']));
       } else if (err) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
         console.log(err);
       }
     });
@@ -61,7 +61,7 @@ export class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // Go back to the home route
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   public isAuthenticated(): boolean {
@@ -84,5 +84,6 @@ export class AuthService {
       }
       cb(err, profile);
     });*/
+    cb(null, {});
   }
 }

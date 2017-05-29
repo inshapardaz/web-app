@@ -8,8 +8,10 @@ import { AUTH_PROVIDERS } from 'angular2-jwt';
 import { AuthService } from './services/auth.service';
 import { DictionaryService } from './services/dictionary.service';
 
-import { UIToggleDirective, SideBarToggleDirective } from './components/ui-toggle.component';
-import { AppearDirective } from './components/appear.component';
+import { UIToggleDirective } from './directives/ui-toggle.directive';
+import { SideBarToggleDirective } from './directives/side-bar-toggle.directive';
+import { AppearDirective } from './directives/appear.directive';
+import { RightToLeftDirective } from './directives/right-to-left.directive';
 
 import { AppComponent } from './app/app.component';
 import { CallbackComponent } from './app/callback/callback.component';
@@ -49,6 +51,7 @@ import { routing  } from './app.routes';
   declarations: [
     UIToggleDirective,
     SideBarToggleDirective,
+    RightToLeftDirective,
     AppearDirective,
 
     AppComponent,
