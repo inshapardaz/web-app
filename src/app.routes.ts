@@ -8,17 +8,8 @@ import { WordComponent }      from './app/dictionary/word/word.component';
 import { CallbackComponent }      from './app/callback/callback.component';
 import { ProfileComponent } from './app/profile/profile.component';
 
-// import { DictionariesComponent } from './components/dictionary/dictionaries.component';
-// import { DictionaryComponent }      from './components/dictionary/dictionary.component';
-// import { DictionaryDetailComponent } from './components/dictionary/dictionaryDetail.Compontent';
-// import { DictionaryOverviewComponent }      from './components/dictionary/overview.component';
-// import { WordListComponent }      from './components/dictionary/wordList.component';
-
 import { ThesaurusComponent }      from './app/thesaurus/thesaurus.component';
 import { TranslationsComponent }      from './app/translations/translations.component';
-// import { EditorComponent }      from './components/editor/editor.component';
-
-// import {PageNotFoundComponent} from "./components/pages/notfound.component";
 
 const appRoutes: Routes = [
     { path: '',            component: HomeComponent },
@@ -28,18 +19,9 @@ const appRoutes: Routes = [
     
     { path: 'dictionaries',        component: DictionariesComponent},
     { path: 'dictionary/:id',      component: DictionaryComponent},
-    //   children: [
-    //     { path: 'overview', component: DictionaryOverviewComponent },
-    //     { path: 'words/:startWith', component: WordListComponent },        
-    //     { path: 'words/:startWith/:pageNumber', component: WordListComponent },
     { path: 'word/:id', component: WordComponent },
-    //   ]
-    // },
     { path: 'thesaurus',     component: ThesaurusComponent },
     { path: 'translations',    component: TranslationsComponent },
-    // { path: 'editor',        component: EditorComponent },
-    // { path: '404',           component: PageNotFoundComponent},
-    // { path: '**',            redirectTo: '/404', pathMatch: 'full' }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

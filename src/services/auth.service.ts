@@ -6,11 +6,11 @@ import * as auth0 from 'auth0-js';
 @Injectable()
 export class AuthService {
   _auth0 = new auth0.WebAuth({
-    clientID: '2DiLndh8lUjbpEITfbMZUViXYMFoTOir',
+    clientID: 'WkEHQXUHgcec5GhzLqUZ0PTVYJ4u9ihI',
     domain: 'inshapardaz.eu.auth0.com',
     responseType: 'token id_token',
     audience: 'https://inshapardaz.eu.auth0.com/userinfo',
-    redirectUri: 'http://localhost:5001/callback',
+    redirectUri: 'http://localhost:5001/callback',      
     scope: 'openid'
   });
 
