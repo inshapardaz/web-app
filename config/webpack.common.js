@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const path = require('path');
 const rootDir = path.resolve(__dirname, '..');
@@ -53,6 +54,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/index.html'
         }),
+        new CopyWebpackPlugin([{
+            from: 'src/assets/img',
+            to: './images'
+        }]),
         new FaviconsWebpackPlugin('./src/assets/img/favicons/favicon.png'),
         new webpack.ProvidePlugin({
             $: 'jquery',
