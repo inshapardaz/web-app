@@ -69,19 +69,18 @@
                     <table class="table table-hover table-striped table-vcenter" *ngIf="!isLoading">
                         <tbody>
                             <tr *ngFor="let word of wordPage.words" [routerLink]="['/word', word.id]">
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit Client"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Remove Client"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </td>
                                 <td class="font-w600 urdu text-right">
                                     {{word.description}}
                                 </td>
                                 <td class="font-w600 urdu text-right">
                                     <a [routerLink]="['/word', word.id]">{{word.title}}</a>
                                 </td>
-                                
-                                <!--<td class="text-center">
-                            <div class="btn-group">
-                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit Client"><i class="fa fa-pencil"></i></button>
-                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Remove Client"><i class="fa fa-times"></i></button>
-                            </div>
-                        </td>-->
                             </tr>
                             <tr *ngIf="!isLoading && wordPage.words.length < 1">
                                 <td>
@@ -104,7 +103,7 @@
                         <ul class="nav nav-pills nav-stacked push text-right" *ngIf="dictionary">
                             <li>
                                 <a href="base_pages_tickets.html">
-                                <span class="badge pull-left">{{dictionary.wordCount}}</span>Word Conut <i class="fa fa-fw fa-tasks push-5-r"></i>
+                                <span class="badge pull-left">{{dictionary.wordCount}}</span>Word Count <i class="fa fa-fw fa-tasks push-5-r"></i>
                             </a>
                             </li>
                             <li>
