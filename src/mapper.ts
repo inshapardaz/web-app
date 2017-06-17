@@ -100,6 +100,16 @@ export class Mapper{
         word.relationsLink = _.find<string[], Link>(source.links, ['rel', 'relations']).href;
         word.detailsLink = _.find<string[], Link>(source.links, ['rel', 'details']).href;
 
+        var updateLink = _.find<string[], Link>(source.links, ['rel', 'update']);
+        if (updateLink != null){
+            word.updateLink = updateLink.href;
+        }
+
+        var deleteLink = _.find<string[], Link>(source.links, ['rel', 'delete']);
+        if (deleteLink != null){
+            word.deleteLink = deleteLink.href;
+        }
+
         return word;
     }
 

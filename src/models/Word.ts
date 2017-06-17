@@ -8,4 +8,6 @@
     public selfLink : string;
     public relationsLink : string;
     public detailsLink : string;
+    public updateLink :string;
+    public deleteLink : string;
 }

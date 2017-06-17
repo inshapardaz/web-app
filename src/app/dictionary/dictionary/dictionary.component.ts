@@ -172,6 +172,11 @@ export class DictionaryComponent {
         }
     }
 
+    deleteWord(word){
+        console.log("Deleting word");
+        console.log(word);
+    }
+
     handlerError(error : any) {
         this.errorMessage = <any>error;
         this.isLoading = false;
