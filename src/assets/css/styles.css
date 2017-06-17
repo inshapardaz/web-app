@@ -39,12 +39,23 @@
   font-size: 120%;
 }
 
+@font-face{
+  font-family: 'Mehr-Nastaleeq';
+  src: url("../fonts/Mehr-Nastaliq-Web.eot");
+  src: url("../fonts/Mehr-Nastaliq-Web.eot") format("embedded-opentype"),
+       url('../fonts/Mehr-Nastaliq-Web.woff') format("woff"),
+       url("../fonts/Mehr-Nastaliq-Web.ttf") format("truetype"),
+       url("../fonts/Mehr-Nastaliq-Web.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-size: 120%;  
+}
 body.urdu {
-  font-family:  "Nafees-Nastalique", "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif; 
+  font-family:  "Mehr-Nastaleeq", "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif; 
 }
 
 .urdu{
-  font-family:  "Nafees-Nastalique", "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif; 
+  font-family:  "Mehr-Nastaleeq"; 
 }
 
 .word-title{
