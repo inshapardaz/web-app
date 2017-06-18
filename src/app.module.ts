@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { HttpModule, JsonpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +23,7 @@ import { HomeComponent } from './app/home/home.component';
 import { HeaderComponent } from './app/header/header.component';
 import { SidebarComponent } from './app/sidebar/sidebar.component';
 import { FooterComponent } from './app/footer/footer.component';
+import { SettingsComponent } from './app/settings/settings.component';
 
 import { DictionariesComponent } from './app/dictionary/dictionaries/dictionaries.component';
 import { DictionaryComponent } from './app/dictionary/dictionary/dictionary.component';
@@ -47,6 +48,7 @@ import { routing  } from './app.routes';
   ],
   providers: [
     HttpModule,
+    Title,
     AUTH_PROVIDERS,
     AuthService,
     DictionaryService
@@ -65,6 +67,7 @@ import { routing  } from './app.routes';
     HeaderComponent,
     SidebarComponent,
     FooterComponent,
+    SettingsComponent,
     DictionariesComponent,
     DictionaryComponent,
     WordComponent,

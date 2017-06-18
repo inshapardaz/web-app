@@ -3,12 +3,12 @@
         <div class="block-header" *ngIf="word.updateLink || word.deleteLink">
             <ul class="block-options">
                 <li *ngIf="word.deleteLink">
-                    <button type="button">
+                    <button type="button" title="{{'ACTIONS.DELETE'|translate}}">
                         <i class="si si-trash"></i>
                     </button>
                 </li>
                 <li *ngIf="word.updateLink">
-                    <button type="button">
+                    <button type="button" title="{{'ACTIONS.EDIT'|translate}}">
                         <i class="si si-note"></i>
                     </button>
                 </li>

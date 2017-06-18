@@ -3,8 +3,7 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'thesaurus',
-    templateUrl: './thesaurus.component.html',
-    styleUrls: ['./thesaurus.component.scss'],
+    templateUrl: './thesaurus.component.html'
 })
 
 export class ThesaurusComponent {

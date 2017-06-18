@@ -18,8 +18,8 @@
         <tr *ngFor="let meaning of meanings">
             <td text-center *ngIf="meaning.deleteLink || meaning.updateLink" style="width:75px">       
                 <div class="btn-group">
-                    <button *ngIf="meaning.deleteLink"class="btn btn-xs btn-default" type="button" (click)="deleteMeaning(meaning)" data-toggle="tooltip" title="Remove Meaning"><i class="fa fa-times"></i></button>
-                    <button *ngIf="meaning.updateLink" class="btn btn-xs btn-default" type="button" (click)="editMeaning(meaning)"  data-toggle="tooltip" title="Edit Meaning"><i class="fa fa-pencil"></i></button>
+                    <button *ngIf="meaning.deleteLink"class="btn btn-xs btn-default" type="button" (click)="deleteMeaning(meaning)" data-toggle="tooltip" title="{{'ACTIONS.DELETE'|translate}}"><i class="fa fa-times"></i></button>
+                    <button *ngIf="meaning.updateLink" class="btn btn-xs btn-default" type="button" (click)="editMeaning(meaning)"  data-toggle="tooltip" title="{{'ACTIONS.EDIT'|translate}}"><i class="fa fa-pencil"></i></button>
                 </div>
             </td>
             <td class="h5 urdu pull-right">{{meaning.context}}</td>
