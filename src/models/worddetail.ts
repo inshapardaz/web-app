@@ -7,7 +7,7 @@ export class WordDetail {
     public wordId: number;
     public attributes: string;
     public attributeValue: number;
-    public lanuage: string;
+    public language: string;
     public languageId : number;
     
     public selfLink : string;

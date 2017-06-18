@@ -41,4 +41,16 @@ export class MeaningsComponent {
                 this.errorMessage = <any>error;
             });
     }
+
+    editMeaning(meaning) {
+        console.log("Edit meaning not implemented");
+    }
+
+    deleteMeaning(meaning) {
+        if (meaning.deleteLink == null){
+            return;
+        }
+
+        console.log("Delete meaning not implemented");
+    }
 }

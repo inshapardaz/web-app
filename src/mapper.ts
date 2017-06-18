@@ -126,7 +126,7 @@ export class Mapper{
 
         word.attributes = source.attributes;
         word.attributeValue = source.attributeValue;
-        word.lanuage = source.lanuage;
+        word.language = source.language;
         word.languageId = source.languageId;
         
         
@@ -136,7 +136,6 @@ export class Mapper{
         word.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
         word.translationsLink = _.find<string[], Link>(source.links, ['rel', 'translations']).href;
         word.meaningsLink = _.find<string[], Link>(source.links, ['rel', 'meanings']).href;
-
         return word;
     }
 
@@ -191,6 +190,16 @@ export class Mapper{
         meaning.selfLink =  _.find<string[], Link>(source.links, ['rel', 'self']).href;
         meaning.parentLink =  _.find<string[], Link>(source.links, ['rel', 'worddetail']).href;
         
+
+        var linkUpd = _.find<string[], Link>(source.links, ['rel', 'update']);
+        if (linkUpd != null){
+            meaning.updateLink = linkUpd.href;
+        }
+        var linkDel = _.find<string[], Link>(source.links, ['rel', 'delete']);
+        if (linkDel != null){
+            meaning.deleteLink = linkDel.href;
+        }
+
         return meaning;
     }
 

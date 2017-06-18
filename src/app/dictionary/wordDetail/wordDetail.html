@@ -1,10 +1,25 @@
-<div class="col-sm-12 col-lg-12" *ngFor="let detail of wordDetails">
-    <div class="block block-themed">
-        <div class="block-header bg-primary-light">
-            <h3 class="block-title">{{detail.attributes}} - {{detail.language}}</h3>
-        </div>
-        <div class="block-content">
-            <word-meanings *ngIf="detail" [meaningsLink]="detail.meaningsLink"> </word-meanings>
-        </div>
+<div class="block block-transparent pull-r-l" *ngFor="let detail of wordDetails">
+    <div class="block-header bg-gray-lighter">
+        <h3 class="block-title urdu pull-right">{{detail.attributes}} - {{detail.language}}</h3>
+        <ul class="block-options pull-left">
+            <li >
+                <button type="button">
+                    <i class="si si-trash"></i>
+                </button>
+            </li>
+            <li >
+                <button type="button">
+                    <i class="si si-note"></i>
+                </button>
+            </li>
+            <li >
+                <button type="button">
+                    <i class="si si-plus"></i>
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div class="block-content">
+        <word-meanings *ngIf="detail" [meaningsLink]="detail.meaningsLink"> </word-meanings>
     </div>
 </div>

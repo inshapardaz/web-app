@@ -59,5 +59,9 @@ body.urdu {
 }
 
 .word-title{
-  background-image: url('../img/photos/photo3@2x.jpg')
+  background-image: url('../img/photos/photo5@2x.jpg')
+}
+
+.rtl{
+  direction: rtl;
 }

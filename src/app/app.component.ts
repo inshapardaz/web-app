@@ -20,5 +20,6 @@ export class AppComponent {
             }
         });
         auth.handleAuthentication();
+        auth.scheduleRenewal();
     }
  }

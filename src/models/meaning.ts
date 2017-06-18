@@ -6,5 +6,8 @@ export class Meaning{
     public example : string;
 
     public selfLink: string;
-    public parentLink: string;   
+    public parentLink: string;  
+    
+    public updateLink : string;
+    public deleteLink : string; 
 }

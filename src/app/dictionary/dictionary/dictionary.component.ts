@@ -80,8 +80,6 @@ export class DictionaryComponent {
         let query = this.searchForm.controls.query.value;
         if (query == null || query.length < 0) return;
 
-        console.debug("going to search")
-        console.debug(query)
         let navigationExtras: NavigationExtras = {
             queryParams: { 'search': query }
         };
@@ -109,7 +107,6 @@ export class DictionaryComponent {
             dict => { 
                 this.dictionary = dict;
                 this.isLoading = false;
-                console.log(dict);
                 this.getWords(this.dictionary.indexLink);
             },
             error => {
