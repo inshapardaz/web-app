@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import {TranslateService} from 'ng2-translate/ng2-translate';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -14,7 +15,8 @@ export class HeaderComponent {
     
     constructor(
         private router: Router,
-        private auth: AuthService
+        private auth: AuthService,
+        public translate: TranslateService
     ) {
     }
 

@@ -5,6 +5,8 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 
+import {TranslateModule} from "ng2-translate/ng2-translate";
+
 import { AuthService } from './services/auth.service';
 import { DictionaryService } from './services/dictionary.service';
 
@@ -40,7 +42,8 @@ import { routing  } from './app.routes';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    JsonpModule
+    JsonpModule,
+    TranslateModule.forRoot()
   ],
   providers: [
     HttpModule,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {TranslateService} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'my-app',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
 })
 
 export class HomeComponent {
-
+    constructor(public translate: TranslateService) {
+    }
  }
