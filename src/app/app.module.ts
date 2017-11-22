@@ -5,9 +5,16 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 
 // Third Party Imports
+import * as $ from 'jquery';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { OAuthModule } from 'angular-oauth2-oidc';
+
+// Directives
+import { UIToggleDirective } from './directives/ui-toggle.directive';
+import { SideBarToggleDirective } from './directives/side-bar-toggle.directive';
+import { AppearDirective } from './directives/appear.directive';
+import { RightToLeftDirective } from './directives/right-to-left.directive';
 
 //  modules and components
 import { AppRoutingModule } from './app-routing.module';
@@ -42,7 +49,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     ErrorUnauthorisedComponent,
     ErrorUnexpectedComponent,
     SettingsComponent,
-    ProfileComponent
+    ProfileComponent,
+
+    UIToggleDirective,
+    SideBarToggleDirective,
+    RightToLeftDirective,
+    AppearDirective,
   ],
   imports: [
     BrowserModule,

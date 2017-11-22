@@ -27,7 +27,14 @@
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
-        "../node_modules/bootstrap-notify/bootstrap-notify.min.js"
+        "../node_modules/bootstrap-notify/bootstrap-notify.min.js",
+        "./assets/js/jquery.appear.min.js",
+        "./assets/js/jquery.countTo.min.js",
+        "./assets/js/jquery.placeholder.min.js",
+        "./assets/js/jquery.scrollLock.min.js",
+        "./assets/js/jquery.slimscroll.min.js",
+        "./assets/js/js.cookie.min.js",
+        "./assets/js/app.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
