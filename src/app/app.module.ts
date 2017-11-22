@@ -20,6 +20,11 @@ import { FooterComponent } from './footer/footer.component';
 import { AuthenticationService } from './authentication.service';
 import { AlertingService } from './alerting.service';
 import { DataService } from './data.service';
+import { HomeComponent } from './home/home.component';
+import { ErrorUnauthorisedComponent } from './error-unauthorised/error-unauthorised.component';
+import { ErrorUnexpectedComponent } from './error-unexpected/error-unexpected.component';
+import { SettingsComponent } from './settings/settings.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -32,7 +37,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HeaderComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent,
+    ErrorUnauthorisedComponent,
+    ErrorUnexpectedComponent,
+    SettingsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
