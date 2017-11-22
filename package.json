@@ -21,6 +21,8 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
+    "@ngx-translate/core": "^8.0.0",
+    "@ngx-translate/http-loader": "^2.0.0",
     "angular-oauth2-oidc": "^3.0.3",
     "bootstrap": "^3.3.7",
     "bootstrap-notify": "^3.1.3",
