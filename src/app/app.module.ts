@@ -2,6 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 // Third Party Imports
@@ -9,6 +10,8 @@ import * as $ from 'jquery';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { SweetAlert2Module } from '@toverux/ngsweetalert2';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
 // Directives
 import { UIToggleDirective } from './directives/ui-toggle.directive';
@@ -64,6 +67,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,                               // <========== Add this line!
+    ReactiveFormsModule,
+    BootstrapModalModule,
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
@@ -72,6 +78,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
     OAuthModule.forRoot(),
+    SweetAlert2Module.forRoot(),
     DictionaryModule
   ],
   providers: [
