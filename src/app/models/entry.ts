@@ -1,8 +1,8 @@
 export class Entry {
-    public selfLink: String;
-    public dictionariesLink: String;
-    public thesaurusLink: String;
-    public languagesLink: String;
-    public attributesLink: String;
+    public selfLink: string;
+    public dictionariesLink: string;
+    public thesaurusLink: string;
+    public languagesLink: string;
+    public attributesLink: string;
     public relationshipTypesLink: string;
 }

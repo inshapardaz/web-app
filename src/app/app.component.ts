@@ -9,7 +9,7 @@ import { TranslateService, LangChangeEvent} from '@ngx-translate/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  currentRoute: String = '';
+  currentRoute: string = '';
   isRtl: Boolean = false;
 
   constructor (private router: Router, private translate: TranslateService, private titleService: Title) {

@@ -7,7 +7,7 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  public selectedTheme: String = '';
+  public selectedTheme: string = '';
   constructor(
     public translate: TranslateService
   ) {

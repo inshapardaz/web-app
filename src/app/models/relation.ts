@@ -1,14 +1,14 @@
 import {RelationTypes} from './relationTypes';
 export class Relation {
     public id: Number;
-    public relatedWord: String;
+    public relatedWord: string;
     public relatedWordId: Number;
-    public sourceWord: String;
+    public sourceWord: string;
     public sourceWordId: number;
-    public relationType: String;
+    public relationType: string;
     public relationTypeId: RelationTypes;
-    public relatedWordLink: String;
-    public selfLink: String;
-    public updateLink: String;
-    public deleteLink: String;
+    public relatedWordLink: string;
+    public selfLink: string;
+    public updateLink: string;
+    public deleteLink: string;
 }

@@ -24,7 +24,7 @@ export class AlertingService {
       });
   }
 
-  private showNotification(notifyIcon: String, notifyMessage: String, notifyType: String, notifyFrom: String, notifyAlign: String) {
+  private showNotification(notifyIcon: string, notifyMessage: string, notifyType: string, notifyFrom: string, notifyAlign: string) {
       $['notify']({
           icon: notifyIcon,
           message: notifyMessage

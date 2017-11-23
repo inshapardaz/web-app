@@ -1,11 +1,11 @@
 export class Translation {
     public id: Number;
     public wordId: Number;
-    public language: String;
+    public language: string;
     public languageId: Number;
-    public value: String;
-    public selfLink: String;
-    public parentLink: String;
-    public updateLink: String;
-    public deleteLink: String;
+    public value: string;
+    public selfLink: string;
+    public parentLink: string;
+    public updateLink: string;
+    public deleteLink: string;
 }

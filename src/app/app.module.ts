@@ -16,8 +16,11 @@ import { SideBarToggleDirective } from './directives/side-bar-toggle.directive';
 import { AppearDirective } from './directives/appear.directive';
 import { RightToLeftDirective } from './directives/right-to-left.directive';
 
-//  modules and components
+//  Modules
 import { AppRoutingModule } from './app-routing.module';
+import { DictionaryModule } from './dictionary/dictionary.module';
+
+//  Components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -68,7 +71,8 @@ export function HttpLoaderFactory(http: HttpClient) {
           deps: [HttpClient]
       }
     }),
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    DictionaryModule
   ],
   providers: [
     HttpClientModule,

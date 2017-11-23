@@ -5,7 +5,7 @@ export class WordPage {
     public pageSize: Number;
     public pageCount: number;
     public words: Word[];
-    public selfLink: String;
-    public nextLink: String;
-    public prevLink: String;
+    public selfLink: string;
+    public nextLink: string;
+    public prevLink: string;
 }

@@ -11,7 +11,7 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class HeaderComponent implements OnInit {
   @Input() miniHeader: Boolean = false;
-  searchText: String = '';
+  searchText: string = '';
   profile: any;
 
   constructor(
