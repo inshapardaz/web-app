@@ -13,12 +13,12 @@
                   
               </div>
               <div class="block-content">
-                  <form class="js-validation-bootstrap form-horizontal push-10-t" #dictionaryForm="ngForm"  
+                  <form class="js-validation-bootstrap form-horizontal push-10-t" #dictionaryForm
                       (ngSubmit)="confirm()">
                       <div class="form-group">
                           <div class="col-sm-12">
                               <div class="form-material">
-                                  <input class="form-control" type="text" id="name" #name="ngModel" name="name" required [(ngModel)]="model.name" [attr.placeholder]="translate.instant('DICTIONARIES.NAME_PLACEHOLDER')"
+                                  <input class="form-control" type="text" id="name" #name name="name" required [(ngModel)]="model.name" [attr.placeholder]="translate.instant('DICTIONARIES.NAME_PLACEHOLDER')"
                                       required>
                                   <label for="material-text">{{ 'DICTIONARIES.NAME' | translate}} </label>
                                   <div [hidden]="name.valid || name.pristine"
@@ -31,7 +31,7 @@
                       <div class="form-group">
                           <div class="col-sm-12">
                               <div class="form-material">
-                                  <select class="form-control" id="language" #language="ngModel" name="language" size="1" required [(ngModel)]="model.language">
+                                  <select class="form-control" id="language" #language name="language" size="1" required [(ngModel)]="model.language">
                                                       <option *ngFor="let key of languages" [value]="key">{{languagesEnum[key]}}</option>
                                               </select>
                                   <label for="material-select">{{ 'DICTIONARIES.LANGUAGE' | translate}}</label>
@@ -45,7 +45,7 @@
                           <div class="col-sm-12">
                               <div class="form-material">
                                   <label class="css-input switch switch-primary">
-                                                  <input type="checkbox" id="isPublic" #isPublic="ngModel" name="isPublic" [(ngModel)]="model.isPublic" checked><span></span> {{ 'DICTIONARIES.PUBLIC_DICTIONARY' | translate}}
+                                                  <input type="checkbox" id="isPublic" #isPublic name="isPublic" [(ngModel)]="model.isPublic" checked><span></span> {{ 'DICTIONARIES.PUBLIC_DICTIONARY' | translate}}
                                               </label>
                               </div>
                           </div>

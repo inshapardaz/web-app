@@ -12,6 +12,11 @@ import { SweetAlert2Module } from '@toverux/ngsweetalert2';
 import { DictionaryRoutingModule } from './dictionary-routing.module';
 import { HomeComponent } from './home/home.component';
 import { EditDictionaryComponent } from './edit-dictionary/edit-dictionary.component';
+import { WordsComponent, WordsByLinkComponent } from './words/words.component';
+import { RelationsComponent } from './relations/relations.component';
+import { TranslationsComponent } from './translations/translations.component';
+import { MeaningsComponent } from './meanings/meanings.component';
+import { WordComponent } from './word/word.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -34,7 +39,13 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   declarations: [
     HomeComponent,
-    EditDictionaryComponent
+    EditDictionaryComponent,
+    WordsComponent,
+    WordsByLinkComponent,
+    RelationsComponent,
+    TranslationsComponent,
+    MeaningsComponent,
+    WordComponent
   ]
 })
 export class DictionaryModule { }

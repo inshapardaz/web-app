@@ -11,6 +11,8 @@ import { Languages } from '../../models/language';
 
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 
+import * as $ from 'jquery';
+
 export interface EditDictionaryModel {
   model: Dictionary;
   languages: any[];
@@ -49,9 +51,9 @@ export class EditDictionaryComponent extends DialogComponent<EditDictionaryModel
         this.model = Object.assign({}, this.dictionary);
         this.isCreating = false;
       }
-      $('#' + this.modalId).modal('show');
+      // $('#' + this.modalId).modal('show');
     } else {
-      $('#' + this.modalId).modal('hide');
+      // $('#' + this.modalId).modal('hide');
     }
   }
 

@@ -60,14 +60,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     UIToggleDirective,
     SideBarToggleDirective,
     RightToLeftDirective,
-    AppearDirective,
+    AppearDirective
   ],
   imports: [
     BrowserModule,
     HttpModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,                               // <========== Add this line!
+    FormsModule,
     ReactiveFormsModule,
     BootstrapModalModule,
     TranslateModule.forRoot({
