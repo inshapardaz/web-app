@@ -10,7 +10,7 @@
       "assets": [
         "assets",
         "favicon.ico",
-        "silent-refresh.html"
+        "silent-renew.html"
       ],
       "index": "index.html",
       "main": "main.ts",
