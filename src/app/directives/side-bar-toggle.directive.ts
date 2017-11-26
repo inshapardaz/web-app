@@ -1,4 +1,5 @@
 import { Directive, HostListener, ElementRef } from '@angular/core';
+import * as $ from 'jquery';
 
 // tslint:disable-next-line:directive-selector
 @Directive({ selector: '[sidebar-toggle]' })
