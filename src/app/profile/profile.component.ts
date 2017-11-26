@@ -9,7 +9,7 @@ import { AuthenticationService } from '../authentication.service';
 export class ProfileComponent implements OnInit {
     profile: any;
     constructor(public auth: AuthenticationService) { }
-    
+
     ngOnInit() {
       this.auth.refreshToken();
     }

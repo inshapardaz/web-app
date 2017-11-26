@@ -52,7 +52,10 @@ export class AuthenticationService {
   }
 
   public refreshToken() {
-    this.oauthService.silentRefresh();
+    this.oauthService.silentRefresh()
+    .then(info => console.log('token refresh ok', info))
+    .catch(err => console.error('token refresh error', err));
+
   }
 
   public loadUserProfile(): void {
