@@ -5,8 +5,6 @@ import {Subject} from 'rxjs/Subject';
 
 import { Alert, AlertType } from './models/alert';
 
-import * as $ from 'jquery';
-
 @Injectable()
 export class AlertingService {
   private subject = new Subject<Alert>();

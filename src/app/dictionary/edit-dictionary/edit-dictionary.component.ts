@@ -1,23 +1,36 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
-
 import { DataService } from '../../data.service';
 import { AlertingService } from '../../alerting.service';
 
-import { Dictionary } from '../../models/Dictionary';
+import { Dictionary } from '../../models/dictionary';
 import { Languages } from '../../models/language';
 
-import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 import * as $ from 'jquery';
 
-export interface EditDictionaryModel {
-  model: Dictionary;
-  languages: any[];
-  isBusy: Boolean;
-  isCreating: Boolean;
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'edit-dictionary-modal-component',
+  template: ``
+})
+export class EditDictionaryModalComponent {
+  bsModalRef: BsModalRef;
+  constructor(private modalService: BsModalService) {}
+
+  createNewDictionary(model: any, createLink: string, component: any) {
+    this.bsModalRef = this.modalService.show(component);
+    this.bsModalRef.content.model = Object.assign({}, model);
+    this.bsModalRef.content.createLink = createLink;
+  }
+
+  editDictionary(model: any, component: any) {
+    this.bsModalRef = this.modalService.show(component);
+    this.bsModalRef.content.model = Object.assign({}, model);
+  }
 }
 
 @Component({
@@ -26,49 +39,19 @@ export interface EditDictionaryModel {
   styleUrls: ['./edit-dictionary.component.css']
 })
 
-export class EditDictionaryComponent extends DialogComponent<EditDictionaryModel, boolean> implements EditDictionaryModel {
-  model = new Dictionary();
+export class EditDictionaryComponent {
+  model: Dictionary;
   languages: any[];
   languagesEnum = Languages;
-  _visible: Boolean = false;
   isBusy: Boolean = false;
-  isCreating: Boolean = false;
-
-  @Input() createLink = '';
-  @Input() modalId = '';
-  @Input() dictionary: Dictionary = null;
-  @Output() onClosed = new EventEmitter<boolean>();
-
-  @Input()
-  set visible(isVisible: Boolean) {
-    this._visible = isVisible;
-    this.isBusy = false;
-    if (isVisible) {
-      if (this.dictionary == null) {
-        this.model = new Dictionary();
-        this.isCreating = true;
-      } else {
-        this.model = Object.assign({}, this.dictionary);
-        this.isCreating = false;
-      }
-      // $('#' + this.modalId).modal('show');
-    } else {
-      // $('#' + this.modalId).modal('hide');
-    }
-  }
-
-  get visible(): Boolean { return this._visible; }
-
+  createLink: string = null;
 
   constructor(
     private dictionaryService: DataService,
-    private router: Router,
     private translate: TranslateService,
     private alertService: AlertingService,
-    dialogService: DialogService) {
-      super(dialogService);
+    public bsModalRef: BsModalRef) {
       this.languages = Object.keys(this.languagesEnum).filter(Number);
-      this.model.language = Languages.Urdu;
   }
 
   confirm() {
@@ -77,12 +60,11 @@ export class EditDictionaryComponent extends DialogComponent<EditDictionaryModel
     }
 
     this.isBusy = true;
-    if (this.isCreating) {
+    if (this.createLink !== null) {
       this.dictionaryService.createDictionary(this.createLink, this.model)
         .subscribe(m => {
           this.isBusy = false;
-          this.onClosed.emit(true);
-          this.visible = false;
+          // this.onClosed.emit(true);
           this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.CREATION_SUCCESS', { name: this.model.name }));
         }, e => {
           this.isBusy = false;
@@ -92,8 +74,8 @@ export class EditDictionaryComponent extends DialogComponent<EditDictionaryModel
       this.dictionaryService.updateDictionary(this.model.updateLink, this.model)
         .subscribe(m => {
           this.isBusy = false;
-          this.result = true;
-          this.close();
+          // this.result = true;
+          this.bsModalRef.hide();
           this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.UPDATE_SUCCESS', { name: this.model.name }));
         }, e => {
           this.isBusy = false;
@@ -103,7 +85,7 @@ export class EditDictionaryComponent extends DialogComponent<EditDictionaryModel
   }
 
   onClose() {
-    this.onClosed.emit(false);
-    this.visible = false;
+    // this.onClosed.emit(false);
+    this.bsModalRef.hide();
   }
 }

@@ -8,7 +8,7 @@ import { AlertingService } from '../../alerting.service';
 
 import { Languages } from '../../models/language';
 import { Dictionary } from '../../models/dictionary';
-
+import { EditDictionaryComponent, EditDictionaryModalComponent } from '../edit-dictionary/edit-dictionary.component';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +29,8 @@ export class HomeComponent implements OnInit {
     private auth: AuthenticationService,
     private alertService: AlertingService,
     private router: Router,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private modalService: EditDictionaryModalComponent) { }
 
     ngOnInit() {
       this.getEntry();
@@ -75,21 +76,23 @@ export class HomeComponent implements OnInit {
 
   createDictionary() {
       this.selectedDictionary = null;
-      this.showCreateDialog = true;
+      this.modalService.createNewDictionary(this.selectedDictionary, this.createLink, EditDictionaryComponent);
+      // this.showCreateDialog = true;
   }
 
   editDictionary(dictionary: Dictionary) {
       this.selectedDictionary = dictionary;
-      this.showCreateDialog = true;
+      this.modalService.editDictionary(dictionary, EditDictionaryComponent);
+      // this.showCreateDialog = true;
   }
 
   createDictionaryDownload(dictionary: Dictionary) {
       this.dictionaryService.createDictionaryDownload(dictionary.createDownloadLink)
       .subscribe(data => {
-          this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_CREATION_SUCCESS', {name : dictionary.name}));
+          // this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_CREATION_SUCCESS', {name : dictionary.name}));
       }, e => {
           this.handlerError();
-          this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_REQUEST_FAILURE', {name : dictionary.name}));
+          // this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_REQUEST_FAILURE', {name : dictionary.name}));
       });
   }
 
@@ -102,5 +105,9 @@ export class HomeComponent implements OnInit {
 
   handlerError() {
       this.isLoading = false;
+  }
+
+  filterPublic() {
+      this.alertService.info('test');
   }
 }

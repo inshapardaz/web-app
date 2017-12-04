@@ -11,12 +11,13 @@ import { SweetAlert2Module } from '@toverux/ngsweetalert2';
 
 import { DictionaryRoutingModule } from './dictionary-routing.module';
 import { HomeComponent } from './home/home.component';
-import { EditDictionaryComponent } from './edit-dictionary/edit-dictionary.component';
+import { EditDictionaryComponent, EditDictionaryModalComponent } from './edit-dictionary/edit-dictionary.component';
 import { WordsComponent, WordsByLinkComponent } from './words/words.component';
 import { RelationsComponent } from './relations/relations.component';
 import { TranslationsComponent } from './translations/translations.component';
 import { MeaningsComponent } from './meanings/meanings.component';
 import { WordComponent } from './word/word.component';
+import { BsModalService, BsModalRef, ModalBackdropComponent } from 'ngx-bootstrap';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -37,15 +38,25 @@ export function HttpLoaderFactory(http: HttpClient) {
     Ng2AutoCompleteModule,
     SweetAlert2Module
   ],
+  providers: [
+    EditDictionaryModalComponent,
+    BsModalService,
+    BsModalRef,
+    ModalBackdropComponent
+  ],
   declarations: [
     HomeComponent,
     EditDictionaryComponent,
+    EditDictionaryModalComponent,
     WordsComponent,
     WordsByLinkComponent,
     RelationsComponent,
     TranslationsComponent,
     MeaningsComponent,
     WordComponent
+  ],
+  entryComponents: [
+    EditDictionaryComponent
   ]
 })
 export class DictionaryModule { }

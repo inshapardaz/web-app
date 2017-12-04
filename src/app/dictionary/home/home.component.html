@@ -11,14 +11,6 @@
     </div>
 </div>
 
-<div class="bg-gray-light border-b">
-    <div class="content content-narrow">
-        <ul class="js-media-filter nav nav-pills push">
-
-        </ul>
-    </div>
-</div>
-
 <section class="content content-boxed overflow-hidden">
     <!-- Section Content -->
     <div class="content-grid">
@@ -65,11 +57,11 @@
             </div>
 
             <div class="content text-center overflow-hidden" *ngIf="!errorLoadingDictionaries && dictionaries && dictionaries.length > 0">
-                <div class="block">
+                <div class="block block-bordered">
                     <div class="block-header bg-gray-lighter">
                         <ul class="block-options block-options-left hidden-xs hidden-sm" *ngIf="createLink">
                             <li>
-                                <a class="btn btn-default" href="javascript:void(0)" (click)="createDictionary()">
+                                <a class="btn" href="javascript:void(0)" (click)="createDictionary()">
                                     <i class="fa fa-fw fa-plus push-5-r"></i> {{'DICTIONARIES.CREATENEW' | translate}}
                                 </a>
                             </li>
@@ -82,7 +74,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:void(0)">
+                                <a href="javascript:void(0)" (click)="filterPublic()">
                                     <i class="si si-globe push-5-r"></i> {{'DICTIONARIES.PUBLIC' | translate }}
                                 </a>
                             </li>
@@ -155,5 +147,3 @@
         </div>
     </div>
 </section>
-<!-- <app-edit-dictionary [modalId]="'create-dictionary'" [createLink]="createLink" [visible]="showCreateDialog" [dictionary]="selectedDictionary"
-  (onClosed)="onCreateClosed($event)"></app-edit-dictionary> -->
