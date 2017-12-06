@@ -12,6 +12,7 @@ import { Word } from '../../models/word';
 import { WordPage } from '../../models/WordPage';
 import { DictionaryIndex } from '../../models/Dictionary';
 import { AlertingService } from '../../alerting.service';
+import { EditWordComponent, EditWordModalComponent } from '../edit-word/edit-word.component';
 
 export class Index {
   title: string;
@@ -82,7 +83,8 @@ export class WordsComponent implements OnInit, OnDestroy {
     public fb: FormBuilder,
     private alertService: AlertingService,
     private translate: TranslateService,
-    private dictionaryService: DataService) {
+    private dictionaryService: DataService,
+    private modalService: EditWordModalComponent) {
   }
 
   ngOnInit() {
@@ -254,20 +256,18 @@ export class WordsComponent implements OnInit, OnDestroy {
   }
 
   addWord() {
-    this.showCreateDialog = true;
-  }
-
-  onCreateClosed(created: boolean) {
-    this.showCreateDialog = false;
     this.selectedWord = null;
-    if (created) {
-      this.reloadPage();
-    }
+    this.modalService.createNewWord(this.selectedWord, this.createWordLink, EditWordComponent, () => this.onCreateClosed());
   }
 
   editWord(word: Word) {
-    this.showCreateDialog = true;
     this.selectedWord = word;
+    this.modalService.editWord(this.selectedWord, EditWordComponent, () => this.onCreateClosed());
+  }
+
+  onCreateClosed() {
+    this.selectedWord = null;
+    this.reloadPage();
   }
 
   deleteWord(word: Word) {

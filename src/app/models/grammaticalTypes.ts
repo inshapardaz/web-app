@@ -1,4 +1,4 @@
-export enum GrammeticTypes {
+export enum GrammaticTypes {
         None = 0x0000000000000000,
         Male = 0x0000000000000001,
         Female = 0x0000000000000010,

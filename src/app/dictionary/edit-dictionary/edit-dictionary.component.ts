@@ -10,8 +10,6 @@ import { Languages } from '../../models/language';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
-import * as $ from 'jquery';
-
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'edit-dictionary-modal-component',
@@ -21,15 +19,17 @@ export class EditDictionaryModalComponent {
   bsModalRef: BsModalRef;
   constructor(private modalService: BsModalService) {}
 
-  createNewDictionary(model: any, createLink: string, component: any) {
+  createNewDictionary(model: any, createLink: string, component: any, successCallback: () => any) {
     this.bsModalRef = this.modalService.show(component);
     this.bsModalRef.content.model = Object.assign({}, model);
     this.bsModalRef.content.createLink = createLink;
+    this.bsModalRef.content.successCallback = successCallback;
   }
 
-  editDictionary(model: any, component: any) {
+  editDictionary(model: any, component: any, successCallback: () => any) {
     this.bsModalRef = this.modalService.show(component);
     this.bsModalRef.content.model = Object.assign({}, model);
+    this.bsModalRef.content.successCallback = successCallback;
   }
 }
 
@@ -45,6 +45,7 @@ export class EditDictionaryComponent {
   languagesEnum = Languages;
   isBusy: Boolean = false;
   createLink: string = null;
+  successCallback: () => any;
 
   constructor(
     private dictionaryService: DataService,
@@ -54,17 +55,21 @@ export class EditDictionaryComponent {
       this.languages = Object.keys(this.languagesEnum).filter(Number);
   }
 
+  isCreating(): boolean {
+    return this.createLink !== null;
+  }
+
   confirm() {
     if (this.isBusy) {
       return;
     }
 
     this.isBusy = true;
-    if (this.createLink !== null) {
+    if (this.isCreating()) {
       this.dictionaryService.createDictionary(this.createLink, this.model)
         .subscribe(m => {
           this.isBusy = false;
-          // this.onClosed.emit(true);
+          this.successCallback();
           this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.CREATION_SUCCESS', { name: this.model.name }));
         }, e => {
           this.isBusy = false;
@@ -74,7 +79,7 @@ export class EditDictionaryComponent {
       this.dictionaryService.updateDictionary(this.model.updateLink, this.model)
         .subscribe(m => {
           this.isBusy = false;
-          // this.result = true;
+          this.successCallback();
           this.bsModalRef.hide();
           this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.UPDATE_SUCCESS', { name: this.model.name }));
         }, e => {
@@ -85,7 +90,6 @@ export class EditDictionaryComponent {
   }
 
   onClose() {
-    // this.onClosed.emit(false);
     this.bsModalRef.hide();
   }
 }

@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
   dictionaries: Dictionary[];
   createLink: string;
   dictionariesLink: string;
-  showCreateDialog: Boolean = false;
   selectedDictionary: Dictionary;
   Languages = Languages;
   constructor(private dictionaryService: DataService,
@@ -76,31 +75,27 @@ export class HomeComponent implements OnInit {
 
   createDictionary() {
       this.selectedDictionary = null;
-      this.modalService.createNewDictionary(this.selectedDictionary, this.createLink, EditDictionaryComponent);
-      // this.showCreateDialog = true;
+      this.modalService.createNewDictionary(this.selectedDictionary, this.createLink, EditDictionaryComponent,
+         () => this.getDictionaries());
   }
 
   editDictionary(dictionary: Dictionary) {
       this.selectedDictionary = dictionary;
-      this.modalService.editDictionary(dictionary, EditDictionaryComponent);
-      // this.showCreateDialog = true;
+      this.modalService.editDictionary(dictionary, EditDictionaryComponent, () => this.getDictionaries());
   }
 
   createDictionaryDownload(dictionary: Dictionary) {
       this.dictionaryService.createDictionaryDownload(dictionary.createDownloadLink)
       .subscribe(data => {
-          // this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_CREATION_SUCCESS', {name : dictionary.name}));
+           this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_CREATION_SUCCESS', {name : dictionary.name}));
       }, e => {
           this.handlerError();
-          // this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_REQUEST_FAILURE', {name : dictionary.name}));
+          this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_REQUEST_FAILURE', {name : dictionary.name}));
       });
   }
 
-  onCreateClosed(created: Boolean) {
-      this.showCreateDialog = false;
-      if (created) {
-          this.getDictionaries();
-      }
+  onCreateClosed() {
+    this.getDictionaries();
   }
 
   handlerError() {

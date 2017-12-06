@@ -10,7 +10,7 @@ import * as $ from 'jquery';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { SweetAlert2Module } from '@toverux/ngsweetalert2';
+import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap';
 

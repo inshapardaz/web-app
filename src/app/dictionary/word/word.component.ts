@@ -7,6 +7,7 @@ import { DataService } from '../../data.service';
 import { Word } from '../../models/Word';
 import { AlertingService } from '../../alerting.service';
 import { TranslateService } from '@ngx-translate/core';
+import { EditWordComponent, EditWordModalComponent } from '../edit-word/edit-word.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -27,7 +28,8 @@ export class WordComponent implements OnInit, OnDestroy {
       private router: Router,
       private alertService: AlertingService,
       private translate: TranslateService,
-      private dictionaryService: DataService) {
+      private dictionaryService: DataService,
+      private modalService: EditWordModalComponent) {
   }
 
   ngOnInit() {
@@ -58,7 +60,7 @@ export class WordComponent implements OnInit, OnDestroy {
   }
 
   editWord() {
-      this.showEditDialog = true;
+      this.modalService.editWord(this.word, EditWordComponent, () => this.getWord());
   }
 
   deleteWord() {
@@ -73,12 +75,5 @@ export class WordComponent implements OnInit, OnDestroy {
           this.isBusy = false;
           this.alertService.error(this.translate.instant('WORD.MESSAGES.DELETE_FAILURE', { title : this.word.title}));
       });
-  }
-
-  onEditClosed(created: boolean) {
-      this.showEditDialog = false;
-      if (created) {
-          this.getWord();
-      }
   }
 }

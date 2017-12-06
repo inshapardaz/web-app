@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
-import { SweetAlert2Module } from '@toverux/ngsweetalert2';
+import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 import { DictionaryRoutingModule } from './dictionary-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -18,6 +18,7 @@ import { TranslationsComponent } from './translations/translations.component';
 import { MeaningsComponent } from './meanings/meanings.component';
 import { WordComponent } from './word/word.component';
 import { BsModalService, BsModalRef, ModalBackdropComponent } from 'ngx-bootstrap';
+import { EditWordComponent, EditWordModalComponent } from './edit-word/edit-word.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -40,6 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     EditDictionaryModalComponent,
+    EditWordModalComponent,
     BsModalService,
     BsModalRef,
     ModalBackdropComponent
@@ -47,16 +49,17 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     HomeComponent,
     EditDictionaryComponent,
-    EditDictionaryModalComponent,
     WordsComponent,
     WordsByLinkComponent,
     RelationsComponent,
     TranslationsComponent,
     MeaningsComponent,
-    WordComponent
+    WordComponent,
+    EditWordComponent
   ],
   entryComponents: [
-    EditDictionaryComponent
+    EditDictionaryComponent,
+    EditWordComponent
   ]
 })
 export class DictionaryModule { }
