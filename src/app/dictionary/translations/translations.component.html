@@ -1,7 +1,7 @@
 <div class="content content-boxed">
     <div class="row">
         <div class="col-lg-12">
-            <div class="block block-transparent block-bordered pull-r-l">
+            <div class="block block-transparent block-bordered pull-r-l" [class.block-opt-refresh]="isLoading">
                 <div class="block-header bg-gray-lighter">
                     <ul class="block-options" *ngIf="createLink">
                         <li>
@@ -48,7 +48,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            <tbody *ngIf="translations == null || translations.length < 1">
+                            <tbody *ngIf="!isLoading && (translations == null || translations.length < 1)">
                                 <div class="row">
                                     <div class="content text-center overflow-hidden text-center">
                                         <div class="row">
@@ -66,6 +66,3 @@
         </div>
     </div>
 </div>
-<!-- <edit-translation [modalId]="'edit-translation'" [createLink]="createLink" [translation]="selectedTranslation" [visible]="showEditDialog"
-  (onClosed)="onEditClosed($event)">
-</edit-translation> -->

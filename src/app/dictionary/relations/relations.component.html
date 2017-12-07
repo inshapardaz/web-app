@@ -1,7 +1,7 @@
 <div class="content content-boxed">
   <div class="row">
       <div class="col-lg-12">
-          <div class="block block-transparent block-bordered pull-r-l">
+          <div class="block block-transparent block-bordered pull-r-l" [class.block-opt-refresh]="isLoading">
               <div class="block-header bg-gray-lighter">
                   <ul class="block-options" *ngIf="createRelationLink">
                       <li>
@@ -53,7 +53,7 @@
                                   </td>
                               </tr>
                           </tbody>
-                          <tbody *ngIf="relations == null || relations.length < 1">
+                          <tbody *ngIf="!isLoading && (relations == null || relations.length < 1)">
                                   <div class="row">
                                       <div class="content text-center overflow-hidden text-center">
                                           <div class="row">
