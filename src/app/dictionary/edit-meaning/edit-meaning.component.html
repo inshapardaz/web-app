@@ -16,8 +16,8 @@
         <div class="form-group">
           <div class="col-sm-12">
               <div class="form-material">
-                  <input class="form-control" type="text" id="value" name="value" #value="ngModel" required [(ngModel)]="model.value" >
-                  <label for="material-text">{{ 'MEANING.TITLE' | translate}} </label>
+                  <textarea class="form-control" type="text" id="value" name="value" #value="ngModel" required [(ngModel)]="model.value" rows="4" ></textarea>
+                  <label for="value">{{ 'MEANING.TITLE' | translate}} </label>
                   <div [hidden]="value.valid || value.pristine"
                           class="alert alert-danger">
                       {{ 'MEANING.VALIDATION.TITLE' | translate}}
@@ -28,8 +28,8 @@
       <div class="form-group">
               <div class="col-sm-12">
                   <div class="form-material">
-                      <input class="form-control" type="text" id="example" name="example" #example="ngModel" [(ngModel)]="model.example">
-                      <label for="material-text">{{ 'MEANING.EXAMPLE' | translate}} </label>
+                      <textarea class="form-control" type="text" id="example" name="example" #example="ngModel" [(ngModel)]="model.example"  rows="4"></textarea>
+                      <label for="example">{{ 'MEANING.EXAMPLE' | translate}} </label>
                   </div>
               </div>
           </div>

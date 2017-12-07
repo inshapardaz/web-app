@@ -111,7 +111,7 @@
       "DELETE_MESSAGE" : "Are you sure you want to remove word translation?"
     },
     "MESSAGES": {
-      "EMPTY" : "No translations available. Why not add some.",
+      "EMPTY" : "No translations available.",
       "CREATION_SUCCESS" : "Word translation added.",
       "CREATION_FAILURE" : "Unable to add word translation.",
       "UPDATE_SUCCESS" : "Word translation saved.",
@@ -126,7 +126,7 @@
     "ADD" : "Add meaning",
     "EDIT" : "Edit meaning",
     "TITLE" : "Meaning",
-    "EXAMPLE" : "EXAMPLE",
+    "EXAMPLE" : "Example",
     "VALIDATION" : {
       "TITLE" : "Meaning is required"
     },
@@ -150,7 +150,7 @@
     "TYPE" : "Relation Type",
     "RELATEDWORD" : "Related Word",
     "RELATEDWORDS" : "Related Words",
-    "EMPTY" : "No relation defined",
+    "EMPTY" : "No relation found.",
     "PLACEHOLDER" : {
       "RELATEDWORD" : "Related Word"
     },

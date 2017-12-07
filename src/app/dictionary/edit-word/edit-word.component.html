@@ -14,21 +14,19 @@
       </div>
       <div class="block-content" *ngIf="model != null">
         <div class="form-group">
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <div class="form-material">
               <input class="form-control" type="text" id="title" name="title" #title="ngModel" required [(ngModel)]="model.title">
-              <label for="material-text">{{ 'WORD.TITLE' | translate}} </label>
+              <label for="title">{{ 'WORD.TITLE' | translate}} </label>
               <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
                 {{ 'WORD.VALIDATION.TITLE' | translate}}
               </div>
             </div>
           </div>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <div class="form-material">
               <input class="form-control" type="text" id="titleWithMovements" name="titleWithMovements" #titleWithMovements="ngModel" [(ngModel)]="model.titleWithMovements">
-              <label for="material-text">{{ 'WORD.TITLEWITHMOVEMENTS' | translate}} </label>
+              <label for="titleWithMovements">{{ 'WORD.TITLEWITHMOVEMENTS' | translate}} </label>
             </div>
           </div>
         </div>
@@ -36,41 +34,39 @@
           <div class="col-sm-12">
             <div class="form-material">
               <input class="form-control" type="text" id="pronunciation" name="pronunciation" #pronunciation="ngModel" [(ngModel)]="model.pronunciation">
-              <label for="material-text">{{ 'WORD.PRONUNCIATION' | translate}} </label>
+              <label for="pronunciation">{{ 'WORD.PRONUNCIATION' | translate}} </label>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-12">
-            <div class="form-material">
-              <textarea class="form-control" type="text" id="description" name="description" #description="ngModel" [(ngModel)]="model.description"></textarea>
-              <label for="material-text">{{ 'WORD.DESCRIPTION' | translate}} </label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <div class="form-material">
               <select class="form-control" id="language" name="language" size="1" required [(ngModel)]="model.languageId" #language="ngModel">
                 <option *ngFor="let key of languages" [value]="key">{{languagesEnum[key]}}</option>
               </select>
-              <label for="material-select">{{ 'DICTIONARIES.LANGUAGE' | translate}}</label>
+              <label for="language">{{ 'DICTIONARIES.LANGUAGE' | translate}}</label>
               <div [hidden]="language.valid || language.pristine" class="alert alert-danger">
                 {{ 'DICTIONARIES.VALIDATION.LANGUAGE' | translate}}
               </div>
             </div>
           </div>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <div class="form-material">
               <select class="form-control" id="attributes" name="attributes" size="1" required [(ngModel)]="model.attributeValue" #attributes="ngModel">
                 <option *ngFor="let key of attributesValues" [value]="key">{{attributeEnum[key]}}</option>
               </select>
-              <label for="material-select">{{ 'WORD.ATTRIBUTES' | translate}}</label>
+              <label for="attributes">{{ 'WORD.ATTRIBUTES' | translate}}</label>
               <div [hidden]="attributes.valid || attributes.pristine" class="alert alert-danger">
                 {{ 'WORD.VALIDATION.ATTRIBUTES' | translate}}
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <div class="form-material">
+              <textarea class="form-control" type="text" id="description" name="description" #description="ngModel" [(ngModel)]="model.description" rows="6"></textarea>
+              <label for="description">{{ 'WORD.DESCRIPTION' | translate}} </label>
             </div>
           </div>
         </div>
