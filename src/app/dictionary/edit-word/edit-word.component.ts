@@ -60,6 +60,7 @@ export class EditWordComponent {
   isCreating(): boolean {
     return this.createLink !== null;
   }
+
   confirm() {
     if (this.isBusy) {
       return;

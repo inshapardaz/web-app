@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { DataService } from '../../data.service';
 import { Translation } from '../../models/translation';
 import { RelationTypes } from '../../models/relationTypes';
+import { EditTranslationComponent, EditTranslationModalComponent } from '../edit-translation/edit-translation.component';
 
 
 @Component({
@@ -23,7 +24,6 @@ export class TranslationsComponent {
   public translations: Array<Translation>;
 
   selectedTranslation: Translation;
-  showEditDialog: Boolean = false;
 
   @Input() createLink: string;
   @Input() wordId: string;
@@ -38,7 +38,8 @@ export class TranslationsComponent {
       private router: Router,
       private alertService: AlertingService,
       private translate: TranslateService,
-      private dictionaryService: DataService) {
+      private dictionaryService: DataService,
+      private modalService: EditTranslationModalComponent) {
   }
 
   getTranslations() {
@@ -58,12 +59,12 @@ export class TranslationsComponent {
 
   addTranslation() {
       this.selectedTranslation = null;
-      this.showEditDialog = true;
+      this.modalService.createNewTranslation(this.createLink, EditTranslationComponent, () => this.getTranslations());
   }
 
   editTranslation(translation: Translation) {
       this.selectedTranslation = translation;
-      this.showEditDialog = true;
+      this.modalService.editTranslation(this.selectedTranslation, EditTranslationComponent, () => this.getTranslations());
   }
 
   deleteTranslation(translation: Translation) {
@@ -76,12 +77,5 @@ export class TranslationsComponent {
           this.isLoading = false;
           this.alertService.error(this.translate.instant('WORDTRANSLATION.MESSAGES.DELETE_FAILURE'));
       });
-  }
-
-  onEditClosed(created: Boolean) {
-      this.showEditDialog = false;
-      if (created) {
-          this.getTranslations();
-      }
   }
 }

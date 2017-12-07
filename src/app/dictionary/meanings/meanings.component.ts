@@ -1,3 +1,4 @@
+import { EditMeaningModalComponent, EditMeaningComponent } from '../edit-meaning/edit-meaning.component';
 import { Component, Input  } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -21,7 +22,6 @@ export class MeaningsComponent {
   public errorMessage: string;
   public meanings: Array<Meaning>;
 
-  showEditDialog: Boolean = false;
   selectedMeaning: Meaning = null;
   @Input() createLink: string;
   @Input() wordId: number;
@@ -36,7 +36,8 @@ export class MeaningsComponent {
       private router: Router,
       private alertService: AlertingService,
       private translate: TranslateService,
-      private dictionaryService: DataService) {
+      private dictionaryService: DataService,
+      private modalService: EditMeaningModalComponent) {
   }
 
   getMeanings() {
@@ -55,12 +56,12 @@ export class MeaningsComponent {
 
   addMeaning() {
       this.selectedMeaning = null;
-      this.showEditDialog = true;
+      this.modalService.createNewMeaning(this.selectedMeaning, this.createLink, EditMeaningComponent, () => this.getMeanings());
   }
 
   editMeaning(meaning: Meaning) {
       this.selectedMeaning = meaning;
-      this.showEditDialog = true;
+      this.modalService.editMeaning(this.selectedMeaning, EditMeaningComponent, () => this.getMeanings());
   }
 
   deleteMeaning(meaning: Meaning) {
@@ -73,12 +74,5 @@ export class MeaningsComponent {
           this.isLoading = false;
           this.alertService.error(this.translate.instant('MEANING.MESSAGES.DELETE_FAILURE'));
       });
-  }
-
-  onEditClosed(created: Boolean) {
-      this.showEditDialog = false;
-      if (created) {
-          this.getMeanings();
-      }
   }
 }

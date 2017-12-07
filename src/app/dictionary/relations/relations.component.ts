@@ -8,6 +8,7 @@ import { DataService } from '../../data.service';
 import { Relation } from '../../models/relation';
 import { Word } from '../../models/Word';
 import { RelationTypes } from '../../models/relationTypes';
+import { EditRelationshipTranslationComponent, EditRelationshipComponent } from '../edit-relationship/edit-relationship.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -18,7 +19,6 @@ import { RelationTypes } from '../../models/relationTypes';
 
 export class RelationsComponent {
   public _relationsLink: string;
-  public createLink: string;
 
   public relationTypes: RelationTypes;
   public isLoading: Boolean = false;
@@ -42,7 +42,8 @@ export class RelationsComponent {
       private router: Router,
       private alertService: AlertingService,
       private translate: TranslateService,
-      private dictionaryService: DataService) {
+      private dictionaryService: DataService,
+      private modalService: EditRelationshipTranslationComponent) {
   }
 
   getRelations() {
@@ -60,13 +61,14 @@ export class RelationsComponent {
   }
 
   addRelation() {
-      this.selectedRelation = null;
-      this.showEditDialog = true;
+      this.modalService.createNewRelationship(this.createRelationLink, this.dictionaryLink,
+        this.sourceWord, EditRelationshipComponent, () => this.getRelations());
   }
 
   editRelation(relation: Relation) {
       this.selectedRelation = relation;
-      this.showEditDialog = true;
+      this.modalService.editRelationship(this.selectedRelation, this.dictionaryLink,
+        this.sourceWord, EditRelationshipComponent, () => this.getRelations());
   }
 
   deleteRelation(relation: Relation) {
@@ -78,13 +80,5 @@ export class RelationsComponent {
           this.errorMessage = <any>error;
           this.alertService.error(this.translate.instant('RELATION.MESSAGES.DELETE_FAILURE'));
       });
-  }
-
-  onEditClosed(created: boolean) {
-      this.showEditDialog = false;
-
-      if (created) {
-          this.getRelations();
-      }
   }
 }

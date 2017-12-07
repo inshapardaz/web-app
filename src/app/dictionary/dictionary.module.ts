@@ -19,6 +19,9 @@ import { MeaningsComponent } from './meanings/meanings.component';
 import { WordComponent } from './word/word.component';
 import { BsModalService, BsModalRef, ModalBackdropComponent } from 'ngx-bootstrap';
 import { EditWordComponent, EditWordModalComponent } from './edit-word/edit-word.component';
+import { EditMeaningComponent, EditMeaningModalComponent } from './edit-meaning/edit-meaning.component';
+import { EditTranslationComponent, EditTranslationModalComponent } from './edit-translation/edit-translation.component';
+import { EditRelationshipComponent, EditRelationshipTranslationComponent } from './edit-relationship/edit-relationship.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -42,6 +45,9 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     EditDictionaryModalComponent,
     EditWordModalComponent,
+    EditMeaningModalComponent,
+    EditTranslationModalComponent,
+    EditRelationshipTranslationComponent,
     BsModalService,
     BsModalRef,
     ModalBackdropComponent
@@ -55,11 +61,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslationsComponent,
     MeaningsComponent,
     WordComponent,
-    EditWordComponent
+    EditWordComponent,
+    EditMeaningComponent,
+    EditTranslationComponent,
+    EditRelationshipComponent
   ],
   entryComponents: [
     EditDictionaryComponent,
-    EditWordComponent
+    EditWordComponent,
+    EditMeaningComponent,
+    EditTranslationComponent,
+    EditRelationshipComponent
   ]
 })
 export class DictionaryModule { }
