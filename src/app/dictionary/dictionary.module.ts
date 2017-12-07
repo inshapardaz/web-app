@@ -64,7 +64,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditWordComponent,
     EditMeaningComponent,
     EditTranslationComponent,
-    EditRelationshipComponent
+    EditRelationshipComponent,
+    EditDictionaryModalComponent,
+    EditWordModalComponent,
+    EditMeaningModalComponent,
+    EditTranslationModalComponent,
+    EditRelationshipTranslationComponent,
   ],
   entryComponents: [
     EditDictionaryComponent,
