@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import * as _ from 'lodash';
+import { environment } from '../environments/environment';
 
 import { Mapper } from './mapper';
 import { Dictionaries } from './models/dictionaries';
@@ -32,16 +33,14 @@ export class DataService {
 
   constructor(private auth: AuthenticationService,
     private http: Http) {
-    const sessionOverride = sessionStorage.getItem('server-address');
-    if (sessionOverride !== null) {
-      this.serverAddress = sessionOverride;
-      this.entryUrl = this.serverAddress + '/api';
-      this.indexUrl = this.serverAddress + '/api/dictionary/index';
-      this.dictionaryUrl = this.serverAddress + '/api/dictionaries/';
-      this.wordUrl = this.serverAddress + '/api/words/';
-      this.searchUrl = '/api/words/search/';
-      this.staringWithUrl = '/api/words/StartWith/';
-    }
+    const sessionOverride = environment.serverAddress;
+    this.serverAddress = sessionOverride;
+    this.entryUrl = this.serverAddress + '/api';
+    this.indexUrl = this.serverAddress + '/api/dictionary/index';
+    this.dictionaryUrl = this.serverAddress + '/api/dictionaries/';
+    this.wordUrl = this.serverAddress + '/api/words/';
+    this.searchUrl = '/api/words/search/';
+    this.staringWithUrl = '/api/words/StartWith/';
   }
 
   getEntry(): Observable<Entry> {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { AuthConfig, OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
+import { environment } from '../environments/environment';
 
 import 'rxjs/add/operator/filter';
 import { Observable } from 'rxjs/Observable';
@@ -13,13 +14,7 @@ export class AuthenticationService {
   }
 
   public configureOAuth() {
-    let authority: string;
-    const sessionOverride: string = sessionStorage.getItem('auth-server-address');
-    if (sessionOverride !== null) {
-      authority = sessionOverride;
-    } else {
-      authority = 'http://ipid.azurewebsites.net';
-    }
+    const authority = environment.authServerAddress;
 
     const authConfig = new AuthConfig();
     authConfig.issuer = authority;
