@@ -7,7 +7,7 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  public selectedTheme: string = '';
+  public selectedTheme = '';
   constructor(
     public translate: TranslateService
   ) {
@@ -20,5 +20,9 @@ export class SettingsComponent implements OnInit {
   public setLanguage(lang: string) {
     this.translate.use(lang);
     localStorage.setItem('ui-lang', lang);
+  }
+
+  public setTheme(theme: string) {
+
   }
 }

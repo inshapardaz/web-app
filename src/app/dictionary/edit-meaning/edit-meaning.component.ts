@@ -42,12 +42,12 @@ export class EditMeaningComponent {
   languages: any[];
   languagesEnum = Languages;
 
-  isBusy: Boolean = false;
-  createLink: string = null;
+  isBusy = false;
+  createLink = null;
   successCallback: () => any;
 
   constructor(private dictionaryService: DataService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private alertService: AlertingService,
     public bsModalRef: BsModalRef) {
       this.languages = Object.keys(this.languagesEnum).filter(Number);

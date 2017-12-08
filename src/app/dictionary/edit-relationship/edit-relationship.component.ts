@@ -51,12 +51,12 @@ export class EditRelationshipComponent {
   relationTypesValues: any[];
   relationTypesEnum = RelationTypes;
 
-  isBusy: Boolean = false;
+  isBusy = false;
   createLink: string = null;
   dictionaryLink: string = null;
   successCallback: () => any;
   constructor(private dictionaryService: DataService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private alertService: AlertingService,
     public bsModalRef: BsModalRef,
     private _sanitizer: DomSanitizer) {

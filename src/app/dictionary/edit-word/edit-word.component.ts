@@ -44,13 +44,13 @@ export class EditWordComponent {
   languagesEnum = Languages;
   attributesValues: any[];
   attributeEnum = GrammaticTypes;
-  isBusy: Boolean = false;
-  createLink: string = null;
+  isBusy = false;
+  createLink = null;
   successCallback: () => any;
 
   constructor(
     private dictionaryService: DataService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private alertService: AlertingService,
     public bsModalRef: BsModalRef) {
     this.languages = Object.keys(this.languagesEnum).filter(Number);

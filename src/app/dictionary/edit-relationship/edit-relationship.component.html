@@ -45,7 +45,7 @@
     <div class="modal-footer">
       <button class="btn btn-sm btn-primary" type="submit" [disabled]="!realtionForm.form.valid || isBusy">
         <i class="fa fa-check"></i>
-        {{ isCreating == true ? translate.instant('ACTIONS.CREATE') : translate.instant('ACTIONS.UPDATE') }}
+        {{ isCreating() == true ? translate.instant('ACTIONS.CREATE') : translate.instant('ACTIONS.UPDATE') }}
       </button>
       <button class="btn btn-sm btn-default" type="button" (click)="onClose()">{{ 'ACTIONS.CLOSE' | translate}}</button>
     </div>

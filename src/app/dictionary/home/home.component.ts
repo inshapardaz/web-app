@@ -16,8 +16,8 @@ import { EditDictionaryComponent, EditDictionaryModalComponent } from '../edit-d
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  isLoading: Boolean = false;
-  errorLoadingDictionaries: Boolean = false;
+  isLoading = false;
+  errorLoadingDictionaries = false;
   errorMessage: string;
   dictionaries: Dictionary[];
   createLink: string;

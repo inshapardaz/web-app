@@ -11,12 +11,12 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class HeaderComponent implements OnInit {
   @Input() miniHeader: Boolean = false;
-  searchText: string = '';
+  searchText = '';
   profile: any;
 
   constructor(
       private router: Router,
-      private auth: AuthenticationService,
+      public auth: AuthenticationService,
       public translate: TranslateService
   ) {
   }
