@@ -7,9 +7,13 @@ install:
 build_script:
 - cmd: >-
     npm install
+
     ./node_modules/.bin/ng build --prod
+    
     cd dist
+    
     npm install
+    
     cd ..
 artifacts:
 - path: dist
