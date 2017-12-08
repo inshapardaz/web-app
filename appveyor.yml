@@ -15,6 +15,7 @@ build_script:
     npm install
     
     cd ..
+test: off
 artifacts:
 - path: dist
 
