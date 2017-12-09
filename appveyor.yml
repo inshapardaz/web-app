@@ -34,3 +34,14 @@ deploy:
   app_offline: true
   do_not_use_checksum: true
   aspnet_core_force_restart: true
+- provider: GitHub
+  release: web-app-v$(appveyor_build_version)
+  description: 'Web App release'
+  auth_token:
+    secure: 153Lh3XfY/NdvU9RrlvPYJTH3LxG4MTWwLZMORx2d8u7FOfZ7EVfdLEYTFe0Ek4S # your encrypted token from GitHub
+  artifact: webpackage            # upload all NuGet packages to release assets
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
