@@ -27,7 +27,8 @@ deploy:
   server: https://inshapardaz.scm.azurewebsites.net:443/msdeploy.axd?site=inshapardaz
   website: inshapardaz
   username: $inshapardaz
-  password: Cpp1M1ArQkArFxpGBz0qmFhdhRoDklawYHTyPR2FbHWd7xHTqEWS6Jrr2zC5
+  password: 
+    secure : gg5oJlGtae+Yc5FSbXjPQgQVW8w3m5uu7bY5HyjAMpLpQW2gDetRkSX68eqS8b7pS1I6E84U0/8MGVJmEs4m1A==
   artifact: webpackage
   aspnet_core: true
   remove_files: true
