@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import HardSourceWebpackPlugin from 'hard-source-webpack-plugin'; 
+import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 
 export default {
   resolve: {
@@ -13,6 +13,7 @@ export default {
     './src/webpack-public-path',
     'react-hot-loader/patch',
     'webpack-hot-middleware/client?reload=true',
+    './silent_renew/index.js',
     path.resolve(__dirname, 'src/index.js') // Defining path seems necessary for this to work consistently on Windows machines.
   ],
   target: 'web',
@@ -33,7 +34,12 @@ export default {
         collapseWhitespace: true
       },
       inject: true
-    })
+    }),
+    new HtmlWebpackPlugin({
+      template: "./silent_renew/silent_renew.html",
+      chunks: ["silentRenew"],
+      filename: "silent_renew.html"
+    }),
   ],
   module: {
     rules: [

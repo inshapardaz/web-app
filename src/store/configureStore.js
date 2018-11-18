@@ -29,19 +29,10 @@ function configureStoreProd(initialState) {
   );
 }
 
-const loggerMiddleware = store => next => action => {
-  console.log("Action type:", action.type);
-  console.log("Action payload:", action.payload);
-  console.log("State before:", store.getState());
-  next(action);
-  console.log("State after:", store.getState());
-};
-
 function configureStoreDev(initialState) {
   const oidcMiddleware = createOidcMiddleware(userManager);
   const reactRouterMiddleware = routerMiddleware(history);
   const middlewares = [
-    loggerMiddleware,
     oidcMiddleware,
     // Add other middleware on this line...
 
