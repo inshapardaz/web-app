@@ -4,7 +4,9 @@ import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
 // 'routerMiddleware': the new way of storing route changes with redux middleware since rrV4.
 import { connectRouter, routerMiddleware } from 'connected-react-router';
+import createOidcMiddleware, { loadUser } from "redux-oidc";
 import rootReducer from '../reducers';
+import userManager from "../utils/userManager";
 
 export const history = createHistory();
 const connectRouterHistory = connectRouter(history);
@@ -21,15 +23,26 @@ function configureStoreProd(initialState) {
   ];
 
   return createStore(
-    connectRouterHistory(rootReducer), 
-    initialState, 
+    connectRouterHistory(rootReducer),
+    initialState,
     compose(applyMiddleware(...middlewares))
   );
 }
 
+const loggerMiddleware = store => next => action => {
+  console.log("Action type:", action.type);
+  console.log("Action payload:", action.payload);
+  console.log("State before:", store.getState());
+  next(action);
+  console.log("State after:", store.getState());
+};
+
 function configureStoreDev(initialState) {
+  const oidcMiddleware = createOidcMiddleware(userManager);
   const reactRouterMiddleware = routerMiddleware(history);
   const middlewares = [
+    loggerMiddleware,
+    oidcMiddleware,
     // Add other middleware on this line...
 
     // Redux middleware that spits an error on you when you try to mutate your state either inside a dispatch or between dispatches.
@@ -43,10 +56,12 @@ function configureStoreDev(initialState) {
 
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // add support for Redux dev tools
   const store = createStore(
-    connectRouterHistory(rootReducer),  
-    initialState, 
+    connectRouterHistory(rootReducer),
+    initialState,
     composeEnhancers(applyMiddleware(...middlewares))
   );
+
+  loadUser(store, userManager);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
