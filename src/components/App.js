@@ -2,7 +2,6 @@
 import { Route, Switch } from "react-router-dom";
 
 import AboutPage from "./AboutPage";
-import FuelSavingsPage from "./containers/FuelSavingsPage";
 import HomePage from "./HomePage";
 import NotFoundPage from "./NotFoundPage";
 import PropTypes from "prop-types";
@@ -14,7 +13,6 @@ import CallbackPage from './Callback';
 
 class App extends React.Component {
   render() {
-    const activeStyle = { color: 'blue' };
     return (
       <div>
         <Header />
@@ -22,7 +20,6 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/callback" component={CallbackPage} />
-            <Route path="/fuel-savings" component={FuelSavingsPage} />
             <Route path="/about" component={AboutPage} />
             <Route component={NotFoundPage} />
           </Switch>
