@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import { bindActionCreators } from 'redux';
 import { login, logout } from '../../actions/authentication';
 
+import userManager from '../../utils/userManager';
+
 import './style.scss';
 
 class Header extends React.Component {
@@ -13,6 +15,10 @@ class Header extends React.Component {
 
   onLogout() {
     this.props.logout();
+  }
+
+  refresh(){
+    userManager.signinRedirect();
   }
 
   render() {
@@ -31,6 +37,7 @@ class Header extends React.Component {
       authView = (
         <div className="header__authView">
           <h3>Welcome, {user ? user.profile.name : "Mister Unknown"}!</h3>
+          <input type="button" value="Refresh" onClick={this.refresh.bind(this)} />);
           <input type="button" value="Logout" onClick={this.onLogout.bind(this)} />);
         </div>);
     }
@@ -47,7 +54,7 @@ class Header extends React.Component {
         </div>
         {authView}
     </div>);
-  };
+  }
 }
 
 export default connect(

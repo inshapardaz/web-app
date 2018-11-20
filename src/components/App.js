@@ -10,6 +10,7 @@ import { hot } from "react-hot-loader";
 
 import Header from './Header/Header';
 import CallbackPage from './Callback';
+import SilentRefresh from "./silentRefresh";
 
 class App extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/callback" component={CallbackPage} />
+            <Route exact path="/silent_renew" component={SilentRefresh} />
             <Route path="/about" component={AboutPage} />
             <Route component={NotFoundPage} />
           </Switch>

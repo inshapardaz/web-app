@@ -32,7 +32,12 @@ function configureStoreProd(initialState) {
 function configureStoreDev(initialState) {
   const oidcMiddleware = createOidcMiddleware(userManager);
   const reactRouterMiddleware = routerMiddleware(history);
+  const loggingMiddleware = store => next => action => {
+    console.log("Middleware triggered:", action);
+    next(action);
+  }
   const middlewares = [
+    loggingMiddleware,
     oidcMiddleware,
     // Add other middleware on this line...
 
