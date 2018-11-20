@@ -4,8 +4,6 @@ import { NavLink } from "react-router-dom";
 import { bindActionCreators } from 'redux';
 import { login, logout } from '../../actions/authentication';
 
-import userManager from '../../utils/userManager';
-
 import './style.scss';
 
 class Header extends React.Component {
@@ -17,28 +15,29 @@ class Header extends React.Component {
     this.props.logout();
   }
 
-  refresh(){
-    userManager.signinRedirect();
-  }
-
   render() {
     const { user } = this.props;
     let authView;
     if (!user || user.expired)
     {
       authView = (
-          <div className="header__authView">
-            <input type="button" value="Login" onClick={this.onLogin.bind(this)} />
-          </div>
+          <ul className="header__authView">
+            <li>
+              <a href="javascript:void(0)" onClick={this.onLogin.bind(this)} >داخل ہوں</a>
+            </li>
+          </ul>
       );
     }
     else
     {
       authView = (
         <div className="header__authView">
-          <h3>Welcome, {user ? user.profile.name : "Mister Unknown"}!</h3>
-          <input type="button" value="Refresh" onClick={this.refresh.bind(this)} />);
-          <input type="button" value="Logout" onClick={this.onLogout.bind(this)} />);
+        <ul>
+          <li>
+            <h3>خوش آمدید, {user ? user.profile.name : "جناب"}!</h3>
+          </li>
+          <li><a href="javascript:void(0)" onClick={this.onLogout.bind(this)}>خروج</a></li>
+          </ul>
         </div>);
     }
 
@@ -47,9 +46,11 @@ class Header extends React.Component {
         <div className="header__logo">انشاپرداز</div>
         <div className="header__nav">
           <ul>
-            <li><NavLink exact to="/">Home</NavLink></li>
-            <li><NavLink to="/fuel-savings">Demo App</NavLink></li>
-            <li><NavLink to="/about">About</NavLink></li>
+            <li><NavLink exact to="/">سرورق</NavLink></li>
+            <li><NavLink to="/books">کُتب</NavLink></li>
+            <li><NavLink to="/authors">ادیب</NavLink></li>
+            <li><NavLink to="/categories">زمرہ‌جات</NavLink></li>
+            <li><NavLink to="/about">ہمارے بارے میں</NavLink></li>
           </ul>
         </div>
         {authView}
