@@ -1,19 +1,20 @@
 import { request, plugins } from 'popsicle';
-
+import { store } from '../store/configureStore';
 
 class ApiService {
   constructor() {
-    this.utlToApi = 'http://api-inshapardaz.azurewebsites.net/api/';
+    this.utlToApi = 'http://localhost:5000/api/';
   }
 
   sign(req) {
-    const user = null;//store.getState().oidc.user;
+    // console.log(store.createStore());
+    // const user = store.getState().oidc.user;
 
-    if (user && user.access_token) {
-      const token = user.access_token;
-      var authorization = 'Basic ' + token;
-      req.set('Authorization', authorization)
-    }
+    // if (user && user.access_token) {
+    //   const token = user.access_token;
+    //   var authorization = 'Basic ' + token;
+    //   req.set('Authorization', authorization)
+    // }
 
     return req;
   }
@@ -23,9 +24,9 @@ class ApiService {
 
     try
     {
-      response = await request({
+      response = await request(this.sign({
           url, method: 'GET', timeout: 5000
-        })
+        }))
         .use(
           plugins.parse('json')
         );
@@ -57,6 +58,29 @@ class ApiService {
 
   async entry(){
     return await this.get(this.utlToApi);
+  }
+
+  async getRecentBooks(){
+
+    return await this.get(`${this.utlToApi}books/recent`);
+  }
+
+  async getLatestBooks(){
+    return await this.get(`${this.utlToApi}books/latest`);
+  }
+
+  async getFavoriteBooks(){
+    return await this.get(`${this.utlToApi}books/favorite`);
+  }
+
+  async getBooks()
+  {
+    return await this.get(`${this.utlToApi}books`);
+  }
+
+  async getAuthors()
+  {
+    return await this.get(`${this.utlToApi}authors`);
   }
 }
 

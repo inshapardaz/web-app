@@ -4,22 +4,26 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import AboutPage from "./AboutPage";
-import HomePage from "./HomePage";
+import HomePage from "./HomePage/HomePage.jsx";
 import NotFoundPage from "./NotFoundPage";
 import ErrorPage from "./ErrorPage";
 import PropTypes from "prop-types";
 import React from "react";
 import { hot } from "react-hot-loader";
 
-import Header from './Header/Header';
+import Header from './Header/Header.jsx';
 import CallbackPage from './Callback';
 import SilentRefresh from "./silentRefresh";
-import BooksHome from "./Books";
-import AuthorsHome from "./Authors";
+import BooksHome from "./Books/BooksHome.jsx";
+import AuthorsHome from "./Authors/AuthorsHome.jsx";
+
 import { entry } from '../actions/api'
 
 class App extends React.Component {
   async componentDidMount(){
+    this.setState({
+      isLoading : true
+    });
     try
     {
       let entry = await this.props.entry();
@@ -29,9 +33,18 @@ class App extends React.Component {
       console.log("ERROR" + error);
       this.props.history.push('/error');
     }
+
+    this.setState({
+      isLoading : false
+    });
   }
 
   render() {
+    if (this.props.isLoading)
+    {
+      return <div>Loading...</div>
+    }
+
     return (
       <div>
         <Header />
@@ -60,8 +73,9 @@ class App extends React.Component {
 
 export default hot(module)(withRouter(connect(
   state => ({
-    history : state.history,
-    entry: state.entry
+    history: state.history,
+    entry: state.entry,
+    isLoading:  state.isLoading
   }),
 	dispatch => bindActionCreators({
 		entry: entry
