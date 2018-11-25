@@ -28,10 +28,27 @@ export default function   apiReducer(state = {}, action) {
         ...state,
         books: action.payload
       };
+
+    case 'BOOK':
+      return {
+        ...state,
+        book: action.payload
+      };
     case 'AUTHORS':
       return {
         ...state,
         authors: action.payload
+      };
+    case 'AUTHOR':
+      return {
+        ...state,
+        author: action.payload
+      };
+
+    case 'AUTHOR_BOOKS':
+      return {
+        ...state,
+        authorBooks: action.payload
       };
     default:
       return state;

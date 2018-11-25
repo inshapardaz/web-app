@@ -60,6 +60,19 @@ export function getBooks(link)
   };
 }
 
+export function getBook(id)
+{
+  return async (dispatch, getState, { apiService }) =>
+  {
+    const book = await apiService.getBook(id);
+
+    dispatch({
+      type:'BOOK',
+      payload : book
+    });
+  };
+}
+
 export function getAuthors(link)
 {
   return async (dispatch, getState, { apiService }) =>
@@ -69,6 +82,32 @@ export function getAuthors(link)
     dispatch({
       type:'AUTHORS',
       payload : authors
+    });
+  };
+}
+
+export function getAuthor(id)
+{
+  return async (dispatch, getState, { apiService }) =>
+  {
+    const author = await apiService.getAuthor(id);
+
+    dispatch({
+      type:'AUTHOR',
+      payload : author
+    });
+  };
+}
+
+export function getAuthorBooks(link)
+{
+  return async (dispatch, getState, { apiService }) =>
+  {
+    const books = await apiService.getAuthorBooks(link);
+
+    dispatch({
+      type:'AUTHOR_BOOKS',
+      payload : books
     });
   };
 }

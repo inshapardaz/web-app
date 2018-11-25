@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { getBooks } from '../../actions/api'
 
+import BookCell from './BookCell.jsx';
 import Pager from '../Pager.jsx';
 
 class BooksHome extends React.Component
@@ -62,7 +63,7 @@ class BooksHome extends React.Component
     }
     else if ( this.props.books)
     {
-      let bookList = this.props.books.data.map(b => <li key={b.id}>{b.title}</li>);
+      let bookList = this.props.books.data.map(b => <BookCell key={b.id} book={b}></BookCell>);
       return (
         <div>
           <h2>Books</h2>

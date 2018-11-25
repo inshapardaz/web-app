@@ -7,7 +7,6 @@ import AboutPage from "./AboutPage";
 import HomePage from "./HomePage/HomePage.jsx";
 import NotFoundPage from "./NotFoundPage";
 import ErrorPage from "./ErrorPage";
-import PropTypes from "prop-types";
 import React from "react";
 import { hot } from "react-hot-loader";
 
@@ -15,8 +14,9 @@ import Header from './Header/Header.jsx';
 import CallbackPage from './Callback';
 import SilentRefresh from "./silentRefresh";
 import BooksHome from "./Books/BooksHome.jsx";
+import BookPage from './Books/BookPage.jsx';
 import AuthorsHome from "./Authors/AuthorsHome.jsx";
-
+import AuthorPage from './Authors/AuthorPage.jsx';
 import { entry } from '../actions/api'
 
 class App extends React.Component {
@@ -52,7 +52,9 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/callback" component={CallbackPage} />
             <Route exact path="/silent_renew" component={SilentRefresh} />
+            <Route exact path="/books/:id" component={BookPage} />
             <Route exact path="/books" component={BooksHome} />
+            <Route exact path="/authors/:id" component={AuthorPage}/>
             <Route exact path="/authors" component={AuthorsHome} />
             <Route exact path="/about" component={AboutPage} />
             <Route exact path="/error" component={ErrorPage} />

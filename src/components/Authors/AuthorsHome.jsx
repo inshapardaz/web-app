@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { getAuthors } from '../../actions/api'
 
+import AuthorCell from './AuthorCell.jsx';
 import Pager from '../Pager.jsx';
 
 
@@ -62,7 +63,7 @@ class AuthorsHome extends React.Component
     }
     else if ( this.props.authors)
     {
-      let authorList = this.props.authors.data.map(b => <li key={b.id}>{b.name}</li>);
+      let authorList = this.props.authors.data.map(a => <AuthorCell key={a.id} author={a}></AuthorCell>);
       return (
         <div>
           <h2>Authors</h2>

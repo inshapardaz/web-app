@@ -3,7 +3,8 @@ import { store } from '../store/configureStore';
 
 class ApiService {
   constructor() {
-    this.utlToApi = 'http://localhost:5000/api/';
+    this.utlToApi = 'http://api-inshapardaz.azurewebsites.net/api/';
+    //this.utlToApi = 'http://localhost:5000/api/';
   }
 
   sign(req) {
@@ -78,10 +79,26 @@ class ApiService {
     return await this.get(link || `${this.utlToApi}books`);
   }
 
+  async getBook(id)
+  {
+    return await this.get(`${this.utlToApi}books/${id}`);
+  }
+
   async getAuthors(link)
   {
     return await this.get(link || `${this.utlToApi}authors`);
   }
+
+  async getAuthor(id)
+  {
+    return await this.get(`${this.utlToApi}authors/${id}`);
+  }
+
+  async getAuthorBooks(link)
+  {
+    return await this.get(link);
+  }
 }
+
 
 export default ApiService;
