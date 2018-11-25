@@ -4,6 +4,9 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { getAuthors } from '../../actions/api'
 
+import Pager from '../Pager.jsx';
+
+
 class AuthorsHome extends React.Component
 {
   async componentDidMount()
@@ -14,6 +17,27 @@ class AuthorsHome extends React.Component
     try
     {
       const books = await this.props.getAuthors()
+    }
+    catch(error)
+    {
+      this.setState({
+        isError : true
+      });
+    }
+
+    this.setState({
+      isLoading : false
+    });
+  }
+
+  pageChange = async(link) =>
+  {
+    this.setState({
+      isLoading : true
+    });
+    try
+    {
+      const books = await this.props.getAuthors(link)
     }
     catch(error)
     {
@@ -45,6 +69,7 @@ class AuthorsHome extends React.Component
           <ul>
             {authorList}
           </ul>
+          <Pager source={this.props.authors} onNext={this.pageChange} onPrev={this.pageChange} />
         </div>
       );
     }

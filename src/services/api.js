@@ -73,14 +73,14 @@ class ApiService {
     return await this.get(`${this.utlToApi}books/favorite`);
   }
 
-  async getBooks()
+  async getBooks(link)
   {
-    return await this.get(`${this.utlToApi}books`);
+    return await this.get(link || `${this.utlToApi}books`);
   }
 
-  async getAuthors()
+  async getAuthors(link)
   {
-    return await this.get(`${this.utlToApi}authors`);
+    return await this.get(link || `${this.utlToApi}authors`);
   }
 }
 

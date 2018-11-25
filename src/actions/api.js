@@ -47,11 +47,11 @@ export function getFavoriteBook(){
   }
 }
 
-export function getBooks()
+export function getBooks(link)
 {
   return async (dispatch, getState, { apiService }) =>
   {
-    const books = await apiService.getBooks();
+    const books = await apiService.getBooks(link);
 
     dispatch({
       type:'BOOKS',
@@ -60,11 +60,11 @@ export function getBooks()
   };
 }
 
-export function getAuthors()
+export function getAuthors(link)
 {
   return async (dispatch, getState, { apiService }) =>
   {
-    const authors = await apiService.getAuthors();
+    const authors = await apiService.getAuthors(link);
 
     dispatch({
       type:'AUTHORS',

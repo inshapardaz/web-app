@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { getBooks } from '../../actions/api'
+
+import Pager from '../Pager.jsx';
+
 class BooksHome extends React.Component
 {
   async componentDidMount()
@@ -13,6 +16,28 @@ class BooksHome extends React.Component
     try
     {
       const books = await this.props.getBooks()
+    }
+    catch(error)
+    {
+      this.setState({
+        isError : true
+      });
+    }
+
+    this.setState({
+      isLoading : false
+    });
+  }
+
+  pageChange = async(link) =>
+  {
+    console.log(`page changed with link:${link}`);
+    this.setState({
+      isLoading : true
+    });
+    try
+    {
+      const books = await this.props.getBooks(link)
     }
     catch(error)
     {
@@ -44,6 +69,7 @@ class BooksHome extends React.Component
           <ul>
             {bookList}
           </ul>
+          <Pager source={this.props.books} onNext={this.pageChange} onPrev={this.pageChange} />
         </div>
       );
     }
