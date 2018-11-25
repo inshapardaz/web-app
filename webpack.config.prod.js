@@ -16,6 +16,7 @@ export default {
   },
   devtool: 'source-map', // more info:https://webpack.js.org/guides/production/#source-mapping and https://webpack.js.org/configuration/devtool/
   entry: [
+    'babel-polyfill',
     "./silent_renew/index.js",
     path.resolve(__dirname, 'src/index')
   ],

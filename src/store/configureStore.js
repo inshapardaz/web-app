@@ -7,18 +7,20 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import createOidcMiddleware, { loadUser } from "redux-oidc";
 import rootReducer from '../reducers';
 import userManager from "../utils/userManager";
+import ApiService from '../services/api'
 
 export const history = createHistory();
 const connectRouterHistory = connectRouter(history);
 
 function configureStoreProd(initialState) {
   const reactRouterMiddleware = routerMiddleware(history);
+  const apiService   = new ApiService();
   const middlewares = [
     // Add other middleware on this line...
 
     // thunk middleware can also accept an extra argument to be passed to each thunk action
     // https://github.com/reduxjs/redux-thunk#injecting-a-custom-argument
-    thunk,
+    thunk.withExtraArgument({ apiService }),
     reactRouterMiddleware,
   ];
 
@@ -36,6 +38,7 @@ function configureStoreDev(initialState) {
     console.log("Middleware triggered:", action);
     next(action);
   }
+  const apiService   = new ApiService();
   const middlewares = [
     loggingMiddleware,
     oidcMiddleware,
@@ -46,7 +49,7 @@ function configureStoreDev(initialState) {
 
     // thunk middleware can also accept an extra argument to be passed to each thunk action
     // https://github.com/reduxjs/redux-thunk#injecting-a-custom-argument
-    thunk,
+    thunk.withExtraArgument({ apiService }),
     reactRouterMiddleware,
   ];
 
