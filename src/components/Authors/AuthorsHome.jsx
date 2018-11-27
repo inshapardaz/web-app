@@ -1,76 +1,102 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
-import { getAuthors } from '../../actions/api'
+import { withRouter } from 'react-router'
 
-import AuthorCell from './AuthorCell.jsx';
-import Pager from '../Pager.jsx';
+import { getAuthors } from '../../utils/fetchApi'
+import queryString from 'query-string'
+import { List, Card, Spin  } from 'antd';
+import Image from '../Image.jsx';
+import { Pagination } from 'antd';
 
+const { Meta } = Card;
 
 class AuthorsHome extends React.Component
 {
-  async componentDidMount()
+  constructor(props){
+    super(props);
+    this.state = {
+      isError: false,
+      isLoading: false,
+      authors: null
+    };
+  }
+  componentDidMount()
   {
-    this.setState({
-      isLoading : true
-    });
-    try
-    {
-      const books = await this.props.getAuthors()
-    }
-    catch(error)
-    {
-      this.setState({
-        isError : true
-      });
-    }
-
-    this.setState({
-      isLoading : false
-    });
+    const values = queryString.parse(this.props.location.search)
+    this.loadAuthors(values.page);
   }
 
-  pageChange = async(link) =>
+  componentWillReceiveProps(nextProps){
+    const values = queryString.parse(nextProps.location.search)
+    this.loadAuthors(values.page);
+  }
+
+  onPageChange = (page, pageSize) =>
+  {
+    this.props.history.push(`/authors?page=${page}`);
+  }
+
+  loadAuthors(page = 1)
   {
     this.setState({
       isLoading : true
     });
-    try
-    {
-      const books = await this.props.getAuthors(link)
-    }
-    catch(error)
-    {
-      this.setState({
-        isError : true
-      });
-    }
 
-    this.setState({
-      isLoading : false
-    });
+    getAuthors(page)
+    .then(
+      (result) => {
+        this.setState({
+          isLoading : false,
+          authors: result
+        });
+      },
+      (error) => {
+        this.setState({
+          isLoading : false,
+          isError:true
+        });
+      }
+    )
   }
 
   render(){
-    if (this.props.isError)
+    const { isError, isLoading, authors } = this.state;
+
+    if (isError)
     {
       return <h5>Unable to load authors</h5>;
     }
-    else if (this.props.isError || !this.props.authors)
+    else if (isLoading || !authors)
     {
-      return <div>Loading...</div>;
+      return (<div className="loading">
+                <Spin />
+              </div>);
     }
-    else if ( this.props.authors)
+    else if ( authors)
     {
-      let authorList = this.props.authors.data.map(a => <AuthorCell key={a.id} author={a}></AuthorCell>);
       return (
         <div>
-          <h2>Authors</h2>
-          <ul>
-            {authorList}
-          </ul>
-          <Pager source={this.props.authors} onNext={this.pageChange} onPrev={this.pageChange} />
+          <div className="pageHeader">Authors</div>
+          <List
+              grid={{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 4, xxl: 3 }}
+              dataSource={authors.data}
+              renderItem={item => (
+                <List.Item>
+                  <Card hoverable
+                      style={{ width: 240 }}
+                      cover={<Image source={item} />}>
+                    <Meta
+                      title={item.name}
+                      description={`Published ${item.bookCount} books`}
+                    />
+                  </Card>
+                </List.Item>
+              )}
+            />
+          <Pagination hideOnSinglePage={true}
+                      defaultCurrent={authors.currentPageIndex}
+                      pageSize={authors.pageSize}
+                      total={authors.totalCount}
+                      onChange={this.onPageChange}/>
         </div>
       );
     }
@@ -78,13 +104,4 @@ class AuthorsHome extends React.Component
   }
 }
 
-export default (withRouter(connect(
-  state => ({
-    isLoading: state.isLoading,
-    isError: state.isLoading,
-    authors: state.apiReducer.authors
-  }),
-	dispatch => bindActionCreators({
-		getAuthors: getAuthors
-	}, dispatch)
-)(AuthorsHome)));
+export default withRouter(AuthorsHome);

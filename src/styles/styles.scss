@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 /* Variables */
 $vin-blue: #5bb7db;
 $vin-green: #60b044;
@@ -9,6 +11,7 @@ body {
   font-family: 'dubai',' Nunito Sans',sans-serif;
   line-height: 1.4em;
   color: #4d4d4d;
+  background-color: #f0f2f5;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
   font-smoothing: antialiased;
@@ -17,6 +20,33 @@ body {
   padding: 0;
 }
 
+.contents{
+  background: white;
+  min-height: 280px;
+  margin: 0 100px;
+  margin-top: 110px;
+  padding: 0 50px 50px 50px;
+}
+
+.loading {
+  text-align: center;
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 30px 50px;
+  margin: 20px 0;
+  min-height: 50%;
+}
+
+.pageHeader
+{
+  text-align: right;
+  height: 65px;
+  line-height: 65px;
+  padding: 0 25px;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
 .main
 {
   min-width: 230px;

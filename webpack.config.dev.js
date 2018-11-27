@@ -101,6 +101,10 @@ export default {
         ]
       },
       {
+        test: /\.less$/,
+        loader: 'less-loader' // compiles Less to CSS
+      },
+      {
         test: /(\.css|\.scss|\.sass)$/,
         use: [
           'style-loader',

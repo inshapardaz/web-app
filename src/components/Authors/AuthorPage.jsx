@@ -1,14 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getAuthor } from '../../actions/api';
 
 import Image from '../Image.jsx';
 import AuthorBookList from './AuthorBookList.jsx';
 
+import {getAuthor} from '../../utils/fetchApi';
+
 class AuthorPage extends React.Component
 {
-  async componentWillMount() {
+  componentWillMount() {
     const {
       match: { params },
     } = this.props
@@ -17,35 +16,38 @@ class AuthorPage extends React.Component
       isLoading : true
     });
 
-    try
-    {
-      var author = await this.props.getAuthor(params.id)
-    }
-    catch(error)
-    {
-      this.setState({
-        isError : true
-      });
-    }
-
-    this.setState({
-      isLoading : false
-    });
+    getAuthor(params.id)
+    .then(
+      (result) => {
+        this.setState({
+          isLoading : false,
+          author: result
+        });
+      },
+      (error) => {
+        this.setState({
+          isLoading : false,
+          isError:true
+        });
+      }
+    )
   }
 
   render(){
-    const props = this.props
+    if (!this.state)
+      return null;
+    const { isError, isLoading, author } = this.state;
 
-    if (props.isLoading)
+    if (isLoading)
     {
       return <div>Loading...</div>
     }
 
-    if (props.isError)
+    if (isError)
     {
       return <div>Error loading author. Please retry.</div>
     }
-    const author = props.author
+
     if (!author) {
       return null
     }
@@ -61,17 +63,4 @@ class AuthorPage extends React.Component
   }
 }
 
-export default connect(
-  state => ({
-    isLoading: state.isLoading,
-    isError: state.isError,
-    author: state.apiReducer.author,
-  }),
-  dispatch =>
-    bindActionCreators(
-      {
-        getAuthor,
-      },
-      dispatch,
-    ),
-)(AuthorPage)
+export default AuthorPage;

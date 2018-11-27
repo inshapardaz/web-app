@@ -10,7 +10,11 @@ import ErrorPage from "./ErrorPage";
 import React from "react";
 import { hot } from "react-hot-loader";
 
-import Header from './Header/Header.jsx';
+import { Layout } from 'antd';
+
+const { Content, Footer } = Layout;
+
+import AppHeader from './Header/Header.jsx';
 import CallbackPage from './Callback';
 import SilentRefresh from "./silentRefresh";
 import BooksHome from "./Books/BooksHome.jsx";
@@ -46,9 +50,9 @@ class App extends React.Component {
     }
 
     return (
-      <div>
-        <Header />
-        <div className="main">
+      <Layout>
+        <AppHeader />
+        <Content className={"contents"}>
           <Switch>
             <Route exact path="/callback" component={CallbackPage} />
             <Route exact path="/silent_renew" component={SilentRefresh} />
@@ -61,8 +65,11 @@ class App extends React.Component {
             <Route exact path="/" component={HomePage} />
             <Route component={NotFoundPage} />
           </Switch>
-        </div>
-      </div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          Inshapardaz ©2018 All rights reserved.
+        </Footer>
+      </Layout>
     );
   }
 }

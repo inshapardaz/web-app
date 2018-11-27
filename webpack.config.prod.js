@@ -132,6 +132,10 @@ export default {
         ]
       },
       {
+        test: /\.less$/,
+        loader: 'less-loader' // compiles Less to CSS
+      },
+      {
         test: /(\.css|\.scss|\.sass)$/,
         use: [
           MiniCssExtractPlugin.loader,

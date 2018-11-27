@@ -12,7 +12,7 @@ class Image extends React.Component
     }
 
     return (
-    <div style="height='200px;width:200px';align:center">
+    <div style="height:200px;width:200px';align:center;">
       Loading...
     </div>);
   }

@@ -1,76 +1,78 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
-import { getBooks } from '../../actions/api'
+import { getBooks,getBooksByUrl } from '../../utils/fetchApi'
 
 import BookCell from './BookCell.jsx';
 import Pager from '../Pager.jsx';
 
 class BooksHome extends React.Component
 {
-  async componentDidMount()
+  constructor(props){
+    super(props);
+    this.state = {
+      isError: false,
+      isLoading: false,
+      books: []
+    };
+  }
+  componentDidMount()
   {
-    this.setState({
-      isLoading : true
-    });
-    try
-    {
-      const books = await this.props.getBooks()
-    }
-    catch(error)
-    {
-      this.setState({
-        isError : true
-      });
-    }
-
-    this.setState({
-      isLoading : false
-    });
+    getBooks()
+    .then(
+      (result) => {
+        this.setState({
+          isLoading : false,
+          books: result
+        });
+      },
+      (error) => {
+        this.setState({
+          isLoading : false,
+          isError:true
+        });
+      }
+    )
   }
 
-  pageChange = async(link) =>
+  pageChange = (link) =>
   {
-    console.log(`page changed with link:${link}`);
-    this.setState({
-      isLoading : true
-    });
-    try
-    {
-      const books = await this.props.getBooks(link)
-    }
-    catch(error)
-    {
-      this.setState({
-        isError : true
-      });
-    }
-
-    this.setState({
-      isLoading : false
-    });
+    getBooksByUrl(link)
+    .then(
+      (result) => {
+        this.setState({
+          isLoading : false,
+          books: result
+        });
+      },
+      (error) => {
+        this.setState({
+          isLoading : false,
+          isError:true
+        });
+      }
+    )
   }
 
   render(){
-    if (this.props.isError)
+    console.log(books);
+    const { isError, isLoading, books } = this.state;
+    if (isError)
     {
       return <h5>Unable to load books</h5>;
     }
-    else if (this.props.isError || !this.props.books)
+    else if (isLoading || !books)
     {
       return <div>Loading...</div>;
     }
     else if ( this.props.books)
     {
-      let bookList = this.props.books.data.map(b => <BookCell key={b.id} book={b}></BookCell>);
+      let bookList = books.data.map(b => <BookCell key={b.id} book={b}></BookCell>);
       return (
         <div>
           <h2>Books</h2>
           <ul>
             {bookList}
           </ul>
-          <Pager source={this.props.books} onNext={this.pageChange} onPrev={this.pageChange} />
+          <Pager source={books} onNext={this.pageChange} onPrev={this.pageChange} />
         </div>
       );
     }
@@ -78,13 +80,4 @@ class BooksHome extends React.Component
   }
 }
 
-export default (withRouter(connect(
-  state => ({
-    isLoading: state.isLoading,
-    isError: state.isLoading,
-    books: state.apiReducer.books
-  }),
-	dispatch => bindActionCreators({
-		getBooks: getBooks
-	}, dispatch)
-)(BooksHome)));
+export default BooksHome;
