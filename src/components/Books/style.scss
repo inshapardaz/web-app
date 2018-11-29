@@ -1,4 +1,12 @@
 .ant-card-meta
 {
-  min-height:147px;
+  @media(min-width: 470px) {
+    min-height:147px;
+  }
+}
+
+.ant-card-meta-title{
+  @media(max-width: 470px) {
+    padding-top: 8px;
+  }
 }

@@ -29,7 +29,6 @@ export function getFavoriteBooks(){
 
 export function getBooks(page = 1)
 {
-  console.log(`getting books page ${page}`);
   return fetch(`${baseUrl}/books?pageNumber=${page}&pageSize=12`)
           .then(res => res.json());
 }
