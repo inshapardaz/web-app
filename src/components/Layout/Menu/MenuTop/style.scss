@@ -25,6 +25,7 @@
       display: none !important;
     }
   }
+
   .ant-menu-item-divider {
     height: 36px !important;
     margin-top: 6px !important;
@@ -53,5 +54,10 @@
     .menuTop__item-title {
       color: $text;
     }
+  }
+
+  &__right{
+    float: right;
+    margin-right: 5px;
   }
 }

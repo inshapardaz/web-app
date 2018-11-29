@@ -5,6 +5,8 @@ import { Link, withRouter } from 'react-router-dom'
 import { reduce } from 'lodash'
 import { setLayoutState } from '../../../../actions/ui'
 import { default as menuData } from './menuData'
+import LiveSearch from '../../../LiveSearch/LiveSearch.jsx';
+import ProfileMenu from '../../../ProfileMenu.jsx';
 import './style.scss'
 
 const SubMenu = Menu.SubMenu
@@ -151,7 +153,7 @@ class MenuTop extends React.Component {
       <div className="menuTop">
         <div className="menuTop__logo">
           <div className="menuTop__logoContainer">
-            <img src="resources/images/logo-inverse.png" alt="" />
+            <img src="resources/images/inshapardaz.png" alt="" />
           </div>
         </div>
         <Menu
@@ -163,11 +165,12 @@ class MenuTop extends React.Component {
           mode="horizontal"
           className="menuTop__navigation"
         >
-          <Menu.Item key={'settings'}>
-            <span className="menuTop__item-title">Settings</span>
-            <span className={'icmn icmn-cog menuTop__icon utils__spin-delayed--pseudo-selector'} />
-          </Menu.Item>
           {menuItems}
+
+          <div className="menuTop__right">
+            <LiveSearch />
+            <ProfileMenu />
+          </div>
         </Menu>
       </div>
     )

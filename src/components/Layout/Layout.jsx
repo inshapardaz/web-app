@@ -41,7 +41,7 @@ const query = {
   },
 }
 
-let isMobile
+let isMobile;
 enquireScreen(b => {
   isMobile = b
 })
@@ -90,9 +90,6 @@ class Layout extends React.Component {
             <Spinner />
             <Menu isMobile={isMobile} />
             <AntLayout>
-              <AntHeader>
-                <TopBar />
-              </AntHeader>
               <AntContent style={{ height: '100%' }}>
                 <Routes />
               </AntContent>

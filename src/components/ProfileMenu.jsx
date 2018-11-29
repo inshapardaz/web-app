@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { login, logout } from '../../../actions/authentication'
+import { login, logout } from '../actions/authentication'
 import { Menu, Dropdown, Avatar, Badge } from 'antd'
 import { bindActionCreators } from 'redux';
 

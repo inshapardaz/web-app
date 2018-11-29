@@ -68,19 +68,19 @@ class MenuLeft extends React.Component {
   }
 
   getActiveMenuItem = (props, items) => {
-    const { selectedKeys, pathname } = this.state
-    let { collapsed } = props
-    let [activeMenuItem, ...path] = this.getPath(items, !selectedKeys ? pathname : selectedKeys)
+    // const { selectedKeys, pathname } = this.state
+    // let { collapsed } = props
+    // let [activeMenuItem, ...path] = this.getPath(items, !selectedKeys ? pathname : selectedKeys)
 
-    if (collapsed) {
-      path = ['']
-    }
+    // if (collapsed) {
+    //   path = ['']
+    // }
 
-    this.setState({
-      selectedKeys: activeMenuItem ? activeMenuItem.key : '',
-      openKeys: activeMenuItem ? path.map(entry => entry.key) : [],
-      collapsed,
-    })
+    // this.setState({
+    //   selectedKeys: activeMenuItem ? activeMenuItem.key : '',
+    //   openKeys: activeMenuItem ? path.map(entry => entry.key) : [],
+    //   collapsed,
+    // })
   }
 
   generateMenuPartitions(items) {
@@ -148,7 +148,7 @@ class MenuLeft extends React.Component {
     this.setState(
       {
         selectedKeys: '',
-        pathname: newProps.pathname,
+        //pathname: newProps.pathname,
         theme: newProps.theme,
         settingsOpened: newProps.settingsOpened,
       },
@@ -184,7 +184,7 @@ class MenuLeft extends React.Component {
         <div className="menuLeft__logo">
           {params.collapsed ? (
             <div className="menuLeft__logoContainer menuLeft__logoContainer--collapsed">
-              <img src="resources/images/logo-inverse-mobile.png" alt="" />
+              <img src="resources/images/inshapardaz.png" alt="" />
             </div>
           ) : (
             <div className="menuLeft__logoContainer">
@@ -224,7 +224,7 @@ export default withRouter(connect(
     const { layoutState } = app
     console.log(routing);
     return {
-      pathname: routing.location.pathname,
+      //pathname: routing.location.pathname,
       collapsed: layoutState.menuCollapsed,
       theme: layoutState.themeLight ? 'light' : 'dark',
       settingsOpened: layoutState.settingsOpened,
