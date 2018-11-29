@@ -4,7 +4,7 @@ import { Menu } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 import { reduce } from 'lodash'
 import { setLayoutState } from '../../../../actions/ui'
-import { default as menuData } from './menuData'
+import { default as menuData } from '../menuData'
 import LiveSearch from '../../../LiveSearch/LiveSearch.jsx';
 import ProfileMenu from '../../../ProfileMenu.jsx';
 import './style.scss'
