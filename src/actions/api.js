@@ -1,4 +1,4 @@
-export function entry(){
+export function getEntry(){
   return async (dispatch, getState, { apiService }) =>
 	{
     const entry = await apiService.entry();

@@ -1,5 +1,5 @@
 {
-  "name": "react-slingshot",
+  "name": "inshapardaz-web-app",
   "version": "7.0.1",
   "description": "Starter kit for creating apps with React and Redux",
   "engines": {
@@ -28,20 +28,31 @@
     "open:cover": "npm run test:cover && opn ./coverage/lcov-report/index.html",
     "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
   },
-  "author": "Cory House",
+  "author": "Muhammad Farooq",
   "license": "MIT",
   "dependencies": {
+    "@babel/plugin-syntax-dynamic-import": "7.0.0",
     "antd": "3.10.9",
+    "bootstrap": "4.1.3",
     "connected-react-router": "4.4.1",
+    "enquire-js": "0.2.1",
+    "lodash": "4.17.11",
     "object-assign": "4.1.1",
     "oidc-client": "1.5.4",
     "popsicle": "10.0.1",
     "query-string": "6.2.0",
     "react": "16.4.2",
+    "react-container-query": "0.11.0",
+    "react-custom-scrollbars": "4.2.1",
     "react-dom": "16.4.2",
+    "react-helmet": "5.2.0",
+    "react-loadable": "5.5.0",
     "react-redux": "5.0.7",
+    "react-redux-spinner": "1.1.4",
     "react-router-dom": "4.3.1",
+    "react-router-redux": "4.0.8",
     "redux": "4.0.0",
+    "redux-act": "1.7.4",
     "redux-oidc": "3.1.0",
     "redux-thunk": "2.3.0"
   },
@@ -121,7 +132,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/coryhouse/react-slingshot"
+    "url": "https://github.com/inshapardaz/web-app"
   },
   "jest": {
     "moduleNameMapper": {
@@ -142,6 +153,7 @@
         ],
         "plugins": [
           "@babel/plugin-proposal-class-properties",
+          "@babel/plugin-syntax-dynamic-import",
           "react-hot-loader/babel"
         ]
       },
@@ -161,6 +173,7 @@
         "plugins": [
           "@babel/plugin-proposal-class-properties",
           "@babel/plugin-transform-react-constant-elements",
+          "@babel/plugin-syntax-dynamic-import",
           "transform-react-remove-prop-types"
         ]
       },

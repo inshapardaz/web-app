@@ -10,9 +10,9 @@ class CallbackPage extends React.Component {
     return (
       <CallbackComponent
         userManager={userManager}
-        successCallback={() => this.props.dispatch(push("/"))}
+        successCallback={() => this.props.history.push("/")}
         errorCallback={error => {
-          this.props.dispatch(push("/"));
+          this.props.history.push("/");
           console.error(error);
         }}
         >
@@ -20,10 +20,6 @@ class CallbackPage extends React.Component {
       </CallbackComponent>
     );
   }
-}
-
-CallbackPage.propTypes = {
-  dispatch : PropTypes.function
 }
 
 export default connect()(CallbackPage);
