@@ -33,20 +33,11 @@ export default [
         divider:true
       },
       {
-        title: 'Fiction',
-        key: 'fiction',
-        url: '/books?category=fiction',
-      },
-      {
-        title: 'Comedy',
-        key: 'comedy',
-        url: '/books?category=comedy',
-      },
-      {
-        title: 'Travel Log',
-        key: 'travel',
-        url: '/books?category=travel',
-      },
+        title: 'Categories',
+        key: 'categories',
+        icon: 'icmn icmn-stack',
+        children: []
+      }
     ],
   },
   {

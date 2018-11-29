@@ -5,6 +5,8 @@ import LatestBooks from './LatestBooks.jsx';
 import RecentBooks from './RecentBooks.jsx';
 import FavoriteBooks from './FavoriteBooks.jsx';
 
+import Page from '../Layout/Page.jsx';
+
 class HomePage extends React.Component {
   componentDidMount(){
     console.log('component did mount');
@@ -15,17 +17,12 @@ class HomePage extends React.Component {
   }
   render() {
     return (
-      <div>
+      <Page>
         <Helmet title="Home" />
-        <h2>Welcome</h2>
-
         <LatestBooks />
-
         <RecentBooks />
-
         <FavoriteBooks />
-
-      </div>
+      </Page>
     );
   }
 }

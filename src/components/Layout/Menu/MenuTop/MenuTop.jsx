@@ -7,7 +7,9 @@ import { setLayoutState } from '../../../../actions/ui'
 import { default as menuData } from '../menuData'
 import LiveSearch from '../../../LiveSearch/LiveSearch.jsx';
 import ProfileMenu from '../../../ProfileMenu.jsx';
+import { getCategories } from '../../../../utils/fetchApi'
 import './style.scss'
+import MenuItem from 'antd/lib/menu/MenuItem';
 
 const SubMenu = Menu.SubMenu
 const Divider = Menu.Divider
@@ -20,6 +22,9 @@ class MenuTop extends React.Component {
     selectedKeys: '',
     openKeys: [''],
     settingsOpened: this.props.settingsOpened,
+    isError: false,
+    isLoading: false,
+    categories: []
   }
 
   handleClick = e => {
@@ -99,8 +104,8 @@ class MenuTop extends React.Component {
           onClick={
             this.props.isMobile
               ? () => {
-                  dispatch(setLayoutState({ menuCollapsed: false }))
-                }
+                dispatch(setLayoutState({ menuCollapsed: false }))
+              }
               : undefined
           }
         >
@@ -109,21 +114,38 @@ class MenuTop extends React.Component {
         </Link>
       </Menu.Item>
     ) : (
-      <Menu.Item key={key} disabled={disabled}>
-        <span className="menuTop__item-title">{title}</span>
-        {icon && <span className={icon + ' menuTop__icon'} />}
-      </Menu.Item>
-    )
+          <Menu.Item key={key} disabled={disabled}>
+            <span className="menuTop__item-title">{title}</span>
+            {icon && <span className={icon + ' menuTop__icon'} />}
+          </Menu.Item>
+        )
   }
 
   componentWillMount() {
     this.getActiveMenuItem(this.props, menuData)
   }
 
+  componentDidMount() {
+    getCategories()
+      .then(
+        (result) => {
+          this.setState({
+            isLoading: false,
+            categories: result
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoading: false,
+            isError: true
+          });
+        }
+      )
+  }
+
   componentWillReceiveProps(newProps) {
     this.setState(
       {
-        //pathname: newProps.pathname,
         theme: newProps.theme,
         settingsOpened: newProps.settingsOpened,
       },
@@ -136,17 +158,28 @@ class MenuTop extends React.Component {
   }
 
   render() {
-    const { selectedKeys, openKeys, theme } = this.state
+    const { selectedKeys, openKeys, theme, categories } = this.state
     const { isMobile } = this.props
-    const items = this.generateMenuPartitions(menuData)
+
+    let finalOptions = menuData;
+    if (categories && categories.items) {
+      finalOptions[1].children[4].children = [];
+      categories.items.map(c => {
+        finalOptions[1].children[4].children.push({
+          title: c.name,
+          key: c.id,
+          url: `/books?category=${c.id}`,
+        });
+      });
+    }
+
+    const items = this.generateMenuPartitions(finalOptions)
     let menuItems;
 
-    if (isMobile)
-    {
+    if (isMobile) {
       menuItems = <SubMenu title="...">{items}</SubMenu>
     }
-    else
-    {
+    else {
       menuItems = items
     }
 
@@ -169,8 +202,8 @@ class MenuTop extends React.Component {
           {menuItems}
 
           <Menu.ItemGroup className="menuTop__right">
-                <LiveSearch />
-                <ProfileMenu />
+            <LiveSearch />
+            <ProfileMenu />
           </Menu.ItemGroup>
         </Menu>
 

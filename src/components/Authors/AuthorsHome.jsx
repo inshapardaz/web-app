@@ -3,9 +3,9 @@ import { withRouter } from 'react-router'
 
 import { getAuthors } from '../../utils/fetchApi'
 import queryString from 'query-string'
-import { List, Card, Spin  } from 'antd';
+import { List, Card, Pagination  } from 'antd';
 import Image from '../Image.jsx';
-import { Pagination } from 'antd';
+import Page from '../Layout/Page.jsx';
 
 const { Meta } = Card;
 
@@ -16,7 +16,7 @@ class AuthorsHome extends React.Component
     this.state = {
       isError: false,
       isLoading: false,
-      authors: null
+      authors: {data:[], pageSize: 0, currentPageIndex: 0, totalCount: 0}
     };
   }
   componentDidMount()
@@ -59,48 +59,33 @@ class AuthorsHome extends React.Component
   }
 
   render(){
-    const { isError, isLoading, authors } = this.state;
+    const { authors, isLoading, isError } = this.state;
 
-    if (isError)
-    {
-      return <h5>Unable to load authors</h5>;
-    }
-    else if (isLoading || !authors)
-    {
-      return (<div className="loading">
-                <Spin />
-              </div>);
-    }
-    else if ( authors)
-    {
-      return (
-        <div>
-          <div className="pageHeader">Authors</div>
-          <List
-              grid={{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 4, xxl: 3 }}
-              dataSource={authors.data}
-              renderItem={item => (
-                <List.Item>
-                  <Card hoverable
-                      style={{ width: 240 }}
-                      cover={<Image source={item} />}>
-                    <Meta
-                      title={item.name}
-                      description={`Published ${item.bookCount} books`}
-                    />
-                  </Card>
-                </List.Item>
-              )}
-            />
-          <Pagination hideOnSinglePage={true}
-                      defaultCurrent={authors.currentPageIndex}
-                      pageSize={authors.pageSize}
-                      total={authors.totalCount}
-                      onChange={this.onPageChange}/>
-        </div>
-      );
-    }
-    return null;
+    return (
+      <Page {...this.props} title="Authors" isLoading={isLoading} isError={isError}>
+        <List
+            grid={{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 4, xxl: 3 }}
+            dataSource={authors.data}
+            renderItem={item => (
+              <List.Item>
+                <Card hoverable
+                    style={{ width: 240 }}
+                    cover={<Image source={item} />}>
+                  <Meta
+                    title={item.name}
+                    description={`Published ${item.bookCount} books`}
+                  />
+                </Card>
+              </List.Item>
+            )}
+          />
+        <Pagination hideOnSinglePage={true}
+                    defaultCurrent={authors.currentPageIndex}
+                    pageSize={authors.pageSize}
+                    total={authors.totalCount}
+                    onChange={this.onPageChange}/>
+      </Page>
+    );
   }
 }
 

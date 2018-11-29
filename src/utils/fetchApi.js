@@ -5,6 +5,12 @@ export function entry(){
           .then(res => res.json());
 }
 
+export function getCategories(){
+
+  return fetch(`${baseUrl}/categories`)
+          .then(res => res.json());
+}
+
 export function getRecentBooks(){
 
   return fetch(`${baseUrl}/books/recent`)
@@ -21,9 +27,10 @@ export function getFavoriteBooks(){
           .then(res => res.json());
 }
 
-export function getBooks()
+export function getBooks(page = 1)
 {
-  return fetch(`${baseUrl}/books`)
+  console.log(`getting books page ${page}`);
+  return fetch(`${baseUrl}/books?pageNumber=${page}&pageSize=12`)
           .then(res => res.json());
 }
 

@@ -24,8 +24,18 @@ const loadableRoutes = {
   '/books/:id': {
     component: loadable(() => import('./Books/BookPage.jsx')),
   },
+  '/books/new': {
+    component: loadable(() => import('./Books/BooksHome.jsx')),
+  },
+  '/books/favorites': {
+    component: loadable(() => import('./Books/BooksHome.jsx')),
+  },
+  '/books/recents': {
+    component: loadable(() => import('./Books/BooksHome.jsx')),
+  },
   '/books': {
-    component: loadable(() => import('./Books/BookPage.jsx')),
+    component: loadable(() => import('./Books/BooksHome.jsx')),
+    exact:true
   },
   '/authors/:id': {
     component: loadable(() => import('./Authors/AuthorPage.jsx')),
