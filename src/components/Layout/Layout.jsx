@@ -8,7 +8,6 @@ import { enquireScreen, unenquireScreen } from 'enquire-js'
 
 import Loader from './Loader.jsx';
 import Menu from './Menu/Menu.jsx'
-import TopBar from './TopBar/TopBar.jsx';
 import Routes from '../Routes.jsx';
 import Footer from './Footer/Footer.jsx';
 

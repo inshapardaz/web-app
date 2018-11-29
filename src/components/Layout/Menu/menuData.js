@@ -30,6 +30,9 @@ export default [
         url: '/books/new',
       },
       {
+        divider:true
+      },
+      {
         title: 'Fiction',
         key: 'fiction',
         url: '/books?category=fiction',

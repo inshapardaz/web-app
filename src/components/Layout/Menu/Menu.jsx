@@ -1,7 +1,5 @@
 import 'rc-drawer/assets/index.css'
 import React from 'react'
-import DrawerMenu from 'rc-drawer'
-import MenuLeft from './MenuLeft/MenuLeft.jsx'
 import MenuTop from './MenuTop/MenuTop.jsx'
 import { connect } from 'react-redux'
 import { setLayoutState } from '../../../actions/ui'
@@ -27,25 +25,7 @@ class AppMenu extends React.Component {
   }
 
   render() {
-    const { isMobile } = this.props
-    const { open, isMenuTop } = this.state
-    console.log(`Menu:render(${isMenuTop})`);
-
-    return isMobile ? (
-      <DrawerMenu
-        getContainer={null}
-        level={null}
-        open={open}
-        onMaskClick={this.toggleOpen}
-        onHandleClick={this.toggleOpen}
-      >
-        <MenuLeft {...this.props} />
-      </DrawerMenu>
-    ) : isMenuTop ? (
-      <MenuTop {...this.props} />
-    ) : (
-       <MenuLeft {...this.props} />
-    )
+    return (<MenuTop {...this.props} />);
   }
 }
 

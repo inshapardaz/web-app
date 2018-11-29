@@ -59,5 +59,9 @@
   &__right{
     float: right;
     margin-right: 5px;
+
+    .ant-menu-item-group-title{
+      display: none;
+    }
   }
 }

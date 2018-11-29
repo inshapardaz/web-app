@@ -23,17 +23,6 @@ class MenuTop extends React.Component {
   }
 
   handleClick = e => {
-    const { dispatch, isMobile } = this.props
-    if (isMobile) {
-      // collapse menu on isMobile state
-      dispatch(setLayoutState({ menuMobileOpened: false }))
-    }
-    if (e.key === 'settings') {
-      // prevent click and toggle settings block on theme settings link
-      dispatch(setLayoutState({ settingsOpened: !this.state.settingsOpened }))
-      return
-    }
-    // set current selected keys
     this.setState({
       selectedKeys: e.key,
       openKeys: e.keyPath,
@@ -69,14 +58,14 @@ class MenuTop extends React.Component {
   }
 
   getActiveMenuItem = (props, items) => {
-    // const { selectedKeys, pathname } = this.state
-    // let { collapsed } = props
-    // let [activeMenuItem, ...path] = this.getPath(items, !selectedKeys ? pathname : selectedKeys)
+    const { selectedKeys, pathname } = this.state
+    let { collapsed } = props
+    let [activeMenuItem, ...path] = this.getPath(items, !selectedKeys ? pathname : selectedKeys)
 
-    /*this.setState({
+    this.setState({
       selectedKeys: activeMenuItem ? activeMenuItem.key : '',
       collapsed,
-    })*/
+    })
   }
 
   generateMenuPartitions(items) {
@@ -148,7 +137,19 @@ class MenuTop extends React.Component {
 
   render() {
     const { selectedKeys, openKeys, theme } = this.state
-    const menuItems = this.generateMenuPartitions(menuData)
+    const { isMobile } = this.props
+    const items = this.generateMenuPartitions(menuData)
+    let menuItems;
+
+    if (isMobile)
+    {
+      menuItems = <SubMenu title="...">{items}</SubMenu>
+    }
+    else
+    {
+      menuItems = items
+    }
+
     return (
       <div className="menuTop">
         <div className="menuTop__logo">
@@ -167,11 +168,12 @@ class MenuTop extends React.Component {
         >
           {menuItems}
 
-          <div className="menuTop__right">
-            <LiveSearch />
-            <ProfileMenu />
-          </div>
+          <Menu.ItemGroup className="menuTop__right">
+                <LiveSearch />
+                <ProfileMenu />
+          </Menu.ItemGroup>
         </Menu>
+
       </div>
     )
   }
@@ -184,7 +186,7 @@ export default withRouter(connect(
       //pathname: routing.location.pathname,
       collapsed: layoutState.menuCollapsed,
       theme: layoutState.themeLight ? 'light' : 'dark',
-      settingsOpened: layoutState.settingsOpened,
+      settingsOpened: layoutState.settingsOpened
     }
   },
   null
