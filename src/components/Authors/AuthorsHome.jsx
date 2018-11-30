@@ -1,9 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router'
+import {Link} from 'react-router-dom'
 
 import { getAuthors } from '../../utils/fetchApi'
 import queryString from 'query-string'
-import { List, Card, Pagination, Link  } from 'antd';
+import { List, Card, Pagination  } from 'antd';
 import Image from '../Image.jsx';
 import Page from '../Layout/Page.jsx';
 
@@ -64,7 +65,7 @@ class AuthorsHome extends React.Component
     return (
       <Page {...this.props} title="Authors" isLoading={isLoading} isError={isError}>
         <List
-            grid={{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 4, xxl: 3 }}
+            grid={{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 4, xxl: 6 }}
             dataSource={authors.data}
             renderItem={item => (
               <List.Item>
@@ -72,7 +73,7 @@ class AuthorsHome extends React.Component
                     style={{ width: 240 }}
                     cover={<Image source={item} />}>
                   <Meta
-                    title={item.name}
+                    title={<Link to={`/authors/${item.id}`}>{item.name}</Link>}
                     description={`Published ${item.bookCount} books`}
                   />
                 </Card>

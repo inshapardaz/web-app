@@ -10,7 +10,7 @@ class AppFooter extends React.Component {
           <div className="row">
             <div className="col-sm-4">
               <img
-                  src="/resources/images/inshapardaz.png"
+                  src="/resources/images/inshapardaz_black.png" width="46"
                   target="_blank"
                   rel="noopener noreferrer"
                   alt="Inshapardaz"

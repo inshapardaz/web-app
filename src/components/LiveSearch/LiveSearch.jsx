@@ -12,7 +12,7 @@ class LiveSearch extends React.Component {
     super(props);
     this.state = {
       show: false,
-      searchText: 'حم',
+      searchText: '',
       searchBooks: true,
       searchAuthors: true,
       books: null,
@@ -201,7 +201,7 @@ class LiveSearch extends React.Component {
           <div className="container-fluid">
             <div className="livesearch__wrapper">
               <div className="livesearch__logo">
-                <img className="livesearch__logo-img" src="resources/images/logo.png" alt="" />
+                <img className="livesearch__logo-img" src="resources/images/inshapardaz_black.png" alt="" />
               </div>
               <div className="livesearch__search">
                 <input
