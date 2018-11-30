@@ -2,7 +2,6 @@ import React from 'react';
 import queryString from 'query-string'
 import { getBooks } from '../../utils/fetchApi'
 import Page from '../Layout/Page.jsx';
-import './style.scss';
 import BookList from './BooksList.jsx';
 
 class BooksHome extends React.Component

@@ -5,8 +5,6 @@ import { List, Card, Tag } from 'antd';
 import Image from '../Image.jsx';
 import IconText from '../IconText.jsx';
 
-import './style.scss';
-
 const { Meta } = Card;
 
 class BookList extends React.Component {
