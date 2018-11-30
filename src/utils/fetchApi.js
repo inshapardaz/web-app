@@ -51,6 +51,12 @@ export function getBook(id)
           .then(res => res.json());
 }
 
+export function getChapters(id)
+{
+  return fetch(`${baseUrl}/books/${id}/chapters`)
+          .then(res => res.json());
+}
+
 export function getAuthors(page = 1)
 {
   return fetch(`${baseUrl}/authors?pageNumber=${page}&pageSize=12`)

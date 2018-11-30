@@ -17,11 +17,23 @@ class AuthorPage extends React.Component {
       match: { params },
     } = this.props
 
+    this.loadAuthor(params.id);
+  }
+
+  componentWillReceiveProps(nextProps){
+    const {
+      match: { params },
+    } = nextProps
+    this.loadAuthor(params.id);
+  }
+
+  loadAuthor(id)
+  {
     this.setState({
       isLoading: true
     });
 
-    getAuthor(params.id)
+    getAuthor(id)
       .then(
         (result) => {
           this.setState({

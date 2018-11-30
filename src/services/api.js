@@ -62,35 +62,35 @@ class ApiService {
 
   async getRecentBooks(){
 
-    return await this.get(`${this.utlToApi}books/recent`);
+    return await this.get(`${this.utlToApi}/books/recent`);
   }
 
   async getLatestBooks(){
-    return await this.get(`${this.utlToApi}books/latest`);
+    return await this.get(`${this.utlToApi}/books/latest`);
   }
 
   async getFavoriteBooks(){
-    return await this.get(`${this.utlToApi}books/favorite`);
+    return await this.get(`${this.utlToApi}/books/favorite`);
   }
 
   async getBooks(link)
   {
-    return await this.get(link || `${this.utlToApi}books`);
+    return await this.get(link || `${this.utlToApi}/books`);
   }
 
   async getBook(id)
   {
-    return await this.get(`${this.utlToApi}books/${id}`);
+    return await this.get(`${this.utlToApi}/books/${id}`);
   }
 
   async getAuthors(link)
   {
-    return await this.get(link || `${this.utlToApi}authors`);
+    return await this.get(link || `${this.utlToApi}/authors`);
   }
 
   async getAuthor(id)
   {
-    return await this.get(`${this.utlToApi}authors/${id}`);
+    return await this.get(`${this.utlToApi}/authors/${id}`);
   }
 
   async getAuthorBooks(link)
