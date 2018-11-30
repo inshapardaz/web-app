@@ -32,9 +32,10 @@ export function getFavoriteBooks(){
           .then(res => res.json());
 }
 
-export function getBooks(page = 1)
+export function getBooks(category = null, page = 1)
 {
-  return fetch(`${baseUrl}/books?pageNumber=${page}&pageSize=12`)
+  const url = category ? `${baseUrl}/categories/${category}/books` : `${baseUrl}/books`;
+  return fetch(`${url}?pageNumber=${page}&pageSize=12`)
           .then(res => res.json());
 }
 

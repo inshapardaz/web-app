@@ -17,22 +17,23 @@ class BooksHome extends React.Component
   }
   componentDidMount()
   {
-    const values = queryString.parse(this.props.location.search)
-    this.loadBooks(values.page);
+    this.loadBooks(this.props);
   }
 
   componentWillReceiveProps(nextProps){
-    const values = queryString.parse(nextProps.location.search)
-    this.loadBooks(values.page);
+    this.loadBooks(nextProps);
   }
 
-  loadBooks(page = 1)
+  loadBooks(props)
   {
+    const values = queryString.parse(props.location.search)
+    const page = values.page;
+    const category = values.category;
     this.setState({
       isLoading : true
     });
 
-    getBooks(page)
+    getBooks(category, page)
     .then(
       (result) => {
         this.setState({
