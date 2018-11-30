@@ -130,7 +130,7 @@ class BookPage extends React.Component {
                   </h5>
                   <dl className="row">
                     <dt className="col-xl-3">Author:</dt>
-                    <dd className="col-xl-9">{book.authorName}</dd>
+                    <dd className="col-xl-9"><Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></dd>
                     <dt className="col-xl-3">Details:</dt>
                     <dd className="col-xl-9">{book.description}</dd>
                     <dt className="col-xl-3">Categories:</dt>
