@@ -30,4 +30,25 @@
     z-index: 1000;
     overflow-y: scroll;
   }
+
+  &__theme
+  {
+    &--default
+    {
+      color: $black;
+      background-color: $white;
+    }
+
+    &--sepia
+    {
+      color: $brown;
+      background-color: $sepia;
+    }
+
+    &--dark
+    {
+      color: $white;
+      background-color: $menuBg-darken;
+    }
+  }
 }

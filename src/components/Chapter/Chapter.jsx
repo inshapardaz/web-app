@@ -22,7 +22,8 @@ class Chapter extends React.Component {
       contents: '',
       chapters: [],
       fullscreen: false,
-      fontSize: '100%'
+      fontSize: '100%',
+      theme: 'default'
     };
   }
 
@@ -99,6 +100,13 @@ class Chapter extends React.Component {
     });
   }
 
+  changeTheme(e)
+  {
+    this.setState({
+      theme: e.key
+    });
+  }
+
   toggleFullscreen() {
     this.setState(prevState => ({
       fullscreen: !prevState.fullscreen
@@ -111,7 +119,7 @@ class Chapter extends React.Component {
   }
 
   render() {
-    const { bookId, chapter, chapters, contents, fullscreen, fontSize } = this.state;
+    const { bookId, chapter, chapters, contents, fullscreen, fontSize, theme } = this.state;
 
     let chapterMenus = [];
     if (chapters && chapters.items)
@@ -124,14 +132,20 @@ class Chapter extends React.Component {
     return (
       <Page>
         <Helmet title={(chapter & chapter.title) || ''} />
-        <div className={`chapter${fullscreen?'--fullscreen': ''}`}>
-          <Menu mode="horizontal">
+        <div className={`chapter${fullscreen?'--fullscreen': ''} chapter__theme--${theme}`}>
+          <Menu mode="horizontal" theme={theme === 'dark' ? 'dark' : ''}>
             <Menu.Item>
               <Link to={`/books/${bookId}`}><Icon type="book" />View Book</Link>
             </Menu.Item>
 
             <SubMenu title={<span><Icon type="read" />Chapters</span>}>
               {chapterMenus}
+            </SubMenu>
+
+            <SubMenu title={<span><Icon type="font-size" />Theme</span>} onClick={this.changeTheme.bind(this)}>
+              <Menu.Item key="default">Default</Menu.Item>
+              <Menu.Item key="sepia">Sepia</Menu.Item>
+              <Menu.Item key="dark">Dark</Menu.Item>
             </SubMenu>
 
             <SubMenu title={<span><Icon type="font-size" />Text Size</span>} onClick={this.changeFontSize.bind(this)}>
