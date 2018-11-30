@@ -17,9 +17,12 @@ const loadableRoutes = {
     component: loadable(() => import('./Callback')),
     exact: true
   },
-  '//silent_renew': {
+  '/silent_renew': {
     component: loadable(() => import('./silentRefresh')),
     exact: true
+  },
+  '/books/:id/chapters/:chapterId': {
+    component: loadable(() => import('./Chapter/Chapter.jsx')),
   },
   '/books/:id': {
     component: loadable(() => import('./Books/BookPage.jsx')),
