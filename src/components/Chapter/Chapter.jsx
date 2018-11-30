@@ -107,6 +107,14 @@ class Chapter extends React.Component {
   render() {
     const { bookId, chapter, chapters, contents, fullscreen } = this.state;
 
+    let chapterMenus = [];
+    if (chapters && chapters.items)
+    {
+      chapterMenus = chapters.items.map(c =>
+        <Menu.Item key={c.id}>
+          <Link to={`/books/${bookId}/chapters/${c.id}`}>{c.title}</Link>
+        </Menu.Item> );
+    }
     return (
       <Page>
         <Helmet title={(chapter & chapter.title) || ''} />
@@ -115,6 +123,10 @@ class Chapter extends React.Component {
             <Menu.Item>
               <Link to={`/books/${bookId}`}><Icon type="book" />View Book</Link>
             </Menu.Item>
+
+            <SubMenu title={<span><Icon type="read" />Chapters</span>}>
+              {chapterMenus}
+            </SubMenu>
 
             {!fullscreen &&
               <Menu.Item onClick={this.toggleFullscreen.bind(this)}>
