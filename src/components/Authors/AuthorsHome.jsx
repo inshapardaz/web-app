@@ -3,7 +3,7 @@ import { withRouter } from 'react-router'
 
 import { getAuthors } from '../../utils/fetchApi'
 import queryString from 'query-string'
-import { List, Card, Pagination  } from 'antd';
+import { List, Card, Pagination, Link  } from 'antd';
 import Image from '../Image.jsx';
 import Page from '../Layout/Page.jsx';
 

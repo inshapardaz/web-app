@@ -1,0 +1,6 @@
+{
+  "auth" : {
+    "authority" : "http://ipid.azurewebsites.net"
+  },
+  "apiUrl" : "http://api-inshapardaz.azurewebsites.net/api"
+}

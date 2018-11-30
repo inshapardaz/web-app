@@ -1,12 +1,20 @@
 import React from 'react';
 import { getAuthorBooks } from '../../utils/fetchApi';
 
-import BookCell from '../Books/BookCell.jsx';
-import Pager from '../Pager.jsx';
+import BookList from '../Books/BooksList.jsx';
 import rel from '../../utils/rel';
 
 class AuthorBookList extends React.Component
 {
+  constructor(props){
+    super(props);
+    this.state = {
+      isError: false,
+      isLoading: false,
+      authorBooks: { data:[], pageSize: 0, currentPageIndex: 0, totalCount: 0}
+    };
+  }
+
   componentDidMount()
   {
     this.setState({
@@ -65,13 +73,7 @@ class AuthorBookList extends React.Component
     {
       return <div>Loading...</div>;
     }
-    let bookList = authorBooks.data.map(b => <BookCell key={b.id} book={b}></BookCell>);
-    return (<div>
-      <ul>
-         {bookList}
-      </ul>
-      <Pager source={authorBooks} onNext={this.pageChange} onPrev={this.pageChange} />
-    </div>)
+    return (<BookList books={authorBooks} />)
   }
 }
 

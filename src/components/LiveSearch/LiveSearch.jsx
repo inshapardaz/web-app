@@ -1,12 +1,23 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import { Input, Icon } from 'antd'
 import { Checkbox } from 'antd'
+
+import { searchBooks, searchAuthors } from '../../utils/fetchApi';
 import './style.scss'
 
 class LiveSearch extends React.Component {
-  state = {
-    show: false,
-    searchText: '',
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      show: false,
+      searchText: 'حم',
+      searchBooks: true,
+      searchAuthors: true,
+      books: null,
+      authors: null
+    }
   }
 
   showLiveSearch = () => {
@@ -21,6 +32,8 @@ class LiveSearch extends React.Component {
     this.setState({
       show: false,
       searchText: '',
+      books: null,
+      authors: null
     })
   }
 
@@ -33,8 +46,41 @@ class LiveSearch extends React.Component {
   handleKeyDown = event => {
     if (this.state.show) {
       let key = event.keyCode.toString()
-      if (key === '27') {
+      if (key === '27') {  //Escape
         this.hideLiveSearch()
+      }
+      else if (key === '13') { //Enter
+        if (this.state.searchBooks) {
+          searchBooks(this.state.searchText, 1, 6)
+            .then(
+              (result) => {
+                this.setState({
+                  books: result
+                });
+              },
+              (error) => {
+                this.setState({
+                  isError:true
+                });
+              }
+            )
+        }
+
+        if (this.state.searchAuthors) {
+          searchAuthors(this.state.searchText, 1, 6)
+          .then(
+            (result) => {
+              this.setState({
+                authors: result
+              });
+            },
+            (error) => {
+              this.setState({
+                isError:true
+              });
+            }
+          )
+        }
       }
     }
   }
@@ -43,8 +89,97 @@ class LiveSearch extends React.Component {
     document.addEventListener('keydown', this.handleKeyDown, false)
   }
 
+  renderBook(book) {
+    return (
+    <div className="livesearch__result-content" key={book.id}>
+      <div className="livesearch__result-thumb"><i className="icmn icmn-book"/></div>
+      <div className="livesearch__result">
+        <div className="livesearch__result-text">
+          <Link to={`/books/${book.id}`} onClick={this.hideLiveSearch}> {book.title}</Link>
+        </div>
+        <div className="livesearch__result-source">{book.authorName}</div>
+      </div>
+    </div>);
+  }
+
+  renderAuthor(author) {
+    return (
+    <div className="livesearch__result-content" key={author.id}>
+      <div className="livesearch__result-thumb"><i className="icmn icmn-user"/></div>
+      <div className="livesearch__result">
+        <div className="livesearch__result-text">
+          <Link to={`/authors/${author.id}`} onClick={this.hideLiveSearch}> {author.name}</Link>
+        </div>
+        <div className="livesearch__result-source">{author.bookCount} publications</div>
+      </div>
+    </div>);
+  }
+
+  renderBooks(books) {
+    if (!books || books.data.length < 1)
+    {
+      return (<div className="col-lg-8">
+        <div className="livesearch__result-content">
+          <div className="livesearch__result">
+            <span className="livesearch__result-text">No books found matching your query</span>
+          </div>
+        </div>
+      </div>);
+    }
+
+    var bookNodes = books.data.map(b => this.renderBook(b));
+
+    var column1 = (
+      <div className="col-lg-4">
+        {bookNodes.slice(0, 3)}</div>);
+
+    var column2 = (
+    <div className="col-lg-4">
+      {bookNodes.slice(3, 6)}
+    </div>);
+    return (
+      <div className="row">
+        {column1}
+        {bookNodes.length>3 || column2}
+      </div>
+    );
+  }
+
+  renderAuthors(authors) {
+    if (!authors || authors.data.length < 1)
+    {
+      return (<div className="col-lg-8">
+        <div className="livesearch__result-content">
+          <div className="livesearch__result">
+            <span className="livesearch__result-text">No authors found matching your query</span>
+          </div>
+        </div>
+      </div>);
+    }
+
+    var authorNodes = authors.data.map(a => this.renderAuthor(a));
+
+    var column1 = (
+      <div className="col-lg-4">
+        {authorNodes.slice(0, 3)}</div>);
+
+    var column2 = (
+    <div className="col-lg-4">
+      {authorNodes.slice(3, 6)}
+    </div>);
+    return (
+      <div className="row">
+        {column1}
+        {authorNodes.length>3 || column2}
+      </div>
+    );
+  }
+
   render() {
-    let { show, searchText } = this.state
+    let { show, searchText, books, authors } = this.state
+
+    const booksResult = this.renderBooks(books);
+    const authorsResult = this.renderAuthors(authors);
 
     return (
       <div className="d-inline-block mr-4">
@@ -79,91 +214,25 @@ class LiveSearch extends React.Component {
                   ref={ele => (this.searchInput = ele)}
                 />
               </div>
-              {/* <ul className="livesearch__options">
+              <ul className="livesearch__options">
                 <li className="livesearch__option livesearch__option--checkbox">
-                  <Checkbox>Search within page</Checkbox>
+                  <Checkbox checked={this.state.searchBooks}>Search books</Checkbox>
+                </li>
+
+                <li className="livesearch__option livesearch__option--checkbox">
+                  <Checkbox checked={this.state.searchAuthors}>Search Authors</Checkbox>
                 </li>
                 <li className="livesearch__option">Press enter to search</li>
-              </ul> */}
+              </ul>
               <div className="livesearch__results">
                 <div className="livesearch__results-title">
-                  <span className="livesearch__results-title-text">Pages Search Results</span>
+                  <span className="livesearch__results-title-text">Books Search Results</span>
                 </div>
-                <div className="row">
-                  <div className="col-lg-4">
-                    <div className="livesearch__result-content">
-                      <div
-                        className="livesearch__result-thumb"
-                        style={{ backgroundImage: 'url(resources/images/photos/7.jpeg)' }}
-                      >
-                        #1
-                      </div>
-                      <div className="livesearch__result">
-                        <div className="livesearch__result-text">
-                          Text from input field must be here
-                        </div>
-                        <div className="livesearch__result-source">In some partition</div>
-                      </div>
-                    </div>
-                    <div className="livesearch__result-content">
-                      <div
-                        className="livesearch__result-thumb"
-                        style={{ backgroundImage: 'url(resources/images/photos/9.jpeg)' }}
-                      >
-                        KF
-                      </div>
-                      <div className="livesearch__result">
-                        <div className="livesearch__result-text">
-                          Text from input field must be here
-                        </div>
-                        <div className="livesearch__result-source">In some partition</div>
-                      </div>
-                    </div>
-                    <div className="livesearch__result-content">
-                      <div
-                        className="livesearch__result-thumb"
-                        style={{ backgroundImage: 'url(resources/images/photos/8.jpeg)' }}
-                      >
-                        GF
-                      </div>
-                      <div className="livesearch__result">
-                        <div className="livesearch__result-text">
-                          Text from input field must be here
-                        </div>
-                        <div className="livesearch__result-source">In some partition</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div className="livesearch__result-content">
-                      <div className="livesearch__result-thumb">01</div>
-                      <div className="livesearch__result">
-                        <div className="livesearch__result-text">
-                          Text from input field must be here
-                        </div>
-                        <div className="livesearch__result-source">In some partition</div>
-                      </div>
-                    </div>
-                    <div className="livesearch__result-content">
-                      <div className="livesearch__result-thumb">02</div>
-                      <div className="livesearch__result">
-                        <div className="livesearch__result-text">
-                          Text from input field must be here
-                        </div>
-                        <div className="livesearch__result-source">In some partition</div>
-                      </div>
-                    </div>
-                    <div className="livesearch__result-content">
-                      <div className="livesearch__result-thumb">03</div>
-                      <div className="livesearch__result">
-                        <div className="livesearch__result-text">
-                          Text from input field must be here
-                        </div>
-                        <div className="livesearch__result-source">In some partition</div>
-                      </div>
-                    </div>
-                  </div>
+                {booksResult}
+                <div className="livesearch__results-title">
+                  <span className="livesearch__results-title-text">Authors Search Results</span>
                 </div>
+                {authorsResult}
               </div>
             </div>
           </div>

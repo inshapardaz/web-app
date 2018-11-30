@@ -1,18 +1,9 @@
 import React from 'react';
-import { withRouter } from 'react-router'
-
-import { Link } from 'react-router-dom';
 import queryString from 'query-string'
-import { List, Card, Tag  } from 'antd';
-import Image from '../Image.jsx';
-
 import { getBooks } from '../../utils/fetchApi'
 import Page from '../Layout/Page.jsx';
-import IconText from '../IconText.jsx';
-
 import './style.scss';
-
-const { Meta } = Card;
+import BookList from './BooksList.jsx';
 
 class BooksHome extends React.Component
 {
@@ -49,16 +40,16 @@ class BooksHome extends React.Component
           books: result
         });
       },
-      (error) => {
+      () => {
         this.setState({
-          isLoading : false,
-          isError:true
+          isLoading: false,
+          isError: true
         });
       }
     )
   }
 
-  onPageChange = (page, pageSize) =>
+  onPageChange = (page) =>
   {
     this.props.history.push(`/books?page=${page}`);
   }
@@ -67,39 +58,11 @@ class BooksHome extends React.Component
     const { isError, isLoading, books } = this.state;
     return (
       <Page {...this.props} title="Books" isLoading={isLoading} isError={isError}>
-        <List
-            itemLayout="vertical"
-            size="large"
-            pagination={{
-              onChange: this.onPageChange,
-              pageSize: books.pageSize,
-              defaultCurrent: books.currentPageIndex,
-              total: books.totalCount
-            }}
-            dataSource={books.data}
-            renderItem={book => (
-              <List.Item
-                  extra={<Image source={book} height="168" />}
-                  actions={[
-                    <IconText type="star-o" text="156" />,
-                    <IconText type="like-o" text="156" />,
-                    <IconText type="message" text="2" />,
-                    <IconText type={book.isPublic ? 'global': 'lock' }/>,
-                    <IconText type="tags" text={book.categories.map(t => <Tag key={t.id} closable={false}>{t.name}</Tag>)} />
-                    ]}
-                >
-                <Meta
-                  title={<Link to={'/books/' + book.id} >{book.title}</Link>}
-                  description={`By ${book.authorName}`}
-                />
-                {book.description}
-              </List.Item>
-            )}
-          />
+        <BookList books={books} />
       </Page>
     );
   }
 }
 
 //
-export default withRouter(BooksHome);
+export default BooksHome;

@@ -4,6 +4,7 @@ import Image from '../Image.jsx';
 import AuthorBookList from './AuthorBookList.jsx';
 
 import {getAuthor} from '../../utils/fetchApi';
+import Page from '../Layout/Page.jsx';
 
 class AuthorPage extends React.Component
 {
@@ -52,14 +53,15 @@ class AuthorPage extends React.Component
       return null
     }
 
-    return (<div>
-        <h2>{author.name}</h2>
+    return (<Page title={author.name}>
         <br />
           <Image source={author}/>
         <br/>
         <span>Published {author.bookCount} books</span>
-        <AuthorBookList author={author} />
-      </div>);
+        <div class="card">
+          <AuthorBookList author={author} />
+        </div>
+        </Page>);
   }
 }
 

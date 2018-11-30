@@ -3,8 +3,7 @@ import { store } from '../store/configureStore';
 
 class ApiService {
   constructor() {
-    this.utlToApi = 'http://api-inshapardaz.azurewebsites.net/api/';
-    //this.utlToApi = 'http://localhost:5000/api/';
+    this.utlToApi = __CONFIG__.apiUrl;
   }
 
   sign(req) {

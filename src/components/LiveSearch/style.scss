@@ -88,6 +88,7 @@
     margin: 0 0 rem(30);
     padding: 0;
     list-style: none;
+    color: $text-darken;
   }
 
   &__option {
@@ -151,6 +152,7 @@
   &__results-title {
     font-weight: 700;
     margin-bottom: rem(20);
+    color : $text-darken;
   }
 
   &__result-thumb {
@@ -186,6 +188,7 @@
     font-weight: 300;
     font-size: rem(20);
     line-height: 1;
+    color: $text-darken;
 
     @media (max-width: $xs-max-width) {
       font-size: rem(16);

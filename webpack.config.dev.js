@@ -2,6 +2,27 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
+const config = require('config');
+
+const packinize = (obj) => {
+  const ret = Object.assign({}, obj);
+
+  (function pack(o) {
+    Object.keys(o).forEach((key) => {
+      const v = o[key];
+      if (typeof v === 'string' || typeof v === 'boolean') {
+        o[key] = JSON.stringify(v);
+      } else if (
+        (typeof v === 'object') &&
+        (typeof v !== 'function')
+      ) {
+        pack(v);
+      }
+    });
+  }(ret));
+
+  return ret;
+};
 
 export default {
   resolve: {
@@ -28,6 +49,9 @@ export default {
     new HardSourceWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({
+      __CONFIG__: packinize(config)
+    }),
     new HtmlWebpackPlugin({     // Create HTML file that includes references to bundled CSS and JS.
       template: 'src/index.ejs',
       minify: {

@@ -3,11 +3,32 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+const config = require('config');
 import path from 'path';
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
   __DEV__: false
+};
+
+const packinize = (obj) => {
+  const ret = Object.assign({}, obj);
+
+  (function pack(o) {
+    Object.keys(o).forEach((key) => {
+      const v = o[key];
+      if (typeof v === 'string' || typeof v === 'boolean') {
+        o[key] = JSON.stringify(v);
+      } else if (
+        (typeof v === 'object') &&
+        (typeof v !== 'function')
+      ) {
+        pack(v);
+      }
+    });
+  }(ret));
+
+  return ret;
 };
 
 export default {
@@ -30,7 +51,9 @@ export default {
   plugins: [
     // Tells React to build in prod mode. https://facebook.github.io/react/downloads.html
     new webpack.DefinePlugin(GLOBALS),
-
+    new webpack.DefinePlugin({
+      __CONFIG__: packinize(config)
+    }),
     // Generate an external css file with a hash in the filename
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
