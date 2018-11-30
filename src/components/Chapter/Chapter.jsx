@@ -21,7 +21,8 @@ class Chapter extends React.Component {
       chapter: {},
       contents: '',
       chapters: [],
-      fullscreen: false
+      fullscreen: false,
+      fontSize: '100%'
     };
   }
 
@@ -91,6 +92,13 @@ class Chapter extends React.Component {
         }
       )
   }
+  changeFontSize(e)
+  {
+    this.setState({
+      fontSize: e.key
+    });
+  }
+
   toggleFullscreen() {
     this.setState(prevState => ({
       fullscreen: !prevState.fullscreen
@@ -100,12 +108,10 @@ class Chapter extends React.Component {
       document.body.classList.remove('no-scroll')
     else
       document.body.classList.add('no-scroll')
-
-    console.log(document.body.classList);
   }
 
   render() {
-    const { bookId, chapter, chapters, contents, fullscreen } = this.state;
+    const { bookId, chapter, chapters, contents, fullscreen, fontSize } = this.state;
 
     let chapterMenus = [];
     if (chapters && chapters.items)
@@ -128,6 +134,13 @@ class Chapter extends React.Component {
               {chapterMenus}
             </SubMenu>
 
+            <SubMenu title={<span><Icon type="font-size" />Text Size</span>} onClick={this.changeFontSize.bind(this)}>
+              <Menu.Item key="80%">Small</Menu.Item>
+              <Menu.Item key="100%">Medium</Menu.Item>
+              <Menu.Item key="120%">Large</Menu.Item>
+              <Menu.Item key="150%">Extra Large</Menu.Item>
+            </SubMenu>
+
             {!fullscreen &&
               <Menu.Item onClick={this.toggleFullscreen.bind(this)}>
                 <Icon type="fullscreen" />Fullscreen
@@ -138,7 +151,7 @@ class Chapter extends React.Component {
                 <Icon type="fullscreen-exit" />Exit Fullscreen
             </Menu.Item>}
           </Menu>
-          <div className="chapter__contents">
+          <div className="chapter__contents" style={{fontSize: fontSize}}>
             <div className="chapter__title">{chapter && chapter.title}</div>
             <Reader contents={contents.contents} />
           </div>
