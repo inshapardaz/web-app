@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import { Helmet } from 'react-helmet'
+
 import Page from '../Layout/Page.jsx';
 import { getBook, getChapters } from '../../utils/fetchApi';
 import Image from '../Image.jsx';
@@ -13,7 +15,7 @@ class BookPage extends React.Component {
     this.state = {
       isLoading: false,
       isLoadingChapters: false,
-      book: { categories: []},
+      book: { title:'', categories: []},
       chapters: { items: []}
     }
   }
@@ -103,10 +105,9 @@ class BookPage extends React.Component {
       return <div>Error loading book. Please retry.</div>
     }
 
-    console.log(chapters);
-
     return (
       <Page>
+        <Helmet title={book.title} />
         <div className="profile">
           <div className="row">
             <div className="col-xl-4">

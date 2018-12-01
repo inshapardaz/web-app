@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet'
 
 import {Button, Tabs } from 'antd';
 import AuthorBookList from './AuthorBookList.jsx';
@@ -68,6 +69,7 @@ class AuthorPage extends React.Component {
     }
 
     return (<Page>
+      <Helmet title={author.name} />
       <div className="profile">
         <div className="row">
           <div className="col-xl-4">

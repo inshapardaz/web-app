@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router'
 import {Link} from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 import { getAuthors } from '../../utils/fetchApi'
 import queryString from 'query-string'
@@ -64,6 +65,7 @@ class AuthorsHome extends React.Component
 
     return (
       <Page {...this.props} title="Authors" isLoading={isLoading} isError={isError}>
+        <Helmet title="Authors" />
         <List
             grid={{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 4, xxl: 6 }}
             dataSource={authors.data}

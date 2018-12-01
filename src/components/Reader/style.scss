@@ -1,8 +1,25 @@
 .reader
 {
-  p
+  direction: rtl;
+  text-align: initial;
+
+  blockquote
   {
-    direction: rtl;
-    text-align: inherit;
+    text-align: center;
+
+    p
+    {
+      text-align: center;
+    }
+  }
+
+  p {
+    text-align: justify;
+    line-height: 2.0;
+  }
+
+  h1,h2,h3,h4,h5 {
+    font-weight: bold;
+    font-size: 1.5em;
   }
 }

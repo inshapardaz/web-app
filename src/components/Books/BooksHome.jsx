@@ -1,5 +1,6 @@
 import React from 'react';
 import queryString from 'query-string'
+import { Helmet } from 'react-helmet';
 import { getBooks } from '../../utils/fetchApi'
 import Page from '../Layout/Page.jsx';
 import BookList from './BooksList.jsx';
@@ -58,6 +59,7 @@ class BooksHome extends React.Component
     const { isError, isLoading, books } = this.state;
     return (
       <Page {...this.props} title="Books" isLoading={isLoading} isError={isError}>
+        <Helmet title="Books" />
         <BookList books={books} />
       </Page>
     );

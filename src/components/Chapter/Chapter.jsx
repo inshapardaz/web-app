@@ -18,7 +18,7 @@ class Chapter extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
-      chapter: {},
+      chapter: {title: ''},
       contents: '',
       chapters: [],
       fullscreen: false,
@@ -33,6 +33,10 @@ class Chapter extends React.Component {
       match: { params },
     } = this.props
     this.loadData(params.id, params.chapterId);
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove('no-scroll')
   }
 
   componentWillReceiveProps(nextProps) {
@@ -144,7 +148,7 @@ class Chapter extends React.Component {
     }
     return (
       <Page>
-        <Helmet title={(chapter & chapter.title) || ''} />
+        <Helmet title={chapter.title} />
         <div className={`chapter${fullscreen?'--fullscreen': ''} chapter__theme--${theme}`}>
           <Menu mode="horizontal" theme={theme === 'dark' ? 'dark' : ''}>
             <Menu.Item>
@@ -163,6 +167,7 @@ class Chapter extends React.Component {
 
             <SubMenu title={<span><Icon type="font-colors" />Font</span>} onClick={this.changeFont.bind(this)}>
               <Menu.Item key="">Default</Menu.Item>
+              <Menu.Item key="Segoe UI">Segoe UI</Menu.Item>
               <SubMenu title="Nastaleeq">
                 <Menu.Item key="Jameel Noori Nastaleeq">Jameel Noori Nastaleeq</Menu.Item>
                 <Menu.Item key="Mehr-Nastaleeq">Mehr-Nastaleeq</Menu.Item>
@@ -179,11 +184,12 @@ class Chapter extends React.Component {
             </SubMenu>
 
             <SubMenu title={<span><Icon type="font-size" />Text Size</span>} onClick={this.changeFontSize.bind(this)}>
-              <Menu.Item key="80%">Small</Menu.Item>
-              <Menu.Item key="100%">Medium</Menu.Item>
-              <Menu.Item key="120%">Large</Menu.Item>
-              <Menu.Item key="150%">Extra Large</Menu.Item>
-              <Menu.Item key="170%">Huge</Menu.Item>
+              <Menu.Item key="80%">Extra Small</Menu.Item>
+              <Menu.Item key="100%">Small</Menu.Item>
+              <Menu.Item key="120%">Medium</Menu.Item>
+              <Menu.Item key="150%">Large</Menu.Item>
+              <Menu.Item key="170%">Extra Large</Menu.Item>
+              <Menu.Item key="200%">Huge</Menu.Item>
             </SubMenu>
 
             {!fullscreen &&
@@ -196,7 +202,7 @@ class Chapter extends React.Component {
                 <Icon type="fullscreen-exit" />Exit Fullscreen
             </Menu.Item>}
           </Menu>
-          <div className="chapter__contents" style={{fontSize: fontSize, fontFamily: font}}>
+          <div className="chapter__contents" style={{fontSize: fontSize, fontFamily: font ? font : 'inherit'}}>
             <div className="chapter__title">{chapter && chapter.title}</div>
             <Reader contents={contents.contents} />
           </div>
