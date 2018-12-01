@@ -22,7 +22,6 @@ export default [
         icon: 'icmn icmn-heart',
         url: '/books/favorites',
       },
-
       {
         title: 'Latest',
         key: 'latest',
