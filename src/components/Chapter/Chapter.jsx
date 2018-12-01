@@ -22,9 +22,9 @@ class Chapter extends React.Component {
       contents: '',
       chapters: [],
       fullscreen: false,
-      fontSize: '100%',
-      theme: 'default',
-      font: ''
+      fontSize: localStorage.getItem('reader.fontSize')||'100%',
+      theme: localStorage.getItem('reader.theme')||'default',
+      font: localStorage.getItem('reader.font')||''
     };
   }
 
@@ -99,6 +99,8 @@ class Chapter extends React.Component {
     this.setState({
       fontSize: e.key
     });
+
+    localStorage.setItem('reader.fontSize', e.key);
   }
 
   changeTheme(e)
@@ -106,6 +108,7 @@ class Chapter extends React.Component {
     this.setState({
       theme: e.key
     });
+    localStorage.setItem('reader.theme', e.key);
   }
 
   changeFont(e)
@@ -113,6 +116,8 @@ class Chapter extends React.Component {
     this.setState({
       font: e.key
     });
+
+    localStorage.setItem('reader.font', e.key);
   }
 
   toggleFullscreen() {
