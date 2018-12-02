@@ -18,7 +18,6 @@ export default class ApiService {
       headers['Authorization'] = authorization;
     }
 
-    console.log(headers);
     let options = {
       url: url,
       method: 'get',
@@ -26,83 +25,69 @@ export default class ApiService {
       headers: headers
     }
 
-    return axios(options);
+    return axios(options)
+      .then(res => res.data);
   }
 
   getEntry() {
-    return this.get(baseUrl)
-      .then(res => res.data);
+    return this.get(baseUrl);
   }
 
   getCategories() {
-    return this.get(`${baseUrl}/categories`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/categories`);
   }
 
   getRecentBooks() {
-    return this.get(`${baseUrl}/books/recent`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/books/recent`);
   }
 
   getLatestBooks() {
-    return this.get(`${baseUrl}/books/latest`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/books/latest`);
   }
 
   getFavoriteBooks() {
-    return this.get(`${baseUrl}/books/favorites`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/books/favorite`);
   }
 
   searchBooks(query, page = 1) {
-    return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=6`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=6`);
   }
 
   getBooks(category = null, page = 1) {
     const url = category ? `${baseUrl}/categories/${category}/books` : `${baseUrl}/books`;
-    return this.get(`${url}?pageNumber=${page}&pageSize=12`)
-      .then(res => res.data);
+    return this.get(`${url}?pageNumber=${page}&pageSize=12`);
   }
 
   getBook(id) {
-    return this.get(`${baseUrl}/books/${id}`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/books/${id}`);
   }
 
   getChapters(id) {
-    return this.get(`${baseUrl}/books/${id}/chapters`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/books/${id}/chapters`);
   }
 
   getChapter(id, chapterId) {
-    return this.get(`${baseUrl}/books/${id}/chapters/${chapterId}`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/books/${id}/chapters/${chapterId}`);
   }
 
   getChapterContents(id, chapterId) {
-    return this.get(`${baseUrl}/books/${id}/chapters/${chapterId}/contents`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/books/${id}/chapters/${chapterId}/contents`);
   }
 
   getAuthors(page = 1) {
-    return this.get(`${baseUrl}/authors?pageNumber=${page}&pageSize=12`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/authors?pageNumber=${page}&pageSize=12`);
   }
 
   searchAuthors(query, page = 1) {
-    return this.get(`${baseUrl}/authors?query=${query}&pageNumber=${page}&pageSize=6`)
-      .then(res => res.data);
+    return this.get(`${baseUrl}/authors?query=${query}&pageNumber=${page}&pageSize=6`);
   }
 
   getAuthor(id) {
-    return this.get(`${baseUrl}/authors/${id}`)
-      .then(res => res.data)
+    return this.get(`${baseUrl}/authors/${id}`);
   }
 
   getAuthorBooks(link) {
-    return this.get(link)
-      .then(res => res.data)
+    return this.get(link);
   }
 
 }

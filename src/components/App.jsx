@@ -10,37 +10,36 @@ import { Helmet } from 'react-helmet'
 import { LocaleProvider } from 'antd'
 import enGB from 'antd/lib/locale-provider/en_GB'
 
+import { getEntry } from '../actions/ui';
 import userManager from '../utils/userManager';
 import Layout from './Layout/Layout.jsx'
-
-import ApiService from '../services/api'
 
 class App extends React.Component {
   constructor(props)
   {
     super(props);
-    this.api = new ApiService(props.user);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({
       isLoading: true
     });
-    this.api.getEntry()
-      .then(
-        (result) => {
-          this.setState({
-            isLoading: false
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoading: false,
-            isError: true
-          });
-          this.props.history.push('/error');
-        }
-      );
+
+    try
+    {
+      await this.props.getEntry();
+      this.setState({
+        isLoading: false
+      });
+    }
+    catch
+    {
+      this.setState({
+        isLoading: false,
+        isError: true
+      });
+      this.props.history.push('/error');
+    }
 
     this.setState({
       isLoading: false
@@ -80,6 +79,6 @@ export default hot(module)(connect(
     user: state.oidc.user
   }),
   dispatch => bindActionCreators({
-
+    getEntry: getEntry
   }, dispatch)
 )(App));

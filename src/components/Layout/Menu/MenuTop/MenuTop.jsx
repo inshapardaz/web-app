@@ -8,6 +8,8 @@ import { default as menuData } from '../menuData'
 import LiveSearch from '../../../LiveSearch/LiveSearch.jsx';
 import ProfileMenu from '../../../ProfileMenu.jsx';
 import ApiService from '../../../../services/api'
+import rel from '../../../../utils/rel';
+
 import './style.scss'
 
 const SubMenu = Menu.SubMenu
@@ -130,9 +132,37 @@ class MenuTop extends React.Component {
   }
 
   componentDidMount() {
-    const api = new ApiService(this.props.user);
+    console.log(this.props.entry)
+    if (this.props.entry){
+      this.loadCategories(rel(this.props.entry.links, 'categories'));
+    }
+  }
 
-    api.getCategories()
+  componentWillReceiveProps(newProps) {
+    console.log(newProps.entry)
+    if (newProps.entry){
+      this.loadCategories(rel(newProps.entry.links, 'categories'));
+    }
+
+    this.setState(
+      {
+        theme: newProps.theme,
+        settingsOpened: newProps.settingsOpened,
+      },
+      () => {
+        if (!newProps.isMobile) {
+          this.getActiveMenuItem(newProps, menuData)
+        }
+      },
+    )
+  }
+
+
+  loadCategories(link)
+  {
+    console.log(`loadCategories(${link})`);
+    const api = new ApiService(this.props.user);
+    api.get(link)
       .then(
         (result) => {
           this.setState({
@@ -148,21 +178,6 @@ class MenuTop extends React.Component {
         }
       )
   }
-
-  componentWillReceiveProps(newProps) {
-    this.setState(
-      {
-        theme: newProps.theme,
-        settingsOpened: newProps.settingsOpened,
-      },
-      () => {
-        if (!newProps.isMobile) {
-          this.getActiveMenuItem(newProps, menuData)
-        }
-      },
-    )
-  }
-
   render() {
     const { selectedKeys, openKeys, theme, categories } = this.state
     const { isMobile } = this.props
@@ -219,13 +234,14 @@ class MenuTop extends React.Component {
 }
 
 export default withRouter(connect(
-  ({ app, routing, oidc }, props) => {
+  ({ app, routing, oidc, apiReducer }, props) => {
     const { layoutState } = app
     return {
       user: oidc.user,
       collapsed: layoutState.menuCollapsed,
       theme: layoutState.themeLight ? 'light' : 'dark',
-      settingsOpened: layoutState.settingsOpened
+      settingsOpened: layoutState.settingsOpened,
+      entry: apiReducer.entry
     }
   },
   null

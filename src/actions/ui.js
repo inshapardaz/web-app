@@ -1,5 +1,6 @@
 import { createAction } from 'redux-act'
 import { pendingTask, begin, end } from 'react-redux-spinner'
+import ApiService from '../services/api';
 
 const NS = `@@${REDUCER}/`
 const REDUCER = 'app'
@@ -28,4 +29,17 @@ export const resetHideLogin = () => (dispatch, getState) => {
     dispatch(_setHideLogin(false))
   }
   return Promise.resolve()
+}
+
+export function getEntry(){
+  return async (dispatch, getState) =>
+	{
+    const api = new ApiService(getState().oidc.user);
+    const entry = await api.getEntry();
+
+    dispatch({
+      type: 'ENTRY',
+      payload: entry
+    });
+  }
 }

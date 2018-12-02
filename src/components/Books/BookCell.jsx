@@ -7,17 +7,17 @@ import Image from '../Image.jsx';
 class BookCell extends React.Component
 {
   render(){
-    console.log('rendering book');
-    if (this.props.book)
+    const {book} = this.props;
+
+    if (book)
     {
-      const book = this.props.book;
       return (
-        <li>
+        <div>
           <Image source={book} />
           <Link to={'/books/' + book.id} >{book.title}</Link>
           <span>By <Link to={'/authors/' + book.authorId}>{book.authorName}</Link></span>
           <span>{book.description}</span>
-        </li>
+        </div>
       );
     }
 
