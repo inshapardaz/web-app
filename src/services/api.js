@@ -1,5 +1,6 @@
 import { request, plugins } from 'popsicle';
-import { store } from '../store/configureStore';
+//import { store } from '../store/configureStore';
+/*global __CONFIG__*/
 
 class ApiService {
   constructor() {

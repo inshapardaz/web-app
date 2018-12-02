@@ -1,3 +1,4 @@
+/* global __CONFIG__*/
 const baseUrl = __CONFIG__.apiUrl;
 
 export function entry(){
@@ -36,12 +37,6 @@ export function getBooks(category = null, page = 1)
 {
   const url = category ? `${baseUrl}/categories/${category}/books` : `${baseUrl}/books`;
   return fetch(`${url}?pageNumber=${page}&pageSize=12`)
-          .then(res => res.json());
-}
-
-export function getBooksByUrl(link)
-{
-  return fetch(`${baseUrl}/books`)
           .then(res => res.json());
 }
 

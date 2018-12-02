@@ -9,7 +9,6 @@ import LiveSearch from '../../../LiveSearch/LiveSearch.jsx';
 import ProfileMenu from '../../../ProfileMenu.jsx';
 import { getCategories } from '../../../../utils/fetchApi'
 import './style.scss'
-import MenuItem from 'antd/lib/menu/MenuItem';
 
 const SubMenu = Menu.SubMenu
 const Divider = Menu.Divider

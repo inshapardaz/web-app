@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 const config = require('config');
@@ -52,6 +53,9 @@ export default {
     new webpack.DefinePlugin({
       __CONFIG__: packinize(config)
     }),
+    new CopyWebpackPlugin([
+      {from:'src/resources',to:'resources'}
+    ]),
     new HtmlWebpackPlugin({     // Create HTML file that includes references to bundled CSS and JS.
       template: 'src/index.ejs',
       minify: {

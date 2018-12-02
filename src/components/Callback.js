@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 import { CallbackComponent } from "redux-oidc";
-import { push } from "connected-react-router";
 import userManager from "../utils/userManager";
-import PropTypes from "prop-types";
 
 class CallbackPage extends React.Component {
   render() {
@@ -11,15 +10,18 @@ class CallbackPage extends React.Component {
       <CallbackComponent
         userManager={userManager}
         successCallback={() => this.props.history.push("/")}
-        errorCallback={error => {
+        errorCallback={() => {
           this.props.history.push("/");
-          console.error(error);
         }}
         >
         <div>Redirecting...</div>
       </CallbackComponent>
     );
   }
+}
+
+CallbackPage.propTypes = {
+  history: PropTypes.object.isRequired
 }
 
 export default connect()(CallbackPage);

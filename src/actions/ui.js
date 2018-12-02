@@ -4,9 +4,9 @@ import { pendingTask, begin, end } from 'react-redux-spinner'
 const NS = `@@${REDUCER}/`
 const REDUCER = 'app'
 
-const _setFrom = createAction(`${NS}SET_FROM`)
-const _setLoading = createAction(`${NS}SET_LOADING`)
-const _setHideLogin = createAction(`${NS}SET_HIDE_LOGIN`)
+export const _setFrom = createAction(`${NS}SET_FROM`)
+export const _setLoading = createAction(`${NS}SET_LOADING`)
+export const _setHideLogin = createAction(`${NS}SET_HIDE_LOGIN`)
 
 export const setUserState = createAction(`${NS}SET_USER_STATE`)
 export const setUpdatingContent = createAction(`${NS}SET_UPDATING_CONTENT`)

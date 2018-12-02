@@ -6,5 +6,5 @@ const addLocation = connect(state => ({
   location: state.routing.location,
 }))
 
-export const ConnectedSwitch = addLocation(({ location, ...props }) => <Switch {...props} />)
+export const ConnectedSwitch = addLocation(({...props }) => <Switch {...props} />)
 export const ConnectedRoute = addLocation(props => <Route {...props} />)

@@ -1,4 +1,5 @@
 import { createUserManager } from 'redux-oidc';
+/*global __CONFIG__*/
 
 const userManagerConfig = {
   client_id: 'inshapardaz-web',

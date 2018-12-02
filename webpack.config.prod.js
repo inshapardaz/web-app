@@ -1,7 +1,6 @@
-// For info about this file refer to webpack and webpack-hot-middleware documentation
-// For info on how we're generating bundles with hashed filenames for cache busting: https://medium.com/@okonetchnikov/long-term-caching-of-static-assets-with-webpack-1ecb139adb95#.w99i89nsz
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 const config = require('config');
 import path from 'path';
@@ -54,6 +53,9 @@ export default {
     new webpack.DefinePlugin({
       __CONFIG__: packinize(config)
     }),
+    new CopyWebpackPlugin([
+      {from:'src/resources',to:'resources'}
+    ]),
     // Generate an external css file with a hash in the filename
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'

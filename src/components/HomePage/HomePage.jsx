@@ -8,13 +8,6 @@ import FavoriteBooks from './FavoriteBooks.jsx';
 import Page from '../Layout/Page.jsx';
 
 class HomePage extends React.Component {
-  componentDidMount(){
-    console.log('component did mount');
-  }
-
-  componentWillUnmount(){
-    console.log('component unmounted');
-  }
   render() {
     return (
       <Page>
