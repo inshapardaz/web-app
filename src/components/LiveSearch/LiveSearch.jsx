@@ -1,9 +1,11 @@
 import React from 'react'
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom'
 import { Input, Icon } from 'antd'
 import { Checkbox } from 'antd'
 
-import { searchBooks, searchAuthors } from '../../utils/fetchApi';
+import ApiService from '../../services/api';
+
 import './style.scss'
 
 class LiveSearch extends React.Component {
@@ -50,8 +52,9 @@ class LiveSearch extends React.Component {
         this.hideLiveSearch()
       }
       else if (key === '13') { //Enter
+        const api = new ApiService(this.props.user);
         if (this.state.searchBooks) {
-          searchBooks(this.state.searchText, 1, 6)
+          api.searchBooks(this.state.searchText, 1, 6)
             .then(
               (result) => {
                 this.setState({
@@ -67,7 +70,7 @@ class LiveSearch extends React.Component {
         }
 
         if (this.state.searchAuthors) {
-          searchAuthors(this.state.searchText, 1, 6)
+          api.searchAuthors(this.state.searchText, 1, 6)
           .then(
             (result) => {
               this.setState({
@@ -242,4 +245,7 @@ class LiveSearch extends React.Component {
   }
 }
 
-export default LiveSearch
+export default connect(
+  state => ({
+    user: state.oidc.user
+}), null)(LiveSearch);

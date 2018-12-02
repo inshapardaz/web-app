@@ -13,32 +13,43 @@ import enGB from 'antd/lib/locale-provider/en_GB'
 import userManager from '../utils/userManager';
 import Layout from './Layout/Layout.jsx'
 
-import { getEntry } from '../actions/api'
+import ApiService from '../services/api'
 
 class App extends React.Component {
-  async componentDidMount(){
+  constructor(props)
+  {
+    super(props);
+    this.api = new ApiService(props.user);
+  }
+
+  componentDidMount() {
     this.setState({
-      isLoading : true
+      isLoading: true
     });
-    try
-    {
-      let entry = await this.props.entry();
-    }
-    catch (error)
-    {
-      console.log("ERROR" + error);
-      this.props.history.push('/error');
-    }
+    this.api.getEntry()
+      .then(
+        (result) => {
+          this.setState({
+            isLoading: false
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoading: false,
+            isError: true
+          });
+          this.props.history.push('/error');
+        }
+      );
 
     this.setState({
-      isLoading : false
+      isLoading: false
     });
   }
 
   render() {
     const { store, history } = this.props;
-    if (this.props.isLoading)
-    {
+    if (this.props.isLoading) {
       return <div>Loading...</div>
     }
 
@@ -63,11 +74,12 @@ export default hot(module)(connect(
   (state, props) => ({
     history: state.history,
     entry: state.entry,
-    isLoading:  state.isLoading,
-    store : props.store,
-    history: props.history
+    isLoading: state.isLoading,
+    store: props.store,
+    history: props.history,
+    user: state.oidc.user
   }),
-	dispatch => bindActionCreators({
-		entry: getEntry
-	}, dispatch)
+  dispatch => bindActionCreators({
+
+  }, dispatch)
 )(App));

@@ -1,9 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router'
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
-import { getAuthors } from '../../utils/fetchApi'
+import ApiService from '../../services/api';
+
 import queryString from 'query-string'
 import { List, Card, Pagination  } from 'antd';
 import Image from '../Image.jsx';
@@ -43,7 +45,8 @@ class AuthorsHome extends React.Component
       isLoading : true
     });
 
-    getAuthors(page)
+    const api = new ApiService(this.props.user);
+    api.getAuthors(page)
     .then(
       (result) => {
         this.setState({
@@ -92,4 +95,7 @@ class AuthorsHome extends React.Component
   }
 }
 
-export default withRouter(AuthorsHome);
+export default withRouter(connect(
+  state => ({
+    user: state.oidc.user
+}), null)(AuthorsHome));

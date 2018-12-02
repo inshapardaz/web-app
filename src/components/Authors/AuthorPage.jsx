@@ -1,10 +1,12 @@
 import React from 'react';
 import { Helmet } from 'react-helmet'
+import {connect} from 'react-redux';
 
 import {Button, Tabs } from 'antd';
 import AuthorBookList from './AuthorBookList.jsx';
 
-import { getAuthor } from '../../utils/fetchApi';
+import ApiService from '../../services/api';
+
 import Page from '../Layout/Page.jsx';
 import './style.scss'
 import rel from '../../utils/rel';
@@ -34,7 +36,8 @@ class AuthorPage extends React.Component {
       isLoading: true
     });
 
-    getAuthor(id)
+    const api = new ApiService(this.props.user);
+    api.getAuthor(id)
       .then(
         (result) => {
           this.setState({
@@ -138,4 +141,7 @@ class AuthorPage extends React.Component {
   }
 }
 
-export default AuthorPage;
+export default connect(
+  state => ({
+    user: state.oidc.user
+}), null)(AuthorPage);

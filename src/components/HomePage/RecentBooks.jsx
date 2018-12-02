@@ -1,50 +1,59 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import ApiService from '../../services/api';
 
-import { getRecentBook } from '../../actions/api';
+class RecentBooks extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      isError: false,
+      recentBooks: []
+    };
+  }
 
-class RecentBooks extends React.Component
-{
-  async componentDidMount()
-  {
+  componentDidMount() {
     this.setState({
-      isLoading : true
+      isLoading: true
     });
-    try
-    {
-      await this.props.getRecentBook();
-    }
-    catch(error)
-    {
-      this.setState({
-        isError : true
-      });
-    }
+
+    const api = new ApiService(this.props.user);
+    api.getRecentBooks()
+      .then(
+        (result) => {
+          this.setState({
+            isLoading: false,
+            recentBooks: result
+          });
+        },
+        () => {
+          this.setState({
+            isLoading: false,
+            isError: true
+          });
+        }
+      );
 
     this.setState({
-      isLoading : true
+      isLoading: true
     });
   }
 
-  render()
-  {
-    if (this.props.isLoading || !this.props.recentBooks)
-    {
+  render() {
+    const { isLoading, isError, recentBooks } = this.state;
+
+    if (isLoading || !recentBooks) {
       return <div>Loading...</div>
     }
-    else if (this.props.isError){
-      return <div>Error loading recent books</div> ;
+    else if (isError) {
+      return <div>Error loading recent books</div>;
     }
-    else
-    {
-      if (this.props.recentBooks.length > 0)
-      {
-        var items = this.props.recentBooks.map(item => <li key={item.id}>{item.name}</li>);
+    else {
+      if (recentBooks.length > 0) {
+        var items = recentBooks.map(item => <li key={item.id}>{item.name}</li>);
         return <ul>{items}</ul>
       }
-      else
-      {
+      else {
         return <div>No recently read book. Why not start reading some books.</div>
       }
     }
@@ -53,9 +62,5 @@ class RecentBooks extends React.Component
 
 export default connect(
   state => ({
-    isLoading : state.isLoading,
-    recentBooks : state.apiReducer.recentBooks
-  }),
-  dispatch => bindActionCreators({
-    getRecentBook
-  }, dispatch))(RecentBooks)
+    user: state.oidc.user
+}), null)(RecentBooks);

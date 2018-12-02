@@ -4,7 +4,6 @@ import { reducer as oidcReducer } from 'redux-oidc';
 import authenticationReducer from './authenticationReducer';
 import { pendingTasksReducer } from 'react-redux-spinner'
 import { routerReducer } from 'react-router-redux'
-import apiReducer from './api';
 import app from './uiReducer';
 
 const rootReducer = combineReducers({
@@ -12,8 +11,7 @@ const rootReducer = combineReducers({
   routing: routerReducer,
   authenticationReducer,
   pendingTasksReducer,
-  app,
-  apiReducer
+  app
 });
 
 export default rootReducer;

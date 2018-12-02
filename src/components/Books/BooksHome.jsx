@@ -1,7 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import queryString from 'query-string'
 import { Helmet } from 'react-helmet';
-import { getBooks } from '../../utils/fetchApi'
+import ApiService from '../../services/api';
 import Page from '../Layout/Page.jsx';
 import BookList from './BooksList.jsx';
 
@@ -32,8 +33,8 @@ class BooksHome extends React.Component
     this.setState({
       isLoading : true
     });
-
-    getBooks(category, page)
+    const api = new ApiService(this.props.user);
+    api.getBooks(category, page)
     .then(
       (result) => {
         this.setState({
@@ -67,4 +68,7 @@ class BooksHome extends React.Component
 }
 
 //
-export default BooksHome;
+export default connect(
+  state => ({
+    user: state.oidc.user
+}), null)(BooksHome);

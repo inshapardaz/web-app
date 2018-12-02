@@ -1,5 +1,7 @@
 import React from 'react';
-import { getAuthorBooks } from '../../utils/fetchApi';
+import {connect} from 'react-redux';
+
+import ApiService from '../../services/api';
 
 import BookList from '../Books/BooksList.jsx';
 import rel from '../../utils/rel';
@@ -13,6 +15,8 @@ class AuthorBookList extends React.Component
       isLoading: false,
       authorBooks: { data:[], pageSize: 0, currentPageIndex: 0, totalCount: 0}
     };
+
+    this.api = new ApiService(this.state.oidc.user);
   }
 
   componentDidMount()
@@ -21,7 +25,8 @@ class AuthorBookList extends React.Component
       isLoading : true
     });
 
-    getAuthorBooks(rel(this.props.author.links, 'books'))
+    const api = new ApiService(this.props.user);
+    api.getAuthorBooks(rel(this.props.author.links, 'books'))
     .then(
       (result) => {
         this.setState({
@@ -77,4 +82,7 @@ class AuthorBookList extends React.Component
   }
 }
 
-export default AuthorBookList;
+export default connect(
+  state => ({
+    user: state.oidc.user
+}), null)(AuthorBookList);

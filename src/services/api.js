@@ -1,104 +1,109 @@
-import { request, plugins } from 'popsicle';
-//import { store } from '../store/configureStore';
-/*global __CONFIG__*/
+/* global __CONFIG__*/
+const baseUrl = __CONFIG__.apiUrl;
 
-class ApiService {
-  constructor() {
-    this.utlToApi = __CONFIG__.apiUrl;
+export default class ApiService {
+  constructor(user) {
+    this.user = user
   }
+  get(url) {
+    let headers = {
+      'Accept' : 'application/json',
+      'Content-Type': 'application/json'
+    };
 
-  sign(req) {
-    // console.log(store.createStore());
-    // const user = store.getState().oidc.user;
-
-    // if (user && user.access_token) {
-    //   const token = user.access_token;
-    //   var authorization = 'Basic ' + token;
-    //   req.set('Authorization', authorization)
-    // }
-
-    return req;
-  }
-
-  async get(url) {
-    let response;
-
-    try
-    {
-      response = await request(this.sign({
-          url, method: 'GET', timeout: 5000
-        }))
-        .use(
-          plugins.parse('json')
-        );
-    }
-    catch (requestError) {
-      throw new Error(`Request error. ${requestError}`);
+    if (this.user && this.user.access_token) {
+      const token = this.user.access_token;
+      var authorization = 'Basic ' + token;
+      headers['Authorization'] = authorization;
     }
 
-    switch (response.status) {
-      case 401:
-
-        //Refresh token here
-        //this.authenticationService.authenticate();
-
-        return null;
-
-      case 404:
-
-        return null;
-
-      case 200:
-        return response.body;
-
-      default:
-
-        throw new Error(`Request has failed with status code ${response.status}.`);
+    console.log(headers);
+    let options = {
+      method: 'get',
+      headers: new Headers({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      })
     }
+    var request = new Request(url, options);
+
+    return fetch(url, request);
   }
 
-  async entry(){
-    return await this.get(this.utlToApi);
+  getEntry() {
+    return this.get(baseUrl)
+      .then(res => res.json());
   }
 
-  async getRecentBooks(){
-
-    return await this.get(`${this.utlToApi}/books/recent`);
+  getCategories() {
+    return this.get(`${baseUrl}/categories`)
+      .then(res => res.json());
   }
 
-  async getLatestBooks(){
-    return await this.get(`${this.utlToApi}/books/latest`);
+  getRecentBooks() {
+    return this.get(`${baseUrl}/books/recent`)
+      .then(res => res.json());
   }
 
-  async getFavoriteBooks(){
-    return await this.get(`${this.utlToApi}/books/favorite`);
+  getLatestBooks() {
+    return this.get(`${baseUrl}/books/latest`)
+      .then(res => res.json());
   }
 
-  async getBooks(link)
-  {
-    return await this.get(link || `${this.utlToApi}/books`);
+  getFavoriteBooks() {
+    return this.get(`${baseUrl}/books/favorite`)
+      .then(res => res.json());
   }
 
-  async getBook(id)
-  {
-    return await this.get(`${this.utlToApi}/books/${id}`);
+  searchBooks(query, page = 1) {
+    return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=6`)
+      .then(res => res.json());
   }
 
-  async getAuthors(link)
-  {
-    return await this.get(link || `${this.utlToApi}/authors`);
+  getooks(category = null, page = 1) {
+    const url = category ? `${baseUrl}/categories/${category}/books` : `${baseUrl}/books`;
+    return this.get(`${url}?pageNumber=${page}&pageSize=12`)
+      .then(res => res.json());
   }
 
-  async getAuthor(id)
-  {
-    return await this.get(`${this.utlToApi}/authors/${id}`);
+  getBook(id) {
+    return this.get(`${baseUrl}/books/${id}`)
+      .then(res => res.json());
   }
 
-  async getAuthorBooks(link)
-  {
-    return await this.get(link);
+  getChapters(id) {
+    return this.get(`${baseUrl}/books/${id}/chapters`)
+      .then(res => res.json());
   }
+
+  getChapter(id, chapterId) {
+    return this.get(`${baseUrl}/books/${id}/chapters/${chapterId}`)
+      .then(res => res.json());
+  }
+
+  getChapterContents(id, chapterId) {
+    return this.get(`${baseUrl}/books/${id}/chapters/${chapterId}/contents`)
+      .then(res => res.json());
+  }
+
+  getAuthors(page = 1) {
+    return this.get(`${baseUrl}/authors?pageNumber=${page}&pageSize=12`)
+      .then(res => res.json())
+  }
+
+  searchAuthors(query, page = 1) {
+    return this.get(`${baseUrl}/authors?query=${query}&pageNumber=${page}&pageSize=6`)
+      .then(res => res.json());
+  }
+
+  getAuthor(id) {
+    return this.get(`${baseUrl}/authors/${id}`)
+      .then(res => res.json())
+  }
+
+  getAuthorBooks(link) {
+    return this.get(link)
+      .then(res => res.json())
+  }
+
 }
-
-
-export default ApiService;

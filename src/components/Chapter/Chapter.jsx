@@ -1,9 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 import Page from '../Layout/Page.jsx';
 import { Helmet } from 'react-helmet'
 
-import { getChapters, getChapter, getChapterContents } from '../../utils/fetchApi';
+import ApiService from '../../services/api';
 
 import Reader from '../Reader/Reader.jsx';
 
@@ -51,7 +52,8 @@ class Chapter extends React.Component {
       bookId: bookId,
       isLoading: true,
     });
-    getChapterContents(bookId, chapterId)
+    const api = new ApiService(this.props.user);
+    api.getChapterContents(bookId, chapterId)
       .then(
         (result) => {
           this.setState({
@@ -65,8 +67,8 @@ class Chapter extends React.Component {
             isError: true
           });
         }
-      )
-    getChapter(bookId, chapterId)
+      );
+    api.getChapter(bookId, chapterId)
       .then(
         (result) => {
           this.setState({
@@ -82,7 +84,7 @@ class Chapter extends React.Component {
         }
       )
 
-    getChapters(bookId)
+    api.getChapters(bookId)
       .then(
         (result) => {
           this.setState({
@@ -212,4 +214,7 @@ class Chapter extends React.Component {
   }
 }
 
-export default Chapter
+export default connect(
+  state => ({
+    user: state.oidc.user
+}), null)(Chapter)

@@ -1,50 +1,60 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import ApiService from '../../services/api';
 
-import { getFavoriteBook } from '../../actions/api';
+class FavoriteBooks extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      isError: false,
+      favoriteBooks: []
+    };
+  }
 
-class FavoriteBooks extends React.Component
-{
-  async componentDidMount()
-  {
+  componentDidMount() {
     this.setState({
-      isLoading : true
+      isLoading: true
     });
-    try
-    {
-      await this.props.getFavoriteBook();
-    }
-    catch(error)
-    {
-      this.setState({
-        isError : true
-      });
-    }
+
+    const api = new ApiService(this.props.user);
+
+    api.getFavoriteBooks()
+      .then(
+        (result) => {
+          this.setState({
+            isLoading: false,
+            favoriteBooks: result
+          });
+        },
+        () => {
+          this.setState({
+            isLoading: false,
+            isError: true
+          });
+        }
+      );
 
     this.setState({
-      isLoading : true
+      isLoading: true
     });
   }
 
-  render()
-  {
-    if (this.props.isLoading || !this.props.favoriteBooks)
-    {
+  render() {
+    const { isLoading, isError, favoriteBooks } = this.state;
+
+    if (isLoading || !favoriteBooks) {
       return <div>Loading...</div>;
     }
-    else if (this.props.isError){
-      return <div>Error loading favorites</div> ;
+    else if (isError) {
+      return <div>Error loading favorites</div>;
     }
-    else
-    {
-      if (this.props.favoriteBooks.length > 0)
-      {
-        var items = this.props.favoriteBooks.map(item => <li key={item.id}>{item.name}</li>);
+    else {
+      if (favoriteBooks.length > 0) {
+        var items = favoriteBooks.map(item => <li key={item.id}>{item.name}</li>);
         return <ul>{items}</ul>
       }
-      else
-      {
+      else {
         return <div>No favorites found.</div>
       }
     }
@@ -53,9 +63,5 @@ class FavoriteBooks extends React.Component
 
 export default connect(
   state => ({
-    isLoading : state.isLoading,
-    favoriteBooks : state.apiReducer.favoriteBooks
-  }),
-  dispatch => bindActionCreators({
-    getFavoriteBook
-  }, dispatch))(FavoriteBooks)
+    user: state.oidc.user
+}), null)(FavoriteBooks);

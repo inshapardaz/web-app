@@ -1,51 +1,61 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import { getLatestBooks } from '../../actions/api';
+import {connect} from 'react-redux';
+import ApiService from '../../services/api';
 import BookBadge from './BookBadge.jsx';
 
-class LatestBooks extends React.Component
-{
-  async componentDidMount()
-  {
+class LatestBooks extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      isError: false,
+      latestBooks: []
+    };
+  }
+
+  componentDidMount() {
     this.setState({
-      isLoading : true
+      isLoading: true
     });
-    try
-    {
-      await this.props.getLatestBooks();
-    }
-    catch(error)
-    {
-      this.setState({
-        isError : true
-      });
-    }
+
+    const api = new ApiService(this.props.user);
+
+    api.getLatestBooks()
+      .then(
+        (result) => {
+          this.setState({
+            isLoading: false,
+            latestBooks: result
+          });
+        },
+        () => {
+          this.setState({
+            isLoading: false,
+            isError: true
+          });
+        }
+      );
 
     this.setState({
-      isLoading : true
+      isLoading: true
     });
   }
 
-  render()
-  {
-    if (this.props.isLoading || !this.props.latestBooks)
-    {
+  render() {
+    const { isLoading, isError, latestBooks } = this.state;
+
+    if (isLoading || !latestBooks) {
       return <div>Loading...</div>
     }
-    else if (this.props.isError){
-      return <div>Error loading latest books</div> ;
+    else if (isError) {
+      return <div>Error loading latest books</div>;
     }
-    else
-    {
-      if (this.props.latestBooks.length > 0)
-      {
-        var items = this.props.latestBooks.map(item => <BookBadge key={item.id} book={item} />);
+    else {
+      if (latestBooks.length > 0) {
+        var items = latestBooks.map(item => <BookBadge key={item.id} book={item} />);
         return <ul>{items}</ul>
       }
-      else
-      {
+      else {
         return <div>No Books found.</div>
       }
     }
@@ -54,9 +64,5 @@ class LatestBooks extends React.Component
 
 export default connect(
   state => ({
-    isLoading : state.isLoading,
-    latestBooks : state.apiReducer.latestBooks
-  }),
-  dispatch => bindActionCreators({
-    getLatestBooks
-  }, dispatch))(LatestBooks)
+    user: state.oidc.user
+}), null)(LatestBooks)

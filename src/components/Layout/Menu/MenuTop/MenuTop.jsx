@@ -7,7 +7,7 @@ import { setLayoutState } from '../../../../actions/ui'
 import { default as menuData } from '../menuData'
 import LiveSearch from '../../../LiveSearch/LiveSearch.jsx';
 import ProfileMenu from '../../../ProfileMenu.jsx';
-import { getCategories } from '../../../../utils/fetchApi'
+import ApiService from '../../../../services/api'
 import './style.scss'
 
 const SubMenu = Menu.SubMenu
@@ -24,6 +24,11 @@ class MenuTop extends React.Component {
     isError: false,
     isLoading: false,
     categories: []
+  }
+
+  constructor(props)
+  {
+    super(props);
   }
 
   handleClick = e => {
@@ -125,7 +130,9 @@ class MenuTop extends React.Component {
   }
 
   componentDidMount() {
-    getCategories()
+    const api = new ApiService(this.props.user);
+
+    api.getCategories()
       .then(
         (result) => {
           this.setState({
@@ -212,10 +219,10 @@ class MenuTop extends React.Component {
 }
 
 export default withRouter(connect(
-  ({ app, routing }, props) => {
+  ({ app, routing, oidc }, props) => {
     const { layoutState } = app
     return {
-      //pathname: routing.location.pathname,
+      user: oidc.user,
       collapsed: layoutState.menuCollapsed,
       theme: layoutState.themeLight ? 'light' : 'dark',
       settingsOpened: layoutState.settingsOpened

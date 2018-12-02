@@ -1,9 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import { Helmet } from 'react-helmet'
 
 import Page from '../Layout/Page.jsx';
-import { getBook, getChapters } from '../../utils/fetchApi';
+import ApiService from '../../services/api';
 import Image from '../Image.jsx';
 import { Button, Tag, List } from 'antd';
 
@@ -42,7 +43,8 @@ class BookPage extends React.Component {
       isLoading: true
     });
 
-    getBook(id)
+    const api = new ApiService(this.props.user);
+    api.getBook(id)
       .then(
         (result) => {
           this.setState({
@@ -68,7 +70,8 @@ class BookPage extends React.Component {
       isLoadingChapters: true
     });
 
-    getChapters(id)
+    const api = new ApiService(this.props.user);
+    api.getChapters(id)
       .then(
         (result) => {
           this.setState({
@@ -172,4 +175,7 @@ class BookPage extends React.Component {
   }
 }
 
-export default BookPage;
+export default connect(
+  state => ({
+    user: state.oidc.user
+}), null)(BookPage);
