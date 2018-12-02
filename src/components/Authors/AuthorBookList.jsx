@@ -15,8 +15,6 @@ class AuthorBookList extends React.Component
       isLoading: false,
       authorBooks: { data:[], pageSize: 0, currentPageIndex: 0, totalCount: 0}
     };
-
-    this.api = new ApiService(this.state.oidc.user);
   }
 
   componentDidMount()

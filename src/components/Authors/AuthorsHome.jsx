@@ -55,6 +55,7 @@ class AuthorsHome extends React.Component
         });
       },
       (error) => {
+        console.log(error);
         this.setState({
           isLoading : false,
           isError:true
