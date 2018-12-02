@@ -33,22 +33,6 @@ export default class ApiService {
     return this.get(baseUrl);
   }
 
-  getCategories() {
-    return this.get(`${baseUrl}/categories`);
-  }
-
-  getRecentBooks() {
-    return this.get(`${baseUrl}/books/recent`);
-  }
-
-  getLatestBooks() {
-    return this.get(`${baseUrl}/books/latest`);
-  }
-
-  getFavoriteBooks() {
-    return this.get(`${baseUrl}/books/favorite`);
-  }
-
   searchBooks(query, page = 1) {
     return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=6`);
   }

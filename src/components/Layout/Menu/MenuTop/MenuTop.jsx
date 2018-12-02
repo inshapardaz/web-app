@@ -132,14 +132,12 @@ class MenuTop extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.entry)
     if (this.props.entry){
       this.loadCategories(rel(this.props.entry.links, 'categories'));
     }
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps.entry)
     if (newProps.entry){
       this.loadCategories(rel(newProps.entry.links, 'categories'));
     }
@@ -160,7 +158,6 @@ class MenuTop extends React.Component {
 
   loadCategories(link)
   {
-    console.log(`loadCategories(${link})`);
     const api = new ApiService(this.props.user);
     api.get(link)
       .then(
