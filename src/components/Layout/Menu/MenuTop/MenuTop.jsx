@@ -68,16 +68,16 @@ class MenuTop extends React.Component {
     return items.length > 0 ? items : false
   }
 
-  getActiveMenuItem = (props, items) => {
-    const { selectedKeys, pathname } = this.state
-    let { collapsed } = props
-    let [activeMenuItem, ...path] = this.getPath(items, !selectedKeys ? pathname : selectedKeys)
+  // getActiveMenuItem = (props, items) => {
+  //   const { selectedKeys, pathname } = this.state
+  //   let { collapsed } = props
+  //   let [activeMenuItem, ...path] = this.getPath(items, !selectedKeys ? pathname : selectedKeys)
 
-    this.setState({
-      selectedKeys: activeMenuItem ? activeMenuItem.key : '',
-      collapsed,
-    })
-  }
+  //   this.setState({
+  //     selectedKeys: activeMenuItem ? activeMenuItem.key : '',
+  //     collapsed,
+  //   })
+  // }
 
   generateMenuPartitions(items) {
     return items.map(menuItem => {
@@ -127,9 +127,9 @@ class MenuTop extends React.Component {
         )
   }
 
-  componentWillMount() {
-    this.getActiveMenuItem(this.props, menuData)
-  }
+  //componentWillMount() {
+    //this.getActiveMenuItem(this.props, menuData)
+  //}
 
   componentDidMount() {
     if (this.props.entry){
@@ -142,17 +142,10 @@ class MenuTop extends React.Component {
       this.loadCategories(rel(newProps.entry.links, 'categories'));
     }
 
-    this.setState(
-      {
-        theme: newProps.theme,
-        settingsOpened: newProps.settingsOpened,
-      },
-      () => {
-        if (!newProps.isMobile) {
-          this.getActiveMenuItem(newProps, menuData)
-        }
-      },
-    )
+    this.setState({
+      theme: newProps.theme,
+      settingsOpened: newProps.settingsOpened,
+    })
   }
 
 
