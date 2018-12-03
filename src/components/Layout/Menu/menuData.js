@@ -44,5 +44,11 @@ export default [
     key: 'authors',
     icon: 'icmn icmn-users',
     url: '/authors'
+  },
+  {
+    title: 'Dictionaries',
+    key: 'dictionaries',
+    icon: 'icmn icmn-binoculars',
+    url: '/dictionaries'
   }
 ]

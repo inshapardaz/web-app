@@ -67,7 +67,6 @@ class BooksHome extends React.Component
   }
 }
 
-//
 export default connect(
   state => ({
     user: state.oidc.user

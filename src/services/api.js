@@ -74,4 +74,12 @@ export default class ApiService {
     return this.get(link);
   }
 
+  getDictionary(id){
+    return this.get(`${baseUrl}/dictionaries/${id}`);
+  }
+
+  getWords(dictionaryId, page = 1){
+    return this.get(`${baseUrl}/dictionaries/${dictionaryId}/words?pageNumber=${page}&pageSize=12`);
+  }
+
 }
