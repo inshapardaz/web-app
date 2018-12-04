@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ApiService from '../../services/api';
 import Page from '../Layout/Page.jsx';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import queryString from 'query-string'
 
 import { List } from 'antd';
 
@@ -25,21 +26,27 @@ class DictionaryPage extends React.Component {
       match: { params },
     } = this.props
 
-    this.loadDictionary(params.id);
-    this.loadWords(params.id);
+    const values = queryString.parse(this.props.location.search);
+
+    this.loadDictionary(params.id, values.page);
+    this.loadWords(params.id, values.page);
   }
 
   componentWillReceiveProps(nextProps) {
     const {
       match: { params },
-    } = nextProps
-    this.loadDictionary(params.id);
-    this.loadWords(params.id);
+    } = nextProps;
+
+    const values = queryString.parse(nextProps.location.search);
+
+    this.loadDictionary(params.id, values.page);
+    this.loadWords(params.id, values.page);
   }
 
   loadDictionary(id) {
     this.setState({
-      isLoading: true
+      isLoading: true,
+      dictionaryId: id
     });
 
     const api = new ApiService(this.props.user);
@@ -83,10 +90,15 @@ class DictionaryPage extends React.Component {
       )
   }
 
+  onPageChange = (page, pageSize) =>
+  {
+    this.props.history.push(`/dictionaries/${this.state.dictionaryId}?page=${page}`);
+  }
+
   render() {
     const { isLoading, isError, isLoadingWords, dictionary, words } = this.state;
 
-    if (!dictionary)
+    if (!dictionary || !words)
       return null;
     return (
       <Page {...this.props} title={dictionary.name} isLoading={isLoading} isError={isError}>
@@ -95,12 +107,20 @@ class DictionaryPage extends React.Component {
           size="large"
           bordered
           loading={isLoadingWords}
+          pagination={{
+            onChange: this.onPageChange.bind(this),
+            hideOnSinglePage:true,
+            defaultCurrent: words.currentPageIndex,
+            pageSize:words.pageSize,
+            total:words.totalCount,
+          }}
           dataSource={words.data}
           renderItem={word => (
             <List.Item>
-              <Link to={`/dictionaries/${dictionary.id}/words/${word.id}`}>
-                {word.title}
-              </Link>
+              <List.Item.Meta
+                title={<Link to={`/dictionaries/${dictionary.id}/words/${word.id}`}> {word.title} - ({word.titleWithMovements})</Link>}
+                description={`Grammatical Attributes:  ${word.attributes}, Language: ${word.language}`}
+              />
             </List.Item>)
           }
         />
