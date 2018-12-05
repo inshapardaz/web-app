@@ -2,11 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ApiService from '../../services/api';
 import Page from '../Layout/Page.jsx';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import queryString from 'query-string'
+import { Link } from 'react-router-dom';
 
 import { List } from 'antd';
+import WordType from './WordType';
+import Language from './Language';
+
+import './style.scss';
+import WordGender from './WordGender';
+import WordMultiplicity from './WordMultiplicity';
+import WordMeaning from './WordMeaning';
 
 class DictionaryPage extends React.Component {
   constructor(props) {
@@ -90,9 +97,17 @@ class DictionaryPage extends React.Component {
       )
   }
 
-  onPageChange = (page, pageSize) =>
-  {
+  onPageChange = (page, pageSize) => {
     this.props.history.push(`/dictionaries/${this.state.dictionaryId}?page=${page}`);
+  }
+
+  pagerRender(current, type, originalElement) {
+    if (type === 'prev') {
+      return <a>پِچھلا</a>;
+    } if (type === 'next') {
+      return <a>اگلا</a>;
+    }
+    return originalElement;
   }
 
   render() {
@@ -103,27 +118,36 @@ class DictionaryPage extends React.Component {
     return (
       <Page {...this.props} title={dictionary.name} isLoading={isLoading} isError={isError}>
         <Helmet title={dictionary.name} />
-        <List
-          size="large"
-          bordered
-          loading={isLoadingWords}
-          pagination={{
-            onChange: this.onPageChange.bind(this),
-            hideOnSinglePage:true,
-            defaultCurrent: words.currentPageIndex,
-            pageSize:words.pageSize,
-            total:words.totalCount,
-          }}
-          dataSource={words.data}
-          renderItem={word => (
-            <List.Item>
-              <List.Item.Meta
-                title={<Link to={`/dictionaries/${dictionary.id}/words/${word.id}`}> {word.title} - ({word.titleWithMovements})</Link>}
-                description={`Grammatical Attributes:  ${word.attributes}, Language: ${word.language}`}
-              />
-            </List.Item>)
-          }
-        />
+        <div className="dictionaryPage">
+          <List
+            itemLayout="vertical"
+            size="large"
+            bordered
+            loading={isLoadingWords}
+            pagination={{
+              onChange: this.onPageChange.bind(this),
+              hideOnSinglePage: true,
+              defaultCurrent: words.currentPageIndex,
+              pageSize: words.pageSize,
+              total: words.totalCount,
+              itemRender: this.pagerRender
+            }}
+            dataSource={words.data}
+            renderItem={word => (
+              <List.Item key={word.id}
+                actions={[<WordGender attributes={word.attributeValue} />,
+                <WordMultiplicity attributes={word.attributeValue} />,
+                <WordType attributes={word.attributeValue} />,
+                <Language language={word.languageId} />]}>
+                <List.Item.Meta
+                  title={<Link to={`/dictionaries/${dictionary.id}/words/${word.id}`}> {word.title} - ({word.titleWithMovements})</Link>}>
+                  description={word.description}
+                </List.Item.Meta>
+                <WordMeaning key={word.id} dictionaryId={dictionary.id} wordId={word.id} />
+              </List.Item>)
+            }
+          />
+        </div>
       </Page>);
   }
 }

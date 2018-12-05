@@ -82,4 +82,14 @@ export default class ApiService {
     return this.get(`${baseUrl}/dictionaries/${dictionaryId}/words?pageNumber=${page}&pageSize=12`);
   }
 
+  getWordMeaning(dictionaryId,wordId)
+  {
+    return this.get(`${baseUrl}/dictionaries/${dictionaryId}/words/${wordId}/meanings`);
+  }
+
+  getWordTranslations(dictionaryId,wordId)
+  {
+    return this.get(`${baseUrl}/dictionaries/${dictionaryId}/words/${wordId}/translations`);
+  }
+
 }

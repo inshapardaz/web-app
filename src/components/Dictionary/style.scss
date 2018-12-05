@@ -1,0 +1,17 @@
+.dictionaryPage{
+  direction: rtl;
+
+  .ant-list-item
+  {
+    text-align: right;
+  }
+}
+
+
+.collapse {
+  display: none
+}
+
+.collapse.in {
+  display: block
+}
