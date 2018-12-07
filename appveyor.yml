@@ -1,39 +1,37 @@
-# Test against this version of Node.js
-environment:
-  matrix:
-  # node.js
-  - nodejs_version: "10"
-  - nodejs_version: "9"
-  - nodejs_version: "8"
-
-# Install scripts. (runs after repo cloning)
+version: 1.0.{build}
+image: Visual Studio 2017 Preview
+init:
+- cmd: node -v
 install:
-  # Get the latest stable version of Node.js or io.js
-  - ps: Install-Product node $env:nodejs_version x64
+- ps: Install-Product node 8.5.0 x64
+build_script:
+- cmd: >-
+    npm install
 
-  # install modules
-  - yarn
+    ./node_modules/.bin/ng build --prod
 
-cache:
-  - "%LOCALAPPDATA%\\Yarn"
+    cd dist
 
-# Post-install test scripts.
-test_script:
-  # Output useful info for debugging.
-  - node --version
-  - npm --version
-  # run tests
-  - npm run test:CI
+    npm install
 
-# Don't actually build.
-build: off
+    cd ..
+test: off
+artifacts:
+- path: dist
 
-notifications:
-- provider: Email
-  to:
-  - housecor@gmail.com
-  subject: 'Build failed: react-slingshot'
-  message: The continuous integration build failed. See https://ci.appveyor.com/project/CoryHouse/react-slingshot/ for details.
-  on_build_success: false
-  on_build_failure: true
-  on_build_status_changed: false
+  name: webpackage
+
+  type: WebDeployPackage
+deploy:
+- provider: WebDeploy
+  server: https://inshapardaz.scm.azurewebsites.net:443/msdeploy.axd?site=inshapardaz
+  website: inshapardaz
+  username: $inshapardaz
+  password:
+    secure : gg5oJlGtae+Yc5FSbXjPQgQVW8w3m5uu7bY5HyjAMpLpQW2gDetRkSX68eqS8b7pS1I6E84U0/8MGVJmEs4m1A==
+  artifact: webpackage
+  aspnet_core: true
+  remove_files: true
+  app_offline: true
+  do_not_use_checksum: true
+  aspnet_core_force_restart: true
