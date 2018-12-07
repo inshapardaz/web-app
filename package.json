@@ -1,7 +1,7 @@
 {
   "name": "inshapardaz-web-app",
   "version": "7.0.1",
-  "description": "Starter kit for creating apps with React and Redux",
+  "description": "Inshapardaz Web Application",
   "engines": {
     "npm": ">=3"
   },

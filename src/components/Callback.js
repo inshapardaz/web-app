@@ -9,14 +9,16 @@ class CallbackPage extends React.Component {
     return (
       <CallbackComponent
         userManager={userManager}
-        successCallback={() => {
-          console.log("user signed in");
-          this.props.history.push("/");}}
-        errorCallback={error => {
-          this.props.dispatch(push("/"));
-          console.error(error);
-        }}
-        >
+        successCallback={
+          () => {
+          this.props.history.push("/");
+          }
+        }
+        errorCallback={
+          () => {
+          this.props.history.push("/");
+          }
+        }>
         <div>Redirecting...</div>
       </CallbackComponent>
     );
@@ -24,7 +26,7 @@ class CallbackPage extends React.Component {
 }
 
 CallbackPage.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 }
 
 export default connect()(CallbackPage);
