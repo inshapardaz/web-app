@@ -4,11 +4,19 @@ import rel from '../utils/rel';
 
 class Image extends React.Component
 {
+  onError(e)
+  {
+    e.target.onerror = null;
+    if (this.props.fallback)
+    {
+      e.target.src= this.props.fallback;
+    }
+  }
   render() {
     if (this.props.source)
     {
       const imageUrl = rel(this.props.source.links, 'image');
-      return <img src={imageUrl} />;
+      return <img src={imageUrl} onError={this.onError.bind(this)}/>;
     }
 
     return (
@@ -19,7 +27,8 @@ class Image extends React.Component
 }
 
 Image.propTypes = {
-  source : PropTypes.object
+  source : PropTypes.object,
+  fallback: PropTypes.object
 }
 
 export default Image;

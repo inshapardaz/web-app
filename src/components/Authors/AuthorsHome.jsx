@@ -71,13 +71,13 @@ class AuthorsHome extends React.Component
       <Page {...this.props} title="Authors" isLoading={isLoading} isError={isError}>
         <Helmet title="Authors" />
         <List
-            grid={{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 4, xxl: 6 }}
+            grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 5 }}
             dataSource={authors.data}
             renderItem={item => (
               <List.Item>
                 <Card hoverable
                     style={{ width: 240 }}
-                    cover={<Image source={item} />}>
+                    cover={<Image source={item} fallback="../../resources/images/avatar1.jpg" />}>
                   <Meta
                     title={<Link to={`/authors/${item.id}`}>{item.name}</Link>}
                     description={`Published ${item.bookCount} books`}
