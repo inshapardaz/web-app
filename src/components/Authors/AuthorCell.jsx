@@ -13,7 +13,7 @@ class AuthorCell extends React.Component
         <li>
           <Image source={author} />
           <Link to={'/authors/' + author.id} >{author.name}</Link>
-          <span>Published {author.bookCount} books</span>
+          <span>{author.bookCount} کتابیں</span>
         </li>
       );
     }

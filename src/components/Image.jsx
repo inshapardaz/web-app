@@ -28,7 +28,7 @@ class Image extends React.Component
 
 Image.propTypes = {
   source : PropTypes.object,
-  fallback: PropTypes.object
+  fallback: PropTypes.string
 }
 
 export default Image;
