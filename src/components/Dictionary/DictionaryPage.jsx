@@ -13,7 +13,7 @@ import Language from './Language';
 import './style.scss';
 import WordGender from './WordGender';
 import WordMultiplicity from './WordMultiplicity';
-import WordMeaning from './WordMeaning';
+import WordDetail from './WordDetail';
 
 class DictionaryPage extends React.Component {
   constructor(props) {
@@ -110,6 +110,20 @@ class DictionaryPage extends React.Component {
     return originalElement;
   }
 
+  renderWord(dictionary, word) {
+    return ( <List.Item key={word.id}
+      actions={[<WordGender attributes={word.attributeValue} />,
+      <WordMultiplicity attributes={word.attributeValue} />,
+      <WordType attributes={word.attributeValue} />,
+      <Language language={word.languageId} />]}>
+      <List.Item.Meta
+        title={<Link to={`/dictionaries/${dictionary.id}/words/${word.id}`}> {word.title} - ({word.titleWithMovements})</Link>}>
+        description={word.description}
+      </List.Item.Meta>
+      <WordDetail key={word.id} dictionaryId={dictionary.id} word={word} />
+    </List.Item>);
+  }
+
   render() {
     const { isLoading, isError, isLoadingWords, dictionary, words } = this.state;
 
@@ -133,19 +147,7 @@ class DictionaryPage extends React.Component {
               itemRender: this.pagerRender
             }}
             dataSource={words.data}
-            renderItem={word => (
-              <List.Item key={word.id}
-                actions={[<WordGender attributes={word.attributeValue} />,
-                <WordMultiplicity attributes={word.attributeValue} />,
-                <WordType attributes={word.attributeValue} />,
-                <Language language={word.languageId} />]}>
-                <List.Item.Meta
-                  title={<Link to={`/dictionaries/${dictionary.id}/words/${word.id}`}> {word.title} - ({word.titleWithMovements})</Link>}>
-                  description={word.description}
-                </List.Item.Meta>
-                <WordMeaning key={word.id} dictionaryId={dictionary.id} wordId={word.id} />
-              </List.Item>)
-            }
+            renderItem={word => this.renderWord(dictionary, word)}
           />
         </div>
       </Page>);

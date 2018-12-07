@@ -1,3 +1,5 @@
+@import '../../styles/mixins';
+
 .dictionaryPage{
   direction: rtl;
 
@@ -14,4 +16,18 @@
 
 .collapse.in {
   display: block
+}
+
+
+.wordDetails
+{
+  display: block;
+}
+
+
+.empty-message
+{
+  padding: 10px;
+  color: $text-lighten;
+  text-align: center;
 }

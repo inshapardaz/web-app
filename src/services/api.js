@@ -13,7 +13,6 @@ export default class ApiService {
     };
 
     if (this.user && this.user.access_token) {
-      const token = this.user.access_token;
       var authorization = `${this.user.token_type} ${this.user.id_token}`;
       headers['Authorization'] = authorization;
     }
@@ -90,6 +89,11 @@ export default class ApiService {
   getWordTranslations(dictionaryId,wordId)
   {
     return this.get(`${baseUrl}/dictionaries/${dictionaryId}/words/${wordId}/translations`);
+  }
+
+  getWordRelationships(dictionaryId,wordId)
+  {
+    return this.get(`${baseUrl}/dictionaries/${dictionaryId}/words/${wordId}/relationships`);
   }
 
 }
