@@ -13,10 +13,7 @@ class BookCell extends React.Component
     {
       return (
         <div>
-          <Image source={book} />
-          <Link to={'/books/' + book.id} >{book.title}</Link>
-          <span>By <Link to={'/authors/' + book.authorId}>{book.authorName}</Link></span>
-          <span>{book.description}</span>
+          <Link to={'/books/' + book.id} ><Image source={book} /></Link>
         </div>
       );
     }

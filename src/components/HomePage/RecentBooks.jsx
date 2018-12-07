@@ -66,8 +66,28 @@ class RecentBooks extends React.Component {
     }
     else if (recentBooks){
       if (recentBooks.length > 0) {
-        var items = recentBooks.map(item => <li key={item.id}>{item.name}</li>);
-        return <ul>{items}</ul>
+        <div className="cwt__block cwt__features">
+            <h1 className="cwt__block-title">
+              گزشتہ زیرِمطالعہ کتابیں
+                </h1>
+            <div className="cwt__features__container">
+              <div className="row">
+                {recentBooks.slice(0, 6).map(b => (
+                  <div className="col-lg-4 col-md-6" key={b.id}>
+                    <div className="cwt__features__item">
+                      <i className="cwt__features__icon lnr lnr-book"></i>
+                      <span className="cwt__features__title">
+                        {b.title}
+                      </span>
+                      <div className="cwt__features__descr">
+                        {b.authorName}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
       }
       else {
         return <div>No recently read book. Why not start reading some books.</div>

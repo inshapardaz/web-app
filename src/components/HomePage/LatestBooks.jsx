@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ApiService from '../../services/api';
-import BookCell from '../Books/BookCell.jsx';
-import { Carousel } from 'antd';
+import { Link } from 'react-router-dom';
 import rel from '../../utils/rel';
 
 class LatestBooks extends React.Component {
@@ -16,7 +15,7 @@ class LatestBooks extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.entry){
+    if (this.props.entry) {
       this.loadLatestBooks(rel(this.props.entry.links, 'latest'));
     }
   }
@@ -66,10 +65,31 @@ class LatestBooks extends React.Component {
     else if (isError) {
       return <div>Error loading latest books</div>;
     }
-    else if (latestBooks){
+    else if (latestBooks) {
       if (latestBooks.length > 0) {
-        var items = latestBooks.map(item => <BookCell key={item.id} book={item} />);
-        return <Carousel autoplay>{items}</Carousel>
+        return (
+          <div className="cwt__block cwt__features">
+            <h1 className="cwt__block-title">
+              نئی کتابیں
+                </h1>
+            <div className="cwt__features__container">
+              <div className="row">
+                {latestBooks.slice(0, 6).map(b => (
+                  <div className="col-lg-4 col-md-6" key={b.id}>
+                    <div className="cwt__features__item">
+                      <i className="cwt__features__icon lnr lnr-book"></i>
+                      <span className="cwt__features__title">
+                      <Link to={'/books/' + b.id} >{b.title}</Link>
+                      </span>
+                      <div className="cwt__features__descr">
+                        {b.authorName}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>)
       }
       else {
         return <div>No Books found.</div>

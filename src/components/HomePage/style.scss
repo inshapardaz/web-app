@@ -1,0 +1,227 @@
+.cwt__preview {
+  height: 100vh;
+  background: url(../../resources/images/main.jpg) no-repeat center center;
+  background-size: cover;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  padding-bottom: 3.125rem;
+
+
+  &__title {
+    font-size: 3.75rem;
+    font-weight: 900;
+    line-height: 5rem;
+    letter-spacing: 2px;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 3.125rem 0;
+  }
+}
+
+/*
+ *  FEATURES BLOCK
+ */
+ .cwt__features__container {
+  padding: 3.75rem 0 0rem;
+}
+
+.cwt__features__item {
+  position: relative;
+  padding-left: 5rem;
+  margin-bottom: 2.5rem;
+  min-height: 8.125rem;
+}
+
+@media (max-width: 1199px) {
+  .cwt__features__item {
+      max-width: 31.25rem;
+      margin-left: auto;
+      margin-right: auto;
+  }
+}
+
+@media (max-width: 991px) {
+  .cwt__features__item {
+      padding-left: 7.5rem;
+      min-height: 9.375rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .cwt__features__item {
+      min-height: 6.25rem;
+  }
+}
+
+.cwt__features__item:hover .cwt__features__icon {
+  -webkit-transform: scale(1.1);
+      -ms-transform: scale(1.1);
+          transform: scale(1.1);
+  color: #090f25;
+}
+
+.cwt__features__icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 2.875rem;
+  color: #5c6689;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+@media (max-width: 991px) {
+  .cwt__features__icon {
+      top: 0.3125rem;
+      font-size: 3.5rem;
+  }
+}
+
+.cwt__features__title {
+  display: block;
+  margin: 0rem 0 0.625rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+  .cwt__features__title {
+      font-size: 1.75rem;
+  }
+}
+
+.cwt__features__descr {
+  color: #5c6689;
+  font-size: 1.125rem;
+  display: block;
+  padding-right: 2.5rem;
+  font-weight: 300;
+}
+
+@media (max-width: 991px) {
+  .cwt__features__descr {
+      font-size: 1.3125rem;
+  }
+}
+
+/*
+ *  GLOBAL STYLES
+ */
+ @media (max-width: 1599px) {
+  html {
+      font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  html {
+      font-size: 12px;
+  }
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  color: #090f25;
+}
+
+.container {
+  max-width: 90rem;
+}
+
+.btn {
+  vertical-align: inherit;
+}
+
+.btn.btn-primary {
+  background: #0072f6;
+  color: #fff !important;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+.btn.btn-primary:hover {
+  background: #005ac3;
+}
+
+.cwt__block {
+  padding-left: 9.375rem;
+  padding-right: 9.375rem;
+  padding-bottom: 6.25rem;
+  background: #f2f5fa;
+}
+
+@media (max-width: 1199px) {
+  .cwt__block {
+      padding-left: 3.125rem;
+      padding-right: 3.125rem;
+  }
+}
+
+.cwt__block-title {
+  font-size: 2.25rem;
+  display: block;
+  margin: 0 auto 1.25rem;
+  max-width: 47.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.125rem;
+  padding-top: 3.125rem;
+  position: relative;
+}
+
+.cwt__block-title:before {
+  display: block;
+  content: '';
+  position: absolute;
+  width: 5rem;
+  height: 0.3125rem;
+  background: #090f25;
+  left: 0px;
+  top: 0px;
+}
+
+.cwt__link-underlined {
+  display: inline-block;
+  position: relative;
+  text-decoration: none !important;
+}
+
+.cwt__link-underlined:after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -0.25rem;
+  left: 0;
+  width: 0;
+  height: 0.0625rem;
+  background: #005ac3;
+  opacity: .7;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.cwt__link-underlined:hover:after {
+  width: 100%;
+}
+
+.cwt__utils__p-t-50 {
+  padding-top: 3.125rem;
+}
+
+.cwt__utils__p-t-100 {
+  padding-top: 6.25rem;
+}
+

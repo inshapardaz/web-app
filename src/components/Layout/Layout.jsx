@@ -90,9 +90,7 @@ class Layout extends React.Component {
             <Menu isMobile={isMobile} />
             <AntLayout>
               <AntContent style={{ height: '100%' }}>
-                <div className="utils__content">
                     <Routes />
-                </div>
               </AntContent>
               <AntFooter>
                 <Footer />

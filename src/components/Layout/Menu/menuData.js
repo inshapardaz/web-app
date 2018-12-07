@@ -1,29 +1,29 @@
 export default [
   {
-    title: 'Home',
+    title: 'سرورق',
     key: 'home',
     url: '/',
     icon: 'icmn icmn-home',
   },
   {
-    title: 'Books',
+    title: 'کتابیں',
     key: 'book',
     icon: 'icmn icmn-books',
     children: [
       {
-        title: 'Recent Reads',
+        title: 'گزشتہ زیرِمطالعہ کتابیں',
         key: 'recent',
         icon: 'icmn icmn-history',
         url: '/books/recents',
       },
       {
-        title: 'Favorites',
+        title: 'پسندیدہ کتابیں',
         key: 'favorites',
         icon: 'icmn icmn-heart',
         url: '/books/favorites',
       },
       {
-        title: 'Latest',
+        title: 'نئی کتابیں',
         key: 'latest',
         icon: 'icmn icmn-fire',
         url: '/books/new',
@@ -32,7 +32,7 @@ export default [
         divider:true
       },
       {
-        title: 'Categories',
+        title: 'زمرہ‌جات',
         key: 'categories',
         icon: 'icmn icmn-stack',
         children: []
@@ -40,13 +40,13 @@ export default [
     ],
   },
   {
-    title: 'Authors',
+    title: 'ادیب',
     key: 'authors',
     icon: 'icmn icmn-users',
     url: '/authors'
   },
   {
-    title: 'Dictionaries',
+    title: 'لغّات',
     key: 'dictionaries',
     icon: 'icmn icmn-binoculars',
     url: '/dictionaries'
