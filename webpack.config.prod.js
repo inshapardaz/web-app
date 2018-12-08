@@ -56,7 +56,8 @@ export default {
       __CONFIG__: packinize(config)
     }),
     new CopyWebpackPlugin([
-      {from:'src/resources',to:'resources'}
+      {from:'src/resources',to:'resources'},
+      {from:'src/web.config'}
     ]),
     // Generate an external css file with a hash in the filename
     new MiniCssExtractPlugin({
