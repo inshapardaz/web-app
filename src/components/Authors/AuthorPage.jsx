@@ -83,7 +83,7 @@ class AuthorPage extends React.Component {
                   <br />
                   <br />
                   <Button.Group size="default">
-                    <Button style={{ width: 150 }}>Add to Favorite</Button>
+                    <Button style={{ width: 150 }}>پسندیدہ بنایں</Button>
                   </Button.Group>
                 </div>
               </div>
@@ -99,11 +99,11 @@ class AuthorPage extends React.Component {
               <div className="profile__social-counts">
                 <div className="text-center mr-3">
                   <h2>{author.bookCount}</h2>
-                  <p className="mb-0">Book</p>
+                  <p className="mb-0">کتابیں</p>
                 </div>
                 <div className="text-center">
                   <h2>{0}</h2>
-                  <p className="mb-0">Writings</p>
+                  <p className="mb-0">مضامین</p>
                 </div>
               </div>
             </div>
@@ -115,7 +115,7 @@ class AuthorPage extends React.Component {
                   <TabPane
                     tab={
                       <span>
-                        <i className="icmn-books" /> Books
+                        <i className="icmn-books" /> کتابیں
                       </span>
                     }
                     key="1"
@@ -125,7 +125,7 @@ class AuthorPage extends React.Component {
                   <TabPane
                     tab={
                       <span>
-                        <i className="icmn-pencil" /> Writings
+                        <i className="icmn-pencil" /> مضامین
                       </span>
                     }
                     key="2"

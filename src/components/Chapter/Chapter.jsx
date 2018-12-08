@@ -154,54 +154,54 @@ class Chapter extends React.Component {
         <div className={`chapter${fullscreen?'--fullscreen': ''} chapter__theme--${theme}`}>
           <Menu mode="horizontal" theme={theme === 'dark' ? 'dark' : ''}>
             <Menu.Item>
-              <Link to={`/books/${bookId}`}><Icon type="book" />View Book</Link>
+              <Link to={`/books/${bookId}`}><Icon type="book" />کتاب</Link>
             </Menu.Item>
 
-            <SubMenu title={<span><Icon type="read" />Chapters</span>}>
+            <SubMenu title={<span><Icon type="read" />ابواب</span>}>
               {chapterMenus}
             </SubMenu>
 
-            <SubMenu title={<span><Icon type="font-size" />Theme</span>} onClick={this.changeTheme.bind(this)}>
-              <Menu.Item key="default">Default</Menu.Item>
-              <Menu.Item key="sepia">Sepia</Menu.Item>
-              <Menu.Item key="dark">Dark</Menu.Item>
+            <SubMenu title={<span><Icon type="font-size" />تھیم</span>} onClick={this.changeTheme.bind(this)}>
+              <Menu.Item key="default">سفید</Menu.Item>
+              <Menu.Item key="sepia">سیپا</Menu.Item>
+              <Menu.Item key="dark">تاریک</Menu.Item>
             </SubMenu>
 
-            <SubMenu title={<span><Icon type="font-colors" />Font</span>} onClick={this.changeFont.bind(this)}>
+            <SubMenu title={<span><Icon type="font-colors" />فونٹ</span>} onClick={this.changeFont.bind(this)}>
               <Menu.Item key="">Default</Menu.Item>
               <Menu.Item key="Segoe UI">Segoe UI</Menu.Item>
-              <SubMenu title="Nastaleeq">
-                <Menu.Item key="Jameel Noori Nastaleeq">Jameel Noori Nastaleeq</Menu.Item>
-                <Menu.Item key="Mehr-Nastaleeq">Mehr-Nastaleeq</Menu.Item>
-                <Menu.Item key="Noto">Noto</Menu.Item>
-                <Menu.Item key="Nafees Nastaleeq">Nafees-Nastaleeq</Menu.Item>
+              <SubMenu title="نستعلیق">
+                <Menu.Item key="Jameel Noori Nastaleeq">جمیل نوری نستعلیق</Menu.Item>
+                <Menu.Item key="Mehr-Nastaleeq">مہر نستعلیق</Menu.Item>
+                <Menu.Item key="Noto">نوٹو</Menu.Item>
+                <Menu.Item key="Nafees Nastaleeq">نفیس نستعلیق</Menu.Item>
               </SubMenu>
-              <SubMenu title="Nasakh">
-              <Menu.Item key="Nafees Web Naskh">Nafees Web Naskh</Menu.Item>
-                <Menu.Item key="AdobeArabic">Adobe Arabic</Menu.Item>
-                <Menu.Item key="MehfilNaskh">Mehfil Naskh</Menu.Item>
-                <Menu.Item key="Dubai">Dubai</Menu.Item>
-                <Menu.Item key="UrduNaskhAsiatype">Urdu Naskh Asiatype</Menu.Item>
+              <SubMenu title="نسخ">
+              <Menu.Item key="Nafees Web Naskh">نفیس نسخ</Menu.Item>
+                <Menu.Item key="AdobeArabic">اڈوبی عربک</Menu.Item>
+                <Menu.Item key="MehfilNaskh">محفل نسخ</Menu.Item>
+                <Menu.Item key="Dubai">دبِی</Menu.Item>
+                <Menu.Item key="UrduNaskhAsiatype">اردو نسخ ایشیا ٹائپ</Menu.Item>
               </SubMenu>
             </SubMenu>
 
-            <SubMenu title={<span><Icon type="font-size" />Text Size</span>} onClick={this.changeFontSize.bind(this)}>
-              <Menu.Item key="80%">Extra Small</Menu.Item>
-              <Menu.Item key="100%">Small</Menu.Item>
-              <Menu.Item key="120%">Medium</Menu.Item>
-              <Menu.Item key="150%">Large</Menu.Item>
-              <Menu.Item key="170%">Extra Large</Menu.Item>
-              <Menu.Item key="200%">Huge</Menu.Item>
+            <SubMenu title={<span><Icon type="font-size" />تحریر کا سائز</span>} onClick={this.changeFontSize.bind(this)}>
+              <Menu.Item key="80%">بہت چھوٹا</Menu.Item>
+              <Menu.Item key="100%">چھوٹا</Menu.Item>
+              <Menu.Item key="120%">درمیانہ</Menu.Item>
+              <Menu.Item key="150%">بڑا</Menu.Item>
+              <Menu.Item key="170%">بہت بڑا</Menu.Item>
+              <Menu.Item key="200%">انتہائی بڑا</Menu.Item>
             </SubMenu>
 
             {!fullscreen &&
               <Menu.Item onClick={this.toggleFullscreen.bind(this)}>
-                <Icon type="fullscreen" />Fullscreen
+                <Icon type="fullscreen" />فُل سکرین
             </Menu.Item>}
 
             {fullscreen &&
               <Menu.Item onClick={this.toggleFullscreen.bind(this)}>
-                <Icon type="fullscreen-exit" />Exit Fullscreen
+                <Icon type="fullscreen-exit" />فُل سکرین سے اخراج
             </Menu.Item>}
           </Menu>
           <div className="chapter__contents" style={{fontSize: fontSize, fontFamily: font ? font : 'inherit'}}>

@@ -59,8 +59,8 @@ class BooksHome extends React.Component
   render(){
     const { isError, isLoading, books } = this.state;
     return (
-      <Page {...this.props} title="Books" isLoading={isLoading} isError={isError}>
-        <Helmet title="Books" />
+      <Page {...this.props} title="کتابیں" isLoading={isLoading} isError={isError}>
+        <Helmet title="کتابیں" />
         <BookList books={books} />
       </Page>
     );

@@ -8,6 +8,15 @@ import IconText from '../IconText.jsx';
 const { Meta } = Card;
 
 class BookList extends React.Component {
+  pagerRender(current, type, originalElement) {
+    if (type === 'prev') {
+      return <a>پِچھلا</a>;
+    } if (type === 'next') {
+      return <a>اگلا</a>;
+    }
+    return originalElement;
+  }
+
   render() {
     const { books } = this.props;
     if (!books)
@@ -17,19 +26,18 @@ class BookList extends React.Component {
         itemLayout="vertical"
         size="large"
         pagination={{
+          hideOnSinglePage: true,
           onChange: this.onPageChange,
           pageSize: books.pageSize,
           defaultCurrent: books.currentPageIndex,
-          total: books.totalCount
+          total: books.totalCount,
+          itemRender: this.pagerRender
         }}
         dataSource={books.data}
         renderItem={book => (
           <List.Item
             extra={<Image source={book} height="168" />}
             actions={[
-              <IconText type="star-o" text="156" />,
-              <IconText type="like-o" text="156" />,
-              <IconText type="message" text="2" />,
               <IconText type={book.isPublic ? 'global' : 'lock'} />,
               <IconText type="tags" text={book.categories.map(t => <Tag key={t.id} closable={false}>{t.name}</Tag>)} />
             ]}

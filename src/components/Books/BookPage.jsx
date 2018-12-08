@@ -118,35 +118,35 @@ class BookPage extends React.Component {
                 <div className="profile__header-card">
                   <div className="card-body text-center">
                     <Image source={book} height="110px" width="110px" />
-                    <br />
+                    {/* <br />
                     <br />
                     <Button.Group size="default">
                       <Button style={{ width: 150 }}>Add to Favorite</Button>
                       <Button style={{ width: 150 }}>Read</Button>
-                    </Button.Group>
+                    </Button.Group> */}
                   </div>
                 </div>
               </div>
               <div className="card">
                 <div className="card-body">
                   <h5 className="mb-3 text-black">
-                    <strong>Details</strong>
+                    <strong>{book.title}</strong>
                   </h5>
                   <dl className="row">
-                    <dt className="col-xl-3">Author:</dt>
+                    <dt className="col-xl-3">مصنّف:</dt>
                     <dd className="col-xl-9"><Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></dd>
-                    <dt className="col-xl-3">Details:</dt>
+                    <dt className="col-xl-3">تعارف:</dt>
                     <dd className="col-xl-9">{book.description}</dd>
-                    <dt className="col-xl-3">Categories:</dt>
+                    <dt className="col-xl-3">زمرہ جات:</dt>
                     <dd className="col-xl-9">
                       {book.categories.map(t =>
                         <Tag key={t.id} closable={false}>{t.name}</Tag>
                       )}
                     </dd>
-                    <dt className="col-xl-3">Access:</dt>
+                    <dt className="col-xl-3">رسائی:</dt>
                     <dd className="col-xl-9">
                       <Tag closable={false}>
-                        {book.isPublic ? "Public" : "Private"}
+                        {book.isPublic ? "عوامی" : "ذاتی"}
                       </Tag>
                     </dd>
                   </dl>
@@ -156,7 +156,8 @@ class BookPage extends React.Component {
             <div className="col-xl-8">
                   <List
                     size="large"
-                    header={<h3>Chapters</h3>}
+                    header={<h3>فہرست</h3>}
+                    locale= {{ emptyText: 'کوئی مضمون موجود نہیں'}}
                     bordered
                     loading={isLoadingChapters}
                     dataSource={chapters.items}

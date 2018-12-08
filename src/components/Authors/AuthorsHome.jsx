@@ -73,19 +73,20 @@ class AuthorsHome extends React.Component {
     const { authors, isLoading, isError } = this.state;
 
     return (
-      <Page {...this.props} title="Authors" isLoading={isLoading} isError={isError}>
-        <Helmet title="Authors" />
+      <Page {...this.props} title="مصنّف" isLoading={isLoading} isError={isError}>
+        <Helmet title="مصنّف" />
         <div className="author-list">
           <List
             grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 5 }}
             pagination={{
-              onChange: this.onPageChange.bind(this),
+              onChange: this.onPageChange,
               hideOnSinglePage: true,
               defaultCurrent: authors.currentPageIndex,
               pageSize: authors.pageSize,
               total: authors.totalCount,
               itemRender: this.pagerRender
             }}
+            locale= {{ emptyText: 'کوئی مصنّف موجود نہیں'}}
             dataSource={authors.data}
             renderItem={item => (
               <List.Item>

@@ -113,7 +113,7 @@ class LiveSearch extends React.Component {
         <div className="livesearch__result-text">
           <Link to={`/authors/${author.id}`} onClick={this.hideLiveSearch}> {author.name}</Link>
         </div>
-        <div className="livesearch__result-source">{author.bookCount} publications</div>
+        <div className="livesearch__result-source">{author.bookCount} کتابیں</div>
       </div>
     </div>);
   }
@@ -124,7 +124,7 @@ class LiveSearch extends React.Component {
       return (<div className="col-lg-8">
         <div className="livesearch__result-content">
           <div className="livesearch__result">
-            <span className="livesearch__result-text">No books found matching your query</span>
+            <span className="livesearch__result-text">کوئی کتاب موجود نہیں</span>
           </div>
         </div>
       </div>);
@@ -154,7 +154,7 @@ class LiveSearch extends React.Component {
       return (<div className="col-lg-8">
         <div className="livesearch__result-content">
           <div className="livesearch__result">
-            <span className="livesearch__result-text">No authors found matching your query</span>
+            <span className="livesearch__result-text">کوئی مصنّف موجود نہیں</span>
           </div>
         </div>
       </div>);
@@ -188,7 +188,7 @@ class LiveSearch extends React.Component {
       <div className="d-inline-block mr-4">
         <Input
           className="livesearch__topInput"
-          placeholder="Type to search..."
+          placeholder="تلاش کے لیے لکھیں۔۔۔"
           prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
           style={{ width: 200 }}
           onFocus={this.showLiveSearch}
@@ -213,27 +213,27 @@ class LiveSearch extends React.Component {
                   value={searchText}
                   onChange={this.changeSearchText}
                   id="livesearchInput"
-                  placeholder="Type to search..."
+                  placeholder="تلاش کے لیے لکھیں۔۔۔"
                   ref={ele => (this.searchInput = ele)}
                 />
               </div>
               <ul className="livesearch__options">
                 <li className="livesearch__option livesearch__option--checkbox">
-                  <Checkbox checked={this.state.searchBooks}>Search books</Checkbox>
+                  <Checkbox checked={this.state.searchBooks}>کتاب کی تلاش</Checkbox>
                 </li>
 
                 <li className="livesearch__option livesearch__option--checkbox">
-                  <Checkbox checked={this.state.searchAuthors}>Search Authors</Checkbox>
+                  <Checkbox checked={this.state.searchAuthors}>مصنّف کی تلاش</Checkbox>
                 </li>
-                <li className="livesearch__option">Press enter to search</li>
+                <li className="livesearch__option">تلاش کے لیے اینٹر دبائیں</li>
               </ul>
               <div className="livesearch__results">
                 <div className="livesearch__results-title">
-                  <span className="livesearch__results-title-text">Books Search Results</span>
+                  <span className="livesearch__results-title-text">کتابوں کے نتائج</span>
                 </div>
                 {booksResult}
                 <div className="livesearch__results-title">
-                  <span className="livesearch__results-title-text">Authors Search Results</span>
+                  <span className="livesearch__results-title-text">مصنّفین کےنتاِج</span>
                 </div>
                 {authorsResult}
               </div>
