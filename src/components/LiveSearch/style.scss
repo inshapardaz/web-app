@@ -53,7 +53,7 @@
     color: $default;
     position: absolute;
     top: rem(30);
-    right: rem(30);
+    left: rem(30);
     cursor: pointer;
     z-index: 1;
 
@@ -99,6 +99,7 @@
     font-size: rem(13);
 
     &--checkbox {
+      direction: rtl;
       .ant-checkbox-wrapper {
         span {
           font-size: rem(13);
@@ -149,6 +150,10 @@
 
   &__suggestion-input-text {
     font-weight: normal;
+  }
+
+  &__results{
+    direction: rtl;
   }
 
   &__results-title {

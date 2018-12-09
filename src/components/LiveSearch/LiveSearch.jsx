@@ -218,6 +218,7 @@ class LiveSearch extends React.Component {
                 />
               </div>
               <ul className="livesearch__options">
+                <li className="livesearch__option">تلاش کے لیے اینٹر دبائیں</li>
                 <li className="livesearch__option livesearch__option--checkbox">
                   <Checkbox checked={this.state.searchBooks}>کتاب کی تلاش</Checkbox>
                 </li>
@@ -225,7 +226,7 @@ class LiveSearch extends React.Component {
                 <li className="livesearch__option livesearch__option--checkbox">
                   <Checkbox checked={this.state.searchAuthors}>مصنّف کی تلاش</Checkbox>
                 </li>
-                <li className="livesearch__option">تلاش کے لیے اینٹر دبائیں</li>
+
               </ul>
               <div className="livesearch__results">
                 <div className="livesearch__results-title">
@@ -233,7 +234,7 @@ class LiveSearch extends React.Component {
                 </div>
                 {booksResult}
                 <div className="livesearch__results-title">
-                  <span className="livesearch__results-title-text">مصنّفین کےنتاِج</span>
+                  <span className="livesearch__results-title-text">مصنّفین کےنتاِئج</span>
                 </div>
                 {authorsResult}
               </div>

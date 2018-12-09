@@ -19,35 +19,21 @@ class AuthorBookList extends React.Component
 
   componentDidMount()
   {
+    this.loadBooks();
+  }
+
+  onPageChange = (page, pageSize) => {
+    this.loadBooks(page);
+  }
+
+  loadBooks(page = 1){
     this.setState({
       isLoading : true
     });
 
     const api = new ApiService(this.props.user);
-    api.getAuthorBooks(rel(this.props.author.links, 'books'))
-    .then(
-      (result) => {
-        this.setState({
-          isLoading : false,
-          authorBooks: result
-        });
-      },
-      (error) => {
-        this.setState({
-          isLoading : false,
-          isError:true
-        });
-      }
-    )
-  }
 
-  pageChange = async(link) =>
-  {
-    this.setState({
-      isLoading : true
-    });
-
-    getAuthorBooks(link)
+    api.getAuthorBooks(rel(this.props.author.links, 'books'), page)
     .then(
       (result) => {
         this.setState({
@@ -76,7 +62,7 @@ class AuthorBookList extends React.Component
     {
       return <div>Loading...</div>;
     }
-    return (<BookList books={authorBooks} />)
+    return (<BookList books={authorBooks} onPageChange={this.onPageChange} />)
   }
 }
 

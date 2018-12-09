@@ -69,8 +69,8 @@ export default class ApiService {
     return this.get(`${baseUrl}/authors/${id}`);
   }
 
-  getAuthorBooks(link) {
-    return this.get(link);
+  getAuthorBooks(link, page = 1) {
+    return this.get(`${link}?pageNumber=${page}&pageSize=3`);
   }
 
   getDictionary(id){

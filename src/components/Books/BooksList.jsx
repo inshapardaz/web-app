@@ -18,16 +18,17 @@ class BookList extends React.Component {
   }
 
   render() {
-    const { books } = this.props;
+    const { books, onPageChange } = this.props;
     if (!books)
       return null;
+    console.log(books.currentPageIndex);
     return (
       <List
         itemLayout="vertical"
         size="large"
         pagination={{
           hideOnSinglePage: true,
-          onChange: this.onPageChange,
+          onChange: onPageChange,
           pageSize: books.pageSize,
           defaultCurrent: books.currentPageIndex,
           total: books.totalCount,
