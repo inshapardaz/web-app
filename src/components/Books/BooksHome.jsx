@@ -61,7 +61,7 @@ class BooksHome extends React.Component
     return (
       <Page {...this.props} title="کتابیں" isLoading={isLoading} isError={isError}>
         <Helmet title="کتابیں" />
-        <BookList books={books} />
+        <BookList books={books} onPageChange={this.onPageChange.bind(this)}/>
       </Page>
     );
   }

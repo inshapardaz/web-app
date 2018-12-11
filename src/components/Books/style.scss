@@ -1,0 +1,11 @@
+.book-list
+{
+  direction: rtl;
+
+  .ant-card-meta{
+    padding-bottom: 8px;
+  }
+  .ant-list-item-main{
+    text-align: right;
+  }
+}

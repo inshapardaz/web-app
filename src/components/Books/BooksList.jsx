@@ -5,6 +5,8 @@ import { List, Card, Tag } from 'antd';
 import Image from '../Image.jsx';
 import IconText from '../IconText.jsx';
 
+import './style.scss';
+
 const { Meta } = Card;
 
 class BookList extends React.Component {
@@ -21,8 +23,8 @@ class BookList extends React.Component {
     const { books, onPageChange } = this.props;
     if (!books)
       return null;
-    console.log(books.currentPageIndex);
     return (
+      <div className="book-list">
       <List
         itemLayout="vertical"
         size="large"
@@ -51,6 +53,7 @@ class BookList extends React.Component {
           </List.Item>
         )}
       />
+      </div>
     );
   }
 }
