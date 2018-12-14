@@ -41,7 +41,13 @@ function configureStoreDev(initialState) {
     composeEnhancers(applyMiddleware(...middlewares))
   );
 
-  loadUser(store, userManager);
+  loadUser(store, userManager).then((r) => {
+    if (r && r.id_token){
+      console.log(`refreshing token`)
+      userManager.signinSilent();
+    }
+  });
+
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {

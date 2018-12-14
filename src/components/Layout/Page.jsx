@@ -3,7 +3,7 @@ import { Skeleton } from 'antd';
 
 class Page extends React.Component {
   render() {
-    const { isError, isLoading, title, children } = this.props;
+    const { isError, isLoading, title, children, actions } = this.props;
 
     if (isError) {
       return (
@@ -21,7 +21,12 @@ class Page extends React.Component {
     }
     var titleDiv = title ? (
       <div className="card-header">
-        {title}
+        <div className="pull-left">
+            {actions}
+        </div>
+        <div className="pull-right">
+          {title}
+        </div>
       </div>) :
       null;
     return (

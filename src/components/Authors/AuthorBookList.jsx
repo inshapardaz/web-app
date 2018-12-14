@@ -5,6 +5,7 @@ import ApiService from '../../services/api';
 
 import BookList from '../Books/BooksList.jsx';
 import rel from '../../utils/rel';
+import queryString from 'query-string'
 
 class AuthorBookList extends React.Component
 {
@@ -17,13 +18,19 @@ class AuthorBookList extends React.Component
     };
   }
 
-  componentDidMount()
-  {
-    this.loadBooks();
+  componentDidMount() {
+    const values = queryString.parse(this.props.location.search)
+    this.loadBooks(values.bookPage);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const values = queryString.parse(nextProps.location.search)
+    this.loadBooks(values.bookPage);
   }
 
   onPageChange = (page, pageSize) => {
-    this.loadBooks(page);
+    console.log('going to page ' + page);
+    this.props.history.push(`/authors/${author.id}?bookPage=${page}`);
   }
 
   loadBooks(page = 1){
@@ -62,7 +69,7 @@ class AuthorBookList extends React.Component
     {
       return <div>Loading...</div>;
     }
-    return (<BookList books={authorBooks} onPageChange={this.onPageChange} />)
+    return (<BookList books={authorBooks} onPageChange={this.onPageChange.bind(this)} />)
   }
 }
 

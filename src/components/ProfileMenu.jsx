@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { login, logout } from '../actions/authentication'
 import { Menu, Dropdown, Avatar, Badge } from 'antd'
 import { bindActionCreators } from 'redux';
+import userManager from '../utils/userManager';
 
 class ProfileMenu extends React.Component {
   state = {
@@ -48,7 +49,7 @@ class ProfileMenu extends React.Component {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item>
-            <a href="javascript: void(0);">
+            <a href="javascript: void(0);" onClick={() => userManager.signinSilent() }>
               <i className="topbar__dropdownMenuIcon icmn-user" /> Edit Profile
           </a>
           </Menu.Item>

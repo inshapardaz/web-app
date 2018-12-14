@@ -3,6 +3,10 @@
 .author-list
 {
   direction: rtl;
+
+  .ant-card-body{
+    text-align: right;
+  }
 }
 
 .profile {
