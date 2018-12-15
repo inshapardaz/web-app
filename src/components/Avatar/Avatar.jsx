@@ -9,6 +9,15 @@ class Avatar extends React.Component {
     src: '',
   }
 
+  onError(e)
+  {
+    e.target.onerror = null;
+    if (this.props.fallback)
+    {
+      e.target.src= this.props.fallback;
+    }
+  }
+
   render() {
     const { size, borderColor, src, border } = this.props
     return (
@@ -21,7 +30,7 @@ class Avatar extends React.Component {
           borderColor: borderColor,
         }}
       >
-        <img src={src} alt="User" />
+        <img src={src} alt="User" onError={this.onError.bind(this)} />
       </a>
     )
   }

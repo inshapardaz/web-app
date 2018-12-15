@@ -19,18 +19,15 @@ class AuthorBookList extends React.Component
   }
 
   componentDidMount() {
-    const values = queryString.parse(this.props.location.search)
-    this.loadBooks(values.bookPage);
+    this.loadBooks();
   }
 
   componentWillReceiveProps(nextProps) {
-    const values = queryString.parse(nextProps.location.search)
-    this.loadBooks(values.bookPage);
+    this.loadBooks();
   }
 
   onPageChange = (page, pageSize) => {
-    console.log('going to page ' + page);
-    this.props.history.push(`/authors/${author.id}?bookPage=${page}`);
+    this.loadBooks(page)
   }
 
   loadBooks(page = 1){
@@ -65,11 +62,8 @@ class AuthorBookList extends React.Component
     {
       return <h5>Unable to load books</h5>;
     }
-    else if (isLoading || !authorBooks)
-    {
-      return <div>Loading...</div>;
-    }
-    return (<BookList books={authorBooks} onPageChange={this.onPageChange.bind(this)} />)
+
+    return (<BookList books={authorBooks} isLoading={isLoading} onPageChange={this.onPageChange.bind(this)} />)
   }
 }
 

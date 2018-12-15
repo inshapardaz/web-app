@@ -2,17 +2,21 @@ import React from 'react';
 import { Helmet } from 'react-helmet'
 import {connect} from 'react-redux';
 
-import {Button, Tabs } from 'antd';
+import {Button, Tabs, Icon, Modal } from 'antd';
 import AuthorBookList from './AuthorBookList.jsx';
 
 import ApiService from '../../services/api';
+
+import { success, error } from '../../utils/notifications';
 
 import Page from '../Layout/Page.jsx';
 import './style.scss'
 import rel from '../../utils/rel';
 import Avatar from '../Avatar/Avatar.jsx'
+import EditAuthor from './EditAuthor';
 
 const TabPane = Tabs.TabPane
+const confirm = Modal.confirm;
 
 class AuthorPage extends React.Component {
   componentWillMount() {
@@ -30,10 +34,16 @@ class AuthorPage extends React.Component {
     this.loadAuthor(params.id);
   }
 
+  reloadAuthor(){
+    this.hideEditor();
+    this.loadAuthor(this.state.authorId);
+  }
+
   loadAuthor(id)
   {
     this.setState({
-      isLoading: true
+      isLoading: true,
+      authorId: id
     });
 
     const api = new ApiService(this.props.user);
@@ -54,6 +64,84 @@ class AuthorPage extends React.Component {
       )
   }
 
+  showEdit(){
+    this.setState({
+      showEditor : true
+    })
+  }
+
+  hideEditor(){
+    this.setState({
+      showEditor: false
+    })
+  }
+
+  showDeleteConfirm() {
+    const { author } = this.state;
+    confirm({
+      title: `کیا آپ ${author.name} کو خارج کرنا چاہتے ہیں؟`,
+      okText: 'جی ہاں',
+      okType: 'danger',
+      cancelText: 'نہیں',
+      onOk : this.onDelete.bind(this)
+    });
+  }
+
+  onDelete(){
+    const { author } = this.state;
+
+    const api = new ApiService(this.props.user);
+    api.delete(rel(author.links, 'delete'))
+      .then(res => {
+        success('ادیب کا اخراج', `${author.name} کو خارج کر دیا گیا ہیں؟`);
+        this.props.history.push('/authors');
+      }, (e) => {
+        error('ادیب کا اخراج', `${author.name} کو خارج نہیں کیا جا سکا؟`);
+      });
+  }
+
+  getAuthorActions(author){
+    const addFavoriteLink =  rel(author.links, 'add-favorite');
+    const removeFavoriteLink = rel(author.links, 'remove-favorite');
+    const editAuthor = rel(author.links, 'update');
+    const deleteAuthor = rel(author.links, 'delete');
+
+    let buttons = [];
+
+    if (addFavoriteLink){
+      buttons.push(<Button key="add-favorite" ghost>
+        <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" /> پسندیدہ بنایں
+      </Button>);
+    }
+
+    if (removeFavoriteLink){
+      buttons.push(<Button key="remove-favorite" >
+        <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" /> پسندیدگی ہٹائیں
+      </Button>)
+    }
+
+    if (editAuthor){
+      buttons.push(<Button key="edit-author" ghost  onClick={() => this.showEdit()}>
+        <Icon type="edit" /> تدوین
+      </Button>)
+    }
+
+    if (deleteAuthor){
+      buttons.push(<Button key="delete-author" ghost onClick={() => this.showDeleteConfirm()}>
+        <Icon type="delete" /> ہٹائیں
+        </Button>)
+    }
+
+    if (buttons.length > 0){
+      return(
+      <Button.Group size="default" className="author-actions">
+        {buttons}
+      </Button.Group>)
+    }
+
+    return null;
+  }
+
   render() {
     if (!this.state)
       return null;
@@ -71,6 +159,8 @@ class AuthorPage extends React.Component {
       return null
     }
 
+
+
     return (<Page>
       <Helmet title={author.name} />
       <div className="profile">
@@ -79,12 +169,8 @@ class AuthorPage extends React.Component {
             <div className="card profile__header" style={{ backgroundImage: 'url(/resources/images/bkg_3.jpeg)' }}>
               <div className="profile__header-card">
                 <div className="card-body text-center">
-                  <Avatar src={rel(author.links, 'image')} size="110" border="true" borderColor="white" />
-                  <br />
-                  <br />
-                  <Button.Group size="default">
-                    <Button style={{ width: 150 }}>پسندیدہ بنایں</Button>
-                  </Button.Group>
+                  <Avatar src={rel(author.links, 'image')} size="110" border="true" borderColor="white" fallback="../../resources/images/avatar1.jpg" />
+                  {this.getAuthorActions(author)}
                 </div>
               </div>
             </div>
@@ -115,7 +201,7 @@ class AuthorPage extends React.Component {
                   <TabPane
                     tab={
                       <span>
-                        <i className="icmn-books" /> کتابیں
+                        <Icon type="book" /> کتابیں
                       </span>
                     }
                     key="1"
@@ -125,7 +211,7 @@ class AuthorPage extends React.Component {
                   <TabPane
                     tab={
                       <span>
-                        <i className="icmn-pencil" /> مضامین
+                        <Icon type="file" /> مضامین
                       </span>
                     }
                     key="2"
@@ -137,6 +223,12 @@ class AuthorPage extends React.Component {
           </div>
         </div>
       </div>
+      <EditAuthor author={author}
+                      visible={this.state.showEditor}
+                      createNew={false}
+                      createLink={null}
+                      onCancel={this.hideEditor.bind(this)}
+                      onOk={this.reloadAuthor.bind(this)} />
     </Page>);
   }
 }

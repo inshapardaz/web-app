@@ -28,14 +28,16 @@ class BookList extends React.Component {
       <List
         itemLayout="vertical"
         size="large"
+        loading={this.props.isLoading}
         pagination={{
           hideOnSinglePage: true,
           onChange: onPageChange,
           pageSize: books.pageSize,
-          defaultCurrent: books.currentPageIndex,
+          current: books.currentPageIndex,
           total: books.totalCount,
           itemRender: this.pagerRender
         }}
+        locale= {{ emptyText: 'کوئی کتاب موجود نہیں'}}
         dataSource={books.data}
         renderItem={book => (
           <List.Item
