@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { Modal, Form } from 'antd';
+import { Modal, Form, Icon } from 'antd';
 import AuthorForm from './AuthorForm';
 import ApiService from '../../services/api';
 import rel from '../../utils/rel';
@@ -51,8 +51,8 @@ class EditAuthor extends React.Component {
        }
       else {
         const { author } = this.props;
-        values.id = author.id;
-        api.put(rel(author.links, 'update'), values)
+        author.name = values.name;
+        api.put(rel(author.links, 'update'), author)
           .then(res => {
             success('ادیب کا اندراج', `${author.name} کا انداج کر دیا گیا ہیں؟`);
             this.hideEditor(false);

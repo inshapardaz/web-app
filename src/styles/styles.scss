@@ -138,3 +138,47 @@
 {
   overflow: hidden;
 }
+
+
+.ant-modal{
+  direction: rtl;
+
+  .ant-modal-close{
+    left:0;
+    right: initial;
+  }
+  .ant-modal-header {
+    text-align: right;
+  }
+
+  .ant-form-item-label{
+    text-align: right;
+  }
+
+  .ant-modal-footer{
+    text-align: left;
+
+    .ant-btn{
+      margin-right: 15px;
+    }
+  }
+}
+
+.ant-modal-confirm-body-wrapper{
+  .anticon {
+    float: right;
+    margin-left: 16px;
+    margin-right:0;
+  }
+
+  .ant-modal-confirm-title{
+    text-align: right;
+  }
+}
+
+.ant-modal-confirm-btns{
+  .ant-btn{
+    margin-left: 15px;
+    margin-right:0;
+  }
+}

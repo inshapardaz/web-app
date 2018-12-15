@@ -16,7 +16,9 @@ class Image extends React.Component
     if (this.props.source)
     {
       const imageUrl = rel(this.props.source.links, 'image');
-      return <img src={imageUrl} onError={this.onError.bind(this)}/>;
+      return (
+      <img src={imageUrl} onError={this.onError.bind(this)}/>
+      );
     }
 
     return (

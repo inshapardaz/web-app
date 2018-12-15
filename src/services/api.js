@@ -93,6 +93,27 @@ export default class ApiService {
       .then(res => res.data);
   }
 
+  upload(url, file){
+    let headers = {
+      'Accept' : 'application/json'
+    };
+
+    if (this.user && this.user.access_token) {
+      var authorization = `${this.user.token_type} ${this.user.id_token}`;
+      headers['Authorization'] = authorization;
+    }
+
+    let options = {
+      withCredentials: true,
+      headers: headers
+    }
+
+    const formData = new FormData();
+    formData.append('file', file, file.fileName);
+
+    return axios.post(url, formData, options);
+  }
+
   getEntry() {
     return this.get(baseUrl);
   }

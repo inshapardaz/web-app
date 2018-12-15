@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet'
 import ApiService from '../../services/api';
 
 import queryString from 'query-string'
-import { List, Card, Button, Icon, Modal } from 'antd';
+import { List, Card, Button, Icon, Modal, Upload } from 'antd';
 import Image from '../Image.jsx';
 import Page from '../Layout/Page.jsx';
 import rel from '../../utils/rel';
@@ -22,7 +22,7 @@ class AuthorsHome extends React.Component {
     super(props);
     this.state = {
       isError: false,
-      isLoading: false,
+      isLoading: true,
       showEditor : false,
       selectedAuthor : null,
       authors: { data: [], pageSize: 0, currentPageIndex: 0, totalCount: 0 }
@@ -35,7 +35,10 @@ class AuthorsHome extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const values = queryString.parse(nextProps.location.search)
-    this.loadAuthors(values.page);
+    if (this.state.page !== values.page)
+    {
+      this.loadAuthors(values.page);
+    }
   }
 
   onPageChange = (page, pageSize) => {
@@ -57,7 +60,6 @@ class AuthorsHome extends React.Component {
   }
 
   loadAuthors(page = 1) {
-    console.log(`loading page ${page}`)
     this.setState({
       isLoading: true,
       page: page
@@ -93,7 +95,6 @@ class AuthorsHome extends React.Component {
   }
 
   onDelete(author){
-    console.log(`on delete ${author}`)
     const api = new ApiService(this.props.user);
     api.delete(rel(author.links, 'delete'))
       .then(res => {
@@ -127,14 +128,37 @@ class AuthorsHome extends React.Component {
     })
   }
 
+  uploadImage(author, file){
+    const api = new ApiService(this.props.user);
+    console.log(file);
+    api.upload(rel(author.links, 'image-upload'), file.file)
+      .then(res => {
+        success('تصویر', `${author.name} کی تصویر محفوظ ہو گئی ہے۔`);
+        this.loadAuthors(this.state.page)
+          .then(r => this.hideEditor());
+      }, (e) => {
+        error('تصویر', `${author.name} کی تصویر محفوظ نہیں ہو سکی۔`);
+      });
+  }
+
 
   getActions(author){
     const editLink = rel(author.links, 'update')
     const deleteLink = rel(author.links, 'delete')
+    const uploadImageLink = rel(author.links, 'image-upload')
 
     let actions = [];
     if (deleteLink) {
       actions.push(<Icon type="delete" onClick={() => this.showDeleteConfirm(this.onDelete.bind(this, author), author)} />)
+    }
+    if (uploadImageLink){
+      const props = {
+        customRequest: this.uploadImage.bind(this, author),
+        multiple: false,
+        showUploadList: false
+      };
+
+      actions.push( <Upload {...props}><Icon type="picture" /></Upload>)
     }
     if (editLink) {
       actions.push(<Icon type="edit" onClick={() => this.showEdit(author)} />)
@@ -161,11 +185,12 @@ class AuthorsHome extends React.Component {
             pagination={{
               onChange: this.onPageChange,
               hideOnSinglePage: true,
-              defaultCurrent: authors.currentPageIndex,
+              current: authors.currentPageIndex,
               pageSize: authors.pageSize,
               total: authors.totalCount,
               itemRender: this.pagerRender
             }}
+            loading={isLoading}
             locale= {{ emptyText: 'کوئی مصنّف موجود نہیں'}}
             dataSource={authors.data}
             renderItem={item => (
