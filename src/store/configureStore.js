@@ -43,7 +43,6 @@ function configureStoreDev(initialState) {
 
   loadUser(store, userManager).then((r) => {
     if (r && r.id_token){
-      console.log(`refreshing token`)
       userManager.signinSilent();
     }
   });
