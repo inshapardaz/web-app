@@ -108,3 +108,25 @@
 .author-actions{
   margin-top: 12px;
 }
+
+.error-message {
+  text-align: center;
+
+  &__title {
+    display: block;
+    padding-bottom: 12px;
+  }
+}
+
+.loading {
+  min-height: 200px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  direction: rtl;
+
+  &__message {
+    display: block;
+    padding-top: 30px;
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet'
 import {connect} from 'react-redux';
 
-import {Button, Tabs, Icon, Modal } from 'antd';
+import {Button, Tabs, Icon, Modal, Spin } from 'antd';
 import AuthorBookList from './AuthorBookList.jsx';
 
 import ApiService from '../../services/api';
@@ -19,6 +19,13 @@ const TabPane = Tabs.TabPane
 const confirm = Modal.confirm;
 
 class AuthorPage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoading : true,
+      isError: false
+    }
+  }
   componentWillMount() {
     const {
       match: { params },
@@ -55,11 +62,9 @@ class AuthorPage extends React.Component {
             author: result
           });
         },
-        () => {
-          this.setState({
-            isLoading: false,
-            isError: true
-          });
+        (e) => {
+          console.log(e);
+        this.props.history.push('/error');
         }
       )
   }
@@ -148,7 +153,10 @@ class AuthorPage extends React.Component {
     const { isError, isLoading, author } = this.state;
 
     if (isLoading) {
-      return <div>Loading...</div>
+      return <div className="loading">
+        <Spin />
+        <h3 className="loading__message">انتظار فرمائیے۔۔۔</h3>
+      </div>
     }
 
     if (isError) {

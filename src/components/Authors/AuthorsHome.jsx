@@ -71,6 +71,7 @@ class AuthorsHome extends React.Component {
         (result) => {
           this.setState({
             isLoading: false,
+            isError: false,
             authors: result
           });
         },
@@ -167,46 +168,59 @@ class AuthorsHome extends React.Component {
     return actions;
   }
 
+  renderList(isLoading, authors){
+    return (<List
+      grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 5 }}
+      pagination={{
+        onChange: this.onPageChange,
+        hideOnSinglePage: true,
+        current: authors.currentPageIndex,
+        pageSize: authors.pageSize,
+        total: authors.totalCount,
+        itemRender: this.pagerRender
+      }}
+      loading={isLoading}
+      locale= {{ emptyText: 'کوئی مصنّف موجود نہیں'}}
+      dataSource={authors.data}
+      renderItem={item => (
+        <List.Item>
+          <Card hoverable
+            style={{ width: 240 }}
+            cover={<Image source={item} fallback="../../resources/images/avatar1.jpg" />}
+            actions={this.getActions(item)}>
+            <Meta
+              title={<Link to={`/authors/${item.id}`}>{item.name}</Link>}
+              description={`${item.bookCount} کتابیں`}
+            />
+          </Card>
+        </List.Item>
+      )}
+    />)
+  }
+
+  renderError() {
+    return (
+      <div className="error-message">
+        <span className="error-message__title">ادیب حاصل کرنے میں ناکامی ہوئی۔</span>
+        <Button onClick={this.reloadAuthors.bind(this)} >دوبارہ کوشش کریں</Button>
+      </div>
+    )
+  }
+
   render() {
     const { authors, isLoading, isError } = this.state;
 
     const createLink = (authors && authors.links) ? rel(authors.links, 'create') : null;
 
     return (
-      <Page {...this.props} title="مصنّف" isLoading={isLoading} isError={isError} actions={
+      <Page {...this.props} title="مصنّف" isLoading={isLoading} actions={
         createLink && <Button type="primary" onClick={() => this.showNew()}>
           نیا مصنّف <Icon type="plus" />
         </Button>
       }>
         <Helmet title="مصنّف" />
         <div className="author-list">
-          <List
-            grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 5 }}
-            pagination={{
-              onChange: this.onPageChange,
-              hideOnSinglePage: true,
-              current: authors.currentPageIndex,
-              pageSize: authors.pageSize,
-              total: authors.totalCount,
-              itemRender: this.pagerRender
-            }}
-            loading={isLoading}
-            locale= {{ emptyText: 'کوئی مصنّف موجود نہیں'}}
-            dataSource={authors.data}
-            renderItem={item => (
-              <List.Item>
-                <Card hoverable
-                  style={{ width: 240 }}
-                  cover={<Image source={item} fallback="../../resources/images/avatar1.jpg" />}
-                  actions={this.getActions(item)}>
-                  <Meta
-                    title={<Link to={`/authors/${item.id}`}>{item.name}</Link>}
-                    description={`${item.bookCount} کتابیں`}
-                  />
-                </Card>
-              </List.Item>
-            )}
-          />
+          { isError ? this.renderError() : this.renderList(isLoading, authors)}
           <EditAuthor author={this.state.selectedAuthor}
                       visible={this.state.showEditor}
                       createNew={this.state.isAdding}
