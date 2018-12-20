@@ -55,9 +55,10 @@ class EditBook extends React.Component {
         const { book } = this.props;
         book.title = values.title;
         book.description = values.description;
-        book.authorId = values.authorId;
+        //book.authorId = values.authorId;
         book.isPublic = values.isPublic;
         book.language = values.language;
+        book.categories = values.categories;
         api.put(rel(book.links, 'update'), book)
           .then(res => {
             success('کتاب کا اندراج', `${book.title} کا انداج کر دیا گیا ہیں؟`);

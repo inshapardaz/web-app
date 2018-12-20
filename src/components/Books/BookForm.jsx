@@ -47,9 +47,9 @@ class BookForm extends React.Component
   render() {
     const { getFieldDecorator } = this.props.form;
     const { book } = this.props;
-    const languageOptions = this.props.languages.map(d => <Option key={d.value}>{d.key}</Option>);
-    const categoryOptions = this.state.categories.map(d => <Option key={d.id}>{d.name}</Option>);
-    const authorOptions = this.state.authors.map(d => <Option key={d.id}>{d.name}</Option>);
+    const languageOptions = this.props.languages.map(d => <Option key={d.value} value={d.value}>{d.key}</Option>);
+    const categoryOptions = this.state.categories.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
+    const authorOptions = this.state.authors.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
 
     return (<Form layout="vertical">
         <FormItem label="نام">
@@ -103,9 +103,9 @@ class BookForm extends React.Component
           )}
         </FormItem>
 
-        {/* <FormItem label="زمرہ">
+        <FormItem label="زمرہ">
           {getFieldDecorator('categories', {
-            initialValue: book.categories
+            initialValue: book.categories? book.categories.map(c => c.id) : []
           })(
             <Select placeholder="زمرہ چنیں"
                     mode="multiple"
@@ -115,7 +115,7 @@ class BookForm extends React.Component
               {categoryOptions}
             </Select>
           )}
-        </FormItem> */}
+        </FormItem>
       </Form> );
   }
 }
