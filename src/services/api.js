@@ -118,6 +118,10 @@ export default class ApiService {
     return this.get(baseUrl);
   }
 
+  getCategories(){
+    return this.get(`${baseUrl}/categories`);
+  }
+
   searchBooks(query, page = 1) {
     return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=6`);
   }

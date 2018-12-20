@@ -85,13 +85,13 @@ class AuthorsHome extends React.Component {
       )
   }
 
-  showDeleteConfirm(onOk, author) {
+  showDeleteConfirm(author) {
     confirm({
       title: `کیا آپ ${author.name} کو خارج کرنا چاہتے ہیں؟`,
       okText: 'جی ہاں',
       okType: 'danger',
       cancelText: 'نہیں',
-      onOk : onOk
+      onOk : this.onDelete.bind(this, author)
     });
   }
 
@@ -150,7 +150,7 @@ class AuthorsHome extends React.Component {
 
     let actions = [];
     if (deleteLink) {
-      actions.push(<Icon type="delete" onClick={() => this.showDeleteConfirm(this.onDelete.bind(this, author), author)} />)
+      actions.push(<Icon type="delete" onClick={() => this.showDeleteConfirm(author)} />)
     }
     if (uploadImageLink){
       const props = {

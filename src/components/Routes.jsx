@@ -14,11 +14,11 @@ const loadable = loader =>
 
 const loadableRoutes = {
   '/callback': {
-    component: loadable(() => import('./Callback')),
+    component: loadable(() => import('./Callback.jsx')),
     exact: true
   },
   '/silent_renew': {
-    component: loadable(() => import('./silentRefresh')),
+    component: loadable(() => import('./silentRefresh.jsx')),
     exact: true
   },
   '/books/:id/chapters/:chapterId': {
@@ -56,7 +56,7 @@ const loadableRoutes = {
     component: loadable(() => import('./AboutPage')),
   },
   '/error': {
-    component: loadable(() => import('./ErrorPage')),
+    component: loadable(() => import('./ErrorPage.jsx')),
   }
 }
 

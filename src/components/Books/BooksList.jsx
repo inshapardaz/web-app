@@ -1,9 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom';
-import { List, Card, Tag } from 'antd';
+import { List, Card, Tag, Icon, Upload } from 'antd';
 import Image from '../Image.jsx';
 import IconText from '../IconText.jsx';
+import rel from '../../utils/rel';
 
 import './style.scss';
 
@@ -19,16 +20,42 @@ class BookList extends React.Component {
     return originalElement;
   }
 
-  render() {
-    const { books, onPageChange } = this.props;
-    if (!books)
-      return null;
-    return (
+  getBookActions(book) {
+    let actions = [
+      <IconText type={book.isPublic ? 'global' : 'lock'} />,
+      <IconText type="tags" text={book.categories.map(t => <Tag key={t.id} closable={false}>{t.name}</Tag>)} />];
+
+      const editLink = rel(book.links, 'update');
+      const deleteLink = rel(book.links, 'delete');
+      const uploadImageLink = rel(book.links, 'image-upload');
+
+      if (deleteLink) {
+        actions.push(<Icon type="delete" onClick={() => this.props.onDelete(book)} />)
+      }
+      if (uploadImageLink){
+        const props = {
+          //customRequest: this.props.onUploadImage(book),
+          multiple: false,
+          showUploadList: false
+        };
+
+        actions.push( <Upload {...props}><Icon type="picture" /></Upload>)
+      }
+      if (editLink) {
+        actions.push(<Icon type="edit" onClick={() => this.props.onEdit(book)} />)
+      }
+
+    return actions;
+  }
+
+  renderList(props){
+    const { books, onPageChange, isLoading } = props;
+    return(
       <div className="book-list">
       <List
         itemLayout="vertical"
         size="large"
-        loading={this.props.isLoading}
+        loading={isLoading}
         pagination={{
           hideOnSinglePage: true,
           onChange: onPageChange,
@@ -42,10 +69,7 @@ class BookList extends React.Component {
         renderItem={book => (
           <List.Item
             extra={<Image source={book} height="168" />}
-            actions={[
-              <IconText type={book.isPublic ? 'global' : 'lock'} />,
-              <IconText type="tags" text={book.categories.map(t => <Tag key={t.id} closable={false}>{t.name}</Tag>)} />
-            ]}
+            actions={this.getBookActions(book)}
           >
             <Meta
               title={<Link to={'/books/' + book.id} >{book.title}</Link>}
@@ -57,6 +81,22 @@ class BookList extends React.Component {
       />
       </div>
     );
+  }
+
+  renderError(props){
+    return ( <div className="error-message">
+        <span className="error-message__title">کتابیں حاصل کرنے میں ناکامی ہوئی۔</span>
+        <Button onClick={props.reload()} >دوبارہ کوشش کریں</Button>
+      </div>
+    );
+  }
+
+  render() {
+    if (this.props.isError) {
+      return this.renderError(this.props);
+    }
+
+    return this.renderList(this.props);
   }
 }
 

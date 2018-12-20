@@ -10,7 +10,7 @@ const ErrorPage = () => {
         <strong>Error 500</strong>
       </h1>
       <p className="mb-4">
-        We are embaressed to show this page. Apparently, something hasn't worked as expected and we apologize for trouble.
+        We are embaressed to show this page. Apparently, something hasn&apos;t worked as expected and we apologize for trouble.
         Why not try once again. It might just work or you can send us details so that we can make it better.
       </p>
       <Link to="/" className="btn">

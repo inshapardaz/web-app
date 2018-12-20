@@ -10,7 +10,8 @@ import { Helmet } from 'react-helmet'
 import { LocaleProvider } from 'antd'
 import enGB from 'antd/lib/locale-provider/en_GB'
 
-import { getEntry } from '../actions/ui';
+
+import { getEntry  } from '../actions/ui';
 import userManager from '../utils/userManager';
 import Layout from './Layout/Layout.jsx'
 
