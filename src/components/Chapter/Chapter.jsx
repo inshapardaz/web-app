@@ -119,11 +119,12 @@ class Chapter extends React.Component {
 
   changeFont(e)
   {
+    const font = `${e.key}, 'Segoe UI', Arial`;
     this.setState({
-      font: e.key
+      font: font
     });
 
-    localStorage.setItem('reader.font', e.key);
+    localStorage.setItem('reader.font', font);
   }
 
   toggleFullscreen() {
