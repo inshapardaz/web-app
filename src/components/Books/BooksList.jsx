@@ -1,13 +1,18 @@
 import React from 'react';
 import { withRouter } from 'react-router'
+import {connect} from 'react-redux';
+import ApiService from '../../services/api';
+import { success, error } from '../../utils/notifications';
+
 import { Link } from 'react-router-dom';
-import { List, Card, Tag, Icon, Upload } from 'antd';
+import { List, Card, Tag, Icon, Upload, Button, Modal } from 'antd';
 import Image from '../Image.jsx';
 import IconText from '../IconText.jsx';
 import rel from '../../utils/rel';
 
 import './style.scss';
 
+const confirm = Modal.confirm;
 const { Meta } = Card;
 
 class BookList extends React.Component {
@@ -20,6 +25,38 @@ class BookList extends React.Component {
     return originalElement;
   }
 
+  uploadImage(book, file){
+    const api = new ApiService(this.props.user);
+    api.upload(rel(book.links, 'image-upload'), file.file)
+      .then(res => {
+        success('تصویر', `${book.title} کی تصویر محفوظ ہو گئی ہے۔`);
+        this.props.reload();
+      }, (e) => {
+        error('تصویر', `${book.title} کی تصویر محفوظ نہیں ہو سکی۔`);
+      });
+  }
+
+  onDelete(book){
+    /*confirm({
+      title: `کیا آپ ${book.title} کو خارج کرنا چاہتے ہیں؟`,
+      okText: 'جی ہاں',
+      okType: 'danger',
+      cancelText: 'نہیں',
+      onOk : this.deleteBook.bind(this, book)
+    });*/
+  }
+
+  deleteBook(book){
+    const api = new ApiService(this.props.user);
+    api.delete(rel(book.links, 'delete'))
+      .then(res => {
+        success('ادیب کا اخراج', `${book.title} کو خارج کر دیا گیا ہیں؟`);
+        this.props.reload();
+      }, (e) => {
+        error('ادیب کا اخراج', `${book.title} کو خارج نہیں کیا جا سکا؟`);
+      });
+  }
+
   getBookActions(book) {
     let actions = [
       <IconText type={book.isPublic ? 'global' : 'lock'} />,
@@ -30,11 +67,11 @@ class BookList extends React.Component {
       const uploadImageLink = rel(book.links, 'image-upload');
 
       if (deleteLink) {
-        actions.push(<Icon type="delete" onClick={() => this.props.onDelete(book)} />)
+        actions.push(<Icon type="delete" onClick={() => this.onDelete(book)} />)
       }
       if (uploadImageLink){
         const props = {
-          //customRequest: this.props.onUploadImage(book),
+          customRequest: this.uploadImage.bind(this, book),
           multiple: false,
           showUploadList: false
         };
@@ -100,4 +137,7 @@ class BookList extends React.Component {
   }
 }
 
-export default withRouter(BookList);
+export default withRouter(connect(
+  state => ({
+    user: state.oidc.user
+}), null)(BookList));

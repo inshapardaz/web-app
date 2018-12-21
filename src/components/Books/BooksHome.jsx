@@ -7,9 +7,7 @@ import Page from '../Layout/Page.jsx';
 import BookList from './BooksList.jsx';
 import EditBook from './EditBook.jsx';
 import rel from '../../utils/rel';
-import { success } from '../../utils/notifications';
-import { Button, Icon, Modal } from 'antd';
-const confirm = Modal.confirm;
+import { Button, Icon } from 'antd';
 
 class BooksHome extends React.Component
 {
@@ -35,6 +33,10 @@ class BooksHome extends React.Component
 
   loadBooks(props)
   {
+    this.setState({
+      isLoading : true
+    });
+
     const values = queryString.parse(props.location.search)
     const page = values.page;
     const category = values.category;
@@ -45,6 +47,7 @@ class BooksHome extends React.Component
       (result) => {
         this.setState({
           isLoading : false,
+          isError: false,
           books: result
         });
       },
@@ -89,34 +92,13 @@ class BooksHome extends React.Component
     })
   }
 
-  onDelete(book){
-    confirm({
-      title: `کیا آپ ${book.title} کو خارج کرنا چاہتے ہیں؟`,
-      okText: 'جی ہاں',
-      okType: 'danger',
-      cancelText: 'نہیں',
-      onOk : this.deleteBook.bind(this, book)
-    });
-  }
-
-  deleteBook(book){
-    const api = new ApiService(this.props.user);
-    api.delete(rel(book.links, 'delete'))
-      .then(res => {
-        success('ادیب کا اخراج', `${book.title} کو خارج کر دیا گیا ہیں؟`);
-        this.reloadBooks();
-      }, (e) => {
-        error('ادیب کا اخراج', `${book.title} کو خارج نہیں کیا جا سکا؟`);
-      });
-  }
-
   render(){
     const { isError, isLoading, books } = this.state;
 
     const createLink = (books && books.links) ? rel(books.links, 'create') : null;
 
     return (
-      <Page {...this.props} title="کتابیں" isLoading={isLoading} isError={isError} actions={
+      <Page {...this.props} title="کتابیں" isLoading={isLoading} actions={
             createLink && <Button type="primary" onClick={() => this.showNew()}>
               نئی کتاب <Icon type="plus" />
             </Button>
@@ -126,15 +108,14 @@ class BooksHome extends React.Component
                   onPageChange={this.onPageChange.bind(this)}
                   isLoading={isLoading}
                   isError={isError}
-                  reload={this.loadBooks.bind(this, this.props)}
-                  onDelete={this.onDelete.bind(this)}
-                  onEdit={this.showEdit.bind(this)}/>
+                  reload={() => this.loadBooks.bind(this, this.props)}
+                  onEdit={(book) => this.showEdit(book)}/>
         <EditBook book={this.state.selectedBook}
                       visible={this.state.showEditor}
                       createNew={this.state.isAdding}
                       createLink={createLink}
-                      onCancel={this.hideEditor.bind(this)}
-                      onOk={this.reloadBooks.bind(this)} />
+                      onCancel={() => this.hideEditor()}
+                      onOk={() => this.reloadBooks()} />
       </Page>
     );
   }
