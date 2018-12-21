@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet';
 import ApiService from '../../services/api';
 import Page from '../Layout/Page.jsx';
 import BookList from './BooksList.jsx';
-import EditBook from './EditBook.jsx';
 import rel from '../../utils/rel';
 import { Button, Icon } from 'antd';
 
@@ -13,13 +12,11 @@ class BooksHome extends React.Component
 {
   constructor(props){
     super(props);
+    this.list = React.createRef();
     this.state = {
       isError: false,
       isLoading: false,
-      books: { data:[], pageSize: 0, currentPageIndex: 0, totalCount: 0},
-      selectedBook: null,
-      showEditor : false,
-      isAdding: false
+      books: { data:[], pageSize: 0, currentPageIndex: 0, totalCount: 0}
     };
   }
   componentDidMount()
@@ -60,8 +57,11 @@ class BooksHome extends React.Component
     )
   }
 
+  onNew(){
+    console.log(this.list.current)
+  }
+
   reloadBooks(){
-    this.hideEditor();
     this.loadBooks(this.props);
   }
 
@@ -70,52 +70,21 @@ class BooksHome extends React.Component
     this.props.history.push(`/books?page=${page}`);
   }
 
-  showNew(){
-    this.setState({
-      selectedBook: {},
-      showEditor : true,
-      isAdding: true
-    });
-  }
-
-  showEdit(book){
-    this.setState({
-      selectedBook: book,
-      showEditor : true,
-      isAdding: false
-    });
-  }
-
-  hideEditor(){
-    this.setState({
-      showEditor: false
-    })
-  }
-
   render(){
     const { isError, isLoading, books } = this.state;
 
     const createLink = (books && books.links) ? rel(books.links, 'create') : null;
 
     return (
-      <Page {...this.props} title="کتابیں" isLoading={isLoading} actions={
-            createLink && <Button type="primary" onClick={() => this.showNew()}>
-              نئی کتاب <Icon type="plus" />
-            </Button>
-          }>
+      <Page {...this.props} title="کتابیں" isLoading={isLoading}>
         <Helmet title="کتابیں" />
-        <BookList books={books}
+        <BookList ref={this.list}
+                  books={books}
+                  createLink={createLink}
                   onPageChange={this.onPageChange.bind(this)}
                   isLoading={isLoading}
                   isError={isError}
-                  reload={() => this.loadBooks.bind(this, this.props)}
-                  onEdit={(book) => this.showEdit(book)}/>
-        <EditBook book={this.state.selectedBook}
-                      visible={this.state.showEditor}
-                      createNew={this.state.isAdding}
-                      createLink={createLink}
-                      onCancel={() => this.hideEditor()}
-                      onOk={() => this.reloadBooks()} />
+                  reload={() => this.reloadBooks()} />
       </Page>
     );
   }

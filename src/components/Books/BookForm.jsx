@@ -49,7 +49,7 @@ class BookForm extends React.Component
     const { book } = this.props;
     const languageOptions = this.props.languages.map(d => <Option key={d.value} value={d.value}>{d.key}</Option>);
     const categoryOptions = this.state.categories.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
-    const authorOptions = this.state.authors.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
+    const authorOptions = this.state.authors.map(d => ({ value: d.id.toString(), text: d.name }) );
 
     return (<Form layout="vertical">
         <FormItem label="نام">
@@ -61,16 +61,16 @@ class BookForm extends React.Component
           )}
         </FormItem>
 
-        {/* <FormItem label="مصنّف">
+        <FormItem label="مصنّف">
           {getFieldDecorator('authorId', {
             rules: [{ required: true, message: 'مصنّف ضروری ہے' }],
-            initialValue: book.authorId
+            initialValue: book.authorId ? book.authorId.toString() : ""
           })(
             <AutoComplete placeholder="مصنّف کا نام چنیں"
                 dataSource={authorOptions}
                 onSearch={this.authorChange.bind(this)} />
           )}
-        </FormItem> */}
+        </FormItem>
 
         <FormItem label="تعارف">
           {getFieldDecorator('description', {
