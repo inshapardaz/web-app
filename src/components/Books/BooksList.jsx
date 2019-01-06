@@ -11,6 +11,8 @@ import Image from '../Image.jsx';
 import IconText from '../IconText.jsx';
 import rel from '../../utils/rel';
 
+import DeleteBook from './DeleteBook.jsx';
+
 import './style.scss';
 
 const confirm = Modal.confirm;
@@ -20,6 +22,7 @@ class BookList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showDelete : false,
       showEditor: false,
       isAdding: false,
       selectedBook: null
@@ -68,33 +71,19 @@ class BookList extends React.Component {
     })
   }
 
+  showDelete(book){
+    this.setState({
+      showDelete: true,
+      selectedBook: book
+    })
+  }
+
   reloadBook() {
     this.hideEditor();
     this.props.reload();
   }
 
-  onDelete(book) {
-    confirm({
-      title: `کیا آپ ${book.title} کو خارج کرنا چاہتے ہیں؟`,
-      okText: 'جی ہاں',
-      okType: 'danger',
-      cancelText: 'نہیں',
-      onOk: this.deleteBook.bind(this, book)
-    });
-  }
-
-  deleteBook(book) {
-    const api = new ApiService(this.props.user);
-    api.delete(rel(book.links, 'delete'))
-      .then(res => {
-        success('ادیب کا اخراج', `${book.title} کو خارج کر دیا گیا ہیں؟`);
-        this.reloadBook();
-      }, (e) => {
-        error('ادیب کا اخراج', `${book.title} کو خارج نہیں کیا جا سکا؟`);
-      });
-  }
-
-  getBookActions(book) {
+   getBookActions(book) {
     let actions = [
       <IconText type={book.isPublic ? 'global' : 'lock'} />,
       <IconText type="tags" text={book.categories.map(t => <Tag key={t.id} closable={false}>{t.name}</Tag>)} />];
@@ -104,7 +93,7 @@ class BookList extends React.Component {
     const uploadImageLink = rel(book.links, 'image-upload');
 
     if (deleteLink) {
-      actions.push(<Icon type="delete" onClick={() => this.onDelete(book)} />)
+      actions.push(<Icon type="delete" onClick={() => this.showDelete(book)} />)
     }
     if (uploadImageLink) {
       const props = {
@@ -131,6 +120,18 @@ class BookList extends React.Component {
     else {
       return null;
     }
+  }
+
+  renderDelete(){
+    if (this.state.showDelete){
+      return (
+        <DeleteBook book={this.state.selectedBook}
+          onOk={() => this.reloadBook()}
+          onCancel={() => this.setState({showDelete : false})}/>
+      );
+    }
+
+    return null;
   }
 
   renderList(props) {
@@ -166,6 +167,7 @@ class BookList extends React.Component {
           )}
         />
 
+       {this.renderDelete()}
         <EditBook book={this.state.selectedBook}
           visible={this.state.showEditor}
           createNew={this.state.isAdding}
