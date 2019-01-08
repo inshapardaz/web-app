@@ -153,7 +153,7 @@ class BookPage extends React.Component {
         showUploadList: false
       };
 
-      buttons.push(<Upload key="book-image-upload" {...props}>
+      buttons.push(<Upload key="book-image-upload" className="uploadButton" {...props}>
         <Button ghost>
           <Icon type="upload" theme="twoTone" twoToneColor="#eb2f96" />  سرورق تبدیل کریں
         </Button>
