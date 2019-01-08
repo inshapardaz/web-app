@@ -21,6 +21,10 @@ const loadableRoutes = {
     component: loadable(() => import('./silentRefresh.jsx')),
     exact: true
   },
+
+  '/books/:id/chapters/:chapterId/edit': {
+    component: loadable(() => import('./Chapter/ChapterEditor.jsx')),
+  },
   '/books/:id/chapters/:chapterId': {
     component: loadable(() => import('./Chapter/Chapter.jsx')),
   },

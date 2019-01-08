@@ -7,13 +7,12 @@ import Page from '../Layout/Page.jsx';
 import ApiService from '../../services/api';
 import rel from '../../utils/rel';
 import Image from '../Image.jsx';
-import { Button, Tag, List, Icon, Upload } from 'antd';
+import { Button, Tag, Icon, Upload } from 'antd';
 import './style.scss';
 import { success, error } from '../../utils/notifications';
 import EditBook from './EditBook.jsx';
 import DeleteBook from './DeleteBook.jsx';
-import EditChapter from './EditChapter.jsx';
-import DeleteChapter from './DeleteChapter.jsx';
+import ChapterList from './ChapterList.jsx';
 
 class BookPage extends React.Component {
   constructor(props) {
@@ -21,16 +20,9 @@ class BookPage extends React.Component {
     this.state = {
       isLoading: false,
       isError: false,
-      isLoadingChapters: false,
-      isErrorLoadingChapters: false,
       showBookEdit: false,
       showBookDelete: false,
-      addNewChapter: false,
-      showChapterEdit: false,
-      showChapterDelete: false,
-      selectedChapter: null,
-      book: { title: '', categories: [] },
-      chapters: { items: [] }
+      book: { title: '', categories: [] }
     }
   }
 
@@ -40,7 +32,6 @@ class BookPage extends React.Component {
     } = this.props
 
     this.loadBook(params.id);
-    this.loadChapters(params.id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,7 +39,6 @@ class BookPage extends React.Component {
       match: { params },
     } = nextProps
     this.loadBook(params.id);
-    this.loadChapters(params.id);
   }
 
   loadBook(id) {
@@ -76,34 +66,6 @@ class BookPage extends React.Component {
 
     this.setState({
       isLoading: false
-    });
-  }
-
-  loadChapters(id) {
-    this.setState({
-      isLoadingChapters: true,
-    });
-
-    const api = new ApiService(this.props.user);
-    api.getChapters(id)
-      .then(
-        (result) => {
-          this.setState({
-            isLoadingChapters: false,
-            isErrorLoadingChapters: false,
-            chapters: result
-          });
-        },
-        () => {
-          this.setState({
-            isLoadingChapters: false,
-            isErrorLoadingChapters: true
-          });
-        }
-      )
-
-    this.setState({
-      isLoadingChapters: false
     });
   }
 
@@ -192,55 +154,6 @@ class BookPage extends React.Component {
     this.loadBook(params.id);
   }
 
-  reloadChapters(){
-    const {
-      match: { params },
-    } = this.props
-
-    this.setState({ showChapterEdit: false, addNewChapter: false } );
-    this.loadChapters(params.id)
-  }
-
-  addChapter() {
-    this.setState({
-      showChapterEdit: true,
-      addNewChapter: true,
-      selectedChapter: {}
-    })
-  }
-
-  editChapter(chapter) {
-    this.setState({
-      showChapterEdit: true,
-      addNewChapter: false,
-      selectedChapter: chapter
-    })
-  }
-
-  onDeleteChapter(chapter) {
-    this.setState({
-      showChapterDelete: true,
-      selectedChapter: chapter
-    })
-  }
-
-  getChapterActions(chapter) {
-    var actions = [];
-
-    const editChapter = rel(chapter.links, 'update');
-    const deleteChapter = rel(chapter.links, 'delete');
-
-    if (deleteChapter) {
-      actions.push(<Icon type="delete" onClick={() => this.onDeleteChapter(chapter)} />)
-    }
-
-    if (editChapter) {
-      actions.push(<Icon type="edit" onClick={() => this.editChapter(chapter)} />)
-    }
-
-    return actions;
-  }
-
   renderBook(book) {
     return (
       <div className="card-body bookDescription">
@@ -296,51 +209,8 @@ class BookPage extends React.Component {
     return null;
   }
 
-  renderChapterEdit() {
-    if (this.state.showChapterEdit) {
-      const { book, addNewChapter, selectedChapter } = this.state;
-      if (book) {
-        const createLink = rel(book.links, 'create-chapter');
-        return (
-          <EditChapter chapter={selectedChapter}
-            visible={true}
-            createNew={addNewChapter}
-            createLink={createLink}
-            onCancel={() => this.setState({ showChapterEdit: false, addNewChapter: false })}
-            onOk={() => this.reloadChapters()} />
-        );
-      }
-    }
-
-    return null;
-  }
-
-  renderChapterDelete(){
-    if (this.state.showChapterDelete) {
-      return (
-        <DeleteChapter chapter={this.state.selectedChapter}
-          onOk={() => this.reloadChapters()}
-          onCancel={() => this.setState({ showChapterDelete: false })} />
-      );
-    }
-
-    return null;
-  }
-
-  renderChapterFooter() {
-    const { book } = this.state;
-
-    if (book) {
-      const createLink = rel(book.links, 'create-chapter');
-      if (createLink) {
-        return (<Button onClick={() => this.addChapter()}>مضمون کا اضافہ کریں</Button>);
-      }
-    }
-    return null;
-  }
-
   render() {
-    const { isLoading, isError, book, isLoadingChapters, chapters } = this.state;
+    const { isLoading, isError, book } = this.state;
 
     if (isLoading) {
       return <div>Loading...</div>
@@ -369,29 +239,12 @@ class BookPage extends React.Component {
               </div>
             </div>
             <div className="col-xl-8">
-              <List
-                size="large"
-                header={<h3 className="chapterTitle">فہرست</h3>}
-                footer={this.renderChapterFooter()}
-                locale={{ emptyText: 'کوئی مضمون موجود نہیں' }}
-                bordered
-                loading={isLoadingChapters}
-                dataSource={chapters.items}
-                renderItem={chapter => (
-                  <List.Item actions={this.getChapterActions(chapter)}>
-                    <Link to={`/books/${book.id}/chapters/${chapter.id}`}>
-                      {chapter.chapterNumber}. {chapter.title}
-                    </Link>
-                  </List.Item>)
-                }
-              />
+              <ChapterList book={book} />
             </div>
           </div>
         </div>
         {this.renderBookEdit(book)}
         {this.renderBookDelete(book)}
-        {this.renderChapterEdit()}
-        {this.renderChapterDelete()}
       </Page>);
   }
 }
