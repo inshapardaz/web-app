@@ -117,7 +117,7 @@ class ChapterList extends React.Component {
       actions.push(<Icon type="edit" style={{color : '#0072d6' }} onClick={() => this.editChapter(chapter)} />)
     }
 
-    if (addChapterContents) {
+    if (addChapterContents || editChapter) {
       actions.push(
         <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}/edit`}>
           <Icon type="form" style={{color : '#f2a654' }} />

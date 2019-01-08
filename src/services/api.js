@@ -28,10 +28,10 @@ export default class ApiService {
       .then(res => res.data);
   }
 
-  post(url, contents){
+  post(url, contents, contentType = 'application/json'){
     let headers = {
       'Accept' : 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': contentType
     };
 
     if (this.user && this.user.access_token) {
