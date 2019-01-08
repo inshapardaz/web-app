@@ -19,3 +19,15 @@
   position: relative;
   top: 1px;
 }
+
+.chapterTitle{
+  text-align: right;
+}
+
+.bookDescription{
+  //direction: rtl;
+
+  &__title{
+    text-align: center;
+  }
+}
