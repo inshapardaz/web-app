@@ -1,12 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Page from '../Layout/Page.jsx';
 import { Helmet } from 'react-helmet'
 
 import ApiService from '../../services/api';
-
 import Reader from '../Reader/Reader.jsx';
+import rel from '../../utils/rel';
 
 import { Menu, Icon } from 'antd';
 import './style.scss';
@@ -19,13 +19,13 @@ class Chapter extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
-      chapter: {title: ''},
+      chapter: { title: '' },
       contents: '',
       chapters: [],
       fullscreen: false,
-      fontSize: localStorage.getItem('reader.fontSize')||'100%',
-      theme: localStorage.getItem('reader.theme')||'default',
-      font: localStorage.getItem('reader.font')||''
+      fontSize: localStorage.getItem('reader.fontSize') || '100%',
+      theme: localStorage.getItem('reader.theme') || 'default',
+      font: localStorage.getItem('reader.font') || ''
     };
   }
 
@@ -100,8 +100,7 @@ class Chapter extends React.Component {
         }
       )
   }
-  changeFontSize(e)
-  {
+  changeFontSize(e) {
     this.setState({
       fontSize: e.key
     });
@@ -109,16 +108,14 @@ class Chapter extends React.Component {
     localStorage.setItem('reader.fontSize', e.key);
   }
 
-  changeTheme(e)
-  {
+  changeTheme(e) {
     this.setState({
       theme: e.key
     });
     localStorage.setItem('reader.theme', e.key);
   }
 
-  changeFont(e)
-  {
+  changeFont(e) {
     const font = `${e.key}, 'Segoe UI', Arial`;
     this.setState({
       font: font
@@ -137,22 +134,34 @@ class Chapter extends React.Component {
     else
       document.body.classList.add('no-scroll')
   }
+  renderEditLink() {
+    const { bookId, contents} = this.state;
+
+    if (!contents) return null;
+
+    const editLink = rel(contents.links, 'update');
+    if (editLink) {
+      return (<Menu.Item>
+        <Link to={`/books/${bookId}/chapters/${contents.chapterId}/edit`}><Icon type="form" />تدوین</Link>
+      </Menu.Item>);
+    }
+    return null;
+  }
 
   render() {
     const { bookId, chapter, chapters, contents, fullscreen, fontSize, theme, font } = this.state;
 
     let chapterMenus = [];
-    if (chapters && chapters.items)
-    {
+    if (chapters && chapters.items) {
       chapterMenus = chapters.items.map(c =>
         <Menu.Item key={c.id}>
           <Link to={`/books/${bookId}/chapters/${c.id}`}>{c.title}</Link>
-        </Menu.Item> );
+        </Menu.Item>);
     }
     return (
       <Page>
         <Helmet title={chapter.title} />
-        <div className={`chapter${fullscreen?'--fullscreen': ''} chapter__theme--${theme}`}>
+        <div className={`chapter${fullscreen ? '--fullscreen' : ''} chapter__theme--${theme}`}>
           <Menu mode="horizontal" theme={theme === 'dark' ? 'dark' : ''}>
             <Menu.Item>
               <Link to={`/books/${bookId}`}><Icon type="book" />کتاب</Link>
@@ -161,6 +170,8 @@ class Chapter extends React.Component {
             <SubMenu title={<span><Icon type="read" />ابواب</span>}>
               {chapterMenus}
             </SubMenu>
+
+            {this.renderEditLink()}
 
             <SubMenu title={<span><Icon type="font-size" />تھیم</span>} onClick={this.changeTheme.bind(this)}>
               <Menu.Item key="default">سفید</Menu.Item>
@@ -178,7 +189,7 @@ class Chapter extends React.Component {
                 <Menu.Item key="Nafees Nastaleeq">نفیس نستعلیق</Menu.Item>
               </SubMenu>
               <SubMenu title="نسخ">
-              <Menu.Item key="Nafees Web Naskh">نفیس نسخ</Menu.Item>
+                <Menu.Item key="Nafees Web Naskh">نفیس نسخ</Menu.Item>
                 <Menu.Item key="AdobeArabic">اڈوبی عربک</Menu.Item>
                 <Menu.Item key="MehfilNaskh">محفل نسخ</Menu.Item>
                 <Menu.Item key="Dubai">دبِی</Menu.Item>
@@ -205,7 +216,7 @@ class Chapter extends React.Component {
                 <Icon type="fullscreen-exit" />فُل سکرین سے اخراج
             </Menu.Item>}
           </Menu>
-          <div className="chapter__contents" style={{fontSize: fontSize, fontFamily: font ? font : 'inherit'}}>
+          <div className="chapter__contents" style={{ fontSize: fontSize, fontFamily: font ? font : 'inherit' }}>
             <div className="chapter__title">{chapter && chapter.title}</div>
             <Reader contents={contents.contents} />
           </div>
@@ -218,4 +229,4 @@ class Chapter extends React.Component {
 export default connect(
   state => ({
     user: state.oidc.user
-}), null)(Chapter)
+  }), null)(Chapter)
