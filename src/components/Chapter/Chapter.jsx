@@ -8,7 +8,7 @@ import ApiService from '../../services/api';
 import Reader from '../Reader/Reader.jsx';
 import rel from '../../utils/rel';
 
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, BackTop  } from 'antd';
 import './style.scss';
 
 const SubMenu = Menu.SubMenu;
@@ -20,6 +20,7 @@ class Chapter extends React.Component {
     this.state = {
       isLoading: false,
       chapter: { title: '' },
+      isLoadingContents: false,
       contents: '',
       chapters: [],
       fullscreen: false,
@@ -51,19 +52,20 @@ class Chapter extends React.Component {
     this.setState({
       bookId: bookId,
       isLoading: true,
+      isLoadingContents: true
     });
     const api = new ApiService(this.props.user);
     api.getChapterContents(bookId, chapterId)
       .then(
         (result) => {
           this.setState({
-            isLoading: false,
+            isLoadingContents: false,
             contents: result
           });
         },
         (error) => {
           this.setState({
-            isLoading: false,
+            isLoadingContents: false,
             isError: true
           });
         }
@@ -149,7 +151,7 @@ class Chapter extends React.Component {
   }
 
   render() {
-    const { bookId, chapter, chapters, contents, fullscreen, fontSize, theme, font } = this.state;
+    const { bookId, chapter, chapters, contents, fullscreen, fontSize, theme, font, isLoadingContents } = this.state;
 
     let chapterMenus = [];
     if (chapters && chapters.items) {
@@ -161,6 +163,7 @@ class Chapter extends React.Component {
     return (
       <Page>
         <Helmet title={chapter.title} />
+        <BackTop />
         <div className={`chapter${fullscreen ? '--fullscreen' : ''} chapter__theme--${theme}`}>
           <Menu mode="horizontal" theme={theme === 'dark' ? 'dark' : ''}>
             <Menu.Item>
@@ -218,7 +221,7 @@ class Chapter extends React.Component {
           </Menu>
           <div className="chapter__contents" style={{ fontSize: fontSize, fontFamily: font ? font : 'inherit' }}>
             <div className="chapter__title">{chapter && chapter.title}</div>
-            <Reader contents={contents.contents} />
+            <Reader contents={contents.contents} isLoading={isLoadingContents} />
           </div>
         </div>
       </Page>

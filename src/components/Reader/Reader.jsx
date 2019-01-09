@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.scss';
+import { Spin } from 'antd';
 const ReactMarkdown = require('react-markdown')
 const htmlParser = require('react-markdown/plugins/html-parser')
 var HtmlToReact = require('html-to-react');
@@ -31,6 +32,12 @@ class Reader extends React.Component {
 
   }
   render() {
+    const {isLoading} = this.props;
+
+    if (isLoading){
+      return <Spin className="reader__loading" />
+    }
+
     return (
       <div className="reader">
         <ReactMarkdown source={this.props.contents || ''}
