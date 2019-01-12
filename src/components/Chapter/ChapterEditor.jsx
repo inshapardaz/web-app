@@ -95,20 +95,18 @@ class ChapterEditor extends React.Component
     console.log(chapter)
     if (updateLink){
       api.put(updateLink, JSON.stringify(contents))
-      .then(
-        (result) => {
-          this.setState({
+      .then(res => {
+        success('متن کی تبدیلی', `متن میں تبدیلی محفوظ کر دی گئی ہے`);
+        this.setState({
             isLoading: false,
             isError: false
           });
-          success('متن کی تبدیلی', `متن میں تبدیلی محفوظ کر دی گئی ہے`);
-        },
-        () => {
+        }, e => {
+          error('متن کی تبدیلی', `متن میں تبدیلی محفوظ نہیں کی جا سکی ہے`);
           this.setState({
             isLoading: false,
             isError: true
           });
-          error('متن کی تبدیلی', `متن میں تبدیلی محفوظ نہیں کی جا سکی ہے`);
         }
       )
     } else if (createLink){

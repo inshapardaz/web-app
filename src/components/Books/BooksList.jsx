@@ -50,8 +50,13 @@ class BookList extends React.Component {
   }
 
   createNew() {
+    let book = {};
+    if (this.props.selectedAuthor){
+      book.authorId = this.props.selectedAuthor.id,
+      book.authorName = this.props.selectedAuthor.name
+    }
     this.setState({
-      selectedBook: {},
+      selectedBook: book,
       showEditor: true,
       isAdding: true
     });

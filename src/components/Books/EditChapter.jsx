@@ -83,7 +83,7 @@ class EditChapter extends React.Component {
       okText='محفوظ کریں'
       cancelText="اخراج"
       onOk={this.handleOk.bind(this)}
-      isSaving={isSaving}
+      confirmLoading={isSaving}
       onCancel={this.handleCancel.bind(this)}
     >
       <WrappedChapterForm ref="chapterForm" chapter={chapter} />

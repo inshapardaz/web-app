@@ -58,6 +58,7 @@ class AuthorBookList extends React.Component
     if (!this.state)
       return null;
     const { isError, isLoading, authorBooks } = this.state;
+    const { author } = this.props;
     if (isError)
     {
       return <h5>Unable to load books</h5>;
@@ -71,6 +72,8 @@ class AuthorBookList extends React.Component
     return (<BookList books={authorBooks}
                       createLink={createLink}
                       isLoading={isLoading}
+                      selectedAuthor={author}
+                      reload={this.loadBooks.bind(this)}
                       onPageChange={this.onPageChange.bind(this)} />)
   }
 }

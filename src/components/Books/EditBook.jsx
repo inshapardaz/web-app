@@ -91,7 +91,7 @@ class EditBook extends React.Component {
       okText='محفوظ کریں'
       cancelText="اخراج"
       onOk={this.handleOk.bind(this)}
-      isSaving={isSaving}
+      confirmLoading={isSaving}
       onCancel={this.handleCancel.bind(this)}
     >
       <WrappedBookForm ref="bookForm" book={book} />

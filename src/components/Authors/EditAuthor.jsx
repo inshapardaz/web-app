@@ -10,12 +10,12 @@ const WrappedAuthorForm = Form.create()(AuthorForm);
 class EditAuthor extends React.Component {
   state = {
     visible: false,
-    confirmLoading: false,
+    saving: false,
   }
 
   hideEditor(cancel = true){
     this.setState({
-      confirmLoading: false,
+      saving: false,
     });
     this.refs.authorForm.resetFields();
     if (cancel){
@@ -33,7 +33,7 @@ class EditAuthor extends React.Component {
         return;
 
       this.setState({
-        confirmLoading: true,
+        saving: true,
       });
 
       const api = new ApiService(this.props.user);
@@ -45,7 +45,7 @@ class EditAuthor extends React.Component {
            }, (e) => {
              error('ادیب کا اندراج', `${values.name} کا انداج نہیں کیا جا سکا؟`);
              this.setState({
-              confirmLoading: false,
+              saving: false,
             });
            });
        }
@@ -68,7 +68,7 @@ class EditAuthor extends React.Component {
   }
 
   render() {
-    const { confirmLoading } = this.state;
+    const { saving } = this.state;
     const { visible, author } = this.props;
 
     if (!author) {
@@ -83,7 +83,7 @@ class EditAuthor extends React.Component {
       okText='محفوظ کریں'
       cancelText="اخراج"
       onOk={this.handleOk.bind(this)}
-      confirmLoading={confirmLoading}
+      confirmLoading={saving}
       onCancel={this.handleCancel.bind(this)}
     >
       <WrappedAuthorForm ref="authorForm" author={author}/>
