@@ -63,7 +63,15 @@ class AuthorBookList extends React.Component
       return <h5>Unable to load books</h5>;
     }
 
-    return (<BookList books={authorBooks} isLoading={isLoading} onPageChange={this.onPageChange.bind(this)} />)
+    let createLink = null;
+    if (authorBooks && authorBooks.links) {
+        createLink = rel(authorBooks.links, 'create');
+    }
+
+    return (<BookList books={authorBooks}
+                      createLink={createLink}
+                      isLoading={isLoading}
+                      onPageChange={this.onPageChange.bind(this)} />)
   }
 }
 
