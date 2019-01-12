@@ -38,6 +38,7 @@ class EditChapter extends React.Component {
 
       const api = new ApiService(this.props.user);
       if (this.props.createNew) {
+        values.title = values.title.trim();
         api.post(this.props.createLink, values)
           .then(res => {
             success('مضمون کا اندراج', `${values.title} کا انداج کر دیا گیا ہیں؟`);
@@ -51,7 +52,7 @@ class EditChapter extends React.Component {
       }
       else {
         const { chapter } = this.props;
-        chapter.title = values.title;
+        chapter.title = values.title.trim();
         api.put(rel(chapter.links, 'update'), chapter)
           .then(res => {
             success('مضمون کا اندراج', `${chapter.title} کا انداج کر دیا گیا ہیں؟`);

@@ -41,6 +41,8 @@ class EditBook extends React.Component {
       const api = new ApiService(this.props.user);
       if (this.props.createNew) {
         values.authorId = parseInt(values.authorId);
+        values.title = values.title.trim();
+        values.description = values.description.trim();
         api.post(this.props.createLink, values)
           .then(res => {
             success('کتاب کا اندراج', `${values.name} کا انداج کر دیا گیا ہیں؟`);
@@ -54,8 +56,8 @@ class EditBook extends React.Component {
       }
       else {
         const { book } = this.props;
-        book.title = values.title;
-        book.description = values.description;
+        book.title = values.title.trim();
+        book.description = values.description.trim();
         book.authorId = parseInt(values.authorId);
         book.isPublic = values.isPublic;
         book.language = values.language;

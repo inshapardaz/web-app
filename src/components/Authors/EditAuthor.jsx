@@ -38,6 +38,7 @@ class EditAuthor extends React.Component {
 
       const api = new ApiService(this.props.user);
       if (this.props.createNew) {
+         values.name = values.name.trim();
          api.post(this.props.createLink, values)
            .then(res => {
              success('ادیب کا اندراج', `${values.name} کا انداج کر دیا گیا ہیں؟`);
@@ -51,7 +52,7 @@ class EditAuthor extends React.Component {
        }
       else {
         const { author } = this.props;
-        author.name = values.name;
+        author.name = values.name.trim();
         api.put(rel(author.links, 'update'), author)
           .then(res => {
             success('ادیب کا اندراج', `${author.name} کا انداج کر دیا گیا ہیں؟`);
