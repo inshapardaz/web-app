@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { Link } from 'react-router-dom';
 import Page from '../Layout/Page.jsx';
 import { Helmet } from 'react-helmet'
 import ApiService from '../../services/api';
 import rel from '../../utils/rel';
-import { Input, Button, Icon } from 'antd';
-import { success, error } from '../../utils/notifications';
+import { Input, Button, Icon, Menu, message } from 'antd';
 
 import './style.scss';
 
@@ -18,6 +18,7 @@ class ChapterEditor extends React.Component
   constructor(props) {
     super(props);
     this.state = {
+      fullscreen: false,
       isLoading: false,
       isError: false,
       chapter: {title: ''},
@@ -92,17 +93,17 @@ class ChapterEditor extends React.Component
     const api = new ApiService(this.props.user);
     const updateLink = rel(chapterContents.links, 'update');
     const createLink = rel(chapter.links, 'add-contents');
-    console.log(chapter)
+
     if (updateLink){
       api.put(updateLink, JSON.stringify(contents))
       .then(res => {
-        success('متن کی تبدیلی', `متن میں تبدیلی محفوظ کر دی گئی ہے`);
+        message.success(`متن میں تبدیلی محفوظ کر دی گئی ہے`);
         this.setState({
             isLoading: false,
             isError: false
           });
         }, e => {
-          error('متن کی تبدیلی', `متن میں تبدیلی محفوظ نہیں کی جا سکی ہے`);
+          message.error(`متن میں تبدیلی محفوظ نہیں کی جا سکی ہے`);
           this.setState({
             isLoading: false,
             isError: true
@@ -112,13 +113,13 @@ class ChapterEditor extends React.Component
     } else if (createLink){
       api.post(createLink, JSON.stringify(contents))
       .then(res => {
-          success('متن کی تبدیلی', `متن میں تبدیلی محفوظ کر دی گئی ہے`);
+        message.success(`متن میں تبدیلی محفوظ کر دی گئی ہے`);
           this.setState({
             isLoading: false,
             isError: false
           });
         }, e => {
-          error('متن کی تبدیلی', `متن میں تبدیلی محفوظ نہیں کی جا سکی ہے`);
+          message.error(`متن میں تبدیلی محفوظ نہیں کی جا سکی ہے`);
           this.setState({
             isLoading: false,
             isError: true
@@ -126,6 +127,17 @@ class ChapterEditor extends React.Component
         }
       )
     }
+  }
+
+  toggleFullscreen() {
+    this.setState(prevState => ({
+      fullscreen: !prevState.fullscreen
+    }));
+
+    if (this.state.fullscreen)
+      document.body.classList.remove('no-scroll')
+    else
+      document.body.classList.add('no-scroll')
   }
 
   onChange(e) {
@@ -136,17 +148,35 @@ class ChapterEditor extends React.Component
   }
 
   render(){
-    const { isLoading, chapter, contents } = this.state;
+    const { isLoading, chapter, contents, fullscreen } = this.state;
 
     return (
       <Page isLoading={isLoading}>
         <Helmet title={`${chapter.title} کی تدوین`} />
-        <ButtonGroup >
-            <Button onClick={this.saveContents.bind(this)} ><Icon type="save" />محفوظ کریں</Button>
-        </ButtonGroup>
-        <TextArea className="chapterEditor" rows={50}
+        <div className={`chapter${fullscreen ? '--fullscreen' : ''}`}>
+        <Menu mode="horizontal">
+          <Menu.Item>
+              <Link to={`/books/${chapter.bookId}`}><Icon type="book" />کتاب</Link>
+          </Menu.Item>
+          <Menu.Item onClick={this.saveContents.bind(this)} >
+              <Icon type="save" />محفوظ کریں
+          </Menu.Item>
+
+          {!fullscreen &&
+              <Menu.Item onClick={this.toggleFullscreen.bind(this)}>
+                <Icon type="fullscreen" />فُل سکرین
+            </Menu.Item>}
+
+            {fullscreen &&
+              <Menu.Item onClick={this.toggleFullscreen.bind(this)}>
+                <Icon type="fullscreen-exit" />فُل سکرین سے اخراج
+            </Menu.Item>}
+        </Menu>
+
+          <TextArea className="chapterEditor" rows={50}
               onChange={this.onChange.bind(this)}
               value={contents} />
+            </div>
       </Page>);
   }
 }
