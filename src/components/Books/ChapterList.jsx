@@ -15,7 +15,7 @@ class ChapterList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoadingChapters: false,
+      isLoadingChapters: true,
       isErrorLoadingChapters: false,
       addNewChapter: false,
       showChapterEdit: false,
