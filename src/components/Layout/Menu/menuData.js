@@ -33,7 +33,7 @@ export default [
       },
       {
         title: 'زمرہ‌جات',
-        key: 'categories',
+        key: 'book-categories',
         icon: 'icmn icmn-stack',
         children: []
       }
@@ -44,6 +44,12 @@ export default [
     key: 'authors',
     icon: 'icmn icmn-users',
     url: '/authors'
+  },
+  {
+    title: 'زمرہ‌جات',
+    key: 'categories',
+    icon: 'icmn icmn-stack',
+    url: '/categories',
   },
   {
     title: 'لغّات',

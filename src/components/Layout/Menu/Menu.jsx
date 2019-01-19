@@ -21,7 +21,7 @@ class AppMenu extends React.Component {
     this.setState({
       open,
       isMenuTop,
-    })
+    });
   }
 
   render() {

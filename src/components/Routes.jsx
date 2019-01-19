@@ -56,6 +56,9 @@ const loadableRoutes = {
   '/dictionaries': {
     component: loadable(() => import('./Dictionary/DictionaryHome.jsx')),
   },
+  '/categories': {
+    component: loadable(() => import('./Categories/CategoriesHome.jsx')),
+  },
   '/about': {
     component: loadable(() => import('./AboutPage')),
   },
