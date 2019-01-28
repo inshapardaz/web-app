@@ -1,4 +1,4 @@
-* text eol=lf
+* text eol=crlf
 
 *.png binary
 *.jpg binary
@@ -9,3 +9,5 @@
 *.ttf binary
 *.woff binary
 *.woff2 binary
+*.ico binary
+*.gif binary
