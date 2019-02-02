@@ -4,11 +4,14 @@ import { bindActionCreators } from 'redux';
 import { Segment } from 'semantic-ui-react'
 
 import { IntlProvider } from 'react-intl';
+import {getEntry} from './actions/dataActions';
 
 import { Navbar } from 'components'
 import 'styling/semantic.less'
 import Routes from './Routes';
 import LocaleService from './services/LocaleService';
+
+import { push } from 'connected-react-router'
 
 const leftItems = [
   {
@@ -63,24 +66,21 @@ class App extends React.Component {
       locale : locale
     });
         
-    // try {
-    //   await this.props.getEntry();
-    //   this.setState({
-    //     isLoading: false
-    //   });
-    // }
-    // catch
-    // {
-    //   this.setState({
-    //     isLoading: false,
-    //     isError: true
-    //   });
-    // }
+    try {
+       await this.props.getEntry();
+       this.setState({
+         isLoading: false
+       });
+     }
+    catch
+    {
+      console.log('error')
+      this.props.push('/error');
+    }
 
     this.setState({
       isLoading: false
     });
-
   }
 
   render() {
@@ -91,7 +91,6 @@ class App extends React.Component {
     }
 
     if (locale) {
-      console.log(locale);
       return (
         <IntlProvider locale={locale.locale} messages={locale.messages}>
           <Navbar leftItems={leftItems} rightItems={rightItems}>
@@ -107,4 +106,15 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default (connect(
+  (state) => ({
+    history: state.history,
+    entry: state.entry,
+    isLoading: state.isLoading,
+    user: state.oidc.user
+  }),
+  dispatch => bindActionCreators({
+    getEntry: getEntry,
+    push: push
+  }, dispatch)
+)(App));

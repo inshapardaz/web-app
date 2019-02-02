@@ -17,13 +17,13 @@ const store = configureStore();
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
-          <Provider store={store}>
-            <ConnectedRouter history={history}>
-              <OidcProvider userManager={userManager} store={store}>
-                <Component store={store} />  
-              </OidcProvider>
-            </ConnectedRouter>
-          </Provider>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <OidcProvider userManager={userManager} store={store}>
+            <Component />
+          </OidcProvider>
+        </ConnectedRouter>
+      </Provider>
     </AppContainer>,
     document.getElementById('root'),
   )
