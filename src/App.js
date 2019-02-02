@@ -1,15 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Segment } from 'semantic-ui-react'
 
-import { OidcProvider } from 'redux-oidc';
-import { ConnectedRouter } from 'connected-react-router';
-import userManager from './services/userManager';
-import { Provider } from 'react-redux';
+import { IntlProvider } from 'react-intl';
 
-import {history} from './store/configureStore';
 import { Navbar } from 'components'
 import 'styling/semantic.less'
 import Routes from './Routes';
+import LocaleService from './services/LocaleService';
 
 const leftItems = [
   {
@@ -45,22 +44,67 @@ const rightItems = [
   },
 ]
 
+
 class App extends React.Component {
+  state = {
+    isLoading: false,
+    locale: null
+  };
+
+  async componentDidMount() {
+    this.setState({
+      isLoading: true
+    });
+
+    let localSetting = new LocaleService();
+    var locale = await localSetting.initLocale();
+
+    this.setState({
+      locale : locale
+    });
+        
+    // try {
+    //   await this.props.getEntry();
+    //   this.setState({
+    //     isLoading: false
+    //   });
+    // }
+    // catch
+    // {
+    //   this.setState({
+    //     isLoading: false,
+    //     isError: true
+    //   });
+    // }
+
+    this.setState({
+      isLoading: false
+    });
+
+  }
+
   render() {
-    return (
-      <Provider store={this.props.store}>
-      <ConnectedRouter  history={history}>
-        <OidcProvider userManager={userManager} store={this.props.store}>
-            <Navbar leftItems={leftItems} rightItems={rightItems}>
-              <Segment>
-                <Routes />  
-              </Segment>
-            </Navbar>
-            </OidcProvider>
-          </ConnectedRouter>        
-      </Provider>
-    );
+
+    const { isLoading, locale } = this.state;
+    if (isLoading) {
+      return null;
+    }
+
+    if (locale) {
+      console.log(locale);
+      return (
+        <IntlProvider locale={locale.locale} messages={locale.messages}>
+          <Navbar leftItems={leftItems} rightItems={rightItems}>
+            <Segment>
+              <Routes />
+            </Segment>
+          </Navbar>
+        </IntlProvider>
+      );
+    }
+    
+    return null;
   }
 }
 
-export default App
+export default App;

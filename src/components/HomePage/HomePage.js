@@ -3,13 +3,14 @@ import React from 'react';
 import { Button, Grid, Header, List } from 'semantic-ui-react'
 
 import { CustomMessage } from 'components'
+import { FormattedMessage } from 'react-intl';
 
 class HomePage extends React .Component
 {
     render() {
         return (
             <React.Fragment>
-                <Header as='h1'>Your example App</Header>
+                <Header as='h1'><FormattedMessage id="App"/></Header>
 
                 <Grid>
                     <Grid.Column computer={6} mobile={16}>

@@ -5,59 +5,29 @@ import HomePage from "./components/HomePage/HomePage";
 import NotFoundPage from './components/NotFoundPage/NotFound';
 import Callback from './components/Callback';
 
+import AuthorHome from './components/Authors/AuthorHome';
+import AuthorPage from './components/Authors/AuthorPage';
+import BookPage from './components/Books/BookPage';
+import BooksHome from './components/Books/BooksHome';
+
+import ChapterEditor from './components/Chapter/ChapterEditor';
+import Chapter from './components/Chapter/Chapter';
+
+import DictionaryHome from './components/Dictionary/DictionaryHome';
+import DictionaryPage from './components/Dictionary/DictionaryPage';
+
+import CategoriesHome from './components/Categories/CategoriesHome';
+
+import ErrorPage from './components/ErrorPage';
+import AboutPage from './components/AboutPage';
 
 const loadableRoutes = {
-  /*'/callback': {
-    component: loadable(() => import('./Callback.jsx')),
-    exact: true
-  },
-  '/silent_renew': {
+  /*{} '/silent_renew': {
     component: loadable(() => import('./silentRefresh.jsx')),
     exact: true
   },
-
-  '/books/:id/chapters/:chapterId/edit': {
-    component: loadable(() => import('./Chapter/ChapterEditor.jsx')),
-  },
-  '/books/:id/chapters/:chapterId': {
-    component: loadable(() => import('./Chapter/Chapter.jsx')),
-  },
-  '/books/:id': {
-    component: loadable(() => import('./Books/BookPage.jsx')),
-  },
-  '/books/new': {
-    component: loadable(() => import('./Books/BooksHome.jsx')),
-  },
-  '/books/favorites': {
-    component: loadable(() => import('./Books/BooksHome.jsx')),
-  },
-  '/books/recents': {
-    component: loadable(() => import('./Books/BooksHome.jsx')),
-  },
-  '/books': {
-    component: loadable(() => import('./Books/BooksHome.jsx')),
-    exact:true
-  },
-  '/authors/:id': {
-    component: loadable(() => import('./Authors/AuthorPage.jsx')),
-  },
-  '/authors': {
-    component: loadable(() => import('./Authors/AuthorsHome.jsx')),
-  },
-  '/dictionaries/:id': {
-    component: loadable(() => import('./Dictionary/DictionaryPage.jsx')),
-  },
-  '/dictionaries': {
-    component: loadable(() => import('./Dictionary/DictionaryHome.jsx')),
-  },
   '/categories': {
     component: loadable(() => import('./Categories/CategoriesHome.jsx')),
-  },
-  '/about': {
-    component: loadable(() => import('./AboutPage')),
-  },
-  '/error': {
-    component: loadable(() => import('./ErrorPage.jsx')),
   }*/
 }
 
@@ -66,8 +36,21 @@ class Routes extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/callback" component={Callback} />
-        <Route exact path="/" component={HomePage} />
+        <Route path="/callback" component={Callback} exact />
+        <Route path="/" component={HomePage} exact />
+        <Route path="/about" component={AboutPage} exact /> 
+        <Route path="/error" component={ErrorPage} exact />        
+        <Route path="/authors/:id" component={AuthorPage} />
+        <Route path="/authors" component={AuthorHome} />
+        <Route path="/books/:id/chapters/:chapterId/edit" component={ChapterEditor} />
+        <Route path="/books/:id/chapters/:chapterId" component={Chapter} />
+        <Route path="/books/:id" component={BookPage} />
+        <Route path="/books/new" component={BooksHome} />
+        <Route path="/books/recent" component={BooksHome} />
+        <Route path="/books/favorites" component={BooksHome} />
+        <Route path="categories" component={CategoriesHome} />
+        <Route path="/dictionaries/:id" component={DictionaryPage} />
+        <Route path="/dictionaries" component={DictionaryHome} />
         <Route 
           render={() => (
             <NotFoundPage />
