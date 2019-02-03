@@ -10,7 +10,7 @@ class HomePage extends React .Component
     render() {
         return (
             <React.Fragment>
-                <Header as='h1'><FormattedMessage id="App"/></Header>
+                <Header as='h1'><FormattedMessage id="app"/></Header>
 
                 <Grid>
                     <Grid.Column computer={6} mobile={16}>

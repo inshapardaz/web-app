@@ -1,25 +1,44 @@
 import React from 'react'
 import { Dropdown, Menu, Icon } from 'semantic-ui-react'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {FormattedMessage} from 'react-intl';
 
 class CategoriesDropDown extends React.Component
 {
-    componentDidMount() {
-    } 
+    renderCategories(categories)
+    {
+        if (categories && categories.items)
+        {
+            var retval = [];
+            retval.push(<Menu.Item key="0" href={`/categories`}> <FormattedMessage id="categories.list"/></Menu.Item>);
+            retval.push(<Dropdown.Divider />);
+            retval.push(categories.items.map(c => (
+            <Dropdown.Item key={c.id} href={`/books?category=${c.id}`}>
+                {c.name}
+            </Dropdown.Item>)));
+
+            return retval;
+        }
+
+        return null;
+    }
 
     render(){
-        if (this.props.isMobile){
+        const { categories, isMobile } = this.props;
+
+        const categoriesItem = this.renderCategories(categories);
+        
+        if (isMobile){
             return (
                 <React.Fragment>
-                    <Menu.Menu>
+                    <Dropdown.Menu>
                         <a className="item">
                             <Icon name="folder outline"></Icon>
-                            Categories
+                            <FormattedMessage id="categories"/>
                         </a>
-                        <Menu.Item>Comedy</Menu.Item>
-                        <Menu.Item>History</Menu.Item>
-                        <Menu.Item>Biography</Menu.Item>
-                        <Menu.Item>Fiction</Menu.Item>
-                    </Menu.Menu>
+                        {categoriesItem}
+                    </Dropdown.Menu>
                 </React.Fragment>
             );
         }
@@ -27,12 +46,9 @@ class CategoriesDropDown extends React.Component
         {
 
             return (
-                <Dropdown item icon='folder outline' simple labeled text="Categories">
+                <Dropdown item simple text={<><Icon type="folder outline" inverted /> <FormattedMessage id="categories"/></>}>
                     <Dropdown.Menu>
-                        <Dropdown.Item>Comedy</Dropdown.Item>
-                        <Dropdown.Item>History</Dropdown.Item>
-                        <Dropdown.Item>Biography</Dropdown.Item>
-                        <Dropdown.Item>Fiction</Dropdown.Item>
+                        {categoriesItem}
                     </Dropdown.Menu>
                 </Dropdown>
             );
@@ -40,4 +56,10 @@ class CategoriesDropDown extends React.Component
     }
 }
 
-export default CategoriesDropDown
+export default (connect(
+    (state) => ({
+        categories: state.apiReducers.categories
+    }),
+    dispatch => bindActionCreators({
+    }, dispatch)
+  )(CategoriesDropDown));

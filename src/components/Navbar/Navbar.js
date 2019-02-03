@@ -5,13 +5,31 @@ import { Responsive } from 'semantic-ui-react'
 import NavbarChildren from './NavbarChildren'
 import NavbarDesktop from './NavbarDesktop'
 import NavbarMobile from './NavbarMobile'
+import ProfileMenu from './ProfileMenu';
 
 export default class NavBar extends Component {
   static propTypes = {
     children: PropTypes.node,
-    leftItems: PropTypes.arrayOf(PropTypes.object),
-    rightItems: PropTypes.arrayOf(PropTypes.object),
   }
+
+  constructor(props){
+    super(props);
+
+    this.leftItems = [
+      {
+        as: 'a',
+        content: 'Book',
+        href: '/books',
+        icon: 'book',
+        key: 'books'
+      }, {
+        as: 'a',
+        content: 'Authors',
+        href: '/authors',
+        icon: 'users',
+        key: 'authors'
+      }]
+    }
 
   state = {
     visible: false
@@ -26,14 +44,14 @@ export default class NavBar extends Component {
   handleToggle = () => this.setState({ visible: !this.state.visible });
 
   render() {
-    const { children, leftItems, rightItems } = this.props
+    const { children } = this.props
     const { visible } = this.state
-
+    const rightItems = <ProfileMenu />;
     return (
       <div>
         <Responsive {...Responsive.onlyMobile}>
           <NavbarMobile
-            leftItems={leftItems}
+            leftItems={this.leftItems}
             onPusherClick={this.handlePusher}
             onToggle={this.handleToggle}
             rightItems={rightItems}
@@ -43,7 +61,7 @@ export default class NavBar extends Component {
           </NavbarMobile>
         </Responsive>
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          <NavbarDesktop leftItems={leftItems} rightItems={rightItems} />
+          <NavbarDesktop leftItems={this.leftItems} rightItems={rightItems} />
           <NavbarChildren>{children}</NavbarChildren>
         </Responsive>
       </div>

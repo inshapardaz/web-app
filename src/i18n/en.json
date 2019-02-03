@@ -1,10 +1,12 @@
 {
-    "App" : "inshapardaz",
+    "app" : "inshapardaz",
     "register" : "Register",
     "login" : "Login",
     "logout": "Logout",
     "welcome.user" : "Welcome {user}",
     "forgetPassword" : "Forgot Password",
     "changePassword" : "Change Password",
-    "profile.edit" : "Edit Profile"
+    "profile.edit" : "Edit Profile",
+    "categories": "Categories",
+    "categories.list": "All Categories"
 }

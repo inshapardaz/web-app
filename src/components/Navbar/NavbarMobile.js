@@ -7,20 +7,20 @@ import * as styles from './NavbarMobile.less'
 import CategoriesDropDown from './CategoriesDropDown';
 import Search from  './ProfileMenu';
 
-const NavbarMobile = ({ children, leftItems, onPusherClick, onToggle, rightItems, visible }) => (
+const NavbarMobile = ({ children, leftItems, onPusherClick, onToggle, visible }) => (
   <Sidebar.Pushable>
     <Sidebar
       as={Menu}
       animation='overlay'
       icon='labeled'
       inverted
-      items={[...leftItems, ...rightItems, <CategoriesDropDown isMobile={true} key="categories" />]}
+      items={[...leftItems, <CategoriesDropDown isMobile={true} key="categories" />]}
       vertical
       visible={visible}
     />
     <Sidebar.Pusher dimmed={visible} onClick={onPusherClick} className={styles.pusher}>
       <Menu fixed='top' inverted>
-        <Menu.Item>
+        <Menu.Item href="/">
           <Image size='mini' src={logo} />
         </Menu.Item>
         <Search isMobile={true}/>

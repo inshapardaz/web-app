@@ -1,10 +1,12 @@
 {
-    "App" : "اانشاپرداز",
+    "app" : "اانشاپرداز",
     "register" : "رکن بنیں",
     "login" : "داخل ہوں",
     "logout": "اخراج",
     "welcome.user" : "خوش آمدید {user}",
     "forgetPassword" : "پاس ورڈ کھو گیا",
     "changePassword" : "پاس ورڈ کی تبدیلی",
-    "profile.edit" : "پروفائل کی تبدیلی"
+    "profile.edit" : "پروفائل کی تبدیلی",
+    "categories": "زمرہ جات",
+    "categories.list": "فہرست زمرہ جات"
 }

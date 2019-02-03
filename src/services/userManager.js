@@ -17,3 +17,4 @@ const userManagerConfig = {
 const userManager = createUserManager(userManagerConfig);
 
 export default userManager;
+

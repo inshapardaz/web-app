@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { login, logout } from '../../actions/authActions'
 import { Dropdown, Icon } from 'semantic-ui-react'
-import userManager from '../../services/userManager';
 import {FormattedMessage} from 'react-intl';
 
 class ProfileMenu extends React.Component {

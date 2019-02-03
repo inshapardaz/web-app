@@ -25,7 +25,7 @@ export default function apiReducer(state = {}, action) {
       case CATEGORIES:
         return {
           ... state,
-          categories: action.categories,
+          categories: action.payload,
         }
       default:
         return state;

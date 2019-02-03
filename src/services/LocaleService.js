@@ -30,7 +30,7 @@ export default class LocaleService {
         
         document.dir = isRtl ? 'rtl' : 'ltr';
 
-        if (isRtl){
+        /*if (isRtl){
             var jsref=document.createElement('script')
             jsref.setAttribute("type","text/javascript")
             jsref.setAttribute("src", "https://cdn.rtlcss.com/semantic-ui/2.2.6/semantic.min.js")
@@ -45,7 +45,7 @@ export default class LocaleService {
             //cssref.setAttribute("integrity", "sha384-kZT+CItOKWHYL+Rz37W2NEz60Pu2JJJ8wgzq+82VWsi3QM53eNFzQJZqzhPuyo63")
             cssref.setAttribute("crossorigin","anonymous")
             document.getElementsByTagName("head")[0].appendChild(cssref);
-        }
+        }*/
 
         return {
             locale: locale,

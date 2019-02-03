@@ -48,6 +48,7 @@ class Routes extends React.Component {
         <Route path="/books/new" component={BooksHome} />
         <Route path="/books/recent" component={BooksHome} />
         <Route path="/books/favorites" component={BooksHome} />
+        <Route path="/books" component={BooksHome} />
         <Route path="categories" component={CategoriesHome} />
         <Route path="/dictionaries/:id" component={DictionaryPage} />
         <Route path="/dictionaries" component={DictionaryHome} />
