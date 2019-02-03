@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom';
 import { Dropdown, Menu, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,11 +13,11 @@ class CategoriesDropDown extends React.Component
         {
             var retval = [];
 
-        retval.push(<Menu.Item key="0" href={`/categories`} > 
+        retval.push(<Menu.Item key="0" as={Link} to={`/categories`} > 
                 <Icon name='folder outline' /><FormattedMessage id="header.categories.list"/></Menu.Item>);
             retval.push(<Dropdown.Divider key="divider-1" />);
             retval.push(categories.items.map(c => (
-            <Dropdown.Item key={c.id} href={`/books?category=${c.id}`}>
+            <Dropdown.Item key={c.id} as={Link} to={`/books?category=${c.id}`}>
                 {c.name}
             </Dropdown.Item>)));
 

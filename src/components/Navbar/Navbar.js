@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Responsive, Menu, Icon } from 'semantic-ui-react'
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import NavbarChildren from './NavbarChildren'
 import NavbarDesktop from './NavbarDesktop'
 import NavbarMobile from './NavbarMobile'
 import ProfileMenu from './ProfileMenu';
+import Footer from './Footer';
 
 export default class NavBar extends Component {
   static propTypes = {
@@ -26,7 +27,7 @@ export default class NavBar extends Component {
 
   handleToggle = () => this.setState({ visible: !this.state.visible });
 
-  renderMenuItems(){
+  renderMenuItems() {
     return [
       (<Menu.Item key="book" as={Link} to="/books">
         <Icon name="book" />
@@ -59,6 +60,7 @@ export default class NavBar extends Component {
           <NavbarDesktop leftItems={leftItems} rightItems={rightItems} />
           <NavbarChildren>{children}</NavbarChildren>
         </Responsive>
+        <Footer />
       </div>
     )
   }
