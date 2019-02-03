@@ -41,7 +41,8 @@ module.exports = configMerge(commonConfig, {
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: [
-    paths.appIndexJs
+    paths.appIndexJs,
+    "./silent_renew/index.js"
   ],
   output: {
     // The build folder.
