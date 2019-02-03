@@ -27,14 +27,12 @@
     <style>
       .loader:empty {
         position: absolute;
+        background-image: url('resources/img/loading.gif');
+        background-repeat: no-repeat;
         top: calc(50% - 4em);
         left: calc(50% - 4em);
-        width: 6em;
-        height: 6em;
-        border: 1.1em solid rgba(0, 0, 0, 0.2);
-        border-left: 1.1em solid #000000;
-        border-radius: 50%;
-        animation: load8 1.1s infinite linear;
+        width: 48px;
+        height: 48px;
       }
       </style>
 
@@ -44,6 +42,7 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <div id="root" class="loader"></div>
+    <div id="root" class="loader">
+    </div>
   </body>
 </html>

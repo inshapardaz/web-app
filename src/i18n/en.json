@@ -1,5 +1,6 @@
 {
     "app" : "inshapardaz",
+    "slogan": "Read something new",
     "register" : "Register",
     "login" : "Login",
     "logout": "Logout",
@@ -8,5 +9,8 @@
     "changePassword" : "Change Password",
     "profile.edit" : "Edit Profile",
     "categories": "Categories",
-    "categories.list": "All Categories"
+    "categories.list": "All Categories",
+    "home.getStarted": "Get Started",
+    "books": "Books",
+    "authors": "Authors"
 }

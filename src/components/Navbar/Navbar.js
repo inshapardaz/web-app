@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Responsive } from 'semantic-ui-react'
+import {FormattedMessage} from 'react-intl';
 
 import NavbarChildren from './NavbarChildren'
 import NavbarDesktop from './NavbarDesktop'

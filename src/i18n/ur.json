@@ -1,5 +1,6 @@
 {
-    "app" : "اانشاپرداز",
+    "app" : "انشاپرداز",
+    "slogan": "آج کچھ نیا پڑھِں",
     "register" : "رکن بنیں",
     "login" : "داخل ہوں",
     "logout": "اخراج",
@@ -8,5 +9,8 @@
     "changePassword" : "پاس ورڈ کی تبدیلی",
     "profile.edit" : "پروفائل کی تبدیلی",
     "categories": "زمرہ جات",
-    "categories.list": "فہرست زمرہ جات"
+    "categories.list": "فہرست زمرہ جات",
+    "home.getStarted": "ابتدا کریں",
+    "books": "کتابیں",
+    "authors": "مصنّف"
 }

@@ -8,6 +8,7 @@ import { getEntry } from './actions/dataActions';
 import userManager from './services/userManager';
 import { Navbar } from 'components'
 import 'styling/semantic.less'
+import 'styling/styles.less';
 import Routes from './Routes';
 import LocaleService from './services/LocaleService';
 
@@ -62,9 +63,7 @@ class App extends React.Component {
       return (
         <IntlProvider locale={locale.locale} messages={locale.messages}>
           <Navbar>
-            <Segment>
               <Routes />
-            </Segment>
           </Navbar>
         </IntlProvider>
       );

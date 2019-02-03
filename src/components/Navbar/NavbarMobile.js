@@ -40,7 +40,6 @@ NavbarMobile.propTypes = {
   leftItems: PropTypes.arrayOf(PropTypes.object),
   onPusherClick: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
-  rightItems: PropTypes.arrayOf(PropTypes.object),
   visible: PropTypes.bool.isRequired,
 }
 
