@@ -8,9 +8,10 @@
     "forgetPassword" : "پاس ورڈ کھو گیا",
     "changePassword" : "پاس ورڈ کی تبدیلی",
     "profile.edit" : "پروفائل کی تبدیلی",
-    "categories": "زمرہ جات",
-    "categories.list": "فہرست زمرہ جات",
+    "header.categories": "زمرہ جات",
+    "header.categories.list": "فہرست زمرہ جات",
     "home.getStarted": "ابتدا کریں",
-    "books": "کتابیں",
-    "authors": "مصنّف"
+    "header.search": "تلاش۔۔۔",
+    "header.books": "کتابیں",
+    "header.authors": "مصنّف"
 }

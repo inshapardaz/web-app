@@ -8,9 +8,10 @@
     "forgetPassword" : "Forgot Password",
     "changePassword" : "Change Password",
     "profile.edit" : "Edit Profile",
-    "categories": "Categories",
-    "categories.list": "All Categories",
+    "header.categories": "Categories",
+    "header.categories.list": "All Categories ",
     "home.getStarted": "Get Started",
-    "books": "Books",
-    "authors": "Authors"
+    "header.search": "Search...",
+    "header.books": "Books",
+    "header.authors": "Authors"
 }

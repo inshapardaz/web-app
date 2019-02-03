@@ -13,8 +13,8 @@ class CategoriesDropDown extends React.Component
             var retval = [];
 
         retval.push(<Menu.Item key="0" href={`/categories`} > 
-                <Icon name='folder outline' /><FormattedMessage id="categories.list"/></Menu.Item>);
-            retval.push(<Dropdown.Divider />);
+                <Icon name='folder outline' /><FormattedMessage id="header.categories.list"/></Menu.Item>);
+            retval.push(<Dropdown.Divider key="divider-1" />);
             retval.push(categories.items.map(c => (
             <Dropdown.Item key={c.id} href={`/books?category=${c.id}`}>
                 {c.name}
@@ -37,7 +37,7 @@ class CategoriesDropDown extends React.Component
                     <Dropdown.Menu>
                         <a className="item">
                             <Icon name="folder outline"></Icon>
-                            <FormattedMessage id="categories"/>
+                            <FormattedMessage id="header.categories"/>
                         </a>
                         {categoriesItem}
                     </Dropdown.Menu>
@@ -48,7 +48,7 @@ class CategoriesDropDown extends React.Component
         {
 
             return (
-                <Dropdown item simple text={<><Icon name="folder outline" inverted /> <FormattedMessage id="categories"/></>}>
+                <Dropdown item simple trigger={<><Icon name="folder outline" inverted /> <FormattedMessage id="header.categories"/></>}>
                     <Dropdown.Menu>
                         {categoriesItem}
                     </Dropdown.Menu>

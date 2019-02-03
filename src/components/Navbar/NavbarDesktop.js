@@ -1,27 +1,28 @@
-import _ from 'lodash'
 import React from 'react'
+import {Link} from 'react-router-dom';
 import { Container, Image, Menu, Input } from 'semantic-ui-react'
 
 import CategoriesDropDown from './CategoriesDropDown';
 import logo from 'resources/logo.png'
-import {FormattedMessage} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 
-const NavbarDesktop = ({ leftItems, rightItems }) => (
-  <Menu fixed='top' inverted>
+const NavbarDesktop = ({ leftItems, rightItems, intl }) => {
+  const placeholder = intl.formatMessage({id: 'header.search'});
+  return (<Menu fixed='top' inverted>
     <Container>
-      <Menu.Item href="/">
-        <Image size='mini' src={logo} style={{ marginRight: '1.5em' }}/> <FormattedMessage id="app"/>
+      <Menu.Item as={Link} to="/">
+        <Image size='mini' src={logo} style={{ margin: '0 1.5em' }}/> <FormattedMessage id="app"/>
       </Menu.Item>
-      {_.map(leftItems, item => <Menu.Item {...item} />)}
+      {leftItems}
       <CategoriesDropDown />
       <Menu.Menu position='right'>
         <Menu.Item>
-            <Input icon='search' placeholder='Search...' />
+          <Input icon='search' placeholder={placeholder} />
         </Menu.Item>
         {rightItems}
       </Menu.Menu>
     </Container>
-  </Menu>
-)
+  </Menu>)
+  }
 
-export default NavbarDesktop
+export default injectIntl(NavbarDesktop)

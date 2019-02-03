@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom';
 import { Button, Segment, Header, Icon } from 'semantic-ui-react'
 import {FormattedMessage} from 'react-intl';
 
@@ -34,7 +34,7 @@ class HomePage extends React.Component {
                         marginTop: mobile ? '0.5em' : '1.5em',
                     }}
                 />
-                <Button primary size='huge' href="/books">
+                <Button primary size='huge' as={Link} to="/books">
                     <FormattedMessage id="home.getStarted"/>
                     <Icon name='right arrow' />
                 </Button>
