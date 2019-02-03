@@ -42,7 +42,7 @@ module.exports = configMerge(commonConfig, {
   // In production, we only want to load the polyfills and the app code.
   entry: [
     paths.appIndexJs,
-    "./silent_renew/index.js"
+    "./public/silent_renew/index.js"
   ],
   output: {
     // The build folder.

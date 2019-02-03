@@ -19,17 +19,38 @@ export default class LocaleService {
 
         await this.loadFormatDataForLocale(locale);
 
+        let isRtl = false;
         let messages = enMessages;
         switch(locale.toLowerCase())
         {
             case "ur":
                 messages = urMessages;
+                isRtl = true;
         }
         
+        document.dir = isRtl ? 'rtl' : 'ltr';
+
+        if (isRtl){
+            var jsref=document.createElement('script')
+            jsref.setAttribute("type","text/javascript")
+            jsref.setAttribute("src", "https://cdn.rtlcss.com/semantic-ui/2.2.6/semantic.min.js")
+            //jsref.setAttribute("integrity", "sha384-h/tGiTStmgbDQyTAdp2s5BfyXn7wmnFsn3vDaCPYck9YKkOuLAdjHi6y154TBVJ4")
+            jsref.setAttribute("crossorigin","anonymous")
+            document.getElementsByTagName("head")[0].appendChild(jsref);
+
+            var cssref=document.createElement("link")
+            cssref.setAttribute("rel", "stylesheet")
+            cssref.setAttribute("type", "text/css")
+            cssref.setAttribute("href", "https://cdn.rtlcss.com/semantic-ui/2.2.6/semantic.rtl.css")
+            //cssref.setAttribute("integrity", "sha384-kZT+CItOKWHYL+Rz37W2NEz60Pu2JJJ8wgzq+82VWsi3QM53eNFzQJZqzhPuyo63")
+            cssref.setAttribute("crossorigin","anonymous")
+            document.getElementsByTagName("head")[0].appendChild(cssref);
+        }
 
         return {
             locale: locale,
-            messages: messages
+            messages: messages,
+            isRtl : isRtl
         }
     }
 
