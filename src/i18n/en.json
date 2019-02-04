@@ -7,11 +7,19 @@
     "welcome.user" : "Welcome {user}",
     "forgetPassword" : "Forgot Password",
     "changePassword" : "Change Password",
+    "action.edit" : "Edit",
+    "action.delete" : "Delete",
+    "action.retry" : "Retry",
+    "message.loading": "Loading",
     "profile.edit" : "Edit Profile",
     "header.categories": "Categories",
     "header.categories.list": "All Categories ",
     "home.getStarted": "Get Started",
     "header.search": "Search...",
     "header.books": "Books",
-    "header.authors": "Authors"
+    "header.authors": "Authors",
+    "categories.action.create" : "Create new category",
+    "categories.messages.error.loading" : "Unable to load categories",
+    "categories.messages.empty" : "No category found"
+
 }

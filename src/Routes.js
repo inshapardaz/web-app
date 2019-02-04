@@ -21,16 +21,6 @@ import CategoriesHome from './components/Categories/CategoriesHome';
 import ErrorPage from './components/ErrorPage';
 import AboutPage from './components/AboutPage';
 
-const loadableRoutes = {
-  /*{} '/silent_renew': {
-    component: loadable(() => import('./silentRefresh.jsx')),
-    exact: true
-  },
-  '/categories': {
-    component: loadable(() => import('./Categories/CategoriesHome.jsx')),
-  }*/
-}
-
 class Routes extends React.Component {
     
   render() {
@@ -49,7 +39,7 @@ class Routes extends React.Component {
         <Route path="/books/recent" component={BooksHome} />
         <Route path="/books/favorites" component={BooksHome} />
         <Route path="/books" component={BooksHome} />
-        <Route path="categories" component={CategoriesHome} />
+        <Route path="/categories" component={CategoriesHome} />
         <Route path="/dictionaries/:id" component={DictionaryPage} />
         <Route path="/dictionaries" component={DictionaryHome} />
         <Route 

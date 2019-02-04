@@ -7,11 +7,18 @@
     "welcome.user" : "خوش آمدید {user}",
     "forgetPassword" : "پاس ورڈ کھو گیا",
     "changePassword" : "پاس ورڈ کی تبدیلی",
+    "action.edit" : "تبدیل کریں",
+    "action.delete" : "حذف کریں",
+    "action.retry" : "دوبارہ کوشش کریں",
+    "message.loading": "لوڈ ہو رہا ہے",
     "profile.edit" : "پروفائل کی تبدیلی",
     "header.categories": "زمرہ جات",
     "header.categories.list": "فہرست زمرہ جات",
     "home.getStarted": "ابتدا کریں",
     "header.search": "تلاش۔۔۔",
     "header.books": "کتابیں",
-    "header.authors": "مصنّف"
+    "header.authors": "مصنّف",
+    "categories.action.create" : "نیا زمرہ بنائیں",
+    "categories.messages.error.loading" : "زمرہ جات کے حصول میں  رکاوٹ ہوئی",
+    "categories.messages.empty" : "کوئی زمرہ نہیں ملا"
 }

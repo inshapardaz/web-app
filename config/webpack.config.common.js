@@ -159,6 +159,11 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]',
         },
       },
+      // css loader
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
       // "file" loader makes sure assets end up in the `build` folder.
       // When you `import` an asset, you get its filename.
       {

@@ -1,4 +1,4 @@
-import ApiService from '../services';
+import ApiService from '../services/ApiService';
 import rel from '../utils/rel';
 import { ENTRY, LANGUAGES, ATTRIBUTES, RELATIONSHIPTYPES, CATEGORIES} from './actionTypes';
 
@@ -39,4 +39,3 @@ export function getEntry(){
       });
     }
   }
-  

@@ -11,7 +11,11 @@ class HomePage extends React.Component {
             <>
             <Segment inverted
             textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em', background: 'url(resources/img/main.jpg) no-repeat center center', backgroundSize: 'cover' }}
+            style={{ minHeight: 700, 
+                     padding: '1em 0em', 
+                     background: 'url(resources/img/main.jpg) no-repeat center center', 
+                     backgroundSize: 'cover',
+                     marginTop: '-8em' }}
             vertical>
                 <Header
                     as='h1'

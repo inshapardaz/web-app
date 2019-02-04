@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Segment } from 'semantic-ui-react'
-
+import { SemanticToastContainer } from 'react-semantic-toasts';
 import { IntlProvider } from 'react-intl';
 import { getEntry } from './actions/dataActions';
 import userManager from './services/userManager';
@@ -64,6 +63,7 @@ class App extends React.Component {
         <IntlProvider locale={locale.locale} messages={locale.messages}>
           <Navbar>
               <Routes />
+              <SemanticToastContainer />
           </Navbar>
         </IntlProvider>
       );
