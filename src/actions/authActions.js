@@ -10,6 +10,7 @@ export function login(){
 
 export function logout(){
   AuthService.logout();
+  window.location.replace('/');
   return {
     type: LOGOUT,
   }

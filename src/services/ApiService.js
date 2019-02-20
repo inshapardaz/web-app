@@ -3,18 +3,12 @@ var Config = require('Config')
 const axios = require('axios');
 const baseUrl = Config.apiUrl;
 
-export default class ApiService {
-  constructor(user) {
-    this.user = user
-  }
+class ApiService {
   appendAuthentication(headers){
     if (AuthService.isAuthenticated) {
       var authorization = `Bearer ${AuthService.getAccessToken()}`;
-      console.log('authenticated call ' + authorization);
       headers['Authorization'] = authorization;
-    } else {
-      console.log('unauthenticated cal!!!!');
-    }
+    } 
   }
   get(url) {
     let headers = {
@@ -182,3 +176,5 @@ export default class ApiService {
   }
 
 }
+
+export default new ApiService();

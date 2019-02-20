@@ -5,13 +5,12 @@ import { ENTRY, LANGUAGES, ATTRIBUTES, RELATIONSHIPTYPES, CATEGORIES} from './ac
 export function getEntry(){
     return async (dispatch, getState) =>
       {
-      const api = new ApiService(getState().oidc.user);
-      const entry = await api.getEntry();
+      const entry = await ApiService.getEntry();
   
-      const languages = await api.get(rel(entry.links, 'languages'));
-      const attributes = await api.get(rel(entry.links, 'attributes'));
-      const relationshipTypes = await api.get(rel(entry.links, 'relationshiptypes'));
-      const categories = await api.get(rel(entry.links, 'categories'));
+      const languages = await ApiService.get(rel(entry.links, 'languages'));
+      const attributes = await ApiService.get(rel(entry.links, 'attributes'));
+      const relationshipTypes = await ApiService.get(rel(entry.links, 'relationshiptypes'));
+      const categories = await ApiService.get(rel(entry.links, 'categories'));
   
       dispatch({
         type: ENTRY,
