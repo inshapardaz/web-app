@@ -42,9 +42,9 @@ class App extends React.Component {
         isLoading: false
       });
     }
-    catch
+    catch(e)
     {
-      console.log('error')
+      console.log('error', e)
       this.props.push('/error');
     }
 

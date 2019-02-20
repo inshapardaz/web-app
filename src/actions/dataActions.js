@@ -1,5 +1,4 @@
 import ApiService from '../services/ApiService';
-import rel from '../services/rel';
 import { ENTRY, LANGUAGES, ATTRIBUTES, RELATIONSHIPTYPES, CATEGORIES} from './actionTypes';
 
 export function getEntry(){
@@ -7,10 +6,11 @@ export function getEntry(){
       {
       const entry = await ApiService.getEntry();
   
-      const languages = await ApiService.get(rel(entry.links, 'languages'));
-      const attributes = await ApiService.get(rel(entry.links, 'attributes'));
-      const relationshipTypes = await ApiService.get(rel(entry.links, 'relationshiptypes'));
-      const categories = await ApiService.get(rel(entry.links, 'categories'));
+      console.log(entry)
+      const languages = await ApiService.get(entry.links.languages) ;
+      const attributes = await ApiService.get(entry.links.attributes);
+      const relationshipTypes = await ApiService.get(entry.links.relationshiptypes);
+      const categories = await ApiService.get(entry.links.categories);
   
       dispatch({
         type: ENTRY,

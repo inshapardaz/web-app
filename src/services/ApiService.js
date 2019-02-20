@@ -26,7 +26,7 @@ class ApiService {
     }
 
     return axios(options)
-      .then(res => res.data);
+      .then(res => this.parseObject(res.data));
   }
 
   post(url, contents, contentType = 'application/json'){
@@ -42,6 +42,8 @@ class ApiService {
       headers: headers
     }
 
+    delete contents.links;
+    
     return axios.post(url, contents, options)
       .then(res => res.data);
   }
@@ -53,6 +55,8 @@ class ApiService {
     };
 
     this.appendAuthentication(headers);
+
+    delete contents.links;
 
     let options = {
       url: url,
@@ -173,6 +177,29 @@ class ApiService {
   getWordRelationships(dictionaryId,wordId)
   {
     return this.get(`${baseUrl}/dictionaries/${dictionaryId}/words/${wordId}/relationships`);
+  }
+
+  parseObject(source){
+    if (source)
+    {
+      if (source.links)
+      {
+        let newLinks = {};
+        source.links.forEach(link => {
+          newLinks[link.rel] = link.href;
+        });
+        source.links = newLinks;
+      }
+
+      if (source.items)
+      {
+        let newItems = [];
+        source.items.forEach(item => newItems.push(this.parseObject(item)));
+        source.item = newItems;
+      }
+    }
+
+    return source;
   }
 
 }

@@ -33,5 +33,6 @@
     "category.editor.header.add": "زمرہ کا اضافہ",
     "category.editor.header.edit" : "زمرہ '{name}' کی تدوین",
     "category.editor.fields.name.title" : "نام",
-    "category.editor.fields.name.error" : "نام ضروری ہے۔"
+    "category.editor.fields.name.error" : "نام ضروری ہے۔",
+    "categories.item.book.count" : "{count} کتابیں"
 }

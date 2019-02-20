@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Header, Icon, Modal, Form } from 'semantic-ui-react';
+import { Header, Icon, Modal, Form } from 'semantic-ui-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import ApiService from '../../services/ApiService';
 import { error, success} from '../../services/toasts';
-import rel from '../../services/rel';
 
 class EditCategory extends Component {
     constructor(props) {
@@ -45,9 +44,9 @@ class EditCategory extends Component {
             if (isAdding) {
                 await ApiService.post(createLink, category);
             } else {
-
-                await ApiService.put(rel(category.links, 'delete'), category);
+                await ApiService.put(category.links.delete, category);
             }
+            
             success(this.props.intl.formatMessage({ id: "categories.messages.saved" }));
             this.props.onOk();
             this.close();
@@ -64,13 +63,13 @@ class EditCategory extends Component {
     }
 
     render() {
-        const { open, category, isAdding, intl } = this.props;
-        const { saving } = this.state;
+        const { open, isAdding, intl, category   } = this.props;
+        const { saving, name } = this.state;
         if (!open || !category) {
             return null;
         }
 
-        let header = intl.formatMessage({ id: "category.editor.header.edit" }, { name: category.name });
+        let header = intl.formatMessage({ id: "category.editor.header.edit" }, { name: name });
         if (isAdding) {
             header = intl.formatMessage({ id: "category.editor.header.add" });
         }
@@ -83,13 +82,13 @@ class EditCategory extends Component {
                     <Form>
                         <Form.Input label={<FormattedMessage id="category.editor.fields.name.title" />}
                             placeholder={intl.formatMessage({ id: "category.editor.fields.name.title" })}
-                            disabled={saving} content="test" value={this.state.name} onChange={this.handleChange}
-                            error={!this.state.name} />
+                            disabled={saving} content="test" value={name} onChange={this.handleChange}
+                            error={!name} />
 
                         <Form.Button fluid type="submit" 
                             onClick={this.save} 
                             loading={saving}
-                            disabled={!this.state.name}>
+                            disabled={!name}>
                             <Icon name='save' /> <FormattedMessage id="action.save" />
                         </Form.Button>
                     </Form>

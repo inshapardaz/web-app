@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
-import { List, Icon, Button, Segment, Header, Confirm } from 'semantic-ui-react';
+import { Card, Icon, Button, Segment, Header, Confirm } from 'semantic-ui-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 
-import rel from '../../services/rel';
 import { success, error } from '../../services/toasts';
 
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import EditCategory from './EditCategory';
+import CategoryCard from './CategoryCard';
 
 class CategoriesHome extends Component {
   constructor(props) {
@@ -38,7 +37,7 @@ class CategoriesHome extends Component {
       isLoading: true
     });
 
-    try{
+    try {
       let result = await ApiService.getCategories();
       this.setState({
         isLoading: false,
@@ -88,7 +87,7 @@ class CategoriesHome extends Component {
     const { selectedCategory } = this.state;
     if (!selectedCategory) return;
 
-    let deleteLink = rel(selectedCategory.links, 'delete');
+    let deleteLink = selectedCategory.links.delete;
     if (!deleteLink) return;
 
     this.setState({
@@ -109,34 +108,30 @@ class CategoriesHome extends Component {
     }
   }
 
-  renderCategoryActions(category) {
-    let actions = [];
-    const editLink = rel(category.links, 'update');
-    const deleteLink = rel(category.links, 'delete');
+  // renderCategoryActions(category) {
+  //   let actions = [];
+  //   const editLink = category.links.update;
+  //   const deleteLink = category.links.delete;
 
-    if (editLink) {
-      actions.push(<Button key="edit" icon="pencil" onClick={this.onEditClicked.bind(this, category)} />)
-    }
-    if (deleteLink) {
-      actions.push(<Button key="delete" icon="delete" onClick={this.onDeleteClicked.bind(this, category)} />)
-    }
+  //   if (editLink) {
+  //     actions.push(<Button key="edit" icon="pencil" onClick={} />)
+  //   }
+  //   if (deleteLink) {
+  //     actions.push(<Button key="delete" icon="delete" onClick={this.onDeleteClicked.bind(this, category)} />)
+  //   }
 
-    return (<Button.Group icon>{actions}</Button.Group>);
-  }
+  //   return (<Button.Group icon>{actions}</Button.Group>);
+  // }
 
   renderCategories(categories) {
     return categories.items.map(c =>
-      <List.Item key={c.id}>
-        <List.Content floated='right'>
-          {this.renderCategoryActions(c)}
-        </List.Content>
-        <Icon name="folder outline" />
-        <List.Content as={Link} to={`/books?category=${c.id}`}>{c.name}</List.Content>
-      </List.Item>)
+      <CategoryCard key={c.id} category={c} 
+        onEdit={this.onEditClicked.bind(this, c)}
+        onDelete={this.onDeleteClicked.bind(this, c)} />)
   }
 
   renderLoadingError() {
-    const {intl} = this.props;
+    const { intl } = this.props;
     const message = intl.formatMessage({ id: 'categories.messages.error.loading' });
     const buttonText = intl.formatMessage({ id: 'action.retry' });
     return (<ErrorPlaceholder message={message}
@@ -145,7 +140,7 @@ class CategoriesHome extends Component {
   }
 
   renderEmptyPlaceHolder() {
-    const {intl} = this.props;
+    const { intl } = this.props;
     const message = intl.formatMessage({ id: 'categories.messages.empty' });
     const buttonText = intl.formatMessage({ id: 'categories.action.create' });
 
@@ -155,11 +150,37 @@ class CategoriesHome extends Component {
         buttonAction={this.addCategory.bind(this)} />
     );
   }
+  renderEditor(createLink) {
+    const { isAdding, showEdit, selectedCategory } = this.state;
+    if (showEdit && selectedCategory) {
+      return (<EditCategory open={showEdit} category={selectedCategory}
+        createLink={createLink} isAdding={isAdding}
+        onOk={this.reloadCategories.bind(this)}
+        onClose={this.onCloseEdit.bind(this)} />);
+    }
+
+    return null;
+  }
+
+  renderDelete() {
+    const { confirmDelete, selectedCategory } = this.state;
+    if (confirmDelete && selectedCategory) {
+      const { intl } = this.props;
+
+      return (<Confirm size="mini" open={confirmDelete}
+        content={intl.formatMessage({ id: 'categories.action.confirmDelete' }, { name: selectedCategory.name })}
+        cancelButton={intl.formatMessage({ id: 'action.no' })}
+        confirmButton={intl.formatMessage({ id: 'action.yes' })}
+        onCancel={() => this.setState({ confirmDelete: false })}
+        onConfirm={this.deleteCategory.bind(this)} closeIcon />);
+    }
+
+    return null;
+  }
 
   render() {
-    const { categories, isLoading, isAdding, isError, showEdit, confirmDelete, selectedCategory } = this.state;
-    const createLink = (categories && categories.links) ? rel(categories.links, 'create') : null;
-    const selectedCategoryName = selectedCategory ? selectedCategory.name : '';
+    const { categories, isLoading, isAdding, isError, showEdit, selectedCategory } = this.state;
+    const createLink = (categories && categories.links) ? categories.links.create : null;
 
     if (isLoading) {
       return <Loading />;
@@ -169,24 +190,9 @@ class CategoriesHome extends Component {
 
     let addButton = null;
     if (createLink) {
-      addButton = <Button onClick={this.addCategory.bind(this)} attached='top'><Icon name='add' /><FormattedMessage id="categories.action.create" /></Button>
-    }
-
-    let editModal = null;
-    if (showEdit){
-      editModal = (<EditCategory open={showEdit} category={selectedCategory} 
-        createLink={createLink} isAdding={isAdding}
-      onOk={this.reloadCategories.bind(this)}
-      onClose={this.onCloseEdit.bind(this)} />);
-    }
-    let deleteConfirm = null;
-    if (confirmDelete){
-      deleteConfirm = (<Confirm size="mini" open={confirmDelete}
-      content={this.props.intl.formatMessage({ id: 'categories.action.confirmDelete' }, { name: selectedCategoryName })}
-      cancelButton={this.props.intl.formatMessage({ id: 'action.no' })}
-      confirmButton={this.props.intl.formatMessage({ id: 'action.yes' })}
-      onCancel={() => this.setState({ confirmDelete: false })}
-      onConfirm={this.deleteCategory.bind(this)} />);
+      addButton = (<Button onClick={this.addCategory.bind(this)} attached='top'><Icon name='add' />
+                    <FormattedMessage id="categories.action.create" />
+                  </Button>);
     }
 
     if (categories && categories.items && categories.items.length > 0) {
@@ -195,13 +201,11 @@ class CategoriesHome extends Component {
           <Header as='h2' icon='folder outline' content={<FormattedMessage id="header.categories" />} />
           {addButton}
           <Segment padded={true} attached>
-            <List divided verticalAlign='middle' relaxed='very'>
-              {this.renderCategories(categories)}
-            </List>
+            <Card.Group stackable centered>{this.renderCategories(categories)}</Card.Group>              
           </Segment>
           {addButton}
-          {deleteConfirm}
-          {editModal}
+          {this.renderDelete()}
+          {this.renderEditor(createLink)}
         </>
       );
     }
