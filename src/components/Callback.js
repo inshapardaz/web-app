@@ -2,27 +2,20 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { CallbackComponent } from "redux-oidc";
-import userManager from "../services/userManager";
 import { push } from 'connected-react-router';
 
+import AuthService from '../services/AuthService';
+
 class CallbackPage extends React.Component {
+  
+  componentDidMount(){
+    AuthService.handleAuthentication();
+  }
+
   render() {
     return (
-      <CallbackComponent
-        userManager={userManager}
-        successCallback={
-          () => {
-          this.props.push("/");
-          }
-        }
-        errorCallback={
-          () => {
-          this.props.push("/error");
-          }
-        }>
-        <div>Redirecting...</div>
-      </CallbackComponent>
+      <div className="loader">
+      </div>
     );
   }
 }

@@ -10,6 +10,10 @@
     "action.edit" : "Edit",
     "action.delete" : "Delete",
     "action.retry" : "Retry",
+    "action.yes" : "Yes",
+    "action.no" : "No",
+    "action.save" : "Save",
+    "action.cancel" : "Cancel",
     "message.loading": "Loading",
     "profile.edit" : "Edit Profile",
     "header.categories": "Categories",
@@ -20,6 +24,10 @@
     "header.authors": "Authors",
     "categories.action.create" : "Create new category",
     "categories.messages.error.loading" : "Unable to load categories",
-    "categories.messages.empty" : "No category found"
-
+    "categories.messages.empty" : "No category found",
+    "categories.action.confirmDelete" : "Do you want to remove '{name}'?",
+    "category.editor.header.add": "Adding category",
+    "category.editor.header.edit" : "Editing category '{name}'",
+    "category.editor.fields.name.title" : "Name",
+    "category.editor.fields.name.error" : "Name is required"
 }

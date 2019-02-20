@@ -1,5 +1,5 @@
 import ApiService from '../services/ApiService';
-import rel from '../utils/rel';
+import rel from '../services/rel';
 import { ENTRY, LANGUAGES, ATTRIBUTES, RELATIONSHIPTYPES, CATEGORIES} from './actionTypes';
 
 export function getEntry(){

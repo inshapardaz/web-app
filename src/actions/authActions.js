@@ -1,15 +1,15 @@
-import userManager from "../services/userManager";
 import { LOGIN, LOGOUT } from './actionTypes';
+import AuthService from '../services/AuthService';
 
 export function login(){
-  userManager.signinRedirect();
+  AuthService.login();
   return {
     type: LOGIN,
   }
 }
 
 export function logout(){
-  userManager.removeUser();
+  AuthService.logout();
   return {
     type: LOGOUT,
   }

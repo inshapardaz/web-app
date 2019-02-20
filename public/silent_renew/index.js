@@ -1,3 +1,3 @@
-import { processSilentRenew } from 'redux-oidc';
+//import { processSilentRenew } from 'redux-oidc';
 
-processSilentRenew();
+//processSilentRenew();

@@ -4,8 +4,7 @@ import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router'
 import createRootReducer  from '../reducers/rootReducer';
-import { loadUser } from "redux-oidc";
-import userManager from "../services/userManager";
+
 
 export const history = createBrowserHistory();
 
@@ -18,7 +17,7 @@ export default function configureStore() {
     )
   );
 
-  loadUser(store, userManager);
+  
 
   return store;
 }

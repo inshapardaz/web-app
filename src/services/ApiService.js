@@ -1,3 +1,4 @@
+import AuthService from './AuthService';
 var Config = require('Config')
 const axios = require('axios');
 const baseUrl = Config.apiUrl;
@@ -6,16 +7,22 @@ export default class ApiService {
   constructor(user) {
     this.user = user
   }
+  appendAuthentication(headers){
+    if (AuthService.isAuthenticated) {
+      var authorization = `Bearer ${AuthService.getAccessToken()}`;
+      console.log('authenticated call ' + authorization);
+      headers['Authorization'] = authorization;
+    } else {
+      console.log('unauthenticated cal!!!!');
+    }
+  }
   get(url) {
     let headers = {
       'Accept' : 'application/json',
       'Content-Type': 'application/json'
     };
 
-    if (this.user && this.user.access_token) {
-      var authorization = `${this.user.token_type} ${this.user.id_token}`;
-      headers['Authorization'] = authorization;
-    }
+    this.appendAuthentication(headers);
 
     let options = {
       url: url,
@@ -34,10 +41,7 @@ export default class ApiService {
       'Content-Type': contentType
     };
 
-    if (this.user && this.user.access_token) {
-      var authorization = `${this.user.token_type} ${this.user.id_token}`;
-      headers['Authorization'] = authorization;
-    }
+    this.appendAuthentication(headers);
 
     let options = {
       withCredentials: true,
@@ -54,10 +58,7 @@ export default class ApiService {
       'Content-Type': 'application/json'
     };
 
-    if (this.user && this.user.access_token) {
-      var authorization = `${this.user.token_type} ${this.user.id_token}`;
-      headers['Authorization'] = authorization;
-    }
+    this.appendAuthentication(headers);
 
     let options = {
       url: url,
@@ -77,10 +78,7 @@ export default class ApiService {
       'Content-Type': 'application/json'
     };
 
-    if (this.user && this.user.access_token) {
-      var authorization = `${this.user.token_type} ${this.user.id_token}`;
-      headers['Authorization'] = authorization;
-    }
+    this.appendAuthentication(headers);
 
     let options = {
       url: url,
@@ -98,10 +96,7 @@ export default class ApiService {
       'Accept' : 'application/json'
     };
 
-    if (this.user && this.user.access_token) {
-      var authorization = `${this.user.token_type} ${this.user.id_token}`;
-      headers['Authorization'] = authorization;
-    }
+    this.appendAuthentication(headers);
 
     let options = {
       withCredentials: true,

@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Get started with Semantic UI React and Webpack 3",
   "dependencies": {
+    "auth0-js": "^9.10.0",
     "axios": "^0.18.0",
     "connected-react-router": "^6.2.2",
     "history": "^4.7.2",

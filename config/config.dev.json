@@ -1,6 +1,7 @@
 {
     "auth" : {
-      "authority" : "http://localhost:5002"
+      "authority" : "http://inshapardaz.eu.auth0.com",
+      "audience" : "http://api.inshapardaz.org"
     },
     "apiUrl" : "http://localhost:5000/api"
   }

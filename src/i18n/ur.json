@@ -10,6 +10,10 @@
     "action.edit" : "تبدیل کریں",
     "action.delete" : "حذف کریں",
     "action.retry" : "دوبارہ کوشش کریں",
+    "action.yes" : "ہاں",
+    "action.no" : "نہیں",
+    "action.save" : "محفوظ کریں",
+    "action.cancel" : "اخراج",
     "message.loading": "لوڈ ہو رہا ہے",
     "profile.edit" : "پروفائل کی تبدیلی",
     "header.categories": "زمرہ جات",
@@ -20,5 +24,10 @@
     "header.authors": "مصنّف",
     "categories.action.create" : "نیا زمرہ بنائیں",
     "categories.messages.error.loading" : "زمرہ جات کے حصول میں  رکاوٹ ہوئی",
-    "categories.messages.empty" : "کوئی زمرہ نہیں ملا"
+    "categories.messages.empty" : "کوئی زمرہ نہیں ملا",
+    "categories.action.confirmDelete" : "کیا آپ '{name}' کو حذف کرنا چاہیں گے؟",
+    "category.editor.header.add": "زمرہ کا اضافہ",
+    "category.editor.header.edit" : "زمرہ '{name}' کی تدوین",
+    "category.editor.fields.name.title" : "نام",
+    "category.editor.fields.name.error" : "نام ضروری ہے۔"
 }

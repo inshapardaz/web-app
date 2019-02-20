@@ -4,13 +4,12 @@ import { bindActionCreators } from 'redux';
 import { SemanticToastContainer } from 'react-semantic-toasts';
 import { IntlProvider } from 'react-intl';
 import { getEntry } from './actions/dataActions';
-import userManager from './services/userManager';
 import { Navbar } from 'components'
 import 'styling/semantic.less'
 import 'styling/styles.less';
 import Routes from './Routes';
 import LocaleService from './services/LocaleService';
-
+import AuthService from './services/AuthService';
 import { push } from 'connected-react-router'
 
 class App extends React.Component {
@@ -21,7 +20,10 @@ class App extends React.Component {
 
   async componentDidMount() {
 
-    userManager.signinSilent();
+
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      AuthService.renewSession();
+    }
 
     this.setState({
       isLoading: true

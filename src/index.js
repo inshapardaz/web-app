@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './App'
 
-import { OidcProvider } from 'redux-oidc';
+//import { OidcProvider } from 'redux-oidc';
 import { ConnectedRouter } from 'connected-react-router';
 import userManager from './services/userManager';
 import { Provider } from 'react-redux';
@@ -20,9 +20,7 @@ const render = (Component) => {
     <AppContainer>
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <OidcProvider userManager={userManager} store={store}>
             <Component />
-          </OidcProvider>
         </ConnectedRouter>
       </Provider>
     </AppContainer>,

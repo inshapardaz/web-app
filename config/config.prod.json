@@ -1,6 +1,7 @@
 {
     "auth" : {
-      "authority" : "http://ipid.azurewebsites.net"
+      "authority" : "http://inshapardaz.eu.auth0.com",
+      "audience" : "http://api.inshapardaz.org"
     },
     "apiUrl" : "http://api-inshapardaz.azurewebsites.net/api"
   }
