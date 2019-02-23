@@ -6,7 +6,6 @@ export function getEntry(){
       {
       const entry = await ApiService.getEntry();
   
-      console.log(entry)
       const languages = await ApiService.get(entry.links.languages) ;
       const attributes = await ApiService.get(entry.links.attributes);
       const relationshipTypes = await ApiService.get(entry.links.relationshiptypes);

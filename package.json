@@ -9,6 +9,7 @@
     "connected-react-router": "^6.2.2",
     "history": "^4.7.2",
     "oidc-client": "^1.6.1",
+    "query-string": "^6.2.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^3.1.3",

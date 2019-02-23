@@ -197,6 +197,13 @@ class ApiService {
         source.items.forEach(item => newItems.push(this.parseObject(item)));
         source.item = newItems;
       }
+
+      if (source.data)
+      {
+        let newItems = [];
+        source.data.forEach(item => newItems.push(this.parseObject(item)));
+        source.data = newItems;
+      }
     }
 
     return source;

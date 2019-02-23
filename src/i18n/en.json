@@ -34,5 +34,18 @@
     "category.editor.header.edit" : "Editing category '{name}'",
     "category.editor.fields.name.title" : "Name",
     "category.editor.fields.name.error" : "Name is required",
-    "categories.item.book.count" : "{count} Books"
+    "categories.item.book.count" : "{count} Books",
+    "authors.action.create" : "Create new author",
+    "authors.messages.saved" : "Author saved",
+    "authors.messages.deleted" : "Author Deleted",
+    "authors.messages.error.saving" : "Error saving author",
+    "authors.messages.error.delete" : "Author Deleted",
+    "authors.messages.error.loading" : "Unable to load author",
+    "authors.messages.empty" : "No author found",
+    "authors.action.confirmDelete" : "Do you want to remove '{name}'?",
+    "author.editor.header.add": "Adding author",
+    "author.editor.header.edit" : "Editing author '{name}'",
+    "author.editor.fields.name.title" : "Name",
+    "author.editor.fields.name.error" : "Name is required",
+    "authors.item.book.count" : "{count} Books"
 }

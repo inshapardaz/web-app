@@ -107,22 +107,7 @@ class CategoriesHome extends Component {
       error(this.props.intl.formatMessage({ id: "categories.messages.error.delete" }));
     }
   }
-
-  // renderCategoryActions(category) {
-  //   let actions = [];
-  //   const editLink = category.links.update;
-  //   const deleteLink = category.links.delete;
-
-  //   if (editLink) {
-  //     actions.push(<Button key="edit" icon="pencil" onClick={} />)
-  //   }
-  //   if (deleteLink) {
-  //     actions.push(<Button key="delete" icon="delete" onClick={this.onDeleteClicked.bind(this, category)} />)
-  //   }
-
-  //   return (<Button.Group icon>{actions}</Button.Group>);
-  // }
-
+  
   renderCategories(categories) {
     return categories.items.map(c =>
       <CategoryCard key={c.id} category={c} 

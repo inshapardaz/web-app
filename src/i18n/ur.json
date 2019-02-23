@@ -34,5 +34,18 @@
     "category.editor.header.edit" : "زمرہ '{name}' کی تدوین",
     "category.editor.fields.name.title" : "نام",
     "category.editor.fields.name.error" : "نام ضروری ہے۔",
-    "categories.item.book.count" : "{count} کتابیں"
+    "categories.item.book.count" : "{count} کتابیں",
+    "authors.action.create" : "نیا مصنّف بنائیں",
+    "authors.messages.saved" : "مصنّف محفوظ کر دیا گیا ہے،",
+    "authors.messages.deleted" : "مصنّف ہٹا دیا گیا ہے",
+    "authors.messages.error.saving" : "مصنّف محفاظ نہیں کیا جا سکا",
+    "authors.messages.error.delete" : "مصنّف ہٹایا نہیں جا سکا",
+    "authors.messages.error.loading" : "مصنّفین کے حصول میں  رکاوٹ ہوئی",
+    "authors.messages.empty" : "کوئی مصنّف نہیں ملا",
+    "authors.action.confirmDelete" : "کیا آپ '{name}' کو حذف کرنا چاہیں گے؟",
+    "author.editor.header.add": "مصنّف کا اضافہ",
+    "author.editor.header.edit" : "مصنّف '{name}' کی تدوین",
+    "author.editor.fields.name.title" : "نام",
+    "author.editor.fields.name.error" : "نام ضروری ہے۔",
+    "authors.item.book.count" : "{count} کتابیں"
 }
