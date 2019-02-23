@@ -209,7 +209,7 @@ class AuthorHome extends Component {
     let addButton = null;
     if (createLink) {
       addButton = (
-                    <Button color="blue" onClick={this.addAuthor.bind(this)} icon labelPosition='left' ><Icon name='add' />
+                    <Button onClick={this.addAuthor.bind(this)} icon attached='top' ><Icon name='add' />
                       <FormattedMessage id="authors.action.create" />
                     </Button>);
     }
@@ -223,16 +223,14 @@ class AuthorHome extends Component {
           <Segment padded={true} attached>
               <Card.Group stackable centered>{this.renderAuthors(authors)}</Card.Group> 
 
-             <Container textAlign="center" >
-              <Pagination defaultActivePage={pageNumber} 
+             
+          </Segment>
+            <Pagination defaultActivePage={pageNumber} 
                           totalPages={authors.pageCount} 
                           defaultActivePage={1} 
                           onPageChange={this.onPageChange} 
                           pointing
-                          secondary/>
-                          </Container>
-          </Segment>
-
+                          secondary attached='bottom'/>
           {this.renderDelete()}
           {this.renderEditor(createLink)}
         </>

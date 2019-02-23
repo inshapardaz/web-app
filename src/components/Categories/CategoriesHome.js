@@ -183,12 +183,11 @@ class CategoriesHome extends Component {
     if (categories && categories.items && categories.items.length > 0) {
       return (
         <>
-          <Header as='h2' icon='folder outline' content={<FormattedMessage id="header.categories" />} />
+          <Header as='h2' icon='folder' content={<FormattedMessage id="header.categories" />} />
           {addButton}
           <Segment padded={true} attached>
             <Card.Group stackable centered>{this.renderCategories(categories)}</Card.Group>              
           </Segment>
-          {addButton}
           {this.renderDelete()}
           {this.renderEditor(createLink)}
         </>

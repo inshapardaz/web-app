@@ -10,13 +10,17 @@ export default class CategoryCard extends Component {
         const deleteLink = category.links.delete;
     
         if (editLink) {
-          actions.push(<Button basic color='green' key="edit" icon="pencil" onClick={this.props.onEdit} />)
+          actions.push(<Button basic attached="bottom" key="edit" onClick={this.props.onEdit} >
+                            <Icon name="pencil" /> <FormattedMessage id="action.edit" />
+                        </Button>)
         }
         if (deleteLink) {
-          actions.push(<Button basic color='red' key="delete" icon="delete" onClick={this.props.onDelete} />)
+          actions.push(<Button basic attached="bottom" key="delete" onClick={this.props.onDelete}>
+                            <Icon name="delete" /> <FormattedMessage id="action.delete" />
+                        </Button>)
         }
     
-        return (<Button.Group icon>{actions}</Button.Group>);
+        return actions;
       }
 
     render() {
@@ -29,18 +33,16 @@ export default class CategoryCard extends Component {
             <Card>
                 <Card.Content>
                     <Card.Header textAlign="center">
-                        <Icon name="folder outline" />
+                        <Icon name="folder" />
                         <Link to={`/books?category=${category.id}`}>{category.name}</Link>
                     </Card.Header>
                 </Card.Content>
                 <Card.Content>
                     <FormattedMessage id="categories.item.book.count" values={{count : 0}} />
                 </Card.Content>
-                <Card.Content extra>
-                    <div className='ui two buttons'>
+                <div className="ui bottom attached basic buttons">
                         {this.renderCategoryActions(category)}
-                    </div>
-                </Card.Content>
+                </div>
             </Card>
         )
     }
