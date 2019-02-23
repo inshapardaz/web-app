@@ -11,12 +11,12 @@ export default class AuthorCard extends Component {
     
         if (editLink) {
           actions.push(<Button key="edit" onClick={this.props.onEdit} basic attached="bottom">
-                            <Icon name="pencil" /> <FormattedMessage id="action.edit" />
+                            <Icon name="pencil" color="green"/> <FormattedMessage id="action.edit" />
                     </Button>)
         }
         if (deleteLink) {
           actions.push(<Button key="delete" onClick={this.props.onDelete} basic  attached="bottom">
-                            <Icon name="delete" /> <FormattedMessage id="action.delete" />
+                            <Icon name="delete" color="red" /> <FormattedMessage id="action.delete" />
                     </Button>)
         }
     

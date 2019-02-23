@@ -11,12 +11,12 @@ export default class CategoryCard extends Component {
     
         if (editLink) {
           actions.push(<Button basic attached="bottom" key="edit" onClick={this.props.onEdit} >
-                            <Icon name="pencil" /> <FormattedMessage id="action.edit" />
+                            <Icon name="pencil" color="green" /> <FormattedMessage id="action.edit" />
                         </Button>)
         }
         if (deleteLink) {
           actions.push(<Button basic attached="bottom" key="delete" onClick={this.props.onDelete}>
-                            <Icon name="delete" /> <FormattedMessage id="action.delete" />
+                            <Icon name="delete" color="red" /> <FormattedMessage id="action.delete" />
                         </Button>)
         }
     
