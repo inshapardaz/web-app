@@ -186,7 +186,7 @@ class ApiService {
       {
         let newLinks = {};
         source.links.forEach(link => {
-          newLinks[link.rel] = link.href;
+          newLinks[link.rel.replace("-", "_")] = link.href;
         });
         source.links = newLinks;
       }

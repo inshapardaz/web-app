@@ -3,8 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import queryString from 'query-string';
 
 import ApiService from '../../services/ApiService';
-import { success, error } from '../../services/toasts';
-import { Card, Menu, Icon, Button, Segment, Header, Confirm, Pagination, Container } from 'semantic-ui-react';
+import { Card, Icon, Button, Segment, Header, Confirm, Pagination } from 'semantic-ui-react';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import AuthorCard from './AuthorCard';
 import EditAuthor from './EditAuthor';
@@ -26,6 +25,7 @@ class AuthorHome extends Component {
     };
 
     this.onPageChange = this.onPageChange.bind(this);
+    this.onAuthorUpdated = this.onAuthorUpdated.bind(this);
   }
 
   async componentDidMount() {
@@ -47,7 +47,6 @@ class AuthorHome extends Component {
   }
 
   async loadAuthors(pageNumber = 1) {
-    console.log(`Loading page number ${pageNumber}`)
     this.setState({
       isLoading: true
     });
@@ -100,38 +99,12 @@ class AuthorHome extends Component {
     });
   }
 
-  onDeleteClicked(author) {
+  async onAuthorUpdated() {
+    await this.reloadAuthors();
     this.setState({
-      selectedAuthor: author,
-      confirmDelete: true
+      selectedAuthor: null
     });
   }
-
-  async deleteAuthor() {
-    const { selectedAuthor } = this.state;
-    if (!selectedAuthor) return;
-
-    let deleteLink = selectedAuthor.links.delete;
-    if (!deleteLink) return;
-
-    this.setState({
-      confirmDelete: false
-    });
-
-    try {
-      await ApiService.delete(deleteLink);
-      success(this.props.intl.formatMessage({ id: "authors.messages.deleted" }));
-      await this.reloadAuthors();
-
-      this.setState({
-        selectedAuthor: null
-      });
-    }
-    catch{
-      error(this.props.intl.formatMessage({ id: "authors.messages.error.delete" }));
-    }
-  }
-
 
   renderEmptyPlaceHolder() {
     const { intl } = this.props;
@@ -158,7 +131,7 @@ class AuthorHome extends Component {
     return authors.data.map(a =>
       <AuthorCard key={a.id} author={a} 
         onEdit={this.onEditClicked.bind(this, a)}
-        onDelete={this.onDeleteClicked.bind(this, a)} />)
+        onUpdated={this.onAuthorUpdated} />)
   }
 
 
