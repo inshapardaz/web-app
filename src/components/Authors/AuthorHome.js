@@ -30,44 +30,39 @@ class AuthorHome extends Component {
 
   async componentDidMount() {
     const values = queryString.parse(this.props.location.search)
-
-    if (values.page)
-    {
-      this.setState({
-        pageNumber: values.page
-      });
-    }
-
-    await this.loadAuthors();
+    await this.loadAuthors(values.page? values.page : 1);
   }
 
-  async componentDidUpdate(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const values = queryString.parse(nextProps.location.search)
     
     if (this.state.pageNumber != values.page)
     {
-      this.setState({
-        pageNumber: values.page
-      });
-      this.loadAuthors();
+      this.loadAuthors(values.page);
     }
   }
 
-  async loadAuthors() {
-    console.log(`Loading page number ${this.state.pageNumber}`)
+  async reloadAuthors(){
+    this.loadAuthors(this.state.pageNumber);
+  }
+
+  async loadAuthors(pageNumber = 1) {
+    console.log(`Loading page number ${pageNumber}`)
     this.setState({
       isLoading: true
     });
 
     try {
-      let result = await ApiService.getAuthors(this.state.pageNumber);
+      let result = await ApiService.getAuthors(pageNumber);
       this.setState({
         isLoading: false,
         isError: false,
-        authors: result
+        authors: result,
+        pageNumber: pageNumber
       });
     }
-    catch{
+    catch(e){
+      console.log('exception', e)
       this.setState({
         isLoading: false,
         isError: true
@@ -126,7 +121,7 @@ class AuthorHome extends Component {
     try {
       await ApiService.delete(deleteLink);
       success(this.props.intl.formatMessage({ id: "authors.messages.deleted" }));
-      await this.loadAuthors();
+      await this.reloadAuthors();
 
       this.setState({
         selectedAuthor: null
@@ -156,7 +151,7 @@ class AuthorHome extends Component {
     const buttonText = intl.formatMessage({ id: 'action.retry' });
     return (<ErrorPlaceholder message={message}
       showButton={true} buttonText={buttonText}
-      buttonAction={this.loadAuthors.bind(this)} />)
+      buttonAction={this.reloadAuthors.bind(this)} />)
   }
 
   renderAuthors(authors){
@@ -188,7 +183,7 @@ class AuthorHome extends Component {
     if (showEdit && selectedAuthor) {
       return (<EditAuthor open={showEdit} author={selectedAuthor}
         createLink={createLink} isAdding={isAdding}
-        onOk={this.loadAuthors.bind(this)}
+        onOk={this.reloadAuthors.bind(this)}
         onClose={this.onCloseEdit.bind(this)} />);
     }
 
@@ -227,7 +222,6 @@ class AuthorHome extends Component {
           </Segment>
             <Pagination defaultActivePage={pageNumber} 
                           totalPages={authors.pageCount} 
-                          defaultActivePage={1} 
                           onPageChange={this.onPageChange} 
                           pointing
                           secondary attached='bottom'/>

@@ -11,7 +11,7 @@ export default class ErrorPlaceholder extends Component {
             button = <Button fluid style={{ display: 'block', marginTop: "20px" }} onClick={buttonAction}>{buttonText}</Button>
         }
         return (
-            <Segment placeholder="true" textAlign="center">
+            <Segment placeholder={true} textAlign="center">
                 <Header icon style={{ marginTop: "50px", marginBottom: "50px" }}>
                     <Icon name='warning circle' />
                     {message}
