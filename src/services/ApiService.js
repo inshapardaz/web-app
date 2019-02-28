@@ -152,8 +152,8 @@ class ApiService {
     return this.get(`${baseUrl}/authors/${id}`);
   }
 
-  getAuthorBooks(link, page = 1) {
-    return this.get(`${link}?pageNumber=${page}&pageSize=3`);
+  getAuthorBooks(link, page = 1, pageSize= 12) {
+    return this.get(`${link}?pageNumber=${page}&pageSize=${pageSize}`);
   }
 
   getDictionary(id){

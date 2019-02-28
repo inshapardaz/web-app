@@ -38,12 +38,12 @@ class AuthorHome extends Component {
     
     if (this.state.pageNumber != values.page)
     {
-      this.loadAuthors(values.page);
+      await this.loadAuthors(values.page);
     }
   }
 
   async reloadAuthors(){
-    this.loadAuthors(this.state.pageNumber);
+    await this.loadAuthors(this.state.pageNumber);
   }
 
   async loadAuthors(pageNumber = 1) {

@@ -14,24 +14,13 @@ class AuthorCard extends Component {
         };
 
         this.uploadRef = React.createRef();
-        this.onImageUploadClicked = this.onImageUploadClicked.bind(this);
-
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.deleteAuthor = this.deleteAuthor.bind(this);
-    }
-
-    onImageUploadClicked() {
-
-    }
-
-    renderImageUpload() {
-
     }
 
     async uploadImage(files) {
         const { author } = this.props;
 
-        console.log('files', files);
         if (author.links.image_upload && files && files.length) {
             try
             {

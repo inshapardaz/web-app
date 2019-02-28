@@ -47,5 +47,20 @@
     "author.editor.header.edit" : "Editing author '{name}'",
     "author.editor.fields.name.title" : "Name",
     "author.editor.fields.name.error" : "Name is required",
-    "authors.item.book.count" : "{count} Books"
+    "author.messages.error.loading" : "Unable to load author",
+    "authors.item.book.count" : "{count} Books",
+    "books.action.create" : "Create new book",
+    "books.messages.saved" : "Book saved",
+    "books.messages.deleted" : "Book Deleted",
+    "books.messages.error.saving" : "Error saving book",
+    "books.messages.error.delete" : "Book Deleted",
+    "books.messages.error.loading" : "Unable to load books",
+    "books.messages.empty" : "No book found",
+    "books.action.confirmDelete" : "Do you want to remove '{name}'?",
+    "book.editor.header.add": "Adding book",
+    "book.editor.header.edit" : "Editing book '{name}'",
+    "book.editor.fields.name.title" : "Name",
+    "book.editor.fields.name.error" : "Name is required",
+    "book.messages.error.loading" : "Unable to load book",
+    "books.item.book.count" : "{count} Books"
 }
