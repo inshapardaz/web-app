@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Card, Icon, Image, Confirm, Label } from 'semantic-ui-react';
+import { Button, Card, Icon, Image, Confirm, Label, Dimmer, Header } from 'semantic-ui-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { success, error } from '../../services/toasts';
 import ApiService from '../../services/ApiService';
@@ -11,7 +11,8 @@ class BookCard extends Component {
     super(props);
     this.state = {
       confirmDelete: false,
-      showEdit : false
+      showEdit : false,
+      active : false
     };
 
     this.uploadRef = React.createRef();
@@ -119,16 +120,40 @@ class BookCard extends Component {
     return null;
   }
 
+  handleShow = () => this.setState({ active: true })
+  handleHide = () => this.setState({ active: false })
+
   render() {
     const { book } = this.props;
+    const { active } = this.state
+
     if (book == null) {
       return
     }
 
+    const content = (
+      <div>
+        <Header as="span" className="book-description" inverted >
+          {book.description.trunc(200)}
+        </Header>
+
+        <Button inverted as={Link} to={`/books/${book.id}`}><FormattedMessage id="action.view" /></Button>
+      </div>
+    )
+
     return (
       <>
         <Card >
-          <Image src={book.links.image || '/resources/img/book_placeholder.png'} height="600px" as={Link} to={`/books/${book.id}`} />
+          <Dimmer.Dimmable 
+            blurring
+            as={Image}
+            dimmed={active}
+            dimmer={{ active, content }}
+            onMouseEnter={this.handleShow}
+            onMouseLeave={this.handleHide}
+            height="600px"
+            src={book.links.image || '/resources/img/book_placeholder.png'}
+          />
           <Card.Content>
             <Card.Header >
             <Link to={`/books/${book.id}`} >{book.title}</Link>
@@ -143,9 +168,6 @@ class BookCard extends Component {
               </Label>
             ))}
             </Card.Meta>
-            <Card.Description>
-              {book.description}
-            </Card.Description>
           </Card.Content>
           <div className="ui bottom attached basic buttons">
             {this.renderBookActions(book)}

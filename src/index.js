@@ -32,3 +32,9 @@ render(App)
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./App', () => { render(App) })
 }
+
+
+String.prototype.trunc = 
+    function(n){
+        return this.substr(0,n-1)+(this.length>n?'...':'');
+    };
