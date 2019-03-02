@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Card, Icon, Image, Confirm } from 'semantic-ui-react';
+import { Button, Card, Icon, Image, Confirm, Dimmer } from 'semantic-ui-react';
 import ApiService from '../../services/ApiService';
 import { success, error } from '../../services/toasts';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -11,7 +11,8 @@ class AuthorCard extends Component {
         super(props);
         this.state = {
             confirmDelete: false,
-            showEdit: false
+            showEdit: false,
+            active : false
         };
 
         this.uploadRef = React.createRef();
@@ -26,8 +27,7 @@ class AuthorCard extends Component {
         const { author } = this.props;
 
         if (author.links.image_upload && files && files.length) {
-            try
-            {
+            try {
                 await ApiService.upload(author.links.image_upload, files[0]);
                 this.props.onUpdated();
             }
@@ -37,15 +37,15 @@ class AuthorCard extends Component {
         }
     }
 
-    onEdit = () => this.setState({showEdit : true});
-    onCloseEdit = () => this.setState({showEdit : false});
+    onEdit = () => this.setState({ showEdit: true });
+    onCloseEdit = () => this.setState({ showEdit: false });
     renderEdit = (author) => {
         if (this.state.showEdit && author) {
-          return (<EditAuthor open={true} author={author}
-            onOk={this.props.onUpdated}
-            onClose={this.onCloseEdit} />);
+            return (<EditAuthor open={true} author={author}
+                onOk={this.props.onUpdated}
+                onClose={this.onCloseEdit} />);
         }
-    
+
         return null;
     }
 
@@ -94,40 +94,52 @@ class AuthorCard extends Component {
         let actions = [];
 
         if (author.links.update) {
-            actions.push(<Button key="edit" onClick={this.onEdit} basic attached="bottom" animated>
-                <Button.Content visible><Icon name="pencil" color="green" /></Button.Content>
-                <Button.Content hidden><FormattedMessage id="action.edit" /></Button.Content>
-            </Button>)
+            actions.push(<Button key="edit" onClick={this.onEdit} inverted color="green" icon="pencil" />)
         }
 
         if (author.links.image_upload) {
-            actions.push(<Button key="image" onClick={() => this.uploadRef.current.click()} basic animated attached="bottom">
-                <Button.Content visible><Icon name='photo' /></Button.Content>
-                <Button.Content hidden><FormattedMessage id="action.changeImage" /></Button.Content>
-                <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
-            </Button>)
+            actions.push(<Button key="image" onClick={() => this.uploadRef.current.click()} inverted color="olive" icon="picture" />)
         }
 
         if (author.links.delete) {
-            actions.push(<Button key="delete" onClick={this.onDelete} basic animated attached="bottom">
-                <Button.Content visible><Icon name="delete" color="red" /> </Button.Content>
-                <Button.Content hidden><FormattedMessage id="action.delete" /></Button.Content>
-            </Button>)
+            actions.push(<Button key="delete" onClick={this.onDelete} inverted color="red" icon="delete" />)
         }
 
         return actions;
     }
 
+
+    handleShow = () => this.setState({ active: true })
+    handleHide = () => this.setState({ active: false })
+
     render() {
         const { author } = this.props;
+        const { active } = this.state;
+
         if (author == null) {
             return
         }
 
+        const content = (
+            <div>
+                <Button inverted as={Link} primary to={`/authors/${author.id}`}><FormattedMessage id="action.view" /></Button>
+                <Button.Group icons={true} buttons={this.renderAuthorActions(author)} />
+            </div>
+        )
+
         return (
             <>
                 <Card >
-                    <Image src={author.links.image || '/resources/img/avatar1.jpg'} height="300px" as={Link} to={`/authors/${author.id}`} />
+                    <Dimmer.Dimmable
+                        blurring
+                        as={Image}
+                        dimmed={active}
+                        dimmer={{ active, content }}
+                        onMouseEnter={this.handleShow}
+                        onMouseLeave={this.handleHide}
+                        height="600px"
+                        src={author.links.image || '/resources/img/avatar1.jpg'}
+                    />
                     <Card.Content>
                         <Card.Header >
                             {author.name}
@@ -136,12 +148,10 @@ class AuthorCard extends Component {
                             <FormattedMessage id="authors.item.book.count" values={{ count: author.bookCount }} />
                         </Card.Meta>
                     </Card.Content>
-                    <div className="ui bottom attached basic buttons">
-                        {this.renderAuthorActions(author)}
-                    </div>
                 </Card>
                 {this.renderEdit(author)}
                 {this.renderDelete()}
+                <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
             </>
         )
     }

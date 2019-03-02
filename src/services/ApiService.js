@@ -115,6 +115,10 @@ class ApiService {
     return this.get(`${baseUrl}/categories`);
   }
 
+  getCategory(id){
+    return this.get(`${baseUrl}/categories/${id}`);
+  }
+
   searchBooks(query, page = 1, pageSize = 12) {
     return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
   }

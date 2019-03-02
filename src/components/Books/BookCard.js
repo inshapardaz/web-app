@@ -84,25 +84,16 @@ class BookCard extends Component {
     let actions = [];
 
     if (book.links.update) {
-      actions.push(<Button key="edit" onClick={this.onEdit} basic attached="bottom" animated>
-        <Button.Content visible><Icon name="pencil" color="green" /></Button.Content>
-        <Button.Content hidden><FormattedMessage id="action.edit" /></Button.Content>
-      </Button>)
+      actions.push(<Button key="edit" color="green" onClick={this.onEdit} inverted icon="pencil"></Button>)
     }
 
     if (book.links.image_upload) {
-      actions.push(<Button key="image" onClick={() => this.uploadRef.current.click()} basic animated attached="bottom">
-        <Button.Content visible><Icon name='photo' /></Button.Content>
-        <Button.Content hidden><FormattedMessage id="action.changeImage" /></Button.Content>
-        <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
+      actions.push(<Button key="image" color="olive" onClick={() => this.uploadRef.current.click()} inverted icon="picture">
       </Button>)
     }
 
     if (book.links.delete) {
-      actions.push(<Button key="delete" onClick={this.onDelete} basic animated attached="bottom">
-        <Button.Content visible><Icon name="delete" color="red" /> </Button.Content>
-        <Button.Content hidden><FormattedMessage id="action.delete" /></Button.Content>
-      </Button>)
+      actions.push(<Button key="delete" onClick={this.onDelete} inverted color="red" icon="delete"></Button>)
     }
 
     return actions;
@@ -125,7 +116,7 @@ class BookCard extends Component {
 
   render() {
     const { book } = this.props;
-    const { active } = this.state
+    const { active } = this.state;
 
     if (book == null) {
       return
@@ -137,7 +128,8 @@ class BookCard extends Component {
           {book.description.trunc(200)}
         </Header>
 
-        <Button inverted as={Link} to={`/books/${book.id}`}><FormattedMessage id="action.view" /></Button>
+        <Button inverted as={Link} primary to={`/books/${book.id}`}><FormattedMessage id="action.view" /></Button>
+        <Button.Group icons={true} buttons={this.renderBookActions(book)} />
       </div>
     )
 
@@ -154,27 +146,25 @@ class BookCard extends Component {
             height="600px"
             src={book.links.image || '/resources/img/book_placeholder.png'}
           />
-          <Card.Content>
+          <Card.Content >
             <Card.Header >
             <Link to={`/books/${book.id}`} >{book.title}</Link>
             </Card.Header>
             <Card.Meta>
               <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
             </Card.Meta>
-            <Card.Meta>
+          </Card.Content>
+          <Card.Content extra>
             {book.categories.map(c => (
               <Label key={c.id} size="tiny">
                 <Link to={`/books?category=${c.id}`}>{c.name}</Link>
               </Label>
             ))}
-            </Card.Meta>
-          </Card.Content>
-          <div className="ui bottom attached basic buttons">
-            {this.renderBookActions(book)}
-          </div>
+            </Card.Content>
         </Card>
         {this.renderEditor(book)}
         {this.renderDelete()}
+        <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
       </>
     )
   }

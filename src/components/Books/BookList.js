@@ -38,7 +38,7 @@ class BookList extends Component {
         const values = queryString.parse(nextProps.location.search)
     
         if (this.state.pageNumber != values.page || 
-            this.state.authorId != author.id ||
+            //this.state.authorId != author ? author.id : 0 ||
             this.state.category != values.category)
         {
             await this.loadBooks(author, values.category? values.category : 0, values.page? values.page : 1);
