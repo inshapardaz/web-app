@@ -17,6 +17,7 @@ class BookList extends Component {
             isLoading: true,
             isAdding : false,
             authorId: 0,
+            category: 0,
             pageNumber: 1,
             selectedBook: null,
             books: []
@@ -28,7 +29,7 @@ class BookList extends Component {
 
     async componentDidMount() {
         const values = queryString.parse(this.props.location.search)
-        await this.loadBooks(this.props.author, values.page? values.page : 1);
+        await this.loadBooks(this.props.author, values.category? values.category : 0, values.page? values.page : 1);
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -36,9 +37,11 @@ class BookList extends Component {
 
         const values = queryString.parse(nextProps.location.search)
     
-        if (this.state.pageNumber != values.page || this.state.authorId != author.id)
+        if (this.state.pageNumber != values.page || 
+            this.state.authorId != author.id ||
+            this.state.category != values.category)
         {
-            await this.loadBooks(author, values.page? values.page : 1);
+            await this.loadBooks(author, values.category? values.category : 0, values.page? values.page : 1);
         }
     }
 
@@ -46,15 +49,26 @@ class BookList extends Component {
         await this.loadBooks(this.props.author, this.state.pageNumber);
     }
 
-    async loadBooks(author, pageNumber = 1) {
+    async loadBooks(author = null, category = 0, pageNumber = 1) {
         this.setState({
             isLoading: true,
-            authorId: author.id,
+            authorId: author ? author.id : null,
+            category: category,
             pageNumber: pageNumber
         });
 
         try {
-            let result = await ApiService.getAuthorBooks(author.links.books, pageNumber, 3);
+
+            let result = [];
+            if (author) {
+                result = await ApiService.getAuthorBooks(author.links.books, pageNumber);
+            }
+            else if (category && category > 0){
+                result = await ApiService.getBooksByCategory(category, pageNumber);
+            }
+            else {
+                result = await ApiService.getBooks(pageNumber);
+            }
             this.setState({
                 isLoading: false,
                 isError: false,
@@ -73,9 +87,16 @@ class BookList extends Component {
     onPageChange(e, { activePage }) {
         if (this.state.pageNumber != activePage)
         {
-            const {author} = this.props;
+            const { category } = this.state;
+            const { author } = this.props;
             if (author){
                 this.props.history.push(`/authors/${author.id}?page=${activePage}`);
+            }
+            else if (category && category > 0){
+                this.props.history.push(`/books?category=${category}&page=${activePage}`);
+            }
+            else {
+                this.props.history.push(`/books?page=${activePage}`);
             }
         }
       }
@@ -125,7 +146,7 @@ class BookList extends Component {
                 selectedBook.authorId = this.props.author.id;
             }
             return (<BookEditor open={true} book={selectedBook}
-                authorId={authorId}
+                authorId={authorId} 
                 createLink={createLink} isAdding={isAdding}
                 onOk={this.reloadBooks.bind(this)}
                 onClose={this.onCloseEdit.bind(this)} />);

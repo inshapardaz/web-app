@@ -115,13 +115,18 @@ class ApiService {
     return this.get(`${baseUrl}/categories`);
   }
 
-  searchBooks(query, page = 1) {
-    return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=6`);
+  searchBooks(query, page = 1, pageSize = 12) {
+    return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
   }
 
-  getBooks(category = null, page = 1) {
-    const url = category ? `${baseUrl}/categories/${category}/books` : `${baseUrl}/books`;
-    return this.get(`${url}?pageNumber=${page}&pageSize=12`);
+  getBooks(page = 1, pageSize = 12) {
+    const url = `${baseUrl}/books`;
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}`);
+  }
+
+  getBooksByCategory(category, page = 1, pageSize = 12) {
+    const url = `${baseUrl}/categories/${category}/books`;
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}`);
   }
 
   getBook(id) {
