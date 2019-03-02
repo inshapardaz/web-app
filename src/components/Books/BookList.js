@@ -7,7 +7,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { Segment, Card, Pagination, Button, Icon } from 'semantic-ui-react';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import BookCard from './BookCard';
-import EditBook from './EditBook';
+import BookEditor from './BookEditor';
 
 class BookList extends Component {
     constructor(props) {
@@ -16,7 +16,6 @@ class BookList extends Component {
             isError: false,
             isLoading: true,
             isAdding : false,
-            showEdit: false,
             authorId: 0,
             pageNumber: 1,
             selectedBook: null,
@@ -24,7 +23,6 @@ class BookList extends Component {
         };
 
         this.onPageChange = this.onPageChange.bind(this);
-        this.onEditClicked = this.onEditClicked.bind(this);
         this.onBookUpdated = this.onBookUpdated.bind(this);
     }
 
@@ -45,7 +43,7 @@ class BookList extends Component {
     }
 
     async reloadBooks() {
-        await this.loadBooks(this.props.author);
+        await this.loadBooks(this.props.author, this.state.pageNumber);
     }
 
     async loadBooks(author, pageNumber = 1) {
@@ -85,22 +83,12 @@ class BookList extends Component {
     onAddClicked(){
         this.setState({
             selectedBook: {},
-            showEdit: true,
             isAdding: true,
-        });
-    }
-
-    onEditClicked(book){
-        this.setState({
-            selectedBook : book,
-            showEdit: true,
-            isAdding: false
         });
     }
 
     onCloseEdit() {
         this.setState({
-            showEdit: false,
             isAdding: false
         });
     }
@@ -131,12 +119,12 @@ class BookList extends Component {
     }
 
     renderEditor(createLink) {
-        const { isAdding, showEdit, selectedBook, authorId } = this.state;
-        if (showEdit && selectedBook) {
+        const { isAdding, selectedBook, authorId } = this.state;
+        if (isAdding && selectedBook) {
             if (this.props.author){
                 selectedBook.authorId = this.props.author.id;
             }
-            return (<EditBook open={showEdit} book={selectedBook}
+            return (<BookEditor open={true} book={selectedBook}
                 authorId={authorId}
                 createLink={createLink} isAdding={isAdding}
                 onOk={this.reloadBooks.bind(this)}
@@ -146,16 +134,8 @@ class BookList extends Component {
         return null;
     }
 
-    renderDelete(){
-        return null;
-    }
-
-    renderBooks(books){
-        return books.data.map(b =>
-            <BookCard key={b.id} book={b} 
-            onEdit={() => this.onEditClicked(b)}
-            onUpdated={this.onBookUpdated} />)
-      }
+    renderBooks = (books) => books.data.map(b => 
+            <BookCard key={b.id} book={b} onUpdated={this.onBookUpdated} />)
 
     render() {
         const { books, isLoading, isError, pageNumber } = this.state;
@@ -177,9 +157,9 @@ class BookList extends Component {
             let addButton = null;
             if (createLink) {
             addButton = (
-                            <Button onClick={this.onAddClicked.bind(this)} icon attached='top' ><Icon name='add' />
-                            <FormattedMessage id="books.action.create" />
-                            </Button>);
+                    <Button onClick={this.onAddClicked.bind(this)} icon attached='top' ><Icon name='add' />
+                    <FormattedMessage id="books.action.create" />
+                    </Button>);
             }
 
             return (
@@ -193,7 +173,6 @@ class BookList extends Component {
                           onPageChange={this.onPageChange} 
                           pointing
                           secondary attached='bottom'/>
-                    {this.renderDelete()}
                     {this.renderEditor(createLink)}
                 </>
             )

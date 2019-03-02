@@ -7,7 +7,7 @@ import AuthorsDropDown from '../Authors/AuthorsDropDown';
 import LanguageDropDown from '../LanguageDropDown';
 import CategoriesDropDown from '../CategoriesDropDown';
 
-class EditBook extends Component {
+class BookEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -153,4 +153,4 @@ class EditBook extends Component {
 }
 
 
-export default injectIntl(EditBook);
+export default injectIntl(BookEditor);

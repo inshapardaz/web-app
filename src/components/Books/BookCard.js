@@ -4,16 +4,21 @@ import { Button, Card, Icon, Image, Confirm, Label } from 'semantic-ui-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { success, error } from '../../services/toasts';
 import ApiService from '../../services/ApiService';
+import BookEditor from './BookEditor';
 
 class BookCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      confirmDelete: false
+      confirmDelete: false,
+      showEdit : false
     };
 
     this.uploadRef = React.createRef();
-    this.onDeleteClicked = this.onDeleteClicked.bind(this);
+    this.renderEditor = this.renderEditor.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+    this.onCloseEdit = this.onCloseEdit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
     this.deleteBook = this.deleteBook.bind(this);
   }
 
@@ -31,11 +36,9 @@ class BookCard extends Component {
     }
   }
 
-  onDeleteClicked() {
-    this.setState({
-      confirmDelete: true
-    });
-  }
+  onEdit = () => this.setState({showEdit: true})
+  onCloseEdit = () => this.setState({showEdit: false})
+  onDelete = () => this.setState({ confirmDelete: true })
 
   renderDelete() {
     const { confirmDelete } = this.state;
@@ -80,7 +83,7 @@ class BookCard extends Component {
     let actions = [];
 
     if (book.links.update) {
-      actions.push(<Button key="edit" onClick={this.props.onEdit} basic attached="bottom" animated>
+      actions.push(<Button key="edit" onClick={this.onEdit} basic attached="bottom" animated>
         <Button.Content visible><Icon name="pencil" color="green" /></Button.Content>
         <Button.Content hidden><FormattedMessage id="action.edit" /></Button.Content>
       </Button>)
@@ -95,7 +98,7 @@ class BookCard extends Component {
     }
 
     if (book.links.delete) {
-      actions.push(<Button key="delete" onClick={this.onDeleteClicked} basic animated attached="bottom">
+      actions.push(<Button key="delete" onClick={this.onDelete} basic animated attached="bottom">
         <Button.Content visible><Icon name="delete" color="red" /> </Button.Content>
         <Button.Content hidden><FormattedMessage id="action.delete" /></Button.Content>
       </Button>)
@@ -103,6 +106,19 @@ class BookCard extends Component {
 
     return actions;
   }
+
+  renderEditor(book){
+    if (this.state.showEdit && book) {
+        return (<BookEditor open={true} book={book}
+            authorId={book.authorId}
+            createLink={null} isAdding={false}
+            onOk={this.props.onUpdated}
+            onClose={this.onCloseEdit} />);
+    }
+
+    return null;
+  }
+
   render() {
     const { book } = this.props;
     if (book == null) {
@@ -135,6 +151,7 @@ class BookCard extends Component {
             {this.renderBookActions(book)}
           </div>
         </Card>
+        {this.renderEditor(book)}
         {this.renderDelete()}
       </>
     )
