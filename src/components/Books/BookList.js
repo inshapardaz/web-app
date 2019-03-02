@@ -4,9 +4,10 @@ import queryString from 'query-string';
 import { withRouter } from 'react-router-dom'
 
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Segment, Card, Pagination } from 'semantic-ui-react';
+import { Segment, Card, Pagination, Button, Icon } from 'semantic-ui-react';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import BookCard from './BookCard';
+import EditBook from './EditBook';
 
 class BookList extends Component {
     constructor(props) {
@@ -14,12 +15,17 @@ class BookList extends Component {
         this.state = {
             isError: false,
             isLoading: true,
+            isAdding : false,
+            showEdit: false,
             authorId: 0,
             pageNumber: 1,
+            selectedBook: null,
             books: []
         };
 
         this.onPageChange = this.onPageChange.bind(this);
+        this.onEditClicked = this.onEditClicked.bind(this);
+        this.onBookUpdated = this.onBookUpdated.bind(this);
     }
 
     async componentDidMount() {
@@ -76,8 +82,27 @@ class BookList extends Component {
         }
       }
 
-    onEditClicked(){
+    onAddClicked(){
+        this.setState({
+            selectedBook: {},
+            showEdit: true,
+            isAdding: true,
+        });
+    }
 
+    onEditClicked(book){
+        this.setState({
+            selectedBook : book,
+            showEdit: true,
+            isAdding: false
+        });
+    }
+
+    onCloseEdit() {
+        this.setState({
+            showEdit: false,
+            isAdding: false
+        });
     }
     
     async onBookUpdated(){
@@ -105,11 +130,31 @@ class BookList extends Component {
         );
     }
 
+    renderEditor(createLink) {
+        const { isAdding, showEdit, selectedBook, authorId } = this.state;
+        if (showEdit && selectedBook) {
+            if (this.props.author){
+                selectedBook.authorId = this.props.author.id;
+            }
+            return (<EditBook open={showEdit} book={selectedBook}
+                authorId={authorId}
+                createLink={createLink} isAdding={isAdding}
+                onOk={this.reloadBooks.bind(this)}
+                onClose={this.onCloseEdit.bind(this)} />);
+        }
+    
+        return null;
+    }
+
+    renderDelete(){
+        return null;
+    }
+
     renderBooks(books){
         return books.data.map(b =>
             <BookCard key={b.id} book={b} 
-            onEdit={this.onEditClicked.bind(this, b)}
-            onUpdated={this.onBookUpdated.bind(this)} />)
+            onEdit={() => this.onEditClicked(b)}
+            onUpdated={this.onBookUpdated} />)
       }
 
     render() {
@@ -128,8 +173,18 @@ class BookList extends Component {
         }
 
         if (books && books.data && books.data.length > 0) {
+            const createLink = (books && books.links) ? books.links.create : null;
+            let addButton = null;
+            if (createLink) {
+            addButton = (
+                            <Button onClick={this.onAddClicked.bind(this)} icon attached='top' ><Icon name='add' />
+                            <FormattedMessage id="books.action.create" />
+                            </Button>);
+            }
+
             return (
                 <>
+                    {addButton}
                     <Segment padded={true} attached>
                         <Card.Group stackable centered>{this.renderBooks(books)}</Card.Group>
                     </Segment>
@@ -138,6 +193,8 @@ class BookList extends Component {
                           onPageChange={this.onPageChange} 
                           pointing
                           secondary attached='bottom'/>
+                    {this.renderDelete()}
+                    {this.renderEditor(createLink)}
                 </>
             )
         }

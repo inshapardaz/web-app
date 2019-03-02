@@ -44,7 +44,7 @@ class EditAuthor extends Component {
             if (isAdding) {
                 await ApiService.post(createLink, author);
             } else {
-                await ApiService.put(author.links.delete, author);
+                await ApiService.put(author.links.update, author);
             }
             
             success(this.props.intl.formatMessage({ id: "authors.messages.saved" }));

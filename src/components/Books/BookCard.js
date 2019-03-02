@@ -25,7 +25,7 @@ class BookCard extends Component {
         this.props.onUpdated();
       }
       catch (e){
-        console.log('e', e)
+        console.error('e', e)
         error(this.props.intl.formatMessage({ id: "books.messages.error.saving" }));
       }
     }
@@ -45,7 +45,7 @@ class BookCard extends Component {
       const { intl } = this.props;
 
       return (<Confirm size="mini" open={confirmDelete}
-        content={intl.formatMessage({ id: 'books.action.confirmDelete' }, { name: book.title })}
+        content={intl.formatMessage({ id: 'books.action.confirmDelete' }, { title: book.title })}
         cancelButton={intl.formatMessage({ id: 'action.no' })}
         confirmButton={intl.formatMessage({ id: 'action.yes' })}
         onCancel={() => this.setState({ confirmDelete: false })}
@@ -115,7 +115,7 @@ class BookCard extends Component {
           <Image src={book.links.image || '/resources/img/book_placeholder.png'} height="600px" as={Link} to={`/books/${book.id}`} />
           <Card.Content>
             <Card.Header >
-              {book.title}
+            <Link to={`/books/${book.id}`} >{book.title}</Link>
             </Card.Header>
             <Card.Meta>
               <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
