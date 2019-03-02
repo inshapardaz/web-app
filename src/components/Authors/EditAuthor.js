@@ -17,19 +17,9 @@ class EditAuthor extends Component {
         this.save = this.save.bind(this);
     }
 
-    componentDidMount(){
-        this.setState({
-            name : this.props.author.name
-        });
-    }
-
-    handleChange(event) {
-        this.setState({ name: event.target.value });
-    }
-
-    close() {
-        this.props.onClose();
-    }
+    componentDidMount = () => this.setState({name : this.props.author.name});
+    handleChange = (event) => this.setState({ name: event.target.value });
+    close = () => this.props.onClose();
 
     async save() {
         this.setState({

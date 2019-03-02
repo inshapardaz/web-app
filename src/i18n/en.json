@@ -14,6 +14,7 @@
     "action.no" : "No",
     "action.save" : "Save",
     "action.cancel" : "Cancel",
+    "action.changeImage" : "Change Image",
     "message.loading": "Loading",
     "profile.edit" : "Edit Profile",
     "header.categories": "Categories",

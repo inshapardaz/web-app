@@ -19,7 +19,6 @@ class AuthorHome extends Component {
       showEditor: false,
       selectedAuthor: null,
       isAdding: false,
-      showEdit: false,
       confirmDelete: false,
       pageNumber: 1
     };
@@ -79,22 +78,12 @@ class AuthorHome extends Component {
   addAuthor(){
       this.setState({
         selectedAuthor: {},
-        showEdit: true,
         isAdding: true,
       });
   }
 
-  onEditClicked(author){
-    this.setState({
-      selectedAuthor: author,
-      showEdit: true,
-      isAdding: false
-    });
-  }
-
   onCloseEdit() {
     this.setState({
-      showEdit: false,
       isAdding: false
     });
   }
@@ -129,9 +118,7 @@ class AuthorHome extends Component {
 
   renderAuthors(authors){
     return authors.data.map(a =>
-      <AuthorCard key={a.id} author={a} 
-        onEdit={this.onEditClicked.bind(this, a)}
-        onUpdated={this.onAuthorUpdated} />)
+      <AuthorCard key={a.id} author={a} onUpdated={this.onAuthorUpdated} />)
   }
 
 
@@ -152,10 +139,10 @@ class AuthorHome extends Component {
   }
 
   renderEditor(createLink) {
-    const { isAdding, showEdit, selectedAuthor } = this.state;
-    if (showEdit && selectedAuthor) {
-      return (<EditAuthor open={showEdit} author={selectedAuthor}
-        createLink={createLink} isAdding={isAdding}
+    const { isAdding, selectedAuthor } = this.state;
+    if (isAdding && selectedAuthor) {
+      return (<EditAuthor open={true} author={selectedAuthor}
+        createLink={createLink} isAdding={true}
         onOk={this.reloadAuthors.bind(this)}
         onClose={this.onCloseEdit.bind(this)} />);
     }

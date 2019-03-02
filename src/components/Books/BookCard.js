@@ -92,7 +92,7 @@ class BookCard extends Component {
     if (book.links.image_upload) {
       actions.push(<Button key="image" onClick={() => this.uploadRef.current.click()} basic animated attached="bottom">
         <Button.Content visible><Icon name='photo' /></Button.Content>
-        <Button.Content hidden><FormattedMessage id="action.edit" /></Button.Content>
+        <Button.Content hidden><FormattedMessage id="action.changeImage" /></Button.Content>
         <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
       </Button>)
     }
