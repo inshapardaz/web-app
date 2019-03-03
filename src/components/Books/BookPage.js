@@ -1,19 +1,28 @@
 import React, { Component } from 'react'
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-
-import { Image, Header, Container, Grid } from 'semantic-ui-react';
+import { withRouter } from "react-router";
+import { Image, Header, Container, Grid, Label, Button, Segment } from 'semantic-ui-react';
 import { ErrorPlaceholder, Loading } from '../Common';
 import ApiService from '../../services/ApiService';
 import ChapterList from '../Chapter/ChapterList';
+import BookEditor from './BookEditor';
+import ChangeImage from './ChangeImage';
+import DeleteBook from './DeleteBook';
+import { history } from '../../store/configureStore';
 
 class BookPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       bookId: null,
-      book: null
+      book: null,
+      confirmDelete: false
     }
+
+    this.reloadBook = this.reloadBook.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+    this.onDeleted = this.onDeleted.bind(this);
   }
 
   async componentDidMount() {
@@ -37,6 +46,7 @@ class BookPage extends Component {
   async loadBook(bookId) {
     this.setState({
       isLoading: true,
+      showEdit: false,
       bookId: bookId
     });
 
@@ -66,6 +76,42 @@ class BookPage extends Component {
       buttonAction={this.reloadBook.bind(this)} />)
   }
 
+  renderBookActions(book) {
+    let actions = [];
+
+    if (book.links.update) {
+      actions.push(<Button key="edit" fluid onClick={this.onEdit} icon="pencil"
+        content={<FormattedMessage id="action.edit" />} />)
+    }
+
+    if (book.links.image_upload) {
+      actions.push(<ChangeImage key="image" fluid icon="picture" uploadLink={book.links.image_upload}
+        content={<FormattedMessage id="action.changeImage" />} onUpdated={this.reloadBook} />)
+    }
+
+    if (book.links.delete) {
+      actions.push(<DeleteBook key="delete" fluid onDeleted={this.onDeleted} icon="delete" book={book}
+        content={<FormattedMessage id="action.delete" />} />)
+    }
+
+    return actions;
+  }
+
+  onEdit = () => this.setState({ showEdit: true });
+  onCloseEdit = () => this.setState({ showEdit: false });
+
+  renderEdit(book) {
+    if (this.state.showEdit && book) {
+      return (<BookEditor open={true} book={book}
+        authorId={book.authorId}
+        createLink={null} isAdding={false}
+        onOk={this.reloadBook}
+        onClose={this.onCloseEdit} />);
+    }
+  }
+
+  onDeleted = () => history.push(`/books`)
+
   render() {
     const { book, isLoading, isError } = this.state;
 
@@ -89,15 +135,30 @@ class BookPage extends Component {
               <Header.Content>{book.title}</Header.Content>
               <Header.Subheader as={Link} to={`/authors/${book.authorId}`} >{book.authorName}</Header.Subheader>
             </Header>
-            <Container content={book.description} textAlign="center" />
+            <Container textAlign="center">
+              {book.categories.map(c => (
+                <Label key={c.id} size="tiny" >
+                  <Link to={`/books?category=${c.id}`}>{c.name}</Link>
+                </Label>
+              ))}
+            </Container>
+            <Segment basic>
+              <Container content={book.description} textAlign="center" />
+            </Segment>
+            <Segment basic>
+              <Button.Group vertical labeled icon fluid>
+                {this.renderBookActions(book)}
+              </Button.Group>
+            </Segment>
           </Grid.Column>
           <Grid.Column width={9}>
             <ChapterList book={book} />
           </Grid.Column>
         </Grid>
+        {this.renderEdit(book)}
       </>
     )
   }
 }
 
-export default injectIntl(BookPage)
+export default withRouter(injectIntl(BookPage))

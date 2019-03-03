@@ -17,6 +17,7 @@
     "action.changeImage" : "تصویر تبدیل کریں",
     "action.view" : "ملاحضہ کیجئے",
     "message.loading": "لوڈ ہو رہا ہے",
+    "message.image.upload.error" : "تصویر تبدیل کرنے میں ناکامی ہوئی",
     "profile.edit" : "پروفائل کی تبدیلی",
     "header.categories": "زمرہ جات",
     "header.categories.list": "فہرست زمرہ جات",
@@ -72,7 +73,17 @@
     "book.editor.fields.categories.title" : "زمرہ",
     "book.editor.fields.categories.error" : "زمرہ ضروری ہے۔",
     "book.messages.error.loading" : "کتاب  کے حصول میں  ناکامی ہوئی",
-    "chapter.action.create" : "باب کا اضافہ کریں",
+    "chapter.action.create" : "نئے باب کا اضافہ کریں",
+    "chapter.messages.saved" : "باب محفوظ کر دیا گیا ہے",
+    "chapters.messages.deleted" : "باب ہٹا دیا گیا ہے",
+    "chapters.messages.error.saving" : "باب محفوظ نہیں کیا جا سکا",
+    "chapters.messages.error.delete" : "باب ہٹایا نہیں جا سکا",
     "chapters.messages.empty" : "کوئی باب موجود نہیں",
-    "chapters.messages.error.loading" : "ابواب کے حصول میں ناکامی ہوئی"
+    "chapters.messages.error.loading" : "ابواب کے حصول میں ناکامی ہوئی",
+    "chapters.action.confirmDelete" : "کیا آپ '{title}' کو حذف کرنا چاہیں گے؟",
+    "chapter.editor.header.add": "باب کا اضافہ",
+    "chapter.editor.header.edit" : "باب '{title}' کی تدوین",
+    "chapter.editor.fields.name.title" : "نام",
+    "chapter.editor.fields.name.error" : "نام ضروری ہے۔",
+    "chapter.messages.error.loading" : "باب  کے حصول میں  ناکامی ہوئی"
 }

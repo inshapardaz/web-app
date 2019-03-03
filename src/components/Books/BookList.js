@@ -199,7 +199,12 @@ class BookList extends Component {
             )
         }
         else {
-            return this.renderEmptyPlaceHolder();
+            return (
+                <>
+                {this.renderEditor(createLink)}
+                {this.renderEmptyPlaceHolder()}
+                </>
+            );
         }
     }
 }

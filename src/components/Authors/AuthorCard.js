@@ -123,7 +123,7 @@ class AuthorCard extends Component {
         const content = (
             <div>
                 <Button inverted as={Link} primary to={`/authors/${author.id}`}><FormattedMessage id="action.view" /></Button>
-                <Button.Group icons={true} buttons={this.renderAuthorActions(author)} />
+                <Button.Group icon={true} buttons={this.renderAuthorActions(author)} />
             </div>
         )
 

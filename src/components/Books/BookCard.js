@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Card, Icon, Image, Confirm, Label, Dimmer, Header } from 'semantic-ui-react';
+import { Button, Card, Image, Label, Dimmer, Header } from 'semantic-ui-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { success, error } from '../../services/toasts';
-import ApiService from '../../services/ApiService';
 import BookEditor from './BookEditor';
+import ChangeImage from './ChangeImage';
+import DeleteBook from './DeleteBook';
 
 class BookCard extends Component {
   constructor(props) {
@@ -15,69 +15,28 @@ class BookCard extends Component {
       active : false
     };
 
-    this.uploadRef = React.createRef();
     this.renderEditor = this.renderEditor.bind(this);
     this.onEdit = this.onEdit.bind(this);
     this.onCloseEdit = this.onCloseEdit.bind(this);
     this.onDelete = this.onDelete.bind(this);
-    this.deleteBook = this.deleteBook.bind(this);
-  }
-
-  async uploadImage(files) {
-    const { book } = this.props;
-    if (book.links.image_upload && files && files.length) {
-      try {
-        await ApiService.upload(book.links.image_upload, files[0]);
-        this.props.onUpdated();
-      }
-      catch (e){
-        console.error('e', e)
-        error(this.props.intl.formatMessage({ id: "books.messages.error.saving" }));
-      }
-    }
+    this.onCloseDelete = this.onCloseDelete.bind(this);
   }
 
   onEdit = () => this.setState({showEdit: true})
   onCloseEdit = () => this.setState({showEdit: false})
+  
   onDelete = () => this.setState({ confirmDelete: true })
+  onCloseDelete = () => this.setState({ confirmDelete: false });
 
   renderDelete() {
     const { confirmDelete } = this.state;
     const { book } = this.props;
 
     if (confirmDelete && book) {
-      const { intl } = this.props;
-
-      return (<Confirm size="mini" open={confirmDelete}
-        content={intl.formatMessage({ id: 'books.action.confirmDelete' }, { title: book.title })}
-        cancelButton={intl.formatMessage({ id: 'action.no' })}
-        confirmButton={intl.formatMessage({ id: 'action.yes' })}
-        onCancel={() => this.setState({ confirmDelete: false })}
-        onConfirm={this.deleteBook} closeIcon />);
+      return <DeleteBook book={book} onDeleted={this.props.onUpdated} onCancel={this.onCloseDelete} /> 
     }
 
     return null;
-  }
-
-  async deleteBook() {
-    const { book } = this.props;
-    if (!book) return;
-
-    let deleteLink = book.links.delete;
-    if (!deleteLink) return;
-
-    this.setState({
-      confirmDelete: false
-    });
-
-    try {
-      await ApiService.delete(deleteLink);
-      success(this.props.intl.formatMessage({ id: "books.messages.deleted" }));
-      this.props.onUpdated();
-    }
-    catch{
-      error(this.props.intl.formatMessage({ id: "books.messages.error.delete" }));
-    }
   }
 
   renderBookActions(book) {
@@ -88,8 +47,8 @@ class BookCard extends Component {
     }
 
     if (book.links.image_upload) {
-      actions.push(<Button key="image" color="olive" onClick={() => this.uploadRef.current.click()} inverted icon="picture">
-      </Button>)
+      actions.push(<ChangeImage key="image" inverted color="olive" icon="picture" uploadLink={book.links.image_upload}
+                    onUpdated={this.props.onUpdated} />)
     }
 
     if (book.links.delete) {
@@ -164,7 +123,6 @@ class BookCard extends Component {
         </Card>
         {this.renderEditor(book)}
         {this.renderDelete()}
-        <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
       </>
     )
   }

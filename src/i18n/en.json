@@ -17,6 +17,7 @@
     "action.changeImage" : "Change Image",
     "action.view" : "View",
     "message.loading": "Loading",
+    "message.image.upload.error" : "Unable to update image",
     "profile.edit" : "Edit Profile",
     "header.categories": "Categories",
     "header.categories.list": "All Categories ",
@@ -74,6 +75,18 @@
     "book.messages.error.loading" : "Unable to load book",
     "books.item.book.count" : "{count} Books",
     "chapter.action.create" : "Create new chapter",
+    "chapters.action.create" : "Create new chapter",
+    "chapter.messages.saved" : "Chapter saved",
+    "chapters.messages.deleted" : "Chapter Deleted",
+    "chapters.messages.error.saving" : "Error saving chapter",
+    "chapters.messages.error.delete" : "Chapter Deleted",
     "chapters.messages.empty" : "No chapter found",
-    "chapters.messages.error.loading" : "Unable to load chapters"
+    "chapters.messages.error.loading" : "Unable to load chapters",
+    "chapters.action.confirmDelete" : "Do you want to remove '{title}'?",
+    "chapter.editor.header.add": "Adding chapter",
+    "chapter.editor.header.edit" : "Editing chapter '{title}'",
+    "chapter.editor.fields.name.title" : "Name",
+    "chapter.editor.fields.name.error" : "Name is required",
+    "chapter.messages.error.loading" : "Unable to load chapter",
+    "chapters.item.book.count" : "{count} chapters"
 }

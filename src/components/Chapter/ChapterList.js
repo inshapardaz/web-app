@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import ApiService from '../../services/ApiService';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
+import { List, Segment, Button, Icon } from 'semantic-ui-react';
+import ChapterEditor from './ChapterEditor';
+import ChapterCard from './ChapterCard';
 
 class ChapterList extends Component {
     constructor(props){
@@ -9,8 +12,10 @@ class ChapterList extends Component {
         this.state = {
             isError : false,
             isLoading: false,
-            chapters : []
+            chapters : {}
         };
+
+        this.loadChapters = this.loadChapters.bind(this);
     }
 
     async componentDidMount() {
@@ -49,7 +54,8 @@ class ChapterList extends Component {
         }
     }
 
-    onAddChapter = () => {}
+    onAddChapter = () => this.setState({ isAdding : true})
+    onCloseEdit = () => this.setState({ isAdding : false})
 
     renderLoadingError() {
         const { intl } = this.props;
@@ -72,6 +78,21 @@ class ChapterList extends Component {
         );
     }
 
+    renderEditor(chapters) {
+        const { isAdding } = this.state;
+        if (isAdding && chapters && chapters.links && chapters.links.create) {
+            return (<ChapterEditor open={true} chapter={{}}
+                createLink={chapters.links.create} isAdding={true}
+                onOk={this.loadChapters.bind(this)}
+                onClose={this.onCloseEdit.bind(this)} />);
+        }
+    
+        return null;
+    }
+
+    renderChapters = (chapters) => chapters.items.map(c => 
+        <ChapterCard key={c.id} chapter={c} onUpdate={this.loadChapters} />)
+
 
     render() {
         const { isLoading, isError, chapters } = this.state;
@@ -88,14 +109,30 @@ class ChapterList extends Component {
             return null;
         }
 
-        if (chapters && chapters.data && chapters.data.length > 0) {
-            return (
-                <div>
+        if (chapters && chapters.items && chapters.items.length > 0) {
+            const createLink = (chapters.links) ? chapters.links.create : null;
+            let addButton = null;
+            if (createLink) {
+            addButton = (
+                    <Button onClick={this.onAddChapter} icon attached='top' ><Icon name='add' />
+                        <FormattedMessage id="chapter.action.create" />
+                    </Button>);
+            }
 
-                </div>
+            return (
+                <>
+                    {addButton}
+                    <Segment padded={true} attached>
+                        <List divided verticalAlign='middle'>{this.renderChapters(chapters)} </List>
+                    </Segment>
+                    {this.renderEditor(chapters)}
+                </>
             )
         } else {
-            return this.renderEmptyPlaceHolder();
+            return (<>
+                {this.renderEditor(chapters)}
+                {this.renderEmptyPlaceHolder()}
+            </>);
         }
     }
 }
