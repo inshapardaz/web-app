@@ -71,5 +71,8 @@
     "book.editor.fields.language.error" : "زبان ضروری ہے۔",
     "book.editor.fields.categories.title" : "زمرہ",
     "book.editor.fields.categories.error" : "زمرہ ضروری ہے۔",
-    "book.messages.error.loading" : "کتاب  کے حصول میں  ناکامی ہوئی"
+    "book.messages.error.loading" : "کتاب  کے حصول میں  ناکامی ہوئی",
+    "chapter.action.create" : "باب کا اضافہ کریں",
+    "chapters.messages.empty" : "کوئی باب موجود نہیں",
+    "chapters.messages.error.loading" : "ابواب کے حصول میں ناکامی ہوئی"
 }

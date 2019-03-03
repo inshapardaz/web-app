@@ -129,7 +129,7 @@ class BookCard extends Component {
         </Header>
 
         <Button inverted as={Link} primary to={`/books/${book.id}`}><FormattedMessage id="action.view" /></Button>
-        <Button.Group icons={true} buttons={this.renderBookActions(book)} />
+        <Button.Group icon buttons={this.renderBookActions(book)} />
       </div>
     )
 

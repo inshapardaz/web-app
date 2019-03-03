@@ -137,8 +137,12 @@ class ApiService {
     return this.get(`${baseUrl}/books/${id}`);
   }
 
-  getChapters(id) {
-    return this.get(`${baseUrl}/books/${id}/chapters`);
+  getBookChapters(book) {
+    return this.get(book.links.chapters);
+  }
+
+  getChapters(bookId) {
+    return this.get(`${baseUrl}/books/${bookId}/chapters`);
   }
 
   getChapter(id, chapterId) {

@@ -135,7 +135,7 @@ class BookList extends Component {
         return (
             <EmptyPlaceholder message={message} iconName='book'
                 showButton={true} buttonText={buttonText}
-                buttonAction={this.reloadBooks.bind(this)} />
+                buttonAction={this.onAddClicked.bind(this)} />
         );
     }
 

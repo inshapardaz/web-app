@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { Image, Header } from 'semantic-ui-react';
-import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
+import { ErrorPlaceholder, Loading } from '../Common';
 import ApiService from '../../services/ApiService';
 import BookList from '../Books/BookList';
 
@@ -35,9 +35,7 @@ class AuthorPage extends Component {
     }
   }
 
-  async reloadAuthor(){
-    await this.loadAuthor(this.state.authorId);
-  }
+  reloadAuthor = async() => await this.loadAuthor(this.state.authorId);
 
   async loadAuthor(authorId) {
     this.setState({

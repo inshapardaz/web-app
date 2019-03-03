@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Card, Icon, Image, Confirm, Dimmer } from 'semantic-ui-react';
+import { Button, Card, Image, Confirm, Dimmer } from 'semantic-ui-react';
 import ApiService from '../../services/ApiService';
 import { success, error } from '../../services/toasts';
 import { injectIntl, FormattedMessage } from 'react-intl';

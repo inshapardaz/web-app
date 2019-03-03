@@ -72,5 +72,8 @@
     "book.editor.fields.categories.title" : "Categories",
     "book.editor.fields.categories.error" : "Categories is required",
     "book.messages.error.loading" : "Unable to load book",
-    "books.item.book.count" : "{count} Books"
+    "books.item.book.count" : "{count} Books",
+    "chapter.action.create" : "Create new chapter",
+    "chapters.messages.empty" : "No chapter found",
+    "chapters.messages.error.loading" : "Unable to load chapters"
 }
