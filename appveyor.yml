@@ -1,0 +1,31 @@
+version: 1.0.{build}
+image: Visual Studio 2017 Preview
+init:
+- cmd: node -v
+install:
+- ps: Install-Product node 8.5.0 x64
+build_script:
+- cmd: >-
+    npm install
+
+    npm run build
+test: off
+artifacts:
+- path: build
+
+  name: webpackage
+
+  type: WebDeployPackage
+deploy:
+- provider: WebDeploy
+  server: https://inshapardaz.scm.azurewebsites.net:443/msdeploy.axd?site=inshapardaz
+  website: inshapardaz
+  username: $inshapardaz
+  password:
+    secure : gg5oJlGtae+Yc5FSbXjPQgQVW8w3m5uu7bY5HyjAMpLpQW2gDetRkSX68eqS8b7pS1I6E84U0/8MGVJmEs4m1A==
+  artifact: webpackage
+  aspnet_core: true
+  remove_files: true
+  app_offline: true
+  do_not_use_checksum: true
+  aspnet_core_force_restart: true
