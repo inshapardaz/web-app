@@ -88,5 +88,12 @@
     "chapter.editor.fields.name.title" : "Name",
     "chapter.editor.fields.name.error" : "Name is required",
     "chapter.messages.error.loading" : "Unable to load chapter",
-    "chapters.item.book.count" : "{count} chapters"
+    "chapters.item.book.count" : "{count} chapters",
+    "chapter.toolbar.edit" : "Edit",
+    "chapter.toolbar.backToBook" : "Back to book",
+    "chapter.toolbar.chapters" : "Chapters",
+    "chapter.toolbar.font" : "Font",
+    "chapter.toolbar.fontSize" : "Font Size",
+    "chapter.toolbar.fullScreen" : "Fullscreen",
+    "chapter.toolbar.exitFullScreen" : "Exit Fullscreen"
 }

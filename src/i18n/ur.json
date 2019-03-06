@@ -85,5 +85,12 @@
     "chapter.editor.header.edit" : "باب '{title}' کی تدوین",
     "chapter.editor.fields.name.title" : "نام",
     "chapter.editor.fields.name.error" : "نام ضروری ہے۔",
-    "chapter.messages.error.loading" : "باب  کے حصول میں  ناکامی ہوئی"
+    "chapter.messages.error.loading" : "باب  کے حصول میں  ناکامی ہوئی",
+    "chapter.toolbar.edit" : "تدوین",
+    "chapter.toolbar.backToBook" : "کتاب تک رسائی",
+    "chapter.toolbar.chapters" : "ابواب",
+    "chapter.toolbar.font" : "خط",
+    "chapter.toolbar.fontSize" : "خط کی اونچائی",
+    "chapter.toolbar.fullScreen" : "مکمل سکرین",
+    "chapter.toolbar.exitFullScreen" : "اخراج مکمل سکرین"
 }
