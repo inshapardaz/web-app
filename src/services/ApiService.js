@@ -157,8 +157,8 @@ class ApiService {
     return this.get(`${baseUrl}/authors?pageNumber=${page}&pageSize=12`);
   }
 
-  searchAuthors(query, page = 1) {
-    return this.get(`${baseUrl}/authors?query=${query}&pageNumber=${page}&pageSize=6`);
+  searchAuthors(query, page = 1, pageSize = 6) {
+    return this.get(`${baseUrl}/authors?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
   }
 
   getAuthor(id) {

@@ -5,9 +5,9 @@ import { Container, Image, Menu, Input } from 'semantic-ui-react'
 import CategoriesDropDown from './CategoriesDropDown';
 import logo from 'resources/logo.png'
 import {injectIntl, FormattedMessage} from 'react-intl';
+import SearchBox from './SearchBox';
 
 const NavbarDesktop = ({ leftItems, rightItems, intl }) => {
-  const placeholder = intl.formatMessage({id: 'header.search'});
   return (<Menu fixed='top' inverted>
     <Container>
       <Menu.Item as={Link} to="/">
@@ -17,7 +17,7 @@ const NavbarDesktop = ({ leftItems, rightItems, intl }) => {
       <CategoriesDropDown />
       <Menu.Menu position='right'>
         <Menu.Item>
-          <Input icon='search' placeholder={placeholder} />
+          <SearchBox  />
         </Menu.Item>
         {rightItems}
       </Menu.Menu>

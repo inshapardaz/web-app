@@ -95,5 +95,6 @@
     "chapter.toolbar.font" : "Font",
     "chapter.toolbar.fontSize" : "Font Size",
     "chapter.toolbar.fullScreen" : "Fullscreen",
-    "chapter.toolbar.exitFullScreen" : "Exit Fullscreen"
+    "chapter.toolbar.exitFullScreen" : "Exit Fullscreen",
+    "search.messages.noresult" : "No result found"
 }

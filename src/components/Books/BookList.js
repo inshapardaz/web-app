@@ -201,7 +201,7 @@ class BookList extends Component {
         else {
             return (
                 <>
-                {this.renderEditor(createLink)}
+                {this.renderEditor(null)}
                 {this.renderEmptyPlaceHolder()}
                 </>
             );
