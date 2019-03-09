@@ -26,8 +26,7 @@ export default class ChangeImage extends Component {
   render() {
     return (
       <>
-        <Button key={this.props.key} 
-                color={this.props.color} 
+        <Button color={this.props.color} 
                 onClick={() => this.uploadRef.current.click()} 
                 inverted={this.props.inverted} 
                 icon={this.props.icon}
@@ -41,7 +40,6 @@ export default class ChangeImage extends Component {
 
 ChangeImage.propTypes = {
     uploadLink: PropTypes.string,
-    key: PropTypes.string,
     color: PropTypes.string,
     onUpdated: PropTypes.func.isRequired,
     inverted: PropTypes.bool,

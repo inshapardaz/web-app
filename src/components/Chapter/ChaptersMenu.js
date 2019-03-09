@@ -48,6 +48,8 @@ class ChaptersMenu extends Component {
 
     render() {
         const { chapters, isError, isLoading } = this.state;
+        const { selectedChapter } = this.props;
+
         let options = [];
         if (!isLoading && chapters) {
             options =  chapters.items.map(c => (
@@ -59,12 +61,11 @@ class ChaptersMenu extends Component {
                             </Dropdown.Item>))
         }
 
-        var value = this.props.selectedChapter;
         return (<Dropdown text={this.props.intl.formatMessage({id:'chapter.toolbar.chapters'})} pointing
             error={isError}
             loading={isLoading}
             className='link item'
-            value={this.props.selectedChapter} >
+            value={selectedChapter} >
              <Dropdown.Menu>{options}</Dropdown.Menu>
             </Dropdown>);
     }
