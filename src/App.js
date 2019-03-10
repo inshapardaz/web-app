@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { SemanticToastContainer } from 'react-semantic-toasts';
 import { IntlProvider } from 'react-intl';
 import { getEntry } from './actions/dataActions';
-import { Navbar } from 'components'
 import 'styling/semantic.less'
 import 'styling/styles.less';
 import Routes from './Routes';
@@ -63,10 +62,10 @@ class App extends React.Component {
     if (locale) {
       return (
         <IntlProvider locale={locale.locale} messages={locale.messages}>
-          <Navbar>
-              <Routes />
-              <SemanticToastContainer />
-          </Navbar>
+          <>
+            <Routes />
+            {/* <SemanticToastContainer /> */}
+          </>
         </IntlProvider>
       );
     }

@@ -8,7 +8,6 @@ import NavbarChildren from './NavbarChildren'
 import NavbarDesktop from './NavbarDesktop'
 import NavbarMobile from './NavbarMobile'
 import ProfileMenu from './ProfileMenu';
-import Footer from './Footer';
 
 export default class NavBar extends Component {
   static propTypes = {
@@ -25,7 +24,10 @@ export default class NavBar extends Component {
     if (visible) this.setState({ visible: false })
   };
 
-  handleToggle = () => this.setState({ visible: !this.state.visible });
+  handleToggle = () => {
+    console.log('menu', this.state.visible)
+    this.setState({ visible: !this.state.visible });
+  }
 
   renderMenuItems() {
     return [
@@ -60,7 +62,6 @@ export default class NavBar extends Component {
           <NavbarDesktop leftItems={leftItems} rightItems={rightItems} />
           <NavbarChildren>{children}</NavbarChildren>
         </Responsive>
-        <Footer />
       </div>
     )
   }

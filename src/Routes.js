@@ -1,6 +1,8 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 
+import { BoxedLayout, EmptyLayout, FullScreenLayout } from './components/Layouts';
+
 import HomePage from "./components/HomePage/HomePage";
 import NotFoundPage from './components/NotFoundPage/NotFound';
 import Callback from './components/Callback';
@@ -21,28 +23,36 @@ import CategoriesHome from './components/Categories/CategoriesHome';
 import ErrorPage from './components/ErrorPage';
 import AboutPage from './components/AboutPage';
 
+function RouteWithLayout({layout, component, ...rest}){
+  return (
+    <Route {...rest} render={(props) =>
+      React.createElement( layout, props, React.createElement(component, props))
+    }/>
+  );
+}
+
 class Routes extends React.Component {
     
   render() {
     return (
       <Switch>
-        <Route path="/callback" component={Callback} exact />
-        <Route path="/" component={HomePage} exact />
-        <Route path="/about" component={AboutPage} exact /> 
-        <Route path="/error" component={ErrorPage} exact />        
-        <Route path="/authors/:id" component={AuthorPage} />
-        <Route path="/authors" component={AuthorHome} />
-        <Route path="/books/:id/chapters/:chapterId/edit" component={ChapterContentEditor} />
-        <Route path="/books/:id/chapters/:chapterId" component={Chapter} />
-        <Route path="/books/:id" component={BookPage} />
-        <Route path="/books/new" component={BooksHome} />
-        <Route path="/books/recent" component={BooksHome} />
-        <Route path="/books/favorites" component={BooksHome} />
-        <Route path="/books" component={BooksHome} />
-        <Route path="/categories" component={CategoriesHome} />
-        <Route path="/dictionaries/:id" component={DictionaryPage} />
-        <Route path="/dictionaries" component={DictionaryHome} />
-        <Route 
+        <RouteWithLayout layout={EmptyLayout} path="/callback" component={Callback} exact/>
+        <RouteWithLayout layout={FullScreenLayout} path="/" component={HomePage} exact />
+        <RouteWithLayout layout={FullScreenLayout} path="/about" component={AboutPage} exact /> 
+        <RouteWithLayout layout={FullScreenLayout} path="/error" component={ErrorPage} exact />        
+        <RouteWithLayout layout={BoxedLayout} path="/authors/:id" component={AuthorPage} />
+        <RouteWithLayout layout={BoxedLayout} path="/authors" component={AuthorHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/books/:id/chapters/:chapterId/edit" component={ChapterContentEditor} />
+        <RouteWithLayout layout={BoxedLayout} path="/books/:id/chapters/:chapterId" component={Chapter} />
+        <RouteWithLayout layout={BoxedLayout} path="/books/:id" component={BookPage} />
+        <RouteWithLayout layout={BoxedLayout} path="/books/new" component={BooksHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/books/recent" component={BooksHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/books/favorites" component={BooksHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/books" component={BooksHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/categories" component={CategoriesHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/dictionaries/:id" component={DictionaryPage} />
+        <RouteWithLayout layout={BoxedLayout} path="/dictionaries" component={DictionaryHome} />
+        <RouteWithLayout layout={FullScreenLayout} 
           render={() => (
             <NotFoundPage />
           )}

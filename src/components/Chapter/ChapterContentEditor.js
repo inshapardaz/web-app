@@ -22,7 +22,7 @@ class ChapterContentEditor extends Component {
         return (
             <div style={{ direction: 'rtl' }}>
                 <TextArea autoHeight disabled={this.props.saving} value={this.props.contents} onChange={this.handleChange} 
-                style={{ width: '100%'}}/>
+                style={{ width: '100%', fontFamily: 'inherit'}}/>
             </div>
         );
     }

@@ -96,7 +96,7 @@ class SearchBox extends Component {
     render() {
         const { isLoading, isError, results, value } = this.state;
         return (
-            <Search category
+            <Search category minCharacters={3} aligned='right'
                 loading={isLoading}
                 resultRenderer={this.resultRenderer}
                 onSearchChange={this.handleSearchChange.bind(this)}

@@ -4,6 +4,8 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import ApiService from '../../services/ApiService';
 import Reader from '../Reader/Reader';
 import { Menu, Icon, Container, Sticky, Confirm } from 'semantic-ui-react';
+import { success, error } from '../../services/toasts';
+
 import FontsSizeMenu from '../Reader/FontsSizeMenu';
 import FontsMenu from '../Reader/FontsMenu';
 import ChaptersMenu from './ChaptersMenu';
@@ -128,12 +130,21 @@ class Chapter extends Component {
       });
     }
     catch (e) {
-      console.log('e', e)
-      this.setState({
-        isLoading: false,
-        isLoadingContents: false,
-        isError: true
-      });
+      console.log('e', e.response)
+      if (e.response.status == 400){
+        this.setState({
+          isLoading: false,
+          isLoadingContents: false,
+          contents : { contents : ''}
+        });
+      }
+      else{
+        this.setState({
+          isLoading: false,
+          isLoadingContents: false,
+          isError: true
+        });
+      }
     }
   }
 
@@ -191,11 +202,13 @@ class Chapter extends Component {
         dirty : false,
         saving:false
       })
+      success(this.props.intl.formatMessage({ id: "chapter.messages.saved" }));
     }
     catch(e){
       this.setState({
         saving:false
       })
+      error(this.props.intl.formatMessage({ id: "chapters.messages.error.saving" }));
     }    
   }
 

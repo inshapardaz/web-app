@@ -4,8 +4,8 @@ import { Icon, Image, Menu, Sidebar } from 'semantic-ui-react'
 
 import logo from 'resources/logo.png'
 import * as styles from './NavbarMobile.less'
+import ProfileMenu from  './ProfileMenu';
 import CategoriesDropDown from './CategoriesDropDown';
-import Search from  './ProfileMenu';
 
 const NavbarMobile = ({ children, leftItems, onPusherClick, onToggle, visible }) => (
   <Sidebar.Pushable>
@@ -14,17 +14,19 @@ const NavbarMobile = ({ children, leftItems, onPusherClick, onToggle, visible })
       animation='overlay'
       icon='labeled'
       inverted
-      items={[...leftItems, <CategoriesDropDown isMobile={true} key="categories" />]}
       vertical
       visible={visible}
-    />
+    >
+      {leftItems}
+      <CategoriesDropDown key="categories" isMobile />
+    </Sidebar>
     <Sidebar.Pusher dimmed={visible} onClick={onPusherClick} className={styles.pusher}>
-      <Menu fixed='top' inverted>
+      <Menu inverted>
         <Menu.Item href="/">
           <Image size='mini' src={logo} />
         </Menu.Item>
-        <Search isMobile={true}/>
-        <Menu.Menu position='right'>
+        <ProfileMenu isMobile={true}/>
+        <Menu.Menu  position='right' fixed='right'>
           <Menu.Item onClick={onToggle}>
             <Icon name='sidebar' />
           </Menu.Item>
