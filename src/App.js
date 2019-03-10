@@ -64,7 +64,7 @@ class App extends React.Component {
         <IntlProvider locale={locale.locale} messages={locale.messages}>
           <>
             <Routes />
-            {/* <SemanticToastContainer /> */}
+            <SemanticToastContainer position="bottom-right" />
           </>
         </IntlProvider>
       );
