@@ -14,6 +14,7 @@
     "action.no" : "No",
     "action.save" : "Save",
     "action.cancel" : "Cancel",
+    "action.close" : "Close",
     "action.changeImage" : "Change Image",
     "action.view" : "View",
     "message.loading": "Loading",

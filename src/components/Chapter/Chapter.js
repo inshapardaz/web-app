@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import ApiService from '../../services/ApiService';
 import Reader from '../Reader/Reader';
-import { Menu, Icon, Container, Sticky } from 'semantic-ui-react';
+import { Menu, Icon, Container, Sticky, Confirm } from 'semantic-ui-react';
 import FontsSizeMenu from '../Reader/FontsSizeMenu';
 import FontsMenu from '../Reader/FontsMenu';
 import ChaptersMenu from './ChaptersMenu';
 import ErrorPlaceholder from '../Common/ErrorPlaceholder';
+import ChapterContentEditor from './ChapterContentEditor';
 
 const gotoTop = () => {
   document.body.scrollTop = 0;
@@ -66,14 +67,21 @@ class Chapter extends Component {
       isLoadingContents: false,
       isError: false,
       fullscreen: false,
+      isEditing: false,
       fontSize: '',
       theme: localStorage.getItem('reader.theme') || 'default',
-      font: ''
+      font: '',
+      dirty: false,
+      saving: false
     };
 
     this.changeFontSize = this.changeFontSize.bind(this);
     this.changeFont = this.changeFont.bind(this);
     this.toggleFullscreen = this.toggleFullscreen.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+    this.onContentChange = this.onContentChange.bind(this);
+    this.onSave = this.onSave.bind(this);
+    this.onCloseEdit = this.onCloseEdit.bind(this);
   }
 
   async componentDidMount() {
@@ -148,16 +156,72 @@ class Chapter extends Component {
     localStorage.setItem('reader.theme', e.key);
   }
 
-  renderEditLink() {
-    const { bookId, contents } = this.state;
+  onEdit(){
+    this.setState({
+      isEditing : true,
+      dirty : false
+    })
+  }
+
+  onContentChange(contents){
+    var oldContents = {...this.state.contents}
+    oldContents.contents = contents;
+
+    this.setState({
+      dirty : true,
+      contents : oldContents
+    })
+  }
+
+  async onSave(){
+    this.setState({
+      saving : true
+    })
+    try{
+      const {chapter, contents} = this.state;
+      const updateLink = contents.links.update;
+      const createLink = chapter.links.add_contents;
+      if (updateLink) {
+        await ApiService.put(updateLink, JSON.stringify(contents.contents));
+      }
+      else if (createLink){
+        await ApiService.post(createLink, JSON.stringify(contents.contents));
+      }
+      this.setState({
+        dirty : false,
+        saving:false
+      })
+    }
+    catch(e){
+      this.setState({
+        saving:false
+      })
+    }    
+  }
+
+  onCloseEdit(){
+    this.setState({
+      isEditing : false,
+      dirty : false
+    })
+  }
+
+  renderEditMenu() {
+    const { contents, isEditing } = this.state;
 
     if (!contents) return null;
 
     const editLink = contents.links.update;
     if (editLink) {
-      return (<Menu.Item as={Link} content={this.props.intl.formatMessage({ id: 'action.edit' })}
-        to={`/books/${bookId}/chapters/${contents.chapterId}/edit`} icon="edit" />);
+      if (isEditing)
+      {
+        return [<Menu.Item color="green" content={this.props.intl.formatMessage({ id: 'action.save' })} icon="save" onClick={this.onSave} />,
+          <Menu.Item color="orange" content={this.props.intl.formatMessage({ id: 'action.close' })} icon="close" onClick={this.onCloseEdit} />];  
+      }
+      
+      return (<Menu.Item color="blue" content={this.props.intl.formatMessage({ id: 'action.edit' })} icon="edit" onClick={this.onEdit} />);
     }
+
     return null;
   }
 
@@ -188,7 +252,7 @@ class Chapter extends Component {
   handleContextRef = contextRef => this.setState({ contextRef })
 
   render() {
-    const { isError, contents, isLoadingContents, bookId, chapter, chapterId, fullscreen, font, fontSize, contextRef } = this.state;
+    const { isError, isEditing, contents, isLoadingContents, bookId, chapter, chapterId, fullscreen, font, fontSize, contextRef } = this.state;
 
     if (isError){
       return <ErrorPlaceholder 
@@ -203,6 +267,12 @@ class Chapter extends Component {
       header = <h2 className="chapter__title" >{chapter.title}</h2>
     }
     if (contents) {
+      var display;
+      if (isEditing){
+          display = <ChapterContentEditor contents={contents.contents} onChange={this.onContentChange}/>
+      } else {
+          display = (<Reader contents={contents.contents} isLoading={isLoadingContents} />);
+      }
       return (
         <>
           <ChapterReaderStyle font={font} size={fontSize} />
@@ -213,16 +283,16 @@ class Chapter extends Component {
                   <Icon name="book" />
                   <FormattedMessage id="chapter.toolbar.backToBook" />
                 </Menu.Item>
-                {this.renderEditLink()}
                 <ChaptersMenu bookId={bookId} selectedChapter={chapterId} />
                 <FontsMenu onFontChanged={this.changeFont} />
                 <FontsSizeMenu onFontSizeChanged={this.changeFontSize} />
+                {this.renderEditMenu()}
                 {this.renderFullscreen()}
               </Menu>
             </Sticky>
             <Container fluid className="chapter__contents">
               {header}
-              <Reader contents={contents.contents} isLoading={isLoadingContents} />
+              {display}
             </Container>
           </div>
         </>

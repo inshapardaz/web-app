@@ -10,7 +10,7 @@ import AuthorPage from './components/Authors/AuthorPage';
 import BookPage from './components/Books/BookPage';
 import BooksHome from './components/Books/BooksHome';
 
-import ChapterEditor from './components/Chapter/ChapterEditor';
+import ChapterContentEditor from './components/Chapter/ChapterContentEditor';
 import Chapter from './components/Chapter/Chapter';
 
 import DictionaryHome from './components/Dictionary/DictionaryHome';
@@ -32,7 +32,7 @@ class Routes extends React.Component {
         <Route path="/error" component={ErrorPage} exact />        
         <Route path="/authors/:id" component={AuthorPage} />
         <Route path="/authors" component={AuthorHome} />
-        <Route path="/books/:id/chapters/:chapterId/edit" component={ChapterEditor} />
+        <Route path="/books/:id/chapters/:chapterId/edit" component={ChapterContentEditor} />
         <Route path="/books/:id/chapters/:chapterId" component={Chapter} />
         <Route path="/books/:id" component={BookPage} />
         <Route path="/books/new" component={BooksHome} />
