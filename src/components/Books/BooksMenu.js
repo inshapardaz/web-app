@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FormattedMessage } from 'react-intl';
 
-class CategoriesDropDown extends React.Component {
+class BooksMenu extends React.Component {
     renderCategories(categories) {
         if (categories && categories.items) {
             var menuItems = [];
 
-            menuItems.push(<Menu.Item key="0" as={Link} to={`/categories`} >
-                <Icon name='folder outline' /><FormattedMessage id="header.categories.list" /></Menu.Item>);
+            menuItems.push(<Menu.Item key="0" as={Link} to={`/books`} >
+                <Icon name='book' /><FormattedMessage id="header.books.list" /></Menu.Item>);
             menuItems.push(<Dropdown.Divider key="divider-1" />);
             menuItems.push(categories.items.map(c => (
                 <Dropdown.Item key={c.id} as={Link} to={`/books?category=${c.id}`}>
@@ -34,8 +34,8 @@ class CategoriesDropDown extends React.Component {
                 <React.Fragment>
                     <Dropdown.Menu>
                         <a className="item">
-                            <Icon name="folder outline"></Icon>
-                            <FormattedMessage id="header.categories" />
+                            <Icon name="book"></Icon>
+                            <FormattedMessage id="header.books" />
                         </a>
                         {categoriesItem}
                     </Dropdown.Menu>
@@ -45,7 +45,7 @@ class CategoriesDropDown extends React.Component {
         else {
 
             return (
-                <Dropdown item simple trigger={<><Icon name="folder outline" inverted /> <FormattedMessage id="header.categories" /></>}>
+                <Dropdown item simple trigger={<><Icon name="book" inverted /> <FormattedMessage id="header.books" /></>}>
                     <Dropdown.Menu>
                         {categoriesItem}
                     </Dropdown.Menu>
@@ -61,4 +61,4 @@ export default (connect(
     }),
     dispatch => bindActionCreators({
     }, dispatch)
-)(CategoriesDropDown));
+)(BooksMenu));

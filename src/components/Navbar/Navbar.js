@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { Responsive, Menu, Icon } from 'semantic-ui-react'
+import { Responsive, Menu, Icon, MenuItem } from 'semantic-ui-react'
 import { FormattedMessage } from 'react-intl';
 
 import NavbarChildren from './NavbarChildren'
@@ -9,7 +11,7 @@ import NavbarDesktop from './NavbarDesktop'
 import NavbarMobile from './NavbarMobile'
 import ProfileMenu from './ProfileMenu';
 
-export default class NavBar extends Component {
+class NavBar extends Component {
   static propTypes = {
     children: PropTypes.node,
   }
@@ -30,15 +32,17 @@ export default class NavBar extends Component {
   }
 
   renderMenuItems() {
+    var categories = null;
+    if (this.props.categories && this.props.categories.links.create){
+      categories = (<Menu.Item key="0" as={Link} to={`/categories`} >
+      <Icon name='folder outline' /><FormattedMessage id="header.categories" /></Menu.Item>);
+    }
+
     return [
-      (<Menu.Item key="book" as={Link} to="/books">
-        <Icon name="book" />
-        <FormattedMessage id="header.books" />
-      </Menu.Item>),
       (<Menu.Item key="authors" as={Link} to="/authors">
         <Icon name="users" />
         <FormattedMessage id="header.authors" />
-      </Menu.Item>)];
+      </Menu.Item>), categories];
   }
   render() {
     const { children } = this.props
@@ -66,3 +70,12 @@ export default class NavBar extends Component {
     )
   }
 }
+
+
+export default (connect(
+  (state) => ({
+      categories: state.apiReducers.categories
+  }),
+  dispatch => bindActionCreators({
+  }, dispatch)
+)(NavBar));

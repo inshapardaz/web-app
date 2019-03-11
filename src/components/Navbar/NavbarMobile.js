@@ -5,7 +5,7 @@ import { Icon, Image, Menu, Sidebar } from 'semantic-ui-react'
 import logo from 'resources/logo.png'
 import * as styles from './NavbarMobile.less'
 import ProfileMenu from  './ProfileMenu';
-import CategoriesDropDown from './CategoriesDropDown';
+import BooksMenu from '../Books/BooksMenu';
 
 const NavbarMobile = ({ children, leftItems, onPusherClick, onToggle, visible }) => (
   <Sidebar.Pushable>
@@ -17,8 +17,8 @@ const NavbarMobile = ({ children, leftItems, onPusherClick, onToggle, visible })
       vertical
       visible={visible}
     >
+    <BooksMenu key="books" isMobile />
       {leftItems}
-      <CategoriesDropDown key="categories" isMobile />
     </Sidebar>
     <Sidebar.Pusher dimmed={visible} onClick={onPusherClick} className={styles.pusher}>
       <Menu inverted>
