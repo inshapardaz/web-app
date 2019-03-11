@@ -47,7 +47,7 @@ class ChapterCard extends Component {
         try {
             await ApiService.delete(deleteLink);
             success(this.props.intl.formatMessage({ id: "chapters.messages.deleted" }));
-            this.props.onUpdated();
+            this.props.onUpdate();
         }
         catch (e){
             console.error(e)
@@ -78,7 +78,6 @@ class ChapterCard extends Component {
 
         if (chapter.links.update) {
             actions.push(<Button key="edit" onClick={this.onEdit} icon="pencil" />)
-            actions.push(<Button key="edit-content" icon="edit" as={Link} to={`/books/${chapter.bookId}/chapters/${chapter.id}/edit`} />)
         }
 
         if (chapter.links.delete) {
@@ -98,7 +97,7 @@ class ChapterCard extends Component {
                         {this.renderChapterActions(chapter)}
                     </List.Content>
                     <Icon name="file alternate outline" />
-                    <List.Content>
+                    <List.Content >
                         <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}`}>{chapter.title}</Link>
                     </List.Content>
                 </List.Item>
