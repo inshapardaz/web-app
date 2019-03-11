@@ -135,20 +135,24 @@ class Chapter extends Component {
     });
 
     try {
-      var contents = await ApiService.getChapterContents(bookId, chapterId);
-      var chapter = await ApiService.getChapter(bookId, chapterId);
       var book = await ApiService.getBook(bookId);
+      this.setState({
+        book: book
+      });
+
+      var chapter = await ApiService.getChapter(bookId, chapterId);
+      this.setState({
+        chapter: chapter,
+      });
+      var contents = await ApiService.getChapterContents(bookId, chapterId);
 
       this.setState({
         isLoading: false,
         isLoadingContents: false,
-        contents: contents,
-        chapter: chapter,
-        book: book
+        contents: contents
       });
     }
     catch (e) {
-      console.log('e', e.response)
       if (e.response.status == 404) {
         this.setState({
           isLoading: false,
@@ -212,8 +216,8 @@ class Chapter extends Component {
     })
     try {
       const { chapter, contents } = this.state;
-      const updateLink = contents.links.update;
-      const createLink = chapter.links.add_contents;
+      const updateLink = contents && contents.links ? contents.links.update : null;
+      const createLink = chapter && chapter.links ? chapter.links.add_contents : null;
       if (updateLink) {
         await ApiService.put(updateLink, JSON.stringify(contents.contents));
       }
@@ -241,13 +245,12 @@ class Chapter extends Component {
     })
   }
 
-  renderEditMenu() {
-    const { contents, isEditing } = this.state;
-
+  renderEditMenu(chapter, contents, isEditing) {
     if (!contents) return null;
 
-    const editLink = contents.links ? contents.links.update : null;
-    if (editLink) {
+    const addLink = chapter && chapter.links ? chapter.links.add_contents : null;
+    const editLink = contents && contents.links ? contents.links.update : null;
+    if (editLink || addLink) {
       if (isEditing) {
         return [<Menu.Item color="green" content={this.props.intl.formatMessage({ id: 'action.save' })} icon="save" onClick={this.onSave} />,
         <Menu.Item color="orange" content={this.props.intl.formatMessage({ id: 'action.close' })} icon="close" onClick={this.onCloseEdit} />];
@@ -286,7 +289,7 @@ class Chapter extends Component {
   handleContextRef = contextRef => this.setState({ contextRef })
 
   render() {
-    const { isError, isEditing, contents, book, menuFixed, isLoadingContents, bookId, chapter, chapterId, fullscreen, font, fontSize, contextRef } = this.state;
+    const { isError, isEditing, contents, book, menuFixed, isLoadingContents, bookId, chapter, chapterId, fullscreen, font, fontSize, contextRef, saving } = this.state;
 
     if (isError) {
       return <ErrorPlaceholder
@@ -330,7 +333,7 @@ class Chapter extends Component {
                   <ChaptersMenu bookId={bookId} selectedChapter={chapterId} />
                   <FontsMenu onFontChanged={this.changeFont} />
                   <FontsSizeMenu onFontSizeChanged={this.changeFontSize} />
-                  {this.renderEditMenu()}
+                  {this.renderEditMenu(chapter, contents, isEditing)}
                   {this.renderFullscreen()}
                 </Menu>
               </Visibility>
