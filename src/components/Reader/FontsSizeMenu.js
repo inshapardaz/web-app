@@ -38,7 +38,7 @@ export default class FontsSizeMenu extends Component {
           ];
       
           var value = this.state.fontSize;
-          return (<Dropdown text="Font Size" pointing 
+          return (<Dropdown icon="text height" pointing 
                             className='link item' 
                             onChange={this.changeFontSize.bind(this)} 
                             options={options} 

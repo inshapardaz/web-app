@@ -41,13 +41,13 @@ export default class FontsMenu extends Component {
           ];
       
           var value = this.state.font;
-          return (<Dropdown text="Font" pointing 
+          return (<Dropdown icon="font" pointing 
                             className='link item' 
                             onChange={this.changeFont.bind(this)} 
                             options={options} 
                             value={value} />);
     }
-}
+}   
 
 FontsMenu.propTypes = {
     onFontChanged: PropTypes.func.isRequired

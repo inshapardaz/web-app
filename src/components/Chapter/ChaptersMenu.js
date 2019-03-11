@@ -61,7 +61,7 @@ class ChaptersMenu extends Component {
                             </Dropdown.Item>))
         }
 
-        return (<Dropdown text={this.props.intl.formatMessage({id:'chapter.toolbar.chapters'})} pointing
+        return (<Dropdown icon="file alternate outline" pointing
             error={isError}
             loading={isLoading}
             className='link item'

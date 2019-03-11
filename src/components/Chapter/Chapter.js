@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import ApiService from '../../services/ApiService';
 import Reader from '../Reader/Reader';
-import { Menu, Icon, Container, Sticky, Visibility } from 'semantic-ui-react';
+import { Menu, Icon, Container, Sticky, Dimmer, Header, Loader } from 'semantic-ui-react';
 import { success, error } from '../../services/toasts';
 
 import FontsSizeMenu from '../Reader/FontsSizeMenu';
@@ -39,32 +39,12 @@ const ChapterReaderStyle = ({ font, size }) => {
     {
       margin: auto;
       padding: 10px;
+      padding-top : 4em;
       font-family: '${font}' !important;
       font-size: ${size} !important
     }
-  
-    .chapter--fullscreen
-    {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      z-index: 1000;
-      overflow-y: scroll;
-    }
   `}</style>
   )
-}
-
-const menuStyle = {
-  border: 'none',
-  borderRadius: 0,
-  boxShadow: 'none',
-  marginBottom: '1em',
-  marginTop: '4em',
-  transition: 'box-shadow 0.5s ease, padding 0.5s ease',
 }
 
 const fixedMenuStyle = {
@@ -84,7 +64,6 @@ class Chapter extends Component {
       isLoading: false,
       isLoadingContents: false,
       isError: false,
-      fullscreen: false,
       isEditing: false,
       fontSize: '',
       theme: localStorage.getItem('reader.theme') || 'default',
@@ -95,7 +74,6 @@ class Chapter extends Component {
 
     this.changeFontSize = this.changeFontSize.bind(this);
     this.changeFont = this.changeFont.bind(this);
-    this.toggleFullscreen = this.toggleFullscreen.bind(this);
     this.onEdit = this.onEdit.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.onSave = this.onSave.bind(this);
@@ -108,10 +86,6 @@ class Chapter extends Component {
     } = this.props
 
     await this.loadData(params.id, params.chapterId);
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove('no-scroll')
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -206,10 +180,6 @@ class Chapter extends Component {
     })
   }
 
-  stickTopMenu = () => this.setState({ menuFixed: true })
-
-  unStickTopMenu = () => this.setState({ menuFixed: false })
-
   async onSave() {
     this.setState({
       saving: true
@@ -252,44 +222,20 @@ class Chapter extends Component {
     const editLink = contents && contents.links ? contents.links.update : null;
     if (editLink || addLink) {
       if (isEditing) {
-        return [<Menu.Item color="green" content={this.props.intl.formatMessage({ id: 'action.save' })} icon="save" onClick={this.onSave} />,
-        <Menu.Item color="orange" content={this.props.intl.formatMessage({ id: 'action.close' })} icon="close" onClick={this.onCloseEdit} />];
+        return [<Menu.Item color="green" icon="save" onClick={this.onSave} />,
+        <Menu.Item color="orange" icon="close" onClick={this.onCloseEdit} />];
       }
 
-      return (<Menu.Item color="blue" content={this.props.intl.formatMessage({ id: 'action.edit' })} icon="edit" onClick={this.onEdit} />);
+      return (<Menu.Item color="blue" icon="edit" onClick={this.onEdit} />);
     }
 
     return null;
   }
 
-  toggleFullscreen() {
-    this.setState(prevState => ({
-      fullscreen: !prevState.fullscreen
-    }));
-
-    if (this.state.fullscreen)
-      document.body.classList.remove('no-scroll')
-    else
-      document.body.classList.add('no-scroll')
-  }
-
-  renderFullscreen() {
-    const { fullscreen } = this.state
-    if (fullscreen) {
-      return <Menu.Item as='a' icon="compress" position='right'
-        text={this.props.intl.formatMessage({ id: 'chapter.toolbar.fullScreen' })}
-        onClick={this.toggleFullscreen} />
-    } else {
-      return <Menu.Item as='a' icon="expand" position='right'
-        text={this.props.intl.formatMessage({ id: 'chapter.toolbar.exitFullScreen' })}
-        onClick={this.toggleFullscreen} />
-    }
-  }
-
   handleContextRef = contextRef => this.setState({ contextRef })
 
   render() {
-    const { isError, isEditing, contents, book, menuFixed, isLoadingContents, bookId, chapter, chapterId, fullscreen, font, fontSize, contextRef, saving } = this.state;
+    const { isError, isEditing, contents, book, saving, isLoadingContents, bookId, chapter, chapterId, font, fontSize, contextRef } = this.state;
 
     if (isError) {
       return <ErrorPlaceholder
@@ -313,36 +259,27 @@ class Chapter extends Component {
       return (
         <>
           <ChapterReaderStyle font={font} size={fontSize} />
-
-          <div className={`chapter chapter${fullscreen ? "--fullscreen" : ""}`} ref={this.handleContextRef}>
-            <Sticky active={fullscreen} context={contextRef}>
-              <Visibility
-                onBottomPassed={this.stickTopMenu}
-                onBottomVisible={this.unStickTopMenu}
-                once={false}
-              >
-                <Menu fixed={menuFixed ? 'top' : undefined}
-                  style={menuFixed ? fixedMenuStyle : menuStyle}>
-                  {book ? (<Menu.Item >
-                    {book.title}
-                  </Menu.Item>) : null}
-                  <Menu.Item as={Link} to={`/books/${bookId}`}>
-                    <Icon name="book" />
-                    <FormattedMessage id="chapter.toolbar.backToBook" />
-                  </Menu.Item>
-                  <ChaptersMenu bookId={bookId} selectedChapter={chapterId} />
-                  <FontsMenu onFontChanged={this.changeFont} />
-                  <FontsSizeMenu onFontSizeChanged={this.changeFontSize} />
-                  {this.renderEditMenu(chapter, contents, isEditing)}
-                  {this.renderFullscreen()}
-                </Menu>
-              </Visibility>
-            </Sticky>
-            <Container fluid className="chapter__contents">
-              {header}
-              {display}
-            </Container>
-          </div>
+          <Sticky active context={contextRef}>
+            <Menu fixed='top' style={fixedMenuStyle}>
+              {book ? (<Menu.Item as={Link} to={`/books/${bookId}`}>
+                <Icon name="book" /> {book.title}
+              </Menu.Item>) : null}
+              <ChaptersMenu bookId={bookId} selectedChapter={chapterId} />
+              <FontsMenu onFontChanged={this.changeFont} />
+              <FontsSizeMenu onFontSizeChanged={this.changeFontSize} />
+              {this.renderEditMenu(chapter, contents, isEditing)}
+            </Menu>
+          </Sticky>
+          <Container fluid className="chapter__contents">
+            {header}
+            {display}
+          </Container>
+          <Dimmer active={saving} page>
+            <Header as='h2' icon inverted>
+              <Icon name="save" />
+              Saving...
+            </Header>
+          </Dimmer>
         </>
       )
     } else {
