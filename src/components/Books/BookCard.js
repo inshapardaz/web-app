@@ -94,7 +94,7 @@ class BookCard extends Component {
 
     return (
       <>
-        <Card >
+        <Card>
           <Dimmer.Dimmable 
             blurring
             as={Image}
@@ -103,9 +103,10 @@ class BookCard extends Component {
             onMouseEnter={this.handleShow}
             onMouseLeave={this.handleHide}
             height="600px"
+            label={book.isPublic ? null : { as: 'a', color: 'red', corner: 'right', icon: 'lock' }}
             src={book.links.image || '/resources/img/book_placeholder.png'}
           />
-          <Card.Content >
+          <Card.Content>
             <Card.Header >
             <Link to={`/books/${book.id}`} >{book.title}</Link>
             </Card.Header>
