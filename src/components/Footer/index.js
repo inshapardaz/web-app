@@ -6,7 +6,7 @@ export default class Footer extends Component {
         if (this.props.mini)
         {
             return (
-                <Segment inverted vertical style={{ padding: '1em 1em', marginTop: '5px' }}>
+                <Segment fixed="bottom" inverted vertical style={{ padding: '1em 1em', marginTop: '5px' }}>
                     &copy; Inshapardaz.
                 </Segment>
             );

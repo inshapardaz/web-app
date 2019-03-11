@@ -4,7 +4,9 @@ import { Container } from 'semantic-ui-react'
 
 import * as styles from './NavbarChildren.less'
 
-const NavbarChildren = ({ children }) => <Container className={styles.container}>{children}</Container>
+const NavbarChildren = ({ children, fullWidth }) => {
+  return (<Container fluid={fullWidth} className={styles.container}>{children}</Container>);
+}
 
 NavbarChildren.propTypes = {
   children: PropTypes.node,

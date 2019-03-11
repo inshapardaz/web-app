@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './App'
 
-//import { OidcProvider } from 'redux-oidc';
 import { ConnectedRouter } from 'connected-react-router';
 import userManager from './services/userManager';
 import { Provider } from 'react-redux';

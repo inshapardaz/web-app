@@ -8,7 +8,9 @@ import SearchBox from './SearchBox';
 import BooksMenu from '../Books/BooksMenu';
 
 const NavbarDesktop = ({ leftItems, rightItems, intl }) => {
-  return (<Menu fixed='top' inverted size='small'>
+  return (
+    <div style={{display : 'block'}}>
+    <Menu inverted size='small'>
       <Menu.Item as={Link} to="/">
         <Image size='mini' src={logo} style={{ margin: '0 1.5em' }}/> <FormattedMessage id="app"/>
       </Menu.Item>
@@ -20,7 +22,9 @@ const NavbarDesktop = ({ leftItems, rightItems, intl }) => {
         </Menu.Item>
         {rightItems}
       </Menu.Menu>
-  </Menu>)
+    </Menu>
+    </div>
+  )
   }
 
 export default injectIntl(NavbarDesktop)

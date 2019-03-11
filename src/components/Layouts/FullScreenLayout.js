@@ -7,7 +7,7 @@ export default class FullScreenLayout extends Component {
         const { children } = this.props
         return (
             <>
-            <Navbar>
+            <Navbar fullWidth>
                 {children}
             </Navbar>
             <Footer />
