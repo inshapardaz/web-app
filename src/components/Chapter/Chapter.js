@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import ApiService from '../../services/ApiService';
 import Reader from '../Reader/Reader';
-import { Menu, Icon, Container, Sticky, Confirm } from 'semantic-ui-react';
+import { Menu, Icon, Container, Sticky, Header } from 'semantic-ui-react';
 import { success, error } from '../../services/toasts';
 
 import FontsSizeMenu from '../Reader/FontsSizeMenu';
@@ -65,6 +65,7 @@ class Chapter extends Component {
       bookId: null,
       chapterId: null,
       contents: null,
+      book: null,
       isLoading: false,
       isLoadingContents: false,
       isError: false,
@@ -121,17 +122,19 @@ class Chapter extends Component {
     try {
       var contents = await ApiService.getChapterContents(bookId, chapterId);
       var chapter = await ApiService.getChapter(bookId, chapterId);
+      var book = await ApiService.getBook(bookId);
 
       this.setState({
         isLoading: false,
         isLoadingContents: false,
         contents: contents,
         chapter: chapter,
+        book : book
       });
     }
     catch (e) {
       console.log('e', e.response)
-      if (e.response.status == 400){
+      if (e.response.status == 404){
         this.setState({
           isLoading: false,
           isLoadingContents: false,
@@ -224,7 +227,7 @@ class Chapter extends Component {
 
     if (!contents) return null;
 
-    const editLink = contents.links.update;
+    const editLink = contents.links ? contents.links.update: null;
     if (editLink) {
       if (isEditing)
       {
@@ -265,7 +268,7 @@ class Chapter extends Component {
   handleContextRef = contextRef => this.setState({ contextRef })
 
   render() {
-    const { isError, isEditing, contents, isLoadingContents, bookId, chapter, chapterId, fullscreen, font, fontSize, contextRef } = this.state;
+    const { isError, isEditing, contents, book, isLoadingContents, bookId, chapter, chapterId, fullscreen, font, fontSize, contextRef } = this.state;
 
     if (isError){
       return <ErrorPlaceholder 
@@ -289,9 +292,13 @@ class Chapter extends Component {
       return (
         <>
           <ChapterReaderStyle font={font} size={fontSize} />
+          
           <div className={`chapter chapter${fullscreen ? "--fullscreen" : ""}`} ref={this.handleContextRef}>
             <Sticky active={fullscreen} context={contextRef}>
               <Menu>
+              { book ? (<Menu.Item >
+                  {book.title}
+                </Menu.Item>) : null}
                 <Menu.Item as={Link} to={`/books/${bookId}`}>
                   <Icon name="book" />
                   <FormattedMessage id="chapter.toolbar.backToBook" />
