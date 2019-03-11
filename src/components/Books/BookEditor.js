@@ -15,6 +15,7 @@ class BookEditor extends Component {
             title: "",
             description: "",
             authorId: null,
+            isPublic: false,
             language: 0,
             categories: []
         };
@@ -23,6 +24,7 @@ class BookEditor extends Component {
         this.handlerAuthorChange = this.handlerAuthorChange.bind(this);
         this.handlerLanguageChange = this.handlerLanguageChange.bind(this);
         this.handlerCategoriesChange = this.handlerCategoriesChange.bind(this);
+        this.handlerPublicChange = this.handlerPublicChange.bind(this);
         this.close = this.close.bind(this);
         this.save = this.save.bind(this);
     }
@@ -33,7 +35,8 @@ class BookEditor extends Component {
                 title: this.props.book.title,
                 description: this.props.book.description,
                 language: this.props.book.language,
-                categories: this.props.book.categories
+                categories: this.props.book.categories,
+                isPublic : this.props.book.isPublic
             });
         } 
 
@@ -52,6 +55,8 @@ class BookEditor extends Component {
 
     handlerCategoriesChange = (value) => this.setState({ categories : value});
 
+    handlerPublicChange = () => this.setState({ isPublic: !this.state.isPublic })
+
     close = () => this.props.onClose(); 
 
     async save() {
@@ -67,6 +72,7 @@ class BookEditor extends Component {
             book.AuthorId = this.state.authorId;
             book.language = this.state.language;
             book.categories = this.state.categories;
+            book.isPublic = this.state.isPublic;
 
             if (isAdding) {
                 await ApiService.post(createLink, book);
@@ -132,12 +138,15 @@ class BookEditor extends Component {
                         </Form.Field>
 
 
-                        {<Form.Field >
+                        <Form.Field >
                             <label><FormattedMessage id="book.editor.fields.categories.title"/></label>
                             <CategoriesDropDown
                                 placeholder={intl.formatMessage({ id: "book.editor.fields.categories.title" })}
                                 disabled={saving} name="categories" value={categories} onChange={this.handlerCategoriesChange}/>
-                        </Form.Field>}
+                        </Form.Field>
+
+                        <Form.Checkbox label={intl.formatMessage({ id: "book.editor.fields.public"})} toggle 
+                                disabled={saving} checked={this.state.isPublic} onChange={this.handlerPublicChange}/>
 
                         <Form.Button fluid type="submit" 
                             onClick={this.save} 

@@ -73,6 +73,7 @@
     "book.editor.fields.language.error" : "زبان ضروری ہے۔",
     "book.editor.fields.categories.title" : "زمرہ",
     "book.editor.fields.categories.error" : "زمرہ ضروری ہے۔",
+    "book.editor.fields.public" : "عوامی",
     "book.messages.error.loading" : "کتاب  کے حصول میں  ناکامی ہوئی",
     "chapter.action.create" : "نئے باب کا اضافہ کریں",
     "chapter.messages.saved" : "باب محفوظ کر دیا گیا ہے",
