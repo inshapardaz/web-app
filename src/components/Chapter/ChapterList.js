@@ -50,8 +50,6 @@ class ChapterList extends Component {
                 })
             }
 
-        } else {
-            console.log('No book to load chapters for', this.props);
         }
     }
 

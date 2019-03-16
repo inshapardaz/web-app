@@ -89,10 +89,7 @@ class SearchBox extends Component {
             })
         }
     }
-    handleSelectionChange(e, data) {
-        console.log(data);
-    }
-
+    
     render() {
         const { isLoading, isError, results, value } = this.state;
         return (
@@ -100,7 +97,6 @@ class SearchBox extends Component {
                 loading={isLoading}
                 resultRenderer={this.resultRenderer}
                 onSearchChange={this.handleSearchChange.bind(this)}
-                onSelectionChange={this.handleSelectionChange.bind(this)}
                 results={results}
                 value={value}
                 noResultsMessage={<FormattedMessage id="search.messages.noresult" />}

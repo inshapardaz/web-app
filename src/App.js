@@ -43,7 +43,7 @@ class App extends React.Component {
     }
     catch(e)
     {
-      console.log('error', e)
+      console.error('error', e)
       this.props.push('/error');
     }
 

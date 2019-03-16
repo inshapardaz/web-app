@@ -18,6 +18,7 @@ class BookList extends Component {
             isAdding : false,
             authorId: 0,
             category: 0,
+            series:0,
             pageNumber: 1,
             selectedBook: null,
             books: []
@@ -29,7 +30,10 @@ class BookList extends Component {
 
     async componentDidMount() {
         const values = queryString.parse(this.props.location.search)
-        await this.loadBooks(this.props.author, values.category? values.category : 0, values.page? values.page : 1);
+        await this.loadBooks(this.props.author, 
+                             values.category? values.category : 0, 
+                             values.series? values.series : 0, 
+                             values.page? values.page : 1);
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -39,9 +43,13 @@ class BookList extends Component {
     
         if (this.state.pageNumber != values.page || 
             //this.state.authorId != author ? author.id : 0 ||
+            this.state.series != values.series ||
             this.state.category != values.category)
         {
-            await this.loadBooks(author, values.category? values.category : 0, values.page? values.page : 1);
+            await this.loadBooks(author, 
+                                 values.category? values.category : 0, 
+                                 values.series? values.series : 0,
+                                 values.page? values.page : 1);
         }
     }
 
@@ -49,10 +57,11 @@ class BookList extends Component {
         await this.loadBooks(this.props.author, this.state.pageNumber);
     }
 
-    async loadBooks(author = null, category = 0, pageNumber = 1) {
+    async loadBooks(author = null, category = 0, series = 0, pageNumber = 1) {
         this.setState({
             isLoading: true,
             authorId: author ? author.id : null,
+            series: series,
             category: category,
             pageNumber: pageNumber
         });
@@ -66,6 +75,9 @@ class BookList extends Component {
             else if (category && category > 0){
                 result = await ApiService.getBooksByCategory(category, pageNumber);
             }
+            else if (series && series > 0){
+                result = await ApiService.getBooksBySeries(series, pageNumber);
+            }
             else {
                 result = await ApiService.getBooks(pageNumber);
             }
@@ -76,7 +88,7 @@ class BookList extends Component {
             });
         }
         catch (e) {
-            console.log('exception', e)
+            console.error(e)
             this.setState({
                 isLoading: false,
                 isError: true
@@ -94,6 +106,9 @@ class BookList extends Component {
             }
             else if (category && category > 0){
                 this.props.history.push(`/books?category=${category}&page=${activePage}`);
+            }
+            else if (series && series > 0){
+                this.props.history.push(`/books?series=${series}&page=${activePage}`);
             }
             else {
                 this.props.history.push(`/books?page=${activePage}`);
@@ -143,8 +158,7 @@ class BookList extends Component {
     }
 
     renderEditor(createLink) {
-        const { isAdding, selectedBook, authorId } = this.state;
-        console.log('isAdding', isAdding)
+        const { isAdding, selectedBook, authorId, series } = this.state;
         if (!isAdding) return null;
         
         if (this.props.author){
@@ -152,7 +166,7 @@ class BookList extends Component {
         }
 
         return (<BookEditor open={true} book={selectedBook}
-            authorId={authorId} 
+            authorId={authorId} seriesId={series}
             createLink={createLink} isAdding={isAdding}
             onOk={this.reloadBooks.bind(this)}
             onClose={this.onCloseEdit.bind(this)} />);
@@ -175,9 +189,9 @@ class BookList extends Component {
         if (!books) {
             return null;
         }
-
+        
+        const createLink = (books && books.links) ? books.links.create : null;
         if (books && books.data && books.data.length > 0) {
-            const createLink = (books && books.links) ? books.links.create : null;
             let addButton = null;
             if (createLink) {
             addButton = (

@@ -17,7 +17,7 @@ export default class ChangeImage extends Component {
             this.props.onUpdated();
           }
           catch (e){
-            console.error('e', e)
+            console.error(e)
             error(this.props.intl.formatMessage({ id: "message.image.upload.error" }));
           }
         }

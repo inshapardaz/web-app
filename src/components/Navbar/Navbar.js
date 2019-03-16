@@ -27,7 +27,6 @@ class NavBar extends Component {
   };
 
   handleToggle = () => {
-    console.log('menu', this.state.visible)
     this.setState({ visible: !this.state.visible });
   }
 

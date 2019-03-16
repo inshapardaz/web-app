@@ -60,7 +60,7 @@ class AuthorHome extends Component {
       });
     }
     catch(e){
-      console.log('exception', e)
+      console.error(e)
       this.setState({
         isLoading: false,
         isError: true
