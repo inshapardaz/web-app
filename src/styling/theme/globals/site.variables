@@ -3,3 +3,7 @@
 *******************************/
 @primaryColor   : #0190fe;
 @secondaryColor : #6a7a84;
+
+@defaultBorderRadius: 0px;
+@fontName : 'Dubai', 'Noto Sans', sans-serif;
+@importGoogleFonts : false;

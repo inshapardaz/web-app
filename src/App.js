@@ -5,7 +5,6 @@ import { SemanticToastContainer } from 'react-semantic-toasts';
 import { IntlProvider } from 'react-intl';
 import { getEntry } from './actions/dataActions';
 import 'styling/semantic.less'
-import 'styling/styles.less';
 import Routes from './Routes';
 import LocaleService from './services/LocaleService';
 import AuthService from './services/AuthService';
