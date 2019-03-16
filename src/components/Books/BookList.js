@@ -54,7 +54,7 @@ class BookList extends Component {
     }
 
     async reloadBooks() {
-        await this.loadBooks(this.props.author, this.state.pageNumber);
+        await this.loadBooks(this.props.author, this.state.category , this.state.series, this.state.pageNumber);
     }
 
     async loadBooks(author = null, category = 0, series = 0, pageNumber = 1) {
