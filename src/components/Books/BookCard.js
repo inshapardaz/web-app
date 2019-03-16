@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Card, Image, Label, Dimmer, Header } from 'semantic-ui-react';
+import { Button, Card, Image, Label, Dimmer, Header, Icon } from 'semantic-ui-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import BookEditor from './BookEditor';
 import ChangeImage from './ChangeImage';
@@ -111,8 +111,17 @@ class BookCard extends Component {
             <Link to={`/books/${book.id}`} >{book.title}</Link>
             </Card.Header>
             <Card.Meta>
-              <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
+            <Icon name="user"/><Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
             </Card.Meta>
+            { book.seriesId && book.seriesName ? (
+              <Card.Meta>
+                <Label size="tiny" as={Link} to={`/books?series=${book.seriesId}`}>
+                  <Icon name="chain"/>
+                  {book.seriesName}
+                  <Label.Detail>{book.seriesIndex}</Label.Detail>
+                </Label>
+              </Card.Meta>) : null
+            }
           </Card.Content>
           <Card.Content extra>
             {book.categories.map(c => (

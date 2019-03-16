@@ -5,6 +5,7 @@ import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import { List, Segment, Button, Icon } from 'semantic-ui-react';
 import ChapterEditor from './ChapterEditor';
 import ChapterCard from './ChapterCard';
+import { isatty } from 'tty';
 
 class ChapterList extends Component {
     constructor(props){
@@ -83,8 +84,7 @@ class ChapterList extends Component {
 
     renderEditor(createLink) {
         const { isAdding } = this.state;
-
-        return (<ChapterEditor open={true} chapter={{}}
+        return (<ChapterEditor open={isAdding} chapter={{}}
             createLink={createLink} isAdding={isAdding}
             onOk={this.loadChapters.bind(this)}
             onClose={this.onCloseEdit.bind(this)} />);

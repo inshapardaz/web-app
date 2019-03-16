@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
-import { Image, Header, Container, Grid, Label, Button, Segment } from 'semantic-ui-react';
+import { Image, Header, Container, Grid, Label, Button, Segment, Icon } from 'semantic-ui-react';
 import { ErrorPlaceholder, Loading } from '../Common';
 import ApiService from '../../services/ApiService';
 import ChapterList from '../Chapter/ChapterList';
@@ -141,7 +141,17 @@ class BookPage extends Component {
                   <Link to={`/books?category=${c.id}`}>{c.name}</Link>
                 </Label>
               ))}
-            </Container>
+            </Container >
+
+            { book.seriesId && book.seriesName ? (
+              <Segment textAlign="center" basic>
+                <Label size="tiny" as={Link} to={`/books?series=${book.seriesId}`}>
+                  <Icon name="chain"/>
+                  {book.seriesName}
+                  <Label.Detail>{book.seriesIndex}</Label.Detail>
+                </Label>
+              </Segment>) : null
+            }
             <Segment basic>
               <Container content={book.description} textAlign="center" />
             </Segment>
