@@ -17,7 +17,7 @@ class AuthorHome extends Component {
       isLoading: true,
       authors: { items: [] },
       showEditor: false,
-      selectedAuthor: null,
+      selectedAuthor: {},
       isAdding: false,
       confirmDelete: false,
       pageNumber: 1
@@ -95,15 +95,18 @@ class AuthorHome extends Component {
     });
   }
 
-  renderEmptyPlaceHolder() {
+  renderEmptyPlaceHolder(create) {
     const { intl } = this.props;
     const message = intl.formatMessage({ id: 'authors.messages.empty' });
     const buttonText = intl.formatMessage({ id: 'authors.action.create' });
 
     return (
-      <EmptyPlaceholder message={message} iconName='folder outline'
-        showButton={true} buttonText={buttonText}
-        buttonAction={this.addAuthor.bind(this)} />
+      <>
+        {createLink ? this.renderEditor(createLink) : null}
+        <EmptyPlaceholder message={message} iconName='folder outline'
+          showButton={true} buttonText={buttonText}
+          buttonAction={this.addAuthor.bind(this)} />
+        </>
     );
   }
 
@@ -139,15 +142,11 @@ class AuthorHome extends Component {
   }
 
   renderEditor(createLink) {
-    const { isAdding, selectedAuthor } = this.state;
-    if (isAdding && selectedAuthor) {
-      return (<EditAuthor open={true} author={selectedAuthor}
-        createLink={createLink} isAdding={true}
+    const { isAdding, showEditor, selectedAuthor } = this.state;
+      return (<EditAuthor open={isAdding | showEditor} author={selectedAuthor}
+        createLink={createLink} isAdding={isAdding}
         onOk={this.reloadAuthors.bind(this)}
         onClose={this.onCloseEdit.bind(this)} />);
-    }
-
-    return null;
   }
 
 
@@ -191,7 +190,7 @@ class AuthorHome extends Component {
       );
     }
     else
-      return this.renderEmptyPlaceHolder();
+      return this.renderEmptyPlaceHolder(createLink);
   }
 }
 

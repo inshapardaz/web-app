@@ -56,3 +56,14 @@ export function addCategory(addLink, name){
     });
   }
 }
+
+export function addSeries(addLink, name){
+  return async (dispatch, getState) => {
+    await ApiService.post(addLink, { name : name});
+    const series = await ApiService.get(getState().apiReducers.entry.links.series);
+    dispatch({
+      type: SERIES,
+      payload: series
+    });
+  }
+}

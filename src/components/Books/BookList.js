@@ -127,32 +127,35 @@ class BookList extends Component {
             buttonAction={this.reloadBooks.bind(this)} />)
     }
 
-    renderEmptyPlaceHolder() {
+    renderEmptyPlaceHolder(createLink) {
         const { intl } = this.props;
         const message = intl.formatMessage({ id: 'books.messages.empty' });
         const buttonText = intl.formatMessage({ id: 'books.action.create' });
 
         return (
-            <EmptyPlaceholder message={message} iconName='book'
-                showButton={true} buttonText={buttonText}
-                buttonAction={this.onAddClicked.bind(this)} />
+            <>
+                { createLink ? this.renderEditor(createLink) : null }
+                <EmptyPlaceholder message={message} iconName='book'
+                    showButton={true} buttonText={buttonText}
+                    buttonAction={this.onAddClicked.bind(this)} />
+            </>
         );
     }
 
     renderEditor(createLink) {
         const { isAdding, selectedBook, authorId } = this.state;
-        if (isAdding && selectedBook) {
-            if (this.props.author){
-                selectedBook.authorId = this.props.author.id;
-            }
-            return (<BookEditor open={true} book={selectedBook}
-                authorId={authorId} 
-                createLink={createLink} isAdding={isAdding}
-                onOk={this.reloadBooks.bind(this)}
-                onClose={this.onCloseEdit.bind(this)} />);
+        console.log('isAdding', isAdding)
+        if (!isAdding) return null;
+        
+        if (this.props.author){
+            selectedBook.authorId = this.props.author.id;
         }
-    
-        return null;
+
+        return (<BookEditor open={true} book={selectedBook}
+            authorId={authorId} 
+            createLink={createLink} isAdding={isAdding}
+            onOk={this.reloadBooks.bind(this)}
+            onClose={this.onCloseEdit.bind(this)} />);
     }
 
     renderBooks = (books) => books.data.map(b => 
@@ -199,12 +202,7 @@ class BookList extends Component {
             )
         }
         else {
-            return (
-                <>
-                {this.renderEditor(null)}
-                {this.renderEmptyPlaceHolder()}
-                </>
-            );
+            return this.renderEmptyPlaceHolder(createLink);
         }
     }
 }

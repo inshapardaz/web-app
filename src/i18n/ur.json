@@ -88,6 +88,8 @@
     "book.editor.fields.language.error" : "زبان ضروری ہے۔",
     "book.editor.fields.categories.title" : "زمرہ",
     "book.editor.fields.categories.error" : "زمرہ ضروری ہے۔",
+    "book.editor.fields.series.title" : "سلسلہ",
+    "book.editor.fields.seriesIndex.title" : "سلسلہ میں ترتیب",
     "book.editor.fields.public" : "عوامی",
     "book.messages.error.loading" : "کتاب  کے حصول میں  ناکامی ہوئی",
     "chapter.action.create" : "نئے باب کا اضافہ کریں",

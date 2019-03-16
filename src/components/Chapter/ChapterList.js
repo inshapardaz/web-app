@@ -66,28 +66,28 @@ class ChapterList extends Component {
             buttonAction={this.loadChapters.bind(this)} />)
     }
 
-    renderEmptyPlaceHolder() {
+    renderEmptyPlaceHolder(createLink) {
         const { intl } = this.props;
         const message = intl.formatMessage({ id: 'chapters.messages.empty' });
         const buttonText = intl.formatMessage({ id: 'chapter.action.create' });
 
         return (
-            <EmptyPlaceholder message={message} iconName='file alternate outline'
-                showButton={true} buttonText={buttonText}
-                buttonAction={this.onAddChapter.bind(this)} />
+            <>
+                {createLink ? this.renderEditor(createLink) : null}
+                <EmptyPlaceholder message={message} iconName='file alternate outline'
+                    showButton={true} buttonText={buttonText}
+                    buttonAction={this.onAddChapter.bind(this)} />
+            </>
         );
     }
 
-    renderEditor(chapters) {
+    renderEditor(createLink) {
         const { isAdding } = this.state;
-        if (isAdding && chapters && chapters.links && chapters.links.create) {
-            return (<ChapterEditor open={true} chapter={{}}
-                createLink={chapters.links.create} isAdding={true}
-                onOk={this.loadChapters.bind(this)}
-                onClose={this.onCloseEdit.bind(this)} />);
-        }
-    
-        return null;
+
+        return (<ChapterEditor open={true} chapter={{}}
+            createLink={createLink} isAdding={isAdding}
+            onOk={this.loadChapters.bind(this)}
+            onClose={this.onCloseEdit.bind(this)} />);
     }
 
     renderChapters = (chapters) => chapters.items.map(c => 
@@ -96,6 +96,7 @@ class ChapterList extends Component {
 
     render() {
         const { isLoading, isError, chapters } = this.state;
+        const createLink = (chapters && chapters.links) ? chapters.links.create : null;
 
         if (isLoading) {
             return <Loading />;
@@ -110,7 +111,6 @@ class ChapterList extends Component {
         }
 
         if (chapters && chapters.items && chapters.items.length > 0) {
-            const createLink = (chapters.links) ? chapters.links.create : null;
             let addButton = null;
             if (createLink) {
             addButton = (
@@ -125,14 +125,11 @@ class ChapterList extends Component {
                     <Segment padded={true} attached>
                         <List divided verticalAlign='middle'>{this.renderChapters(chapters)} </List>
                     </Segment>
-                    {this.renderEditor(chapters)}
+                    {this.renderEditor(createLink)}
                 </>
             )
         } else {
-            return (<>
-                {this.renderEditor(chapters)}
-                {this.renderEmptyPlaceHolder()}
-            </>);
+            return this.renderEmptyPlaceHolder(createLink);
         }
     }
 }
