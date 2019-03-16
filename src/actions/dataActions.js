@@ -1,15 +1,18 @@
 import ApiService from '../services/ApiService';
-import { ENTRY, LANGUAGES, ATTRIBUTES, RELATIONSHIPTYPES, CATEGORIES} from './actionTypes';
+import { ENTRY, LANGUAGES, ATTRIBUTES, RELATIONSHIPTYPES, CATEGORIES, SERIES} from './actionTypes';
 
 export function getEntry(){
     return async (dispatch, getState) =>
       {
       const entry = await ApiService.getEntry();
   
-      const languages = await ApiService.get(entry.links.languages) ;
-      const attributes = await ApiService.get(entry.links.attributes);
-      const relationshipTypes = await ApiService.get(entry.links.relationshiptypes);
-      const categories = await ApiService.get(entry.links.categories);
+      const [languages,attributes, relationshipTypes, categories, series] 
+          = await Promise.all([
+                          ApiService.get(entry.links.languages),
+                          ApiService.get(entry.links.attributes),
+                          ApiService.get(entry.links.relationshiptypes),
+                          ApiService.get(entry.links.categories),
+                          ApiService.get(entry.links.series)]);
   
       dispatch({
         type: ENTRY,
@@ -34,6 +37,11 @@ export function getEntry(){
       dispatch({
         type: RELATIONSHIPTYPES,
         payload: relationshipTypes
+      });
+
+      dispatch({
+        type: SERIES,
+        payload: series
       });
     }
   }

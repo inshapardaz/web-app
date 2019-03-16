@@ -42,7 +42,12 @@ class NavBar extends Component {
       (<Menu.Item key="authors" as={Link} to="/authors">
         <Icon name="users" />
         <FormattedMessage id="header.authors" />
-      </Menu.Item>), categories];
+      </Menu.Item>),
+      (<Menu.Item key="series" as={Link} to="/series">
+        <Icon name="chain" />
+        <FormattedMessage id="header.series" />
+      </Menu.Item>),
+      categories];
   }
   render() {
     const { children } = this.props

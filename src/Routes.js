@@ -19,6 +19,7 @@ import DictionaryHome from './components/Dictionary/DictionaryHome';
 import DictionaryPage from './components/Dictionary/DictionaryPage';
 
 import CategoriesHome from './components/Categories/CategoriesHome';
+import SeriesHome from './components/Series/SeriesHome';
 
 import ErrorPage from './components/ErrorPage';
 import AboutPage from './components/AboutPage';
@@ -49,6 +50,7 @@ class Routes extends React.Component {
         <RouteWithLayout layout={BoxedLayout} path="/books/favorites" component={BooksHome} />
         <RouteWithLayout layout={BoxedLayout} path="/books" component={BooksHome} />
         <RouteWithLayout layout={BoxedLayout} path="/categories" component={CategoriesHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/series" component={SeriesHome} />
         <RouteWithLayout layout={BoxedLayout} path="/dictionaries/:id" component={DictionaryPage} />
         <RouteWithLayout layout={BoxedLayout} path="/dictionaries" component={DictionaryHome} />
         <RouteWithLayout layout={FullScreenLayout} 

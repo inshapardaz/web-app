@@ -124,15 +124,18 @@ class CategoriesHome extends Component {
       buttonAction={this.loadCategories.bind(this)} />)
   }
 
-  renderEmptyPlaceHolder() {
+  renderEmptyPlaceHolder(createLink) {
     const { intl } = this.props;
     const message = intl.formatMessage({ id: 'categories.messages.empty' });
     const buttonText = intl.formatMessage({ id: 'categories.action.create' });
 
     return (
-      <EmptyPlaceholder message={message} iconName='folder outline'
-        showButton={true} buttonText={buttonText}
-        buttonAction={this.addCategory.bind(this)} />
+      <>
+        {createLink ? this.renderEditor(createLink): null}
+        <EmptyPlaceholder message={message} iconName='folder outline'
+          showButton={true} buttonText={buttonText}
+          buttonAction={this.addCategory.bind(this)} />
+      </>
     );
   }
   renderEditor(createLink) {
@@ -194,7 +197,7 @@ class CategoriesHome extends Component {
       );
     }
     else
-      return this.renderEmptyPlaceHolder();
+      return this.renderEmptyPlaceHolder(createLink);
   }
 }
 

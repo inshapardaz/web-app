@@ -5,3 +5,4 @@ export const LANGUAGES = 'LANGUAGES';
 export const ATTRIBUTES = 'ATTRIBUTES';
 export const RELATIONSHIPTYPES = 'RELATIONSHIPTYPES';
 export const CATEGORIES = 'CATEGORIES';
+export const SERIES = 'SERIES';

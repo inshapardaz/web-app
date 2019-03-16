@@ -119,6 +119,14 @@ class ApiService {
     return this.get(`${baseUrl}/categories/${id}`);
   }
 
+  getSeries(){
+    return this.get(`${baseUrl}/series`);
+  }
+
+  getSeriesById(id){
+    return this.get(`${baseUrl}/series/${id}`);
+  }
+
   searchBooks(query, page = 1, pageSize = 12) {
     return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
   }
@@ -130,6 +138,11 @@ class ApiService {
 
   getBooksByCategory(category, page = 1, pageSize = 12) {
     const url = `${baseUrl}/categories/${category}/books`;
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}`);
+  }
+
+  getBooksBySeries(series, page = 1, pageSize = 12) {
+    const url = `${baseUrl}/series/${series}/books`;
     return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}`);
   }
 
