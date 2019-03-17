@@ -99,7 +99,7 @@ class BookList extends Component {
     onPageChange(e, { activePage }) {
         if (this.state.pageNumber != activePage)
         {
-            const { category } = this.state;
+            const { category, series } = this.state;
             const { author } = this.props;
             if (author){
                 this.props.history.push(`/authors/${author.id}?page=${activePage}`);
