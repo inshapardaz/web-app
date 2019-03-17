@@ -201,6 +201,7 @@ class Chapter extends Component {
       success(this.props.intl.formatMessage({ id: "chapter.messages.saved" }));
     }
     catch (e) {
+      console.error(e);
       this.setState({
         saving: false
       })

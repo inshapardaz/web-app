@@ -45,7 +45,7 @@ class ApiService {
     delete contents.links;
     
     return axios.post(url, contents, options)
-      .then(res => res.data);
+    .then(res => this.parseObject(res.data));
   }
 
   put(url, contents){
@@ -67,7 +67,7 @@ class ApiService {
     }
 
     return axios(options)
-      .then(res => res.data);
+    .then(res => this.parseObject(res.data));
   }
 
   delete(url){
@@ -86,7 +86,7 @@ class ApiService {
     }
 
     return axios(options)
-      .then(res => res.data);
+    .then(res => this.parseObject(res.data));
   }
 
   upload(url, file){
@@ -104,7 +104,8 @@ class ApiService {
     const formData = new FormData();
     formData.append('file', file, file.fileName);
 
-    return axios.post(url, formData, options);
+    return axios.post(url, formData, options)
+                .then(res => this.parseObject(res.data));
   }
 
   getEntry() {

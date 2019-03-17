@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl';
-import { TextArea } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import Editor from "rich-markdown-editor";
+import ApiService from '../../services/ApiService';
 
 class ChapterContentEditor extends Component {
     constructor(props) {
@@ -14,24 +17,43 @@ class ChapterContentEditor extends Component {
 
     handleChange = (event) => {
         const value = event.target.value;
-        this.setState({ contents: value });
-        this.props.onChange(value);
+        this.onChangeValue(value);
+    }
+
+    onChangeValue = (value) => {
+        const val = value();
+        this.setState({ contents: val });
+        this.props.onChange(val);
+    }
+
+    onImageUpload = async (file) => {
+        var response = await ApiService.upload(this.props.entry.links.image_upload, file);
+        console.log(response.links.self)
+        return response.links.self;
     }
 
     render() {
         return (
-            <div style={{ direction: 'rtl' }}>
-                <TextArea autoHeight disabled={this.props.saving} value={this.props.contents} onChange={this.handleChange} 
-                style={{ width: '100%', fontFamily: 'inherit'}}/>
+            <div style={{ direction: 'ltr', padding: '0 50px' }}>
+                <Editor readOnly={this.props.saving} autoFocus={true} toc={true} uploadImage={this.onImageUpload.bind(this)}
+                    defaultValue={this.props.contents} onChange={this.onChangeValue.bind(this)}
+                />
             </div>
         );
     }
 }
 
-    export default injectIntl(ChapterContentEditor);
+export default (connect(
+    (state) => ({
+        entry: state.apiReducers.entry
+    }),
+    dispatch => bindActionCreators({
+    }, dispatch)
+)(injectIntl(ChapterContentEditor)));
 
-    ChapterContentEditor.propTypes = {
-        contents: PropTypes.string.isRequired,
-        onChange: PropTypes.func.isRequired,
-        saving: PropTypes.bool
-    };
+
+ChapterContentEditor.propTypes = {
+    contents: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    saving: PropTypes.bool
+};
