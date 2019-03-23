@@ -10,7 +10,6 @@ class BookCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      confirmDelete: false,
       showEdit : false,
       active : false
     };
@@ -18,27 +17,11 @@ class BookCard extends Component {
     this.renderEditor = this.renderEditor.bind(this);
     this.onEdit = this.onEdit.bind(this);
     this.onCloseEdit = this.onCloseEdit.bind(this);
-    this.onDelete = this.onDelete.bind(this);
-    this.onCloseDelete = this.onCloseDelete.bind(this);
   }
 
   onEdit = () => this.setState({showEdit: true})
   onCloseEdit = () => this.setState({showEdit: false})
   
-  onDelete = () => this.setState({ confirmDelete: true })
-  onCloseDelete = () => this.setState({ confirmDelete: false });
-
-  renderDelete() {
-    const { confirmDelete } = this.state;
-    const { book } = this.props;
-
-    if (confirmDelete && book) {
-      return <DeleteBook book={book} onDeleted={this.props.onUpdated} onCancel={this.onCloseDelete} /> 
-    }
-
-    return null;
-  }
-
   renderBookActions(book) {
     let actions = [];
 
@@ -52,7 +35,8 @@ class BookCard extends Component {
     }
 
     if (book.links.delete) {
-      actions.push(<Button key="delete" onClick={this.onDelete} inverted color="red" icon="delete"></Button>)
+      //actions.push(<Button key="delete" onClick={this.onDelete} inverted color="red" icon="delete"></Button>)
+      actions.push(<DeleteBook key="delete" inverted color="red" icon="delete" book={book} onDeleted={this.props.onUpdated} />)
     }
 
     return actions;
@@ -132,7 +116,6 @@ class BookCard extends Component {
             </Card.Content>
         </Card>
         {this.renderEditor(book)}
-        {this.renderDelete()}
       </>
     )
   }

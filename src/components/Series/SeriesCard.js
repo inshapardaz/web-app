@@ -37,7 +37,7 @@ export default class SeriesCard extends Component {
                         <Link to={`/books?series=${series.id}`}>{series.name}</Link>
                     </Card.Header>
                     <Card.Meta>
-                        <FormattedMessage id="series.item.book.count" values={{count : 0}} />
+                        <FormattedMessage id="series.item.book.count" values={{count : series.bookCount}} />
                     </Card.Meta>
                     <Card.Description>{series.description}</Card.Description>                
                 </Card.Content>
