@@ -11,6 +11,7 @@ import FontsMenu from '../Reader/FontsMenu';
 import ChaptersMenu from './ChaptersMenu';
 import ErrorPlaceholder from '../Common/ErrorPlaceholder';
 import ChapterContentEditor from './ChapterContentEditor';
+import Loading from '../Common/Loading';
 
 const gotoTop = () => {
   document.body.scrollTop = 0;
@@ -236,7 +237,7 @@ class Chapter extends Component {
   handleContextRef = contextRef => this.setState({ contextRef })
 
   render() {
-    const { isError, isEditing, contents, book, saving, isLoadingContents, bookId, chapter, chapterId, font, fontSize, contextRef } = this.state;
+    const { isError, isEditing, contents, book, saving, isLoadingContents, isLoading, bookId, chapter, chapterId, font, fontSize, contextRef } = this.state;
 
     if (isError) {
       return <ErrorPlaceholder
@@ -245,6 +246,10 @@ class Chapter extends Component {
         showButton={true}
         buttonText={this.props.intl.formatMessage({ id: 'action.retry' })}
         buttonAction={this.reload.bind(this)} />
+    }
+
+    if (isLoadingContents || isLoading){
+      return <Loading />;
     }
     var header = null;
     if (chapter) {
