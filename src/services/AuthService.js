@@ -38,6 +38,7 @@ class AuthService {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
+        history.replace('/');
       } else if (err) {
         history.replace('/error?type=auth');
         console.log(err);
@@ -61,9 +62,6 @@ class AuthService {
     localStorage.setItem(accessToken, authResult.accessToken);  
     localStorage.setItem(idToken, authResult.idToken);  
     localStorage.setItem(expiresAt, expiry);
-    
-    // navigate to the home route
-    history.replace('/');
   }
 
   renewSession(callback) {
