@@ -68,7 +68,7 @@ class BookCard extends Component {
     const content = (
       <div>
         <Header as="span" className="book-description" inverted >
-          {book.description.trunc(200)}
+        { book.description ? book.description.trunc(200) : ""}
         </Header>
 
         <Button inverted as={Link} primary to={`/books/${book.id}`}><FormattedMessage id="action.view" /></Button>
