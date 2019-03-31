@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import { history } from './store/configureStore';
 
 import configureStore from './store/configureStore';
-import 'react-semantic-toasts/styles/react-semantic-alert.css';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 
 const store = configureStore();
 

@@ -14,7 +14,7 @@ export default class Footer extends Component {
     
     render() {
         const selectedLanguage = this.state.locale == "ur" ? "Urdu" : "English";
-        return (<Navbar fixed="bottom" bg="dark" variant="dark">
+        return (<Navbar sticky="bottom" bg="dark" variant="dark">
             <Navbar.Text>
                 &copy; Inshapardaz.
                 </Navbar.Text>

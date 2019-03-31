@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Navbar from '../Navbar'
 import Footer from '../Footer';
 import Header from '../Header/Header';
 
@@ -9,9 +8,7 @@ export default class FullScreenLayout extends Component {
         return (
             <>
             <Header />
-            <Navbar fullWidth>
-                {children}
-            </Navbar>
+            {children}
             <Footer />
             </>
         );

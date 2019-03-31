@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { SemanticToastContainer } from 'react-semantic-toasts';
 import { IntlProvider } from 'react-intl';
 import { getEntry } from './actions/dataActions';
 import 'styling/semantic.less'
@@ -9,6 +8,7 @@ import Routes from './Routes';
 import LocaleService from './services/LocaleService';
 import AuthService from './services/AuthService';
 import { push } from 'connected-react-router'
+import ReduxToastr from 'react-redux-toastr';
 
 class App extends React.Component {
   state = {
@@ -62,7 +62,15 @@ class App extends React.Component {
         <IntlProvider locale={locale.locale} messages={locale.messages}>
           <>
             <Routes />
-            <SemanticToastContainer position="bottom-right" />
+            <ReduxToastr
+                timeOut={4000}
+                newestOnTop={false}
+                preventDuplicates
+                position="top-left"
+                transitionIn="fadeIn"
+                transitionOut="fadeOut"
+                progressBar
+                closeOnToastrClick/>
           </>
         </IntlProvider>
       );

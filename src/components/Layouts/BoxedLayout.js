@@ -9,9 +9,7 @@ export default class BoxedLayout extends Component {
         return (
             <>
             <Header />
-            {/* <Navbar> */}
-                {children}
-            {/* </Navbar> */}
+            {children}
             <Footer mini/>
             </>
         );

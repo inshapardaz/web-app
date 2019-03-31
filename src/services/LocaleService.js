@@ -1,4 +1,4 @@
-import { addLocaleData } from 'react-intl';
+import { addLocaleData, IntlProvider  } from 'react-intl';
 
 import en from 'react-intl/locale-data/en';
 import ur from 'react-intl/locale-data/ur';
@@ -27,6 +27,10 @@ class LocaleService {
                 messages = urMessages;
                 isRtl = true;
         }
+
+        
+        const {intl} = new IntlProvider({ locale, messages }, {}).getChildContext();
+        this.intl = intl;
         
         document.dir = isRtl ? 'rtl' : 'ltr';
 
@@ -76,6 +80,8 @@ class LocaleService {
     setCurrentLanguage(language) {
         window.localStorage.setItem("language", language);
     }
+
+    formatMessage = (id) => this.intl.formatMessage({id});
 }
 
 export default new LocaleService();
