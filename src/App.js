@@ -27,8 +27,7 @@ class App extends React.Component {
       isLoading: true
     });
 
-    let localSetting = new LocaleService();
-    var locale = await localSetting.initLocale();
+    var locale = await LocaleService.initLocale();
 
     this.setState({
       locale: locale

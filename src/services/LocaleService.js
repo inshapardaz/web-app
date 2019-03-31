@@ -7,7 +7,7 @@ import enMessages from '../i18n/en.json';
 import urMessages from '../i18n/ur.json';
 addLocaleData([...en, ...ur]);
 
-export default class LocaleService {
+class LocaleService {
 
     async initLocale() {
         let locale = this.getCurrentLanguage();
@@ -77,3 +77,5 @@ export default class LocaleService {
         window.localStorage.setItem("language", language);
     }
 }
+
+export default new LocaleService();
