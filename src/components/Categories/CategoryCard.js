@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Card, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { FormattedMessage } from 'react-intl';
+import { Card } from 'react-bootstrap';
 
 export default class CategoryCard extends Component {
     renderCategoryActions(category) {
@@ -10,17 +11,23 @@ export default class CategoryCard extends Component {
         const deleteLink = category.links.delete;
     
         if (editLink) {
-          actions.push(<Button basic attached="bottom" key="edit" onClick={this.props.onEdit} >
+          actions.push(<Card.Link key="edit" onClick={this.props.onEdit} >
                             <Icon name="pencil" color="green" /> <FormattedMessage id="action.edit" />
-                        </Button>)
+                        </Card.Link>)
         }
         if (deleteLink) {
-          actions.push(<Button basic attached="bottom" key="delete" onClick={this.props.onDelete}>
+          actions.push(<Card.Link key="delete" onClick={this.props.onDelete}>
                             <Icon name="delete" color="red" /> <FormattedMessage id="action.delete" />
-                        </Button>)
+                        </Card.Link>)
+        }
+
+        if (actions.length > 0) {
+            return (<Card.Footer>
+                {actions}
+            </Card.Footer>);
         }
     
-        return actions;
+        return null;
       }
 
     render() {
@@ -29,21 +36,15 @@ export default class CategoryCard extends Component {
             return
         }
 
-        return (
-            <Card>
-                <Card.Content>
-                    <Card.Header textAlign="center">
-                        <Icon name="folder" />
-                        <Link to={`/books?category=${category.id}`}>{category.name}</Link>
-                    </Card.Header>
-                </Card.Content>
-                <Card.Content>
+        return (<Card style={{ width: '18rem' }}>
+            <Card.Img variant="top" src="/resources/img/series.svg" height="180" width="286" />
+            <Card.Body>
+                <Card.Title><Link to={`/books?category=${category.id}`}>{category.name}</Link></Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
                     <FormattedMessage id="categories.item.book.count" values={{count : 0}} />
-                </Card.Content>
-                <div className="ui bottom attached basic buttons">
-                        {this.renderCategoryActions(category)}
-                </div>
-            </Card>
-        )
+                </Card.Subtitle>
+            </Card.Body>
+            {this.renderCategoryActions(category)}
+        </Card>);
     }
 }

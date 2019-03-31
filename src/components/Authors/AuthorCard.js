@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Card, Image, Confirm, Dimmer } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
+import { Card } from 'react-bootstrap';
 import ApiService from '../../services/ApiService';
-import { success, error } from '../../services/toasts';
+import { question, success, error } from '../../services/toasts'; 
 import { injectIntl, FormattedMessage } from 'react-intl';
 import EditAuthor from './EditAuthor';
 
@@ -10,7 +11,6 @@ class AuthorCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            confirmDelete: false,
             showEdit: false,
             active : false
         };
@@ -19,7 +19,7 @@ class AuthorCard extends Component {
         this.onEdit = this.onEdit.bind(this);
         this.renderEdit = this.renderEdit.bind(this);
         this.onCloseEdit = this.onCloseEdit.bind(this);
-        this.onDelete = this.onDelete.bind(this);
+        this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.deleteAuthor = this.deleteAuthor.bind(this);
     }
 
@@ -49,24 +49,12 @@ class AuthorCard extends Component {
         return null;
     }
 
-    onDelete = () => this.setState({ confirmDelete: true });
-
-    renderDelete() {
-        const { confirmDelete } = this.state;
+    onDeleteClicked() {
         const { author } = this.props;
-
-        if (confirmDelete && author) {
-            const { intl } = this.props;
-
-            return (<Confirm size="mini" open={confirmDelete}
-                content={intl.formatMessage({ id: 'authors.action.confirmDelete' }, { name: author.name })}
-                cancelButton={intl.formatMessage({ id: 'action.no' })}
-                confirmButton={intl.formatMessage({ id: 'action.yes' })}
-                onCancel={() => this.setState({ confirmDelete: false })}
-                onConfirm={this.deleteAuthor} closeIcon />);
-        }
-
-        return null;
+        const yesAction = this.props.intl.formatMessage({ id: 'action.yes' });
+        const noAction = this.props.intl.formatMessage({ id: 'action.no' });
+        const message = this.props.intl.formatMessage({ id: 'authors.action.confirmDelete' }, { name: author.name });
+        question(message, yesAction, this.deleteAuthor, noAction);
     }
 
     async deleteAuthor() {
@@ -75,10 +63,6 @@ class AuthorCard extends Component {
 
         let deleteLink = author.links.delete;
         if (!deleteLink) return;
-
-        this.setState({
-            confirmDelete: false
-        });
 
         try {
             await ApiService.delete(deleteLink);
@@ -94,18 +78,30 @@ class AuthorCard extends Component {
         let actions = [];
 
         if (author.links.update) {
-            actions.push(<Button key="edit" onClick={this.onEdit} inverted color="green" icon="pencil" />)
+            actions.push(<Card.Link key="edit" onClick={this.onEdit} >
+                            <Icon name="pencil" color="green" />
+                        </Card.Link>)
         }
 
         if (author.links.image_upload) {
-            actions.push(<Button key="image" onClick={() => this.uploadRef.current.click()} inverted color="olive" icon="picture" />)
+            actions.push(<Card.Link key="image" onClick={() => this.uploadRef.current.click()} >
+                            <Icon name="picture"/>
+                        </Card.Link>)
         }
 
         if (author.links.delete) {
-            actions.push(<Button key="delete" onClick={this.onDelete} inverted color="red" icon="delete" />)
+            actions.push(<Card.Link key="delete" onClick={this.onDeleteClicked}>
+                            <Icon name="delete" color="red"/>
+                        </Card.Link>)
         }
 
-        return actions;
+        if (actions.length > 0) {
+            return (<Card.Footer>
+                {actions}
+            </Card.Footer>);
+        }
+
+        return null;
     }
 
 
@@ -120,40 +116,20 @@ class AuthorCard extends Component {
             return
         }
 
-        const content = (
-            <div>
-                <Button inverted as={Link} primary to={`/authors/${author.id}`}><FormattedMessage id="action.view" /></Button>
-                <Button.Group icon={true} buttons={this.renderAuthorActions(author)} />
-            </div>
-        )
-
-        return (
-            <>
-                <Card >
-                    <Dimmer.Dimmable
-                        blurring
-                        as={Image}
-                        dimmed={active}
-                        dimmer={{ active, content }}
-                        onMouseEnter={this.handleShow}
-                        onMouseLeave={this.handleHide}
-                        height="600px"
-                        src={author.links.image || '/resources/img/avatar1.jpg'}
-                    />
-                    <Card.Content>
-                        <Card.Header >
-                            {author.name}
-                        </Card.Header>
-                        <Card.Meta>
-                            <FormattedMessage id="authors.item.book.count" values={{ count: author.bookCount }} />
-                        </Card.Meta>
-                    </Card.Content>
-                </Card>
-                {this.renderEdit(author)}
-                {this.renderDelete()}
-                <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
-            </>
-        )
+        return (<>
+        <Card style={{ width: '18rem' }}>
+            <Card.Img variant="top" src={author.links.image || '/resources/img/avatar1.jpg'} />
+            <Card.Body>
+                <Card.Title><Link to={`/authors/${author.id}`}>{author.name}</Link></Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                    <FormattedMessage id="authors.item.book.count" values={{ count: author.bookCount }} />
+                </Card.Subtitle>
+            </Card.Body>
+            {this.renderAuthorActions(author)}
+        </Card>
+        {this.renderEdit(author)}
+        <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
+        </>);
     }
 }
 export default injectIntl(AuthorCard);

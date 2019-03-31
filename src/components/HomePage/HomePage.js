@@ -14,8 +14,7 @@ class HomePage extends React.Component {
             style={{ minHeight: 700, 
                      padding: '1em 0em', 
                      background: 'url(resources/img/main.jpg) no-repeat center center', 
-                     backgroundSize: 'cover',
-                     marginTop: '-8em' }}
+                     backgroundSize: 'cover'}}
             vertical>
                 <Header
                     as='h1'
