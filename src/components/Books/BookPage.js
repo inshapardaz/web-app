@@ -85,12 +85,12 @@ class BookPage extends Component {
     }
 
     if (book.links.image_upload) {
-      actions.push(<ChangeImage key="image" fluid icon="picture" uploadLink={book.links.image_upload}
+      actions.push(<ChangeImage as={Button} key="image" fluid icon="picture" uploadLink={book.links.image_upload}
         content={<FormattedMessage id="action.changeImage" />} onUpdated={this.reloadBook} />)
     }
 
     if (book.links.delete) {
-      actions.push(<DeleteBook key="delete" fluid onDeleted={this.onDeleted} icon="delete" book={book}
+      actions.push(<DeleteBook as={Button} key="delete" fluid onDeleted={this.onDeleted} icon="delete" book={book}
         content={<FormattedMessage id="action.delete" />} />)
     }
 

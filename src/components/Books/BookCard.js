@@ -67,7 +67,6 @@ class BookCard extends Component {
 
   render() {
     const { book } = this.props;
-    const { active } = this.state;
 
     if (book == null) {
       return

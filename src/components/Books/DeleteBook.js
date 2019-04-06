@@ -49,7 +49,7 @@ class DeleteBook extends Component {
 
     render() {
         return (
-            <Card.Link key={this.props.key} onClick={this.onDelete}>
+            <Card.Link as={this.props.as} key={this.props.key} onClick={this.onDelete}>
                     <Icon name={this.props.icon} color="red"/>{this.props.content}
             </Card.Link>
         )

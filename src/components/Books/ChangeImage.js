@@ -27,7 +27,7 @@ export default class ChangeImage extends Component {
   render() {
     return (
       <>
-        <Card.Link onClick={() => this.uploadRef.current.click()} >
+        <Card.Link as={this.props.as} onClick={() => this.uploadRef.current.click()} >
           <Icon name={this.props.icon} color={this.props.color} /> {this.props.content}
         </Card.Link>
         <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
