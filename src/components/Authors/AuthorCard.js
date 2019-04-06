@@ -76,19 +76,19 @@ class AuthorCard extends Component {
         let actions = [];
 
         if (author.links.update) {
-            actions.push(<li key="edit" class="tg-facebook" onClick={this.onEdit}><i class="fa fa-edit"></i></li>)
+            actions.push(<li key="edit" className="tg-facebook" onClick={this.onEdit}><i className="fa fa-edit"></i></li>)
         }
 
         if (author.links.image_upload) {
-            actions.push(<li key="image" class="tg-twitter" onClick={() => this.uploadRef.current.click()}><i class="fa fa-photo"></i></li>)
+            actions.push(<li key="image" className="tg-twitter" onClick={() => this.uploadRef.current.click()}><i className="fa fa-photo"></i></li>)
         }
 
         if (author.links.delete) {
-            actions.push(<li key="delete" class="tg-linkedin" onClick={this.onDeleteClicked}><i class="fa fa-trash"></i></li>);
+            actions.push(<li key="delete" className="tg-linkedin" onClick={this.onDeleteClicked}><i className="fa fa-trash"></i></li>);
         }
 
         if (actions.length > 0) {
-            return (<ul class="tg-socialicons">
+            return (<ul className="tg-socialicons">
                 {actions}
             </ul>);
         }
@@ -110,14 +110,14 @@ class AuthorCard extends Component {
 
         return (
             <>
-                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                    <div class="tg-author">
+                <div className="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                    <div className="tg-author">
                         <figure>
                             <Link to={`/authors/${author.id}`}>
                                 <img src={author.links.image || '/resources/img/avatar1.jpg'} alt={author.name} onError={(e) => e.target.src = '/resources/img/avatar1.jpg'} />
                             </Link>
                         </figure>
-                        <div class="tg-authorcontent">
+                        <div className="tg-authorcontent">
                             <h2><Link to={`/authors/${author.id}`}>{author.name}</Link></h2>
                             <FormattedMessage id="authors.item.book.count" values={{ count: author.bookCount }} />
                             {this.renderAuthorActions(author)}

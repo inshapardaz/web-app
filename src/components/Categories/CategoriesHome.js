@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ApiService from '../../services/ApiService';
+import { Link } from 'react-router-dom';
 import { Card, Icon, Button, Segment, Header, Confirm } from 'semantic-ui-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 
@@ -178,21 +179,33 @@ class CategoriesHome extends Component {
 
     let addButton = null;
     if (createLink) {
-      addButton = (<Button onClick={this.addCategory.bind(this)} attached='top'><Icon name='add' />
-                    <FormattedMessage id="categories.action.create" />
-                  </Button>);
+      addButton = <a className="tg-btn" onClick={this.addCategory.bind(this)} href="javascript:void(0);"><FormattedMessage id="categories.action.create" /></a>
     }
 
     if (categories && categories.items && categories.items.length > 0) {
       return (
         <>
-          <Header as='h2' icon='folder' content={<FormattedMessage id="header.categories" />} />
-          {addButton}
-          <Segment padded={true} attached>
-            <Card.Group stackable centered>{this.renderCategories(categories)}</Card.Group>              
-          </Segment>
+          <CategoriesHeader />
+          <main id="tg-main" className="tg-main tg-haslayout">
+            <div className="tg-authorsgrid">
+              <div className="container">
+                <div className="row">
+                  <div className="tg-authors">
+                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div className="tg-sectionhead">
+                        <h2>{this.props.intl.formatMessage({id:'header.categories'})}</h2>
+                        {addButton}
+                      </div>
+                    </div>
+
+                    {this.renderCategories(categories)}
+                  </div>
+                </div>
+              </div>
+            </div>
           {this.renderDelete()}
           {this.renderEditor(createLink)}
+          </main>
         </>
       );
     }
@@ -202,3 +215,24 @@ class CategoriesHome extends Component {
 }
 
 export default injectIntl(CategoriesHome);
+
+class CategoriesHeader extends React.Component {
+  render() {
+    return (
+      <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" style={{ backgroundImage: `url('images/parallax/bgparallax-06.jpg')`}}>
+          <div className="container">
+            <div className="row">
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div className="tg-innerbannercontent">
+                  <h1><FormattedMessage id="header.categories" /></h1>
+                  <ol className="tg-breadcrumb">
+                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
+                    <li className="tg-active"><FormattedMessage id="header.categories" /></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>);
+  }
+}

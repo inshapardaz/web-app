@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import ApiService from '../../services/ApiService';
-import { Card, Icon, Button, Segment, Header, Confirm } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
-
-import { success, error } from '../../services/toasts';
-
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import EditSeries from './EditSeries';
 import SeriesCard from './SeriesCard';
@@ -129,23 +126,32 @@ class SeriesHome extends Component {
 
     let addButton = null;
     if (createLink) {
-      addButton = (<Button onClick={this.addSeries.bind(this)} attached='top'><Icon name='add' />
-                    <FormattedMessage id="series.action.create" />
-                  </Button>);
+      addButton = <a className="tg-btn" onClick={this.addSeries.bind(this)} href="javascript:void(0);"><FormattedMessage id="series.action.create" /></a>
     }
 
     if (series && series.items && series.items.length > 0) {
       return (
         <>
-          <Header as='h2'>
-            <img src="/resources/img/series.svg"/>
-            <FormattedMessage id="header.series" />
-          </Header>
-          {addButton}
-          <Segment padded={true} attached>
-            <Card.Group stackable centered>{this.renderSeries(series)}</Card.Group>              
-          </Segment>
+          <SeriesHeader />
+          <main id="tg-main" className="tg-main tg-haslayout">
+            <div className="tg-authorsgrid">
+              <div className="container">
+                <div className="row">
+                  <div className="tg-authors">
+                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div className="tg-sectionhead">
+                        <h2>{this.props.intl.formatMessage({id:'header.series'})}</h2>
+                        {addButton}
+                      </div>
+                    </div>
+
+                    {this.renderSeries(series)}
+                  </div>
+                </div>
+              </div>
+            </div>
           {this.renderEditor(createLink)}
+          </main>
         </>
       );
     }
@@ -155,3 +161,24 @@ class SeriesHome extends Component {
 }
 
 export default injectIntl(SeriesHome);
+
+class SeriesHeader extends React.Component {
+  render() {
+    return (
+      <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" style={{ backgroundImage: `url('images/parallax/bgparallax-05.jpg')`}}>
+          <div className="container">
+            <div className="row">
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div className="tg-innerbannercontent">
+                  <h1><FormattedMessage id="header.series" /></h1>
+                  <ol className="tg-breadcrumb">
+                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
+                    <li className="tg-active"><FormattedMessage id="header.series" /></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>);
+  }
+}

@@ -161,20 +161,20 @@ class AuthorHome extends Component {
 
     let addButton = null;
     if (createLink) {
-      addButton = <a class="tg-btn" onClick={this.addAuthor.bind(this)} href="javascript:void(0);"><FormattedMessage id="authors.action.create" /></a>
+      addButton = <a className="tg-btn" onClick={this.addAuthor.bind(this)} href="javascript:void(0);"><FormattedMessage id="authors.action.create" /></a>
     }
 
     if (authors && authors.data && authors.data.length > 0) {
       return (
         <>
           <AuthorsHeader />
-          <main id="tg-main" class="tg-main tg-haslayout">
-            <div class="tg-authorsgrid">
-              <div class="container">
-                <div class="row">
-                  <div class="tg-authors">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <div class="tg-sectionhead">
+          <main id="tg-main" className="tg-main tg-haslayout">
+            <div className="tg-authorsgrid">
+              <div className="container">
+                <div className="row">
+                  <div className="tg-authors">
+                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div className="tg-sectionhead">
                         <h2>{this.props.intl.formatMessage({id:'header.authors'})}</h2>
                         {addButton}
                       </div>
@@ -211,7 +211,7 @@ class AuthorsHeader extends React.Component {
             <div className="row">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div className="tg-innerbannercontent">
-                  <h1>Authors</h1>
+                  <h1><FormattedMessage id="header.authors" /></h1>
                   <ol className="tg-breadcrumb">
                     <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
                     <li className="tg-active"><FormattedMessage id="header.authors" /></li>

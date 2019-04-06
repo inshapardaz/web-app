@@ -48,21 +48,17 @@ class SeriesCard extends Component {
         const deleteLink = series.links.delete;
 
         if (editLink) {
-            actions.push(<Card.Link key="edit" onClick={this.props.onEdit} >
-                <Icon name="pencil" color="green" /> <FormattedMessage id="action.edit" />
-            </Card.Link>)
+            actions.push(<li key="edit" className="tg-facebook" onClick={this.props.onEdit}><i className="fa fa-edit"></i></li>)
         }
 
         if (deleteLink) {
-            actions.push(<Card.Link key="delete" onClick={this.onDeleteClicked}>
-                <Icon name="delete" color="red" /> <FormattedMessage id="action.delete" />
-            </Card.Link>)
+            actions.push(<li key="delete" className="tg-linkedin" onClick={this.onDeleteClicked}><i className="fa fa-trash"></i></li>);
         }
 
         if (actions.length > 0) {
-            return (<Card.Footer>
+            return (<ul className="tg-socialicons">
                 {actions}
-            </Card.Footer>);
+            </ul>);
         }
 
         return null;
@@ -74,18 +70,22 @@ class SeriesCard extends Component {
             return
         }
 
-        return (<Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="/resources/img/series.svg" height="180" width="286" />
-            <Card.Body>
-                <Card.Title><Link to={`/books?series=${series.id}`}>{series.name}</Link></Card.Title>
-                <Card.Subtitle className="mb-2 text-muted"><FormattedMessage id="series.item.book.count" values={{ count: series.bookCount }} /></Card.Subtitle>
-                <Card.Text>
-                    {series.description}
-                </Card.Text>
-
-            </Card.Body>
-            {this.renderSeriesActions(series)}
-        </Card>);
+        return (
+            <div className="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                <div className="tg-author">
+                    <figure>
+                        <Link to={`/books?series=${series.id}`}>
+                            <img src='/resources/img/series.svg' />
+                        </Link>
+                    </figure>
+                    <div className="tg-authorcontent">
+                        <h2><Link to={`/books?series=${series.id}`}>{series.name}</Link></h2>
+                        <FormattedMessage id="series.item.book.count" values={{ count: series.bookCount }} />
+                        {this.renderSeriesActions(series)}
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 
