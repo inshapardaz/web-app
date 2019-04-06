@@ -30,9 +30,10 @@ class ProfileMenu extends React.Component {
         const { profile } = this.state;
         const isLoggedIn = AuthService.isLoggedIn();
         if (isLoggedIn) {
+            const displayName = profile != null ? profile.nickname : "";
             items = (
                 <>
-                    <NavDropdown.Item><FormattedMessage id="welcome.user" values={{user:profile.nickname}} /></NavDropdown.Item>
+                    <NavDropdown.Item><FormattedMessage id="welcome.user" values={{user:displayName}} /></NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item><FormattedMessage id="profile.edit"/></NavDropdown.Item>
                     <NavDropdown.Item><FormattedMessage id="changePassword"/></NavDropdown.Item>

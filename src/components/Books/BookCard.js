@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Card, Image, Label, Dimmer, Header, Icon } from 'semantic-ui-react';
+import { Button, Image, Label, Dimmer, Header, Icon } from 'semantic-ui-react';
+import { Card, Badge } from 'react-bootstrap';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import BookEditor from './BookEditor';
 import ChangeImage from './ChangeImage';
@@ -10,8 +11,8 @@ class BookCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showEdit : false,
-      active : false
+      showEdit: false,
+      active: false
     };
 
     this.renderEditor = this.renderEditor.bind(this);
@@ -19,36 +20,43 @@ class BookCard extends Component {
     this.onCloseEdit = this.onCloseEdit.bind(this);
   }
 
-  onEdit = () => this.setState({showEdit: true})
-  onCloseEdit = () => this.setState({showEdit: false})
-  
+  onEdit = () => this.setState({ showEdit: true })
+  onCloseEdit = () => this.setState({ showEdit: false })
+
   renderBookActions(book) {
     let actions = [];
 
     if (book.links.update) {
-      actions.push(<Button key="edit" color="green" onClick={this.onEdit} inverted icon="pencil"></Button>)
+      actions.push(<Card.Link key="edit" onClick={this.onEdit} >
+        <Icon name="pencil" color="green" />
+      </Card.Link>)
     }
 
     if (book.links.image_upload) {
       actions.push(<ChangeImage key="image" inverted color="olive" icon="picture" uploadLink={book.links.image_upload}
-                    onUpdated={this.props.onUpdated} />)
+      onUpdated={this.props.onUpdated} />)
     }
 
     if (book.links.delete) {
-      //actions.push(<Button key="delete" onClick={this.onDelete} inverted color="red" icon="delete"></Button>)
       actions.push(<DeleteBook key="delete" inverted color="red" icon="delete" book={book} onDeleted={this.props.onUpdated} />)
     }
 
-    return actions;
+    if (actions.length > 0) {
+      return (<Card.Footer>
+        {actions}
+      </Card.Footer>);
+    }
+
+    return null;
   }
 
-  renderEditor(book){
+  renderEditor(book) {
     if (this.state.showEdit && book) {
-        return (<BookEditor open={true} book={book}
-            authorId={book.authorId}
-            createLink={null} isAdding={false}
-            onOk={this.props.onUpdated}
-            onClose={this.onCloseEdit} />);
+      return (<BookEditor open={true} book={book}
+        authorId={book.authorId}
+        createLink={null} isAdding={false}
+        onOk={this.props.onUpdated}
+        onClose={this.onCloseEdit} />);
     }
 
     return null;
@@ -65,59 +73,27 @@ class BookCard extends Component {
       return
     }
 
-    const content = (
-      <div>
-        <Header as="span" className="book-description" inverted >
-        { book.description ? book.description.trunc(200) : ""}
-        </Header>
-
-        <Button inverted as={Link} primary to={`/books/${book.id}`}><FormattedMessage id="action.view" /></Button>
-        <Button.Group icon buttons={this.renderBookActions(book)} />
-      </div>
-    )
-
-    return (
-      <>
-        <Card>
-          <Dimmer.Dimmable 
-            blurring
-            as={Image}
-            dimmed={active}
-            dimmer={{ active, content }}
-            onMouseEnter={this.handleShow}
-            onMouseLeave={this.handleHide}
-            height="600px"
-            label={book.isPublic ? null : { as: 'a', color: 'red', corner: 'right', icon: 'lock' }}
-            src={book.links.image || '/resources/img/book_placeholder.png'}
-          />
-          <Card.Content>
-            <Card.Header >
-            <Link to={`/books/${book.id}`} >{book.title}</Link>
-            </Card.Header>
-            <Card.Meta>
-            <Icon name="user"/><Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
-            </Card.Meta>
-            { book.seriesId && book.seriesName ? (
-              <Card.Meta>
-                <Label size="tiny" as={Link} to={`/books?series=${book.seriesId}`}>
-                  <Icon name="chain"/>
-                  {book.seriesName}
-                  <Label.Detail>{book.seriesIndex}</Label.Detail>
-                </Label>
-              </Card.Meta>) : null
+    return (<>
+      <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={book.links.image || '/resources/img/book_placeholder.png'} onError={(e) => e.target.src='/resources/img/book_placeholder.png'} />
+        <Card.Body>
+          <Card.Title> <Link to={`/books/${book.id}`} >{book.title}</Link></Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">
+            <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
+          </Card.Subtitle>
+            {book.seriesId && book.seriesName ? (
+              <Card.Text>
+                <Badge as={Link} to={`/books?series=${book.seriesId}`}>
+                  <Icon name="chain" />
+                  {book.seriesName}{`${book.seriesIndex}`})
+                </Badge>
+              </Card.Text>) : null
             }
-          </Card.Content>
-          <Card.Content extra>
-            {book.categories.map(c => (
-              <Label key={c.id} size="tiny">
-                <Link to={`/books?category=${c.id}`}>{c.name}</Link>
-              </Label>
-            ))}
-            </Card.Content>
-        </Card>
-        {this.renderEditor(book)}
-      </>
-    )
+        </Card.Body>
+        {this.renderBookActions(book)}
+      </Card>
+      {this.renderEditor(book)}
+    </>);
   }
 }
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-import { Confirm, Button } from 'semantic-ui-react';
-import { success, error } from '../../services/toasts';
+import { Confirm, Icon  } from 'semantic-ui-react';
+import { Card } from 'react-bootstrap';
+import { success, error, question } from '../../services/toasts';
 import ApiService from '../../services/ApiService';
 
 class DeleteBook extends Component {
@@ -13,26 +14,15 @@ class DeleteBook extends Component {
         }
         this.deleteBook = this.deleteBook.bind(this);
         this.onDelete = this.onDelete.bind(this);
-        this.onCloseDelete = this.onCloseDelete.bind(this);
     }
 
-    onDelete = () => this.setState({ confirmDelete: true })
-    onCloseDelete = () => this.setState({ confirmDelete: false });
-
-    renderDelete(book) {
-        const { intl } = this.props;
-        const { confirmDelete } = this.state;
-
-        if (confirmDelete && book) {
-            return <Confirm size="mini" open={true} closeIcon
-            content={intl.formatMessage({ id: 'books.action.confirmDelete' }, { title: book.title })}
-            cancelButton={intl.formatMessage({ id: 'action.no' })}
-            confirmButton={intl.formatMessage({ id: 'action.yes' })}
-            onCancel={this.onCloseDelete}
-            onConfirm={this.deleteBook} />
-        }
-
-        return null;
+    onDelete()
+    {
+        const { book } = this.props;
+        const yesAction = this.props.intl.formatMessage({ id: 'action.yes' });
+        const noAction = this.props.intl.formatMessage({ id: 'action.no' });
+        const message = this.props.intl.formatMessage({ id: 'books.action.confirmDelete' }, { title: book.title });
+        question(message, yesAction, this.deleteBook, noAction);
     }
 
     async deleteBook() {
@@ -58,18 +48,10 @@ class DeleteBook extends Component {
     }
 
     render() {
-        const { book } = this.props;
         return (
-            <>
-                <Button key={this.props.key}
-                    color={this.props.color}
-                    onClick={this.onDelete}
-                    inverted={this.props.inverted}
-                    icon={this.props.icon}
-                    fluid={this.props.fluid}
-                    content={this.props.content} />
-                    {this.renderDelete(book)}
-            </>
+            <Card.Link key={this.props.key} onClick={this.onDelete}>
+                    <Icon name={this.props.icon} color="red"/>{this.props.content}
+            </Card.Link>
         )
     }
 }

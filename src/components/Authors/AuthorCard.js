@@ -118,7 +118,7 @@ class AuthorCard extends Component {
 
         return (<>
         <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={author.links.image || '/resources/img/avatar1.jpg'} />
+            <Card.Img variant="top" src={author.links.image || '/resources/img/avatar1.jpg'} onError={(e) => e.target.src='/resources/img/avatar1.jpg'} />
             <Card.Body>
                 <Card.Title><Link to={`/authors/${author.id}`}>{author.name}</Link></Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
