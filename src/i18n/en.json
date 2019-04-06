@@ -21,6 +21,7 @@
     "message.loading": "Loading",
     "message.image.upload.error" : "Unable to update image",
     "profile.edit" : "Edit Profile",
+    "header.home": "Home",
     "header.categories": "Categories",
     "header.series": "Series",
     "header.settings": "Preferences",

@@ -18,6 +18,7 @@
     "react-intl": "^2.8.0",
     "react-markdown": "^4.0.6",
     "react-owl-carousel2": "^0.3.0",
+    "react-parallax": "^2.2.0",
     "react-redux": "^6.0.0",
     "react-redux-toastr": "^7.4.8",
     "react-router-dom": "^4.3.1",

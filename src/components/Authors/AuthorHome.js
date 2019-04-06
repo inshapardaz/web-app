@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import queryString from 'query-string';
-
+import { Link } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
 import { Card, Icon, Button, Segment, Header, Confirm, Pagination } from 'semantic-ui-react';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import AuthorCard from './AuthorCard';
 import EditAuthor from './EditAuthor';
+import { Parallax, Background } from 'react-parallax';
 
 class AuthorHome extends Component {
 
@@ -29,19 +30,18 @@ class AuthorHome extends Component {
 
   async componentDidMount() {
     const values = queryString.parse(this.props.location.search)
-    await this.loadAuthors(values.page? values.page : 1);
+    await this.loadAuthors(values.page ? values.page : 1);
   }
 
   async componentWillReceiveProps(nextProps) {
     const values = queryString.parse(nextProps.location.search)
-    
-    if (this.state.pageNumber != values.page)
-    {
+
+    if (this.state.pageNumber != values.page) {
       await this.loadAuthors(values.page);
     }
   }
 
-  async reloadAuthors(){
+  async reloadAuthors() {
     await this.loadAuthors(this.state.pageNumber);
   }
 
@@ -59,7 +59,7 @@ class AuthorHome extends Component {
         pageNumber: pageNumber
       });
     }
-    catch(e){
+    catch (e) {
       console.error(e)
       this.setState({
         isLoading: false,
@@ -69,17 +69,16 @@ class AuthorHome extends Component {
   }
 
   onPageChange(e, { activePage }) {
-    if (this.state.pageNumber != activePage)
-    {
+    if (this.state.pageNumber != activePage) {
       this.props.history.push(`/authors?page=${activePage}`);
     }
   }
 
-  addAuthor(){
-      this.setState({
-        selectedAuthor: {},
-        isAdding: true,
-      });
+  addAuthor() {
+    this.setState({
+      selectedAuthor: {},
+      isAdding: true,
+    });
   }
 
   onCloseEdit() {
@@ -106,7 +105,7 @@ class AuthorHome extends Component {
         <EmptyPlaceholder message={message} iconName='folder outline'
           showButton={true} buttonText={buttonText}
           buttonAction={this.addAuthor.bind(this)} />
-        </>
+      </>
     );
   }
 
@@ -119,7 +118,7 @@ class AuthorHome extends Component {
       buttonAction={this.reloadAuthors.bind(this)} />)
   }
 
-  renderAuthors(authors){
+  renderAuthors(authors) {
     return authors.data.map(a =>
       <AuthorCard key={a.id} author={a} onUpdated={this.onAuthorUpdated} />)
   }
@@ -143,10 +142,10 @@ class AuthorHome extends Component {
 
   renderEditor(createLink) {
     const { isAdding, showEditor, selectedAuthor } = this.state;
-      return (<EditAuthor open={isAdding | showEditor} author={selectedAuthor}
-        createLink={createLink} isAdding={isAdding}
-        onOk={this.reloadAuthors.bind(this)}
-        onClose={this.onCloseEdit.bind(this)} />);
+    return (<EditAuthor open={isAdding | showEditor} author={selectedAuthor}
+      createLink={createLink} isAdding={isAdding}
+      onOk={this.reloadAuthors.bind(this)}
+      onClose={this.onCloseEdit.bind(this)} />);
   }
 
 
@@ -162,30 +161,38 @@ class AuthorHome extends Component {
 
     let addButton = null;
     if (createLink) {
-      addButton = (
-                    <Button onClick={this.addAuthor.bind(this)} icon attached='top' ><Icon name='add' />
-                      <FormattedMessage id="authors.action.create" />
-                    </Button>);
+      addButton = <a class="tg-btn" onClick={this.addAuthor.bind(this)} href="javascript:void(0);"><FormattedMessage id="authors.action.create" /></a>
     }
 
     if (authors && authors.data && authors.data.length > 0) {
       return (
         <>
-          <Header as='h2' icon='user' content={<FormattedMessage id="header.authors" />} />
-          {addButton}
+          <AuthorsHeader />
+          <main id="tg-main" class="tg-main tg-haslayout">
+            <div class="tg-authorsgrid">
+              <div class="container">
+                <div class="row">
+                  <div class="tg-authors">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="tg-sectionhead">
+                        <h2>{this.props.intl.formatMessage({id:'header.authors'})}</h2>
+                        {addButton}
+                      </div>
+                    </div>
 
-          <Segment padded={true} attached>
-              <Card.Group stackable centered>{this.renderAuthors(authors)}</Card.Group> 
-
-             
-          </Segment>
-            <Pagination defaultActivePage={pageNumber} 
-                          totalPages={authors.pageCount} 
-                          onPageChange={this.onPageChange} 
-                          pointing
-                          secondary attached='bottom'/>
-          {this.renderDelete()}
-          {this.renderEditor(createLink)}
+                    {this.renderAuthors(authors)}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <Pagination defaultActivePage={pageNumber}
+              totalPages={authors.pageCount}
+              onPageChange={this.onPageChange}
+              pointing
+              secondary attached='bottom' />
+            {this.renderDelete()}
+            {this.renderEditor(createLink)}
+          </main>
         </>
       );
     }
@@ -195,3 +202,24 @@ class AuthorHome extends Component {
 }
 
 export default injectIntl(AuthorHome);
+
+class AuthorsHeader extends React.Component {
+  render() {
+    return (
+      <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" style={{ backgroundImage: `url('images/parallax/bgparallax-07.jpg')`}}>
+          <div className="container">
+            <div className="row">
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div className="tg-innerbannercontent">
+                  <h1>Authors</h1>
+                  <ol className="tg-breadcrumb">
+                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
+                    <li className="tg-active"><FormattedMessage id="header.authors" /></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>);
+  }
+}

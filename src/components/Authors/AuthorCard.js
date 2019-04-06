@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Icon } from 'semantic-ui-react';
-import { Card } from 'react-bootstrap';
 import ApiService from '../../services/ApiService';
-import { question, success, error } from '../../services/toasts'; 
+import { question, success, error } from '../../services/toasts';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import EditAuthor from './EditAuthor';
 
@@ -12,7 +10,7 @@ class AuthorCard extends Component {
         super(props);
         this.state = {
             showEdit: false,
-            active : false
+            active: false
         };
 
         this.uploadRef = React.createRef();
@@ -78,27 +76,21 @@ class AuthorCard extends Component {
         let actions = [];
 
         if (author.links.update) {
-            actions.push(<Card.Link key="edit" onClick={this.onEdit} >
-                            <Icon name="pencil" color="green" />
-                        </Card.Link>)
+            actions.push(<li key="edit" class="tg-facebook" onClick={this.onEdit}><i class="fa fa-edit"></i></li>)
         }
 
         if (author.links.image_upload) {
-            actions.push(<Card.Link key="image" onClick={() => this.uploadRef.current.click()} >
-                            <Icon name="picture"/>
-                        </Card.Link>)
+            actions.push(<li key="image" class="tg-twitter" onClick={() => this.uploadRef.current.click()}><i class="fa fa-picture"></i></li>)
         }
 
         if (author.links.delete) {
-            actions.push(<Card.Link key="delete" onClick={this.onDeleteClicked}>
-                            <Icon name="delete" color="red"/>
-                        </Card.Link>)
+            actions.push(<li key="delete" class="tg-linkedin" onClick={this.onDeleteClicked}><i class="fa fa-delete"></i></li>);
         }
 
         if (actions.length > 0) {
-            return (<Card.Footer>
+            return (<ul class="tg-socialicons">
                 {actions}
-            </Card.Footer>);
+            </ul>);
         }
 
         return null;
@@ -116,20 +108,25 @@ class AuthorCard extends Component {
             return
         }
 
-        return (<>
-        <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={author.links.image || '/resources/img/avatar1.jpg'} onError={(e) => e.target.src='/resources/img/avatar1.jpg'} />
-            <Card.Body>
-                <Card.Title><Link to={`/authors/${author.id}`}>{author.name}</Link></Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                    <FormattedMessage id="authors.item.book.count" values={{ count: author.bookCount }} />
-                </Card.Subtitle>
-            </Card.Body>
-            {this.renderAuthorActions(author)}
-        </Card>
-        {this.renderEdit(author)}
-        <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
-        </>);
+        return (
+            <>
+                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                    <div class="tg-author">
+                        <figure>
+                            <Link to={`/authors/${author.id}`}>
+                                <img src={author.links.image || '/resources/img/avatar1.jpg'} alt={author.name} onError={(e) => e.target.src = '/resources/img/avatar1.jpg'} />
+                            </Link>
+                        </figure>
+                        <div class="tg-authorcontent">
+                            <h2><Link to={`/authors/${author.id}`}>{author.name}</Link></h2>
+                            <FormattedMessage id="authors.item.book.count" values={{ count: author.bookCount }} />
+                            {this.renderAuthorActions(author)}
+                        </div>
+                    </div>
+                </div>
+                {this.renderEdit(author)}
+                <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
+            </>);
     }
 }
 export default injectIntl(AuthorCard);
