@@ -48,11 +48,7 @@ class DeleteBook extends Component {
     }
 
     render() {
-        return (
-            <Card.Link as={this.props.as} key={this.props.key} onClick={this.onDelete}>
-                    <Icon name={this.props.icon} color="red"/>{this.props.content}
-            </Card.Link>
-        )
+        return (<li key={this.props.key} className="tg-linkedin"  onClick={this.onDelete}><i className="fa fa-trash"></i></li>);
     }
 }
 
@@ -61,10 +57,5 @@ export default injectIntl(DeleteBook)
 DeleteBook.propTypes = {
     book: PropTypes.object.isRequired,
     key: PropTypes.string,
-    color: PropTypes.string,
-    onDeleted: PropTypes.func.isRequired,
-    inverted: PropTypes.bool,
-    icon: PropTypes.string,
-    fluid: PropTypes.bool,
-    content: PropTypes.object
+    onDeleted: PropTypes.func.isRequired
 };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import BookList from './BookList';
 import queryString from 'query-string';
 import ApiService from '../../services/ApiService';
@@ -82,26 +82,41 @@ export default class BooksHome extends Component {
     const { author, category, series  } = this.state;
     
     let headerContent = <FormattedMessage id="header.books" />;
-    let headerIcon = "book"
     if (author) {
       headerContent = author.name;
-      headerIcon = 'user'
     }
     else if (category){
       headerContent = category.name;
-      headerIcon = 'folder'
     }
     else if (series){
       headerContent = series.name;
-      headerIcon = 'chain'
     }
     return (
       <>
-        <Header as="h2" icon={headerIcon} content={headerContent}>
-          
-        </Header>
-        <BookList />
+        <BooksHeader title={headerContent} />
+        <BookList title={headerContent}/>
       </>
     );
+  }
+}
+
+class BooksHeader extends React.Component {
+  render() {
+    return (
+      <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" style={{ backgroundImage: `url('images/parallax/bgparallax-07.jpg')`}}>
+          <div className="container">
+            <div className="row">
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div className="tg-innerbannercontent">
+                  <h1>{this.props.title}</h1>
+                  <ol className="tg-breadcrumb">
+                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
+                    <li className="tg-active"><FormattedMessage id="header.books" /></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>);
   }
 }

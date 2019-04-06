@@ -15,10 +15,10 @@ class BookList extends Component {
         this.state = {
             isError: false,
             isLoading: true,
-            isAdding : false,
+            isAdding: false,
             authorId: 0,
             category: 0,
-            series:0,
+            series: 0,
             pageNumber: 1,
             selectedBook: null,
             books: []
@@ -30,31 +30,30 @@ class BookList extends Component {
 
     async componentDidMount() {
         const values = queryString.parse(this.props.location.search)
-        await this.loadBooks(this.props.author, 
-                             values.category? values.category : 0, 
-                             values.series? values.series : 0, 
-                             values.page? values.page : 1);
+        await this.loadBooks(this.props.author,
+            values.category ? values.category : 0,
+            values.series ? values.series : 0,
+            values.page ? values.page : 1);
     }
 
     async componentWillReceiveProps(nextProps) {
         const { author } = nextProps
 
         const values = queryString.parse(nextProps.location.search)
-    
-        if (this.state.pageNumber != values.page || 
+
+        if (this.state.pageNumber != values.page ||
             //this.state.authorId != author ? author.id : 0 ||
             this.state.series != values.series ||
-            this.state.category != values.category)
-        {
-            await this.loadBooks(author, 
-                                 values.category? values.category : 0, 
-                                 values.series? values.series : 0,
-                                 values.page? values.page : 1);
+            this.state.category != values.category) {
+            await this.loadBooks(author,
+                values.category ? values.category : 0,
+                values.series ? values.series : 0,
+                values.page ? values.page : 1);
         }
     }
 
     async reloadBooks() {
-        await this.loadBooks(this.props.author, this.state.category , this.state.series, this.state.pageNumber);
+        await this.loadBooks(this.props.author, this.state.category, this.state.series, this.state.pageNumber);
     }
 
     async loadBooks(author = null, category = 0, series = 0, pageNumber = 1) {
@@ -72,10 +71,10 @@ class BookList extends Component {
             if (author) {
                 result = await ApiService.getAuthorBooks(author.links.books, pageNumber);
             }
-            else if (category && category > 0){
+            else if (category && category > 0) {
                 result = await ApiService.getBooksByCategory(category, pageNumber);
             }
-            else if (series && series > 0){
+            else if (series && series > 0) {
                 result = await ApiService.getBooksBySeries(series, pageNumber);
             }
             else {
@@ -97,26 +96,25 @@ class BookList extends Component {
     }
 
     onPageChange(e, { activePage }) {
-        if (this.state.pageNumber != activePage)
-        {
+        if (this.state.pageNumber != activePage) {
             const { category, series } = this.state;
             const { author } = this.props;
-            if (author){
+            if (author) {
                 this.props.history.push(`/authors/${author.id}?page=${activePage}`);
             }
-            else if (category && category > 0){
+            else if (category && category > 0) {
                 this.props.history.push(`/books?category=${category}&page=${activePage}`);
             }
-            else if (series && series > 0){
+            else if (series && series > 0) {
                 this.props.history.push(`/books?series=${series}&page=${activePage}`);
             }
             else {
                 this.props.history.push(`/books?page=${activePage}`);
             }
         }
-      }
+    }
 
-    onAddClicked(){
+    onAddClicked() {
         this.setState({
             selectedBook: {},
             isAdding: true,
@@ -128,8 +126,8 @@ class BookList extends Component {
             isAdding: false
         });
     }
-    
-    async onBookUpdated(){
+
+    async onBookUpdated() {
         await this.reloadBooks();
     }
 
@@ -149,7 +147,7 @@ class BookList extends Component {
 
         return (
             <>
-                { createLink ? this.renderEditor(createLink) : null }
+                {createLink ? this.renderEditor(createLink) : null}
                 <EmptyPlaceholder message={message} iconName='book'
                     showButton={true} buttonText={buttonText}
                     buttonAction={this.onAddClicked.bind(this)} />
@@ -160,8 +158,8 @@ class BookList extends Component {
     renderEditor(createLink) {
         const { isAdding, selectedBook, authorId, series } = this.state;
         if (!isAdding) return null;
-        
-        if (this.props.author){
+
+        if (this.props.author) {
             selectedBook.authorId = this.props.author.id;
         }
 
@@ -172,8 +170,8 @@ class BookList extends Component {
             onClose={this.onCloseEdit.bind(this)} />);
     }
 
-    renderBooks = (books) => books.data.map(b => 
-            <BookCard key={b.id} book={b} onUpdated={this.onBookUpdated} />)
+    renderBooks = (books) => books.data.map(b =>
+        <BookCard key={b.id} book={b} onUpdated={this.onBookUpdated} />)
 
     render() {
         const { books, isLoading, isError, pageNumber } = this.state;
@@ -189,31 +187,40 @@ class BookList extends Component {
         if (!books) {
             return null;
         }
-        
+
         const createLink = (books && books.links) ? books.links.create : null;
         if (books && books.data && books.data.length > 0) {
             let addButton = null;
             if (createLink) {
-            addButton = (
-                    <Button onClick={this.onAddClicked.bind(this)} icon attached='top' ><Icon name='add' />
-                    <FormattedMessage id="books.action.create" />
-                    </Button>);
+                addButton = <a className="tg-btn" onClick={this.onAddClicked.bind(this)} href="javascript:void(0);"><FormattedMessage id="books.action.create" /></a>
             }
 
             return (
-                <>
-                    {addButton}
-                    <Segment padded={true} attached>
-                        <Card.Group stackable centered>{this.renderBooks(books)}</Card.Group>
-                    </Segment>
-                    <Pagination defaultActivePage={pageNumber} 
-                          totalPages={books.pageCount} 
-                          onPageChange={this.onPageChange} 
-                          pointing
-                          secondary attached='bottom'/>
+                <main id="tg-main" className="tg-main tg-haslayout">
+                    <div className="tg-authorsgrid">
+                        <div className="container">
+                            <div className="row">
+                                <div className="tg-authors">
+                                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div className="tg-sectionhead">
+                                            <h2>{this.props.title}</h2>
+                                            {addButton}
+                                        </div>
+                                    </div>
+
+                                    {this.renderBooks(books)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <Pagination defaultActivePage={pageNumber}
+                        totalPages={books.pageCount}
+                        onPageChange={this.onPageChange}
+                        pointing
+                        secondary attached='bottom' />
                     {this.renderEditor(createLink)}
-                </>
-            )
+                </main>
+            );
         }
         else {
             return this.renderEmptyPlaceHolder(createLink);

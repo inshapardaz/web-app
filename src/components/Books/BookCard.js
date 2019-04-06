@@ -27,24 +27,22 @@ class BookCard extends Component {
     let actions = [];
 
     if (book.links.update) {
-      actions.push(<Card.Link key="edit" onClick={this.onEdit} >
-        <Icon name="pencil" color="green" />
-      </Card.Link>)
+      actions.push(<li key="edit" className="tg-facebook" onClick={this.onEdit}><i className="fa fa-edit"></i></li>)
     }
 
     if (book.links.image_upload) {
-      actions.push(<ChangeImage key="image" inverted color="olive" icon="picture" uploadLink={book.links.image_upload}
-      onUpdated={this.props.onUpdated} />)
+      actions.push(<ChangeImage key="image" uploadLink={book.links.image_upload}
+        onUpdated={this.props.onUpdated} />)
     }
 
     if (book.links.delete) {
-      actions.push(<DeleteBook key="delete" inverted color="red" icon="delete" book={book} onDeleted={this.props.onUpdated} />)
+      actions.push(<DeleteBook key="delete" book={book} onDeleted={this.props.onUpdated} />)
     }
 
     if (actions.length > 0) {
-      return (<Card.Footer>
+      return (<ul className="tg-socialicons">
         {actions}
-      </Card.Footer>);
+      </ul>);
     }
 
     return null;
@@ -73,24 +71,30 @@ class BookCard extends Component {
     }
 
     return (<>
-      <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src={book.links.image || '/resources/img/book_placeholder.png'} onError={(e) => e.target.src='/resources/img/book_placeholder.png'} />
-        <Card.Body>
-          <Card.Title> <Link to={`/books/${book.id}`} >{book.title}</Link></Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">
+      <div className="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+        <div className="tg-author">
+          <figure>
+            <Link to={`/books/${book.id}`}>
+              <img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} />
+            </Link>
+          </figure>
+          <div className="tg-authorcontent">
+            <h2> <Link to={`/books/${book.id}`} >{book.title}</Link></h2>
             <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
-          </Card.Subtitle>
             {book.seriesId && book.seriesName ? (
-              <Card.Text>
-                <Badge as={Link} to={`/books?series=${book.seriesId}`}>
-                  <Icon name="chain" />
-                  {book.seriesName}{`${book.seriesIndex}`})
-                </Badge>
-              </Card.Text>) : null
+              <div class="tg-themetagbox">
+                <span class="tg-themetag">
+                  <Link to={`/books?series=${book.seriesId}`}>
+                    {book.seriesName}{`${book.seriesIndex}`}
+                  </Link>
+                </span>
+              </div>) : null
             }
-        </Card.Body>
-        {this.renderBookActions(book)}
-      </Card>
+            {this.renderBookActions(book)}
+          </div>
+        </div>
+      </div>
+
       {this.renderEditor(book)}
     </>);
   }

@@ -27,9 +27,7 @@ export default class ChangeImage extends Component {
   render() {
     return (
       <>
-        <Card.Link as={this.props.as} onClick={() => this.uploadRef.current.click()} >
-          <Icon name={this.props.icon} color={this.props.color} /> {this.props.content}
-        </Card.Link>
+        <li key="image" className="tg-twitter" onClick={() => this.uploadRef.current.click()}><i className="fa fa-photo"></i></li>
         <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
       </>
     )
@@ -38,10 +36,5 @@ export default class ChangeImage extends Component {
 
 ChangeImage.propTypes = {
   uploadLink: PropTypes.string,
-  color: PropTypes.string,
-  onUpdated: PropTypes.func.isRequired,
-  inverted: PropTypes.bool,
-  icon: PropTypes.string,
-  fluid: PropTypes.bool,
-  content: PropTypes.object
+  onUpdated: PropTypes.func.isRequired
 };
