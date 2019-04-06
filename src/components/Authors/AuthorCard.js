@@ -80,11 +80,11 @@ class AuthorCard extends Component {
         }
 
         if (author.links.image_upload) {
-            actions.push(<li key="image" class="tg-twitter" onClick={() => this.uploadRef.current.click()}><i class="fa fa-picture"></i></li>)
+            actions.push(<li key="image" class="tg-twitter" onClick={() => this.uploadRef.current.click()}><i class="fa fa-photo"></i></li>)
         }
 
         if (author.links.delete) {
-            actions.push(<li key="delete" class="tg-linkedin" onClick={this.onDeleteClicked}><i class="fa fa-delete"></i></li>);
+            actions.push(<li key="delete" class="tg-linkedin" onClick={this.onDeleteClicked}><i class="fa fa-trash"></i></li>);
         }
 
         if (actions.length > 0) {
