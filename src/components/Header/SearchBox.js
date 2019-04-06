@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Search, Image } from 'semantic-ui-react'
+import { Image } from 'semantic-ui-react'
 import { injectIntl, FormattedMessage } from 'react-intl';
 import ApiService from '../../services/ApiService';
-import { Form, FormControl, Button } from 'react-bootstrap';
 
 class SearchBox extends Component {
     state = {
@@ -90,26 +89,20 @@ class SearchBox extends Component {
             })
         }
     }
-    
+
     render() {
-        const { isLoading, isError, results, value } = this.state;
+        const searchMessage = this.props.intl.formatMessage({ id: "header.search.placeholder" });
         return (
-            <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+            <div className="tg-searchbox">
+                <form className="tg-formtheme tg-formsearch">
+                    <fieldset>
+                        <input type="text" name="search" className="typeahead form-control" placeholder={searchMessage} />
+                        <button type="submit" className="tg-btn">Search</button>
+                    </fieldset>
+                    <a href="javascript:void(0);"><FormattedMessage id="header.search.advanced_search" /></a>
+                </form>
+            </div>
         );
-        return (
-            <Search category minCharacters={3} aligned='right'
-                loading={isLoading}
-                resultRenderer={this.resultRenderer}
-                onSearchChange={this.handleSearchChange.bind(this)}
-                results={results}
-                value={value}
-                noResultsMessage={<FormattedMessage id="search.messages.noresult" />}
-                {...this.props}
-            />
-        )
     }
 }
 

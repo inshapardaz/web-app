@@ -1,23 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { Dropdown, Menu, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FormattedMessage } from 'react-intl';
-import { NavDropdown } from 'react-bootstrap';
 
 class BooksMenu extends React.Component {
     renderCategories(categories) {
         if (categories && categories.items) {
             var menuItems = [];
 
-            menuItems.push(<NavDropdown.Item key="books" as={Link} to={`/books`} >
-                <Icon name='book' /><FormattedMessage id="header.books.list" /></NavDropdown.Item >);
-            menuItems.push(<NavDropdown.Divider key="book-div-1"/>);
-            menuItems.push(categories.items.map(c => (
-                <NavDropdown.Item key={c.id} as={Link} to={`/books?category=${c.id}`}>
-                    {c.name}
-                </NavDropdown.Item>)));
+            menuItems.push(<li key="books"> <Link to={`/books`} > <FormattedMessage id="header.books.list" /></Link></li>);
+            menuItems.push(categories.items.map(c => (<li key={c.id}><Link to={`/books?category=${c.id}`}> {c.name}</Link></li>)));
 
             return menuItems;
         }
@@ -26,13 +19,16 @@ class BooksMenu extends React.Component {
     }
 
     render() {
-        const { categories, isMobile } = this.props;
+        const { categories } = this.props;
 
         const categoriesItem = this.renderCategories(categories);
         return (
-            <NavDropdown  title={ (<><Icon name='book' /> <FormattedMessage id="header.books" /></>)} id="basic-nav-dropdown">
-                {categoriesItem}
-            </NavDropdown>
+            <li className="menu-item-has-children">
+                <a href="javascript:void(0);"><FormattedMessage id="header.books" /></a>
+                <ul className="sub-menu">
+                    {categoriesItem}
+                </ul>
+            </li>
         );
     }
 }

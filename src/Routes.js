@@ -21,6 +21,7 @@ import DictionaryPage from './components/Dictionary/DictionaryPage';
 import CategoriesHome from './components/Categories/CategoriesHome';
 import SeriesHome from './components/Series/SeriesHome';
 
+import Search from './components/Search';
 import ErrorPage from './components/ErrorPage';
 import AboutPage from './components/AboutPage';
 
@@ -40,7 +41,8 @@ class Routes extends React.Component {
         <RouteWithLayout layout={EmptyLayout} path="/callback" component={Callback} exact/>
         <RouteWithLayout layout={FullScreenLayout} path="/" component={HomePage} exact />
         <RouteWithLayout layout={FullScreenLayout} path="/about" component={AboutPage} exact /> 
-        <RouteWithLayout layout={FullScreenLayout} path="/error" component={ErrorPage} exact />        
+        <RouteWithLayout layout={FullScreenLayout} path="/error" component={ErrorPage} exact />   
+        <RouteWithLayout layout={BoxedLayout} path="/search" component={Search} exact />
         <RouteWithLayout layout={BoxedLayout} path="/authors/:id" component={AuthorPage} />
         <RouteWithLayout layout={BoxedLayout} path="/authors" component={AuthorHome} />
         <RouteWithLayout layout={EmptyLayout} path="/books/:id/chapters/:chapterId" component={Chapter} />

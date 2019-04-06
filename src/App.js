@@ -59,6 +59,7 @@ class App extends React.Component {
 
     if (locale) {
       return (
+        <div id="tg-wrapper" className="tg-wrapper tg-haslayout">
         <IntlProvider locale={locale.locale} messages={locale.messages}>
           <>
             <Routes />
@@ -73,6 +74,7 @@ class App extends React.Component {
                 closeOnToastrClick/>
           </>
         </IntlProvider>
+        </div>
       );
     }
 
