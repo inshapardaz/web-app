@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import { Image, Header } from 'semantic-ui-react';
 import { ErrorPlaceholder, Loading } from '../Common';
 import ApiService from '../../services/ApiService';
@@ -35,7 +36,7 @@ class AuthorPage extends Component {
     }
   }
 
-  reloadAuthor = async() => await this.loadAuthor(this.state.authorId);
+  reloadAuthor = async () => await this.loadAuthor(this.state.authorId);
 
   async loadAuthor(authorId) {
     this.setState({
@@ -70,29 +71,43 @@ class AuthorPage extends Component {
   }
 
   render() {
-    const {author, isLoading, isError} = this.state;
+    const { author, isLoading, isError } = this.state;
 
-    if (isLoading)
-    {
+    if (isLoading) {
       return <Loading fullWidth={true} />;
     }
 
-    if (isError)
-    {
+    if (isError) {
       return this.renderLoadingError();
     }
 
-    if (!author){
+    if (!author) {
       return null;
     }
     return (
-      <div>
+      <>
+        <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" data-parallax="scroll" data-image-src="images/parallax/bgparallax-07.jpg">
+          <div className="container">
+            <div className="row">
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div className="tg-innerbannercontent">
+                  <h1>Authors</h1>
+                  <ol className="tg-breadcrumb">
+                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
+                    <li><Link to="/authors">{this.props.intl.formatMessage({ id: 'header.authors' })}</Link></li>
+                    <li className="tg-active">{author.name}</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <Header as='h2' >
           <Image circular src={author.links.image || '/resources/img/avatar1.jpg'} />
           <Header.Content>{author.name}</Header.Content>
         </Header>
-        <BookList author={author}/>
-      </div>
+        <BookList author={author} />
+      </>
     )
   }
 }
