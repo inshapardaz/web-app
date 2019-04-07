@@ -110,7 +110,7 @@ export default class BooksHome extends Component {
                         <form className="tg-formtheme tg-formsearch">
                           <div className="form-group">
                             <button type="submit"><i className="icon-magnifier"></i></button>
-                            <input type="search" name="search" className="form-group" placeholder={searchMessage} />
+                            <input type="search" name="search" className="form-group" placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })} />
                           </div>
                         </form>
                       </div>
