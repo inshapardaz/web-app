@@ -77,7 +77,7 @@ export default class Reader extends Component {
       const {isLoading} = this.props;
   
       if (isLoading){
-        return <Loading />
+        return <Loading fullWidth={true} />
       }
   
       return (

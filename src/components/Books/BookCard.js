@@ -22,6 +22,13 @@ class BookCard extends Component {
 
   onEdit = () => this.setState({ showEdit: true })
   onCloseEdit = () => this.setState({ showEdit: false })
+  onAddToFavorite = (book) => {
+    console.log("Added to favorites");
+  }
+
+  onRemoveFromFavorite = (book) => {
+    console.log("Remove from favorites");
+  }
 
   renderBookActions(book) {
     let actions = [];
@@ -64,17 +71,38 @@ class BookCard extends Component {
   handleHide = () => this.setState({ active: false })
 
   renderCategories(book) {
-    if (book.categories.length > 0)
-    {
-      return(
+    if (book.categories.length > 0) {
+      return (
         <ul className="tg-bookscategories">
-            {book.categories.map(c => <li key={c.id}><Link to={`/books?category=${c.id}`} >{c.name}</Link></li>)}
+          {book.categories.map(c => <li key={c.id}><Link to={`/books?category=${c.id}`} >{c.name}</Link></li>)}
         </ul>
       );
     }
 
     return null;
   }
+
+  renderHoverAction(book) {
+    if (book.links.add_favorites) {
+      return (<a href="javascript:void(0);" className="tg-btnaddtowishlist" onClick={this.onAddToFavorite(book)}>
+        <i className="icon-heart"></i>
+        <FormattedMessage id="books.action.favorite.add" />
+      </a>)
+    }
+
+    if (book.links.remove_favorites) {
+      return (<a href="javascript:void(0);" className="tg-btnaddtowishlist" onClick={this.onRemoveFromFavorite(book)}>
+        <i className="icon-heart-broken"></i>
+        <FormattedMessage id="books.action.favorite.add" />
+      </a>)
+    }
+
+    return (<Link className="tg-btnaddtowishlist" to={`/books/${book.id}`} >
+      <i className="icon-file-text2"></i>
+      <FormattedMessage id="action.view" />
+    </Link>);
+  }
+
   render() {
     const { book } = this.props;
 
@@ -90,18 +118,15 @@ class BookCard extends Component {
               <div className="tg-frontcover"><img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} /></div>
               <div className="tg-backcover"><img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} /></div>
             </div>
-            <Link className="tg-btnaddtowishlist" to={`/books/${book.id}`} >
-                  <i className="icon-file-text2"></i>
-                  <FormattedMessage id="action.view" />
-            </Link>
+            {this.renderHoverAction(book)}
           </figure>
           <div className="tg-postbookcontent">
-           {this.renderCategories(book)}
-           {book.seriesId && book.seriesName ? (
+            {this.renderCategories(book)}
+            {book.seriesId && book.seriesName ? (
               <div className="tg-themetagbox">
                 <span className="tg-themetag">
                   {/* <Link to={`/books?series=${book.seriesId}`}> */}
-                    {book.seriesName}{`${book.seriesIndex}`}
+                  {book.seriesName}{`${book.seriesIndex}`}
                   {/* </Link> */}
                 </span>
               </div>) : null
@@ -110,13 +135,15 @@ class BookCard extends Component {
               <h3><Link to={`/books/${book.id}`} >{book.title}</Link></h3>
             </div>
             <span className="tg-bookwriter">
-              {this.props.intl.formatMessage({ id: 'book.by' })} 
+              {this.props.intl.formatMessage({ id: 'book.by' })}
               <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
+              {this.renderBookActions(book)}
             </span>
             <Link className="tg-btn tg-btnstyletwo" to={`/books/${book.id}`}>
               <i className="fa fa-file-text-o"></i>
-              <em>{this.props.intl.formatMessage({ id : 'books.action.read'})}</em>
+              <em>{this.props.intl.formatMessage({ id: 'books.action.read' })}</em>
             </Link>
+
           </div>
         </div>
       </div>

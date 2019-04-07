@@ -83,7 +83,7 @@ class SeriesHome extends Component {
     const { intl } = this.props;
     const message = intl.formatMessage({ id: 'series.messages.error.loading' });
     const buttonText = intl.formatMessage({ id: 'action.retry' });
-    return (<ErrorPlaceholder message={message}
+    return (<ErrorPlaceholder fullWidth={true} message={message}
       showButton={true} buttonText={buttonText}
       buttonAction={this.loadSeries.bind(this)} />)
   }
@@ -96,7 +96,7 @@ class SeriesHome extends Component {
     return (
       <>
         {createLink ? this.renderEditor(createLink) : null}
-        <EmptyPlaceholder message={message} iconName='chain'
+        <EmptyPlaceholder fullWidth={true} message={message} iconName='chain'
           showButton={true} buttonText={buttonText}
           buttonAction={this.addSeries.bind(this)} />
       </>
@@ -119,7 +119,7 @@ class SeriesHome extends Component {
     const createLink = (series && series.links) ? series.links.create : null;
 
     if (isLoading) {
-      return <Loading />;
+      return <Loading fullWidth={true} />;
     } else if (isError) {
       return this.renderLoadingError();
     }

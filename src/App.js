@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { IntlProvider } from 'react-intl';
 import { getEntry } from './actions/dataActions';
-import 'styling/semantic.less'
 import Routes from './Routes';
 import LocaleService from './services/LocaleService';
 import AuthService from './services/AuthService';

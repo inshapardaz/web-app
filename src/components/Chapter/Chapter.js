@@ -240,7 +240,7 @@ class Chapter extends Component {
     const { isError, isEditing, contents, book, saving, isLoadingContents, isLoading, bookId, chapter, chapterId, font, fontSize, contextRef } = this.state;
 
     if (isError) {
-      return <ErrorPlaceholder
+      return <ErrorPlaceholder fullWidth={true}   
         message={this.props.intl.formatMessage({ id: 'chapter.messages.error.loading' })}
         icon="file alternate outline"
         showButton={true}
@@ -249,7 +249,7 @@ class Chapter extends Component {
     }
 
     if (isLoadingContents || isLoading){
-      return <Loading />;
+      return <Loading fullWidth={true} />;
     }
     var header = null;
     if (chapter) {

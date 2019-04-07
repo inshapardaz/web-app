@@ -77,6 +77,8 @@
     "authors.item.book.count" : "{count} کتابیں",
     "books.action.create" : "نئی کتاب کا اندراج کریں",
     "books.action.read" : "پرھنا شروع کریں",
+    "books.action.favorite.add" : "پسندیدہ بنائیں",
+    "books.action.favorite.remove" : "پسندیدگی ہٹائیں",
     "books.messages.saved" : "کتاب محفوظ کر دی گئی ہے",
     "books.messages.deleted" : "کتاب ہٹا دی گئی ہے",
     "books.messages.error.saving" : "کتاب محفوظ نہیں کی جا سکی",

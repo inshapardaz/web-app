@@ -120,7 +120,7 @@ class CategoriesHome extends Component {
     const { intl } = this.props;
     const message = intl.formatMessage({ id: 'categories.messages.error.loading' });
     const buttonText = intl.formatMessage({ id: 'action.retry' });
-    return (<ErrorPlaceholder message={message}
+    return (<ErrorPlaceholder fullWidth={true} message={message}
       showButton={true} buttonText={buttonText}
       buttonAction={this.loadCategories.bind(this)} />)
   }
@@ -133,7 +133,7 @@ class CategoriesHome extends Component {
     return (
       <>
         {createLink ? this.renderEditor(createLink): null}
-        <EmptyPlaceholder message={message} iconName='folder outline'
+        <EmptyPlaceholder fullWidth={true} message={message} iconName='folder outline'
           showButton={true} buttonText={buttonText}
           buttonAction={this.addCategory.bind(this)} />
       </>
@@ -172,7 +172,7 @@ class CategoriesHome extends Component {
     const createLink = (categories && categories.links) ? categories.links.create : null;
 
     if (isLoading) {
-      return <Loading />;
+      return <Loading fullWidth={true} />;
     } else if (isError) {
       return this.renderLoadingError();
     }

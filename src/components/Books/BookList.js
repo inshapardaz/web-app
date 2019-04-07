@@ -157,8 +157,11 @@ class BookList extends Component {
 
     renderEditor(createLink) {
         const { isAdding, selectedBook, authorId, series } = this.state;
-        if (!isAdding) return null;
+        if (!isAdding) {
+            return null;
+        }
 
+        console.log('rendering editor')
         if (this.props.author) {
             selectedBook.authorId = this.props.author.id;
         }
@@ -215,33 +218,6 @@ class BookList extends Component {
                 secondary attached='bottom' />
                 {this.renderEditor(createLink)}
                 </>
-            );
-
-            return (
-                <main id="tg-main" className="tg-main tg-haslayout">
-                    <div className="tg-authorsgrid">
-                        <div className="container">
-                            <div className="row">
-                                <div className="tg-authors">
-                                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div className="tg-sectionhead">
-                                            <h2>{this.props.title}</h2>
-                                            {addButton}
-                                        </div>
-                                    </div>
-
-                                    {this.renderBooks(books)}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <Pagination defaultActivePage={pageNumber}
-                        totalPages={books.pageCount}
-                        onPageChange={this.onPageChange}
-                        pointing
-                        secondary attached='bottom' />
-                    {this.renderEditor(createLink)}
-                </main>
             );
         }
         else {

@@ -102,9 +102,11 @@ class AuthorHome extends Component {
     return (
       <>
         {createLink ? this.renderEditor(createLink) : null}
-        <EmptyPlaceholder message={message} iconName='folder outline'
-          showButton={true} buttonText={buttonText}
-          buttonAction={this.addAuthor.bind(this)} />
+        <main id="tg-main" className="tg-main tg-haslayout">
+          <EmptyPlaceholder  fullWidth={true}  message={message} iconName='folder outline'
+            showButton={true} buttonText={buttonText}
+            buttonAction={this.addAuthor.bind(this)} />
+        </main>
       </>
     );
   }
@@ -113,7 +115,7 @@ class AuthorHome extends Component {
     const { intl } = this.props;
     const message = intl.formatMessage({ id: 'authors.messages.error.loading' });
     const buttonText = intl.formatMessage({ id: 'action.retry' });
-    return (<ErrorPlaceholder message={message}
+    return (<ErrorPlaceholder fullWidth={true}  message={message}
       showButton={true} buttonText={buttonText}
       buttonAction={this.reloadAuthors.bind(this)} />)
   }
@@ -154,7 +156,7 @@ class AuthorHome extends Component {
     const createLink = (authors && authors.links) ? authors.links.create : null;
 
     if (isLoading) {
-      return <Loading />;
+      return <Loading fullWidth={true} />
     } else if (isError) {
       return this.renderLoadingError();
     }
@@ -175,7 +177,7 @@ class AuthorHome extends Component {
                   <div className="tg-authors">
                     <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                       <div className="tg-sectionhead">
-                        <h2>{this.props.intl.formatMessage({id:'header.authors'})}</h2>
+                        <h2>{this.props.intl.formatMessage({ id: 'header.authors' })}</h2>
                         {addButton}
                       </div>
                     </div>
@@ -206,20 +208,20 @@ export default injectIntl(AuthorHome);
 class AuthorsHeader extends React.Component {
   render() {
     return (
-      <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" style={{ backgroundImage: `url('images/parallax/bgparallax-04.jpg')`}}>
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div className="tg-innerbannercontent">
-                  <h1><FormattedMessage id="header.authors" /></h1>
-                  <ol className="tg-breadcrumb">
-                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
-                    <li className="tg-active"><FormattedMessage id="header.authors" /></li>
-                  </ol>
-                </div>
+      <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" style={{ backgroundImage: `url('images/parallax/bgparallax-04.jpg')` }}>
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div className="tg-innerbannercontent">
+                <h1><FormattedMessage id="header.authors" /></h1>
+                <ol className="tg-breadcrumb">
+                  <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
+                  <li className="tg-active"><FormattedMessage id="header.authors" /></li>
+                </ol>
               </div>
             </div>
           </div>
+        </div>
       </div>);
   }
 }

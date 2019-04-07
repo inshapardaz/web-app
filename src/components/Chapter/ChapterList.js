@@ -97,7 +97,7 @@ class ChapterList extends Component {
         const createLink = (chapters && chapters.links) ? chapters.links.create : null;
 
         if (isLoading) {
-            return <Loading />;
+            return <Loading fullWidth={true} />;
         }
 
         if (isError) {

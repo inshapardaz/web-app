@@ -116,7 +116,7 @@ class BookPage extends Component {
     const { book, isLoading, isError } = this.state;
 
     if (isLoading) {
-      return <Loading />;
+      return <Loading fullWidth={true} />;
     }
 
     if (isError) {

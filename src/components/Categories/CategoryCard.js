@@ -40,7 +40,7 @@ export default class CategoryCard extends Component {
                     </figure>
                     <div className="tg-authorcontent">
                         <h2><Link to={`/books?category=${category.id}`}>{category.name}</Link></h2>
-                        <FormattedMessage id="categories.item.book.count" values={{ count: 0 }} />
+                        <FormattedMessage id="categories.item.book.count" values={{ count: category.bookCount }} />
                         {this.renderCategoryActions(category)}
                     </div>
                 </div>

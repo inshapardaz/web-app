@@ -74,7 +74,7 @@ class AuthorPage extends Component {
 
     if (isLoading)
     {
-      return <Loading />;
+      return <Loading fullWidth={true} />;
     }
 
     if (isError)
