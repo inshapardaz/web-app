@@ -50,22 +50,36 @@ class FavoriteBooksSidebar extends Component {
         );
     }
 
+    renderBooks(books) 
+    {
+        if (books == null)
+        {
+            return <FormattedMessage id="message.loading" />;
+        }
+
+        if (books.data.length < 1)
+        {
+            return <FormattedMessage id="books.messages.favorite.empty" />
+        }
+        
+        return books.data.slice(1, 5).map(book => this.renderBook(book));
+    }
+
     render() {
-        if (this.props.entry && this.props.entry.links.favorites)
+        const { books } = this.state;
+        if (!books)
         {
             return null;
         }
-
-        const { books } = this.state;
 
         return (
             <div className="tg-widget tg-widgettrending">
                 <div className="tg-widgettitle">
                     <h3>{this.props.intl.formatMessage({ id: 'home.favoriteBooks' })}</h3>
                 </div>
-                <div className="tg-widgetcontent">
+                <div className="tg-widgetcontent">  
                     <ul>
-                        {books != null ? books.slice(1, 5).map(book => this.renderBook(book)) : <FormattedMessage id="message.loading" />}
+                        {this.renderBooks(books)}
                     </ul>
                 </div>
             </div>

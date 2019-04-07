@@ -83,6 +83,7 @@
     "books.messages.error.delete" : "کتاب ہٹائی نہیں جا سکی",
     "books.messages.error.loading" : "کتابوں کے حصول میں ناکامی ہوئی",
     "books.messages.empty" : "کوئی کتاب دستیاب نہیں",
+    "books.messages.favorite.empty" : "کوئی پسندیدگی موجود نہیں",
     "books.action.confirmDelete" : "کیا آپ '{title}' کو حذف کرنا چاہیں گے؟",
     "book.by" : "از",
     "book.editor.header.add": "کتاب کا اضافہ",

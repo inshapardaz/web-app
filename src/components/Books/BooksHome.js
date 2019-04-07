@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import BookList from './BookList';
 import queryString from 'query-string';
 import ApiService from '../../services/ApiService';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import CategoriesSidebar from '../Categories/CategoriesSidebar';
 import LatestBooksSidebar from './LatestBooksSidebar';
 import FavoriteBooksSidebar from './FavoriteBooksSidebar';
 
-export default class BooksHome extends Component {
+class BooksHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -115,7 +115,7 @@ export default class BooksHome extends Component {
                         </form>
                       </div>
                       <CategoriesSidebar />
-                      {/* <FavoriteBooksSidebar /> */}
+                      <FavoriteBooksSidebar />
                       <LatestBooksSidebar />
                       </aside>
                   </div>
@@ -128,6 +128,8 @@ export default class BooksHome extends Component {
     );
   }
 }
+
+export default injectIntl(BooksHome)
 
 class BooksHeader extends React.Component {
   render() {

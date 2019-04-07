@@ -93,7 +93,7 @@ class BookCard extends Component {
             <Link className="tg-btnaddtowishlist" to={`/books/${book.id}`} >
                   <i className="icon-file-text2"></i>
                   <FormattedMessage id="action.view" />
-              </Link>
+            </Link>
           </figure>
           <div className="tg-postbookcontent">
            {this.renderCategories(book)}
@@ -120,29 +120,6 @@ class BookCard extends Component {
           </div>
         </div>
       </div>
-      {/* <div className="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-        <div className="tg-author">
-          <figure>
-            <Link to={`/books/${book.id}`}>
-              <img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} />
-            </Link>
-          </figure>
-          <div className="tg-authorcontent">
-            <h2> <Link to={`/books/${book.id}`} >{book.title}</Link></h2>
-            <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
-            {book.seriesId && book.seriesName ? (
-              <div class="tg-themetagbox">
-                <span class="tg-themetag">
-                  <Link to={`/books?series=${book.seriesId}`}>
-                    {book.seriesName}{`${book.seriesIndex}`}
-                  </Link>
-                </span>
-              </div>) : null
-            }
-            {this.renderBookActions(book)}
-          </div>
-        </div>
-      </div> */}
 
       {this.renderEditor(book)}
     </>);
