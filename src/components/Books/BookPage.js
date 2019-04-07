@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
-import { Image, Header, Container, Grid, Label, Button, Segment, Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { ErrorPlaceholder, Loading } from '../Common';
 import ApiService from '../../services/ApiService';
 import ChapterList from '../Chapter/ChapterList';
@@ -80,17 +80,16 @@ class BookPage extends Component {
     let actions = [];
 
     if (book.links.update) {
-      actions.push(<Button key="edit" fluid onClick={this.onEdit} icon="pencil"
-        content={<FormattedMessage id="action.edit" />} />)
+      actions.push(<a key="edit" className="tg-btn tg-active tg-btn-lg" onClick={this.onEdit} href="javascript:void(0);"><FormattedMessage id="action.edit" /></a>)
     }
 
     if (book.links.image_upload) {
-      actions.push(<ChangeImage as={Button} key="image" fluid icon="picture" uploadLink={book.links.image_upload}
+      actions.push(<ChangeImage as="a" key="image" fluid icon="picture" uploadLink={book.links.image_upload}
         content={<FormattedMessage id="action.changeImage" />} onUpdated={this.reloadBook} />)
     }
 
     if (book.links.delete) {
-      actions.push(<DeleteBook as={Button} key="delete" fluid onDeleted={this.onDeleted} icon="delete" book={book}
+      actions.push(<DeleteBook as="a" key="delete" fluid onDeleted={this.onDeleted} icon="delete" book={book}
         content={<FormattedMessage id="action.delete" />} />)
     }
 
@@ -128,43 +127,120 @@ class BookPage extends Component {
     }
     return (
       <>
-        <Grid stackable columns={2}>
-          <Grid.Column width={4}>
-            <Image size="medium" centered src={book.links.image || '/resources/img/book_placeholder.png'} />
-            <Header as='h2' textAlign='center'>
-              <Header.Content>{book.title}</Header.Content>
-              <Header.Subheader as={Link} to={`/authors/${book.authorId}`} >{book.authorName}</Header.Subheader>
-            </Header>
-            <Container textAlign="center">
-              {book.categories.map(c => (
-                <Label key={c.id} size="tiny" >
-                  <Link to={`/books?category=${c.id}`}>{c.name}</Link>
-                </Label>
-              ))}
-            </Container >
+        <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600"
+          style={{ backgroundImage: `url('/images/parallax/bgparallax-07.jpg')` }}>
+          <div className="container">
+            <div className="row">
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div className="tg-innerbannercontent">
+                  <h1>{book.title}</h1>
+                  <ol className="tg-breadcrumb">
+                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
+                    <li><Link to="/books">{this.props.intl.formatMessage({ id: 'header.books' })}</Link></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <main id="tg-main" className="tg-main tg-haslayout">
+          <div className="tg-sectionspace tg-haslayout">
+            <div className="container">
+              <div className="row">
+                <div className="tg-authors">
+                  <div id="tg-twocolumns" className="tg-twocolumns">
+                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div className="tg-productdetail">
+                        <div className="row">
+                          <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div className="tg-postbook">
+                              <figure className="tg-featureimg"><img src={book.links.image || '/resources/img/book_placeholder.png'} alt="image description" /></figure>
+                              <div className="tg-postbookcontent">
+                                <ul className="tg-delevrystock">
+                                  {book.seriesId && book.seriesName ? (
+                                    <li>
+                                        <i className="icon-link"></i>
+                                        <span>
+                                        <Link to={`/books?series=${book.seriesId}`}>
+                                          {book.seriesName}{`${book.seriesIndex}`}
+                                        </Link>
+                                        </span>
+                                    </li>) : null
+                                  }
+                                  {book.yearPublished > 0 ?
+                                    <li><i className="icon-rocket"></i><span>{book.yearPublished}</span></li>
+                                  : null }
+                                  <li><i className="icon-checkmark-circle"></i><span>{book.copyrights}</span></li>
+                                  <li><i className="icon-earth"></i><span>{book.isPublic ? 'Yes' : 'No'}</span></li>
+                                </ul>
+                                {this.renderBookActions(book)}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <div className="tg-productcontent">
+                              <ul className="tg-bookscategories">
+                                {book.categories.map(c => (
+                                  <li key={c.id}><Link to={`/books?category=${c.id}`}>{c.name}</Link></li>
+                                ))}
+                              </ul>
+                              <div className="tg-booktitle">
+                                <h3>{book.title}</h3>
+                              </div>
+                              <span className="tg-bookwriter">{this.props.intl.formatMessage({ id: 'book.by' })}
+                                <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link></span>
+                              <div className="tg-description">
+                                <p>{book.description}</p>
+                              </div>
+                              <ChapterList book={book} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        {/* <Grid stackable columns={2}>
+            <Grid.Column width={4}>
+              <Image size="medium" centered src={book.links.image || '/resources/img/book_placeholder.png'} />
+              <Header as='h2' textAlign='center'>
+                <Header.Content>{book.title}</Header.Content>
+                <Header.Subheader as={Link} to={`/authors/${book.authorId}`} >{book.authorName}</Header.Subheader>
+              </Header>
+              <Container textAlign="center">
+                {book.categories.map(c => (
+                  <Label key={c.id} size="tiny" >
+                    <Link to={`/books?category=${c.id}`}>{c.name}</Link>
+                  </Label>
+                ))}
+              </Container >
 
-            { book.seriesId && book.seriesName ? (
-              <Segment textAlign="center" basic>
-                <Label size="tiny" as={Link} to={`/books?series=${book.seriesId}`}>
-                  <Icon name="chain"/>
-                  {book.seriesName}
-                  <Label.Detail>{book.seriesIndex}</Label.Detail>
-                </Label>
-              </Segment>) : null
-            }
-            <Segment basic>
-              <Container content={book.description} textAlign="center" />
-            </Segment>
-            <Segment basic>
-              <Button.Group vertical labeled icon fluid>
-                {this.renderBookActions(book)}
-              </Button.Group>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column width={9}>
-            <ChapterList book={book} />
-          </Grid.Column>
-        </Grid>
+              {book.seriesId && book.seriesName ? (
+                <Segment textAlign="center" basic>
+                  <Label size="tiny" as={Link} to={`/books?series=${book.seriesId}`}>
+                    <Icon name="chain" />
+                    {book.seriesName}
+                    <Label.Detail>{book.seriesIndex}</Label.Detail>
+                  </Label>
+                </Segment>) : null
+              }
+              <Segment basic>
+                <Container content={book.description} textAlign="center" />
+              </Segment>
+              <Segment basic>
+                <Button.Group vertical labeled icon fluid>
+                  {this.renderBookActions(book)}
+                </Button.Group>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column width={9}>
+              <ChapterList book={book} />
+            </Grid.Column>
+          </Grid> */}
         {this.renderEdit(book)}
       </>
     )

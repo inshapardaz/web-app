@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ApiService from '../../services/ApiService';
-import { Icon } from 'semantic-ui-react';
-import { Card } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
 export default class ChangeImage extends Component {
@@ -27,7 +26,9 @@ export default class ChangeImage extends Component {
   render() {
     return (
       <>
-        <li key="image" className="tg-twitter" onClick={() => this.uploadRef.current.click()}><i className="fa fa-photo"></i></li>
+        {this.props.as && this.props.as == "a" ? 
+        <a key="image" className="tg-btn tg-active tg-btn-lg" onClick={() => this.uploadRef.current.click()} href="javascript:void(0);">{this.props.content}</a> :
+        <li key="image" className="tg-twitter" onClick={() => this.uploadRef.current.click()}><i className="fa fa-photo"></i></li>}
         <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
       </>
     )

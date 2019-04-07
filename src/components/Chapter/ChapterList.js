@@ -111,18 +111,18 @@ class ChapterList extends Component {
         if (chapters && chapters.items && chapters.items.length > 0) {
             let addButton = null;
             if (createLink) {
-            addButton = (
-                    <Button onClick={this.onAddChapter} icon attached='top' ><Icon name='add' />
-                        <FormattedMessage id="chapter.action.create" />
-                    </Button>);
+            addButton = (<a className="tg-btn" onClick={this.onAddChapter} href="javascript:void(0);"><FormattedMessage id="chapter.action.create" /></a>);
             }
 
             return (
                 <>
-                    {addButton}
-                    <Segment padded={true} attached>
-                        <List divided verticalAlign='middle'>{this.renderChapters(chapters)} </List>
-                    </Segment>
+                    <div className="tg-sectionhead">
+                        <h2><FormattedMessage id="chapter.toolbar.chapters" /></h2>
+                        {addButton}
+                    </div>
+                    <ul className="tg-productinfo">
+                        {this.renderChapters(chapters)}
+                    </ul>
                     {this.renderEditor(createLink)}
                 </>
             )

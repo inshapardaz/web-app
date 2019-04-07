@@ -77,11 +77,11 @@ class ChapterCard extends Component {
         var actions = []
 
         if (chapter.links.update) {
-            actions.push(<Button key="edit" onClick={this.onEdit} icon="pencil" />)
+            actions.push(<a href="javascript:void(0);" key="edit" onClick={this.onEdit} >Edit</a>)
         }
 
         if (chapter.links.delete) {
-            actions.push(<Button key="delete" onClick={this.onDelete} icon="delete" />)
+            actions.push(<a href="javascript:void(0);" key="delete" onClick={this.onDelete} >Delete</a>)
         }
         return actions;
     }
@@ -92,15 +92,11 @@ class ChapterCard extends Component {
         if (!chapter) return null;
         return (
             <>
-                <List.Item>
-                    <List.Content floated='right'>
-                        {this.renderChapterActions(chapter)}
-                    </List.Content>
-                    <Icon name="file alternate outline" />
-                    <List.Content >
-                        <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}`}>{chapter.title}</Link>
-                    </List.Content>
-                </List.Item>
+                <li key={chapter.id}>
+                    <span>{chapter.chapterNumber}</span>
+                    <span><Link to={`/books/${chapter.bookId}/chapters/${chapter.id}`}>{chapter.title}</Link></span>
+                    <span>{this.renderChapterActions(chapter)}</span>
+                </li>
                 {this.renderEditor(chapter)}
                 {this.renderDelete()}
             </>

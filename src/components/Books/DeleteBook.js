@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-import { Confirm, Icon  } from 'semantic-ui-react';
-import { Card } from 'react-bootstrap';
 import { success, error, question } from '../../services/toasts';
 import ApiService from '../../services/ApiService';
 
@@ -48,6 +46,11 @@ class DeleteBook extends Component {
     }
 
     render() {
+        if (this.props.as && this.props.as == "a")
+        {
+            return (<a key={this.props.key} className="tg-btn tg-active tg-btn-lg" onClick={this.onDelete} href="javascript:void(0);">{this.props.content}</a>)
+        }
+
         return (<li key={this.props.key} className="tg-linkedin"  onClick={this.onDelete}><i className="fa fa-trash"></i></li>);
     }
 }

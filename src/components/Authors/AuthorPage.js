@@ -86,7 +86,7 @@ class AuthorPage extends Component {
     }
     return (
       <>
-        <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" data-parallax="scroll" data-image-src="/images/parallax/bgparallax-07.jpg">
+        <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" data-parallax="scroll" style={{ backgroundImage: `url('/images/parallax/bgparallax-07.jpg')` }}>
           <div className="container">
             <div className="row">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -101,36 +101,36 @@ class AuthorPage extends Component {
             </div>
           </div>
         </div>
-        <main id="tg-main" class="tg-main tg-haslayout">
-          <div class="tg-sectionspace tg-haslayout">
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="tg-authordetail">
-                    <figure class="tg-authorimg">
+        <main id="tg-main" className="tg-main tg-haslayout">
+          <div className="tg-sectionspace tg-haslayout">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div className="tg-authordetail">
+                    <figure className="tg-authorimg">
                       <img src={author.links.image} alt="image description" />
                     </figure>
-                    <div class="tg-authorcontentdetail">
-                      <div class="tg-sectionhead">
+                    <div className="tg-authorcontentdetail">
+                      <div className="tg-sectionhead">
                         <h2><span>{this.props.intl.formatMessage({ id: 'authors.item.book.count' }, { count: author.bookCount })}</span>{author.name}</h2>
-                        {/* <ul class="tg-socialicons">
-                          <li class="tg-facebook"><a href="javascript:void(0);"><i class="fa fa-facebook"></i></a></li>
-                          <li class="tg-twitter"><a href="javascript:void(0);"><i class="fa fa-twitter"></i></a></li>
-                          <li class="tg-linkedin"><a href="javascript:void(0);"><i class="fa fa-linkedin"></i></a></li>
-                          <li class="tg-googleplus"><a href="javascript:void(0);"><i class="fa fa-google-plus"></i></a></li>
-                          <li class="tg-rss"><a href="javascript:void(0);"><i class="fa fa-rss"></i></a></li>
+                        {/* <ul className="tg-socialicons">
+                          <li className="tg-facebook"><a href="javascript:void(0);"><i className="fa fa-facebook"></i></a></li>
+                          <li className="tg-twitter"><a href="javascript:void(0);"><i className="fa fa-twitter"></i></a></li>
+                          <li className="tg-linkedin"><a href="javascript:void(0);"><i className="fa fa-linkedin"></i></a></li>
+                          <li className="tg-googleplus"><a href="javascript:void(0);"><i className="fa fa-google-plus"></i></a></li>
+                          <li className="tg-rss"><a href="javascript:void(0);"><i className="fa fa-rss"></i></a></li>
                         </ul> */}
                       </div>
-                      <div class="tg-description">
+                      <div className="tg-description">
                         <p>Consectetur adipisicing elit sed do eiusmod tempor incididunt labore toloregna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcoiars nisiuip commodo consequat aute irure dolor in aprehenderit aveli esseati cillum dolor fugiat nulla pariatur cepteur sint occaecat cupidatat.</p>
                         <p>Caanon proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnisate natus error sit voluptatem accusantium doloremque totam rem aperiam, eaque ipsa quae abillo inventoe veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia.</p>
                         <p>Voluptas sit asapernatur aut odit aut fugit, sed quia consequuntur magni dolores eos quistan ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
                       </div>
-                      <div class="tg-booksfromauthor">
-                        <div class="tg-sectionhead">
+                      <div className="tg-booksfromauthor">
+                        <div className="tg-sectionhead">
                           <h2>{this.props.intl.formatMessage({ id: 'authors.book.title' }, { name: author.name })}</h2>
                         </div>
-                        <div class="row">
+                        <div className="row">
                           <BookList author={author} simple={true} />
                         </div>
                       </div>
