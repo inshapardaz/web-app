@@ -8,7 +8,7 @@ export default class Loading extends Component {
                 <div className="tg-featureditm">
                     <div className="row">
                         <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 hidden-sm hidden-xs">
-                        <figure><img src="images/book-dribbble.gif" alt="image description" /></figure>
+                        <figure><img src="/images/book-dribbble.gif" alt="image description" /></figure>
                         </div>
                         <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                             <div className="tg-featureditmcontent" style={{ paddingTop: '100px'}}>

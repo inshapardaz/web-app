@@ -24,7 +24,7 @@ class Header extends Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<strong className="tg-logo"><a href="/"><img src="images/logo.png" alt="company name here"/></a></strong>
+							<strong className="tg-logo"><a href="/"><img src="/images/logo.png" alt="company name here"/></a></strong>
 							<SearchBox />
 						</div>
 					</div>

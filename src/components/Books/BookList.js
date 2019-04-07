@@ -198,6 +198,20 @@ class BookList extends Component {
                 addButton = <a className="tg-btn" onClick={this.onAddClicked.bind(this)} href="javascript:void(0);"><FormattedMessage id="books.action.create" /></a>
             }
 
+            if (this.props.simple)
+            {
+                return (
+                    <>
+                    {this.renderBooks(books)}
+                    <Pagination defaultActivePage={pageNumber}
+                    totalPages={books.pageCount}
+                    onPageChange={this.onPageChange}
+                    pointing
+                    secondary attached='bottom' />
+                    {this.renderEditor(createLink)}
+                    </>
+                );
+            }
             return (
                 <>
                 <div id="tg-content" className="tg-content">

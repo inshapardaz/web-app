@@ -75,6 +75,7 @@
     "author.editor.fields.name.error" : "Name is required",
     "author.messages.error.loading" : "Unable to load author",
     "authors.item.book.count" : "{count} Books",
+    "authors.book.title" : "Books of {name}",
     "books.action.create" : "Create new book",
     "books.action.read" : "Read",
     "books.action.favorite.add" : "Add to Favorites",

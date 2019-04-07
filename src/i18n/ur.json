@@ -75,6 +75,7 @@
     "author.editor.fields.name.error" : "نام ضروری ہے۔",
     "author.messages.error.loading" : "مصنّف  کے حصول میں  ناکامی ہوئی",
     "authors.item.book.count" : "{count} کتابیں",
+    "authors.book.title" : "{name} کی کتابیں",
     "books.action.create" : "نئی کتاب کا اندراج کریں",
     "books.action.read" : "پرھنا شروع کریں",
     "books.action.favorite.add" : "پسندیدہ بنائیں",

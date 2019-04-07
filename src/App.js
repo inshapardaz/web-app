@@ -8,7 +8,6 @@ import LocaleService from './services/LocaleService';
 import AuthService from './services/AuthService';
 import { push } from 'connected-react-router'
 import ReduxToastr from 'react-redux-toastr';
-import './styling/styles.css';
 
 class App extends React.Component {
   state = {
