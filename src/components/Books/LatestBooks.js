@@ -62,7 +62,7 @@ class LatestBooks extends Component {
                 <div className="tg-booktitle">
                     <h3><Link to={`/books/${book.id}`}>{book.title}</Link></h3>
                 </div>
-                <span className="tg-bookwriter"><Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></span>
+                <span className="tg-bookwriter">{this.props.intl.formatMessage({ id: 'book.by' })} <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></span>
             </div>
         </div>
     </div>);

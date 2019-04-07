@@ -196,6 +196,28 @@ class BookList extends Component {
             }
 
             return (
+                <>
+                <div id="tg-content" className="tg-content">
+                    <div className="tg-products">
+                        <div className="tg-sectionhead">
+                            <h2>{this.props.title}</h2>
+                            {addButton}
+                        </div>
+                        <div className="tg-productgrid">
+                            {this.renderBooks(books)}
+                        </div>
+                    </div>
+                </div>
+                <Pagination defaultActivePage={pageNumber}
+                totalPages={books.pageCount}
+                onPageChange={this.onPageChange}
+                pointing
+                secondary attached='bottom' />
+                {this.renderEditor(createLink)}
+                </>
+            );
+
+            return (
                 <main id="tg-main" className="tg-main tg-haslayout">
                     <div className="tg-authorsgrid">
                         <div className="container">

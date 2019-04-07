@@ -63,6 +63,18 @@ class BookCard extends Component {
   handleShow = () => this.setState({ active: true })
   handleHide = () => this.setState({ active: false })
 
+  renderCategories(book) {
+    if (book.categories.length > 0)
+    {
+      return(
+        <ul className="tg-bookscategories">
+            {book.categories.map(c => <li key={c.id}><Link to={`/books?category=${c.id}`} >{c.name}</Link></li>)}
+        </ul>
+      );
+    }
+
+    return null;
+  }
   render() {
     const { book } = this.props;
 
@@ -71,7 +83,44 @@ class BookCard extends Component {
     }
 
     return (<>
-      <div className="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+      <div className="col-xs-6 col-sm-6 col-md-4 col-lg-3" key={book.id}>
+        <div className="tg-postbook">
+          <figure className="tg-featureimg">
+            <div className="tg-bookimg">
+              <div className="tg-frontcover"><img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} /></div>
+              <div className="tg-backcover"><img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} /></div>
+            </div>
+            <Link className="tg-btnaddtowishlist" to={`/books/${book.id}`} >
+                  <i className="icon-file-text2"></i>
+                  <FormattedMessage id="action.view" />
+              </Link>
+          </figure>
+          <div className="tg-postbookcontent">
+           {this.renderCategories(book)}
+           {book.seriesId && book.seriesName ? (
+              <div className="tg-themetagbox">
+                <span className="tg-themetag">
+                  {/* <Link to={`/books?series=${book.seriesId}`}> */}
+                    {book.seriesName}{`${book.seriesIndex}`}
+                  {/* </Link> */}
+                </span>
+              </div>) : null
+            }
+            <div className="tg-booktitle">
+              <h3><Link to={`/books/${book.id}`} >{book.title}</Link></h3>
+            </div>
+            <span className="tg-bookwriter">
+              {this.props.intl.formatMessage({ id: 'book.by' })} 
+              <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
+            </span>
+            <Link className="tg-btn tg-btnstyletwo" to={`/books/${book.id}`}>
+              <i className="fa fa-file-text-o"></i>
+              <em>{this.props.intl.formatMessage({ id : 'books.action.read'})}</em>
+            </Link>
+          </div>
+        </div>
+      </div>
+      {/* <div className="col-xs-6 col-sm-4 col-md-3 col-lg-2">
         <div className="tg-author">
           <figure>
             <Link to={`/books/${book.id}`}>
@@ -93,7 +142,7 @@ class BookCard extends Component {
             {this.renderBookActions(book)}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {this.renderEditor(book)}
     </>);
