@@ -43,6 +43,21 @@ class LatestBooks extends Component {
     }
 
     renderBook(book) {
+        return (
+            <div key={book.id} className="col-sm-6 col-md-4 col-xl-3">
+                <div className="block block-rounded block-fx-pop">
+                    <div className="block-content block-content-full">
+                        <div className="item item-rounded bg-warning-light mx-auto my-4">
+                            <i class="fa fa-2x fa-book text-warning"></i>
+                        </div>
+                        <h4 className="mb-2"><Link to={`/books/${book.id}`}>{book.title}</Link></h4>
+                        <p className="font-size-sm text-muted text-left">
+                            {this.props.intl.formatMessage({ id: 'book.by' })} <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
         return (<div className="item" key={book.id}>
         <div className="tg-postbook" style={{ padding : '5px 0'}} >
             <figure className="tg-featureimg">
@@ -71,22 +86,18 @@ class LatestBooks extends Component {
     render() {
         const { books } = this.state;
         return (
-            <section className="tg-sectionspace tg-haslayout">
-				<div className="container">
-					<div className="row">
-						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<div className="tg-sectionhead">
-								<h2>{this.props.intl.formatMessage({id:'home.latestBooks'})}</h2>
-							</div>
-						</div>
-						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <OwlCarousel ref="car" options={options} >
-                                { books != null ? books.map(book => this.renderBook(book)) : <FormattedMessage id="message.loading" />}
-                            </OwlCarousel>
-						</div>
-					</div>
-				</div>
-			</section>
+            <div id="one-remastered" className="bg-white">
+                    <div className="content content-full">
+                        <div className="py-5 text-center">
+                            <h2 className="h1 mb-2">
+                                {this.props.intl.formatMessage({id:'home.latestBooks'})}
+                            </h2>
+                            <div className="row">
+                                { books != null ? books.slice(0,8).map(book => this.renderBook(book)) : <FormattedMessage id="message.loading" />}
+                            </div>
+                        </div>
+                    </div>
+                </div>
         )
     }
 }

@@ -7,9 +7,13 @@ export default class FullScreenLayout extends Component {
         const { children } = this.props
         return (
             <>
-            <Header />
-            {children}
-            <Footer />
+            <div id="page-container" className="main-content-boxed">
+            <main id="main-container">
+                {/* <Header /> */}
+                {children}
+                <Footer />
+            </main>
+            </div>
             </>
         );
     }
