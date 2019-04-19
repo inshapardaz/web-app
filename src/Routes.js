@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router'
 import { BoxedLayout, EmptyLayout, FullScreenLayout } from './components/Layouts';
 
 import HomePage from "./components/HomePage/HomePage";
-import NotFoundPage from './components/NotFoundPage/NotFound';
 import Callback from './components/Callback';
 
 import AuthorHome from './components/Authors/AuthorHome';
@@ -22,8 +21,9 @@ import CategoriesHome from './components/Categories/CategoriesHome';
 import SeriesHome from './components/Series/SeriesHome';
 
 import Search from './components/Search';
-import ErrorPage from './components/ErrorPage';
-import AboutPage from './components/AboutPage';
+import ErrorPage from './components/Pages/ErrorPage';
+import NotFoundPage from './components/Pages/NotFound';
+import AboutPage from './components/Pages/AboutPage';
 
 function RouteWithLayout({layout, component, ...rest}){
   return (
@@ -41,7 +41,7 @@ class Routes extends React.Component {
         <RouteWithLayout layout={EmptyLayout} path="/callback" component={Callback} exact/>
         <RouteWithLayout layout={FullScreenLayout} path="/" component={HomePage} exact />
         <RouteWithLayout layout={FullScreenLayout} path="/about" component={AboutPage} exact /> 
-        <RouteWithLayout layout={FullScreenLayout} path="/error" component={ErrorPage} exact />   
+        <RouteWithLayout layout={EmptyLayout} path="/error" component={ErrorPage} exact />   
         <RouteWithLayout layout={BoxedLayout} path="/search" component={Search} exact />
         <RouteWithLayout layout={BoxedLayout} path="/authors/:id" component={AuthorPage} />
         <RouteWithLayout layout={BoxedLayout} path="/authors" component={AuthorHome} />
@@ -55,11 +55,7 @@ class Routes extends React.Component {
         <RouteWithLayout layout={BoxedLayout} path="/series" component={SeriesHome} />
         <RouteWithLayout layout={BoxedLayout} path="/dictionaries/:id" component={DictionaryPage} />
         <RouteWithLayout layout={BoxedLayout} path="/dictionaries" component={DictionaryHome} />
-        <RouteWithLayout layout={FullScreenLayout} 
-          render={() => (
-            <NotFoundPage />
-          )}
-        />
+        <RouteWithLayout layout={EmptyLayout} component={NotFoundPage} />
       </Switch>
     )
   }

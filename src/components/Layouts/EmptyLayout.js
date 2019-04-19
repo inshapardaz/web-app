@@ -5,9 +5,9 @@ export default class EmptyLayout extends Component {
     render() {
         const { children } = this.props
         return (
-            <Container fluid>
+            <div id="page-container">
             {children}
-            </Container>
+            </div>
         );
     }
 }

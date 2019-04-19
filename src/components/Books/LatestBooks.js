@@ -48,7 +48,7 @@ class LatestBooks extends Component {
                 <div className="block block-rounded block-fx-pop">
                     <div className="block-content block-content-full">
                         <div className="item item-rounded bg-warning-light mx-auto my-4">
-                            <i class="fa fa-2x fa-book text-warning"></i>
+                            <i className="fa fa-2x fa-book text-warning"></i>
                         </div>
                         <h4 className="mb-2"><Link to={`/books/${book.id}`}>{book.title}</Link></h4>
                         <p className="font-size-sm text-muted text-left">

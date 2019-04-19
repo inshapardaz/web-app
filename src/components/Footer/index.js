@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Navbar, NavDropdown } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 import LocaleService from '../../services/LocaleService';
 
 export default class Footer extends Component {
@@ -18,11 +19,12 @@ export default class Footer extends Component {
         return (<footer id="page-footer" className="bg-body-light">
         <div className="content py-3">
             <div className="row font-size-sm">
-                <div className="col-sm-6 order-sm-2 py-1 text-center text-sm-right">
-                    Crafted with <i className="fa fa-heart text-danger"></i> by <a className="font-w600" href="https://1.envato.market/ydb" target="_blank">pixelcave</a>
-                </div>
+                <NavDropdown title={selectedLanguage} drop='up' className="col-sm-6 order-sm-2 py-1 text-sm-right">
+                    <NavDropdown.Item onClick={() => this.chooseLanguage("en")}>English</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => this.chooseLanguage("ur")}>Urdu</NavDropdown.Item>
+                </NavDropdown>
                 <div className="col-sm-6 order-sm-1 py-1 text-center text-sm-left">
-                    <a className="font-w600" href="https://1.envato.market/xWy" target="_blank">OneUI 4.2</a> &copy; <span data-toggle="year-copy"></span>
+                    <a className="font-w600" href="/" target="_blank"><FormattedMessage id="app"/></a> &copy; <span data-toggle="year-copy"></span>
                 </div>
             </div>
         </div>
