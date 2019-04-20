@@ -11,6 +11,11 @@ export default function uiReducer(state = {}, action) {
         sidebarCollapsed: !state.sidebarCollapsed,
         sidebarMobile: !state.sidebarMobile
       };
+    case 'CLOSE_SIDEBAR_MOBILE':
+    return {
+      ...state,
+      sidebarMobile: false
+    };
     default:
       return state;
   }
