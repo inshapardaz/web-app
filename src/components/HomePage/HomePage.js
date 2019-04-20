@@ -11,7 +11,7 @@ class HomePage extends React.Component {
     renderLoginLink = () => {
         const isLoggedIn = AuthService.isLoggedIn();
         const { login } = this.props;
-        if (isLoggedIn) {
+        if (!isLoggedIn) {
             return (<span className="m-2 d-inline-block" data-toggle="appear" data-class="animated fadeInUp" data-timeout="600">
                 <a className="btn btn-primary px-4 py-2" onClick={() => login() }>
                     <i className="fa fa-fw fa-key mr-1"></i> <FormattedMessage id="login" />

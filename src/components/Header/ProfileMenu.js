@@ -23,69 +23,74 @@ class ProfileMenu extends React.Component {
     }
     render() {
 
-        var items = null;
         const { login, logout } = this.props;
         const { profile } = this.state;
         const isLoggedIn = AuthService.isLoggedIn();
+
         if (isLoggedIn) {
             const displayName = profile != null ? profile.nickname : "";
-            items = (
-                <div className="dropdown tg-themedropdown tg-currencydropdown">
-                    <a href="javascript:void(0);" id="tg-currenty" className="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       <FormattedMessage id="welcome.user" values={{ user: displayName }} />
-                    </a>
-                    <ul className="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-currenty">
-                        <li>
-                            <a href="javascript:void(0);">
-                                <i className="icon-cog" />
+
+            return (
+                <div className="dropdown d-inline-block ml-2">
+                    <button type="button" className="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img className="rounded" src="assets/media/avatars/avatar10.jpg" alt="Header Avatar" style={{ width: "18px" }} />
+                        <span className="d-none d-sm-inline-block ml-1"><FormattedMessage id="welcome.user" values={{ user: displayName }} /></span>
+                        <i className="fa fa-fw fa-angle-down d-none d-sm-inline-block"></i>
+                    </button>
+                    <div className="dropdown-menu dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-user-dropdown">
+                        <div className="p-3 text-center bg-primary">
+                            <img className="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg" alt="" />
+                        </div>
+                        <div className="p-2">
+                            <a className="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
                                 <FormattedMessage id="header.settings" />
+                                <i className="si si-settings"></i>
                             </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <i className="icon-user-check" />
+                            <div role="separator" className="dropdown-divider"></div>
+                            <a className="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
                                 <FormattedMessage id="changePassword" />
+                                <i className="si si-lock ml-1"></i>
                             </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);" onClick={logout} >
-                                <i className="icon-exit" />
+                            <a className="dropdown-item d-flex align-items-center justify-content-between" onClick={logout} href="javascript:void(0)">
                                 <FormattedMessage id="logout" />
+                                <i className="si si-logout ml-1"></i>
                             </a>
-                        </li>
-                    </ul>
-                </div>
-            );
-        } else {
-            items = (
-                <div className="dropdown tg-themedropdown tg-currencydropdown">
-                    <a href="javascript:void(0);" id="tg-currenty" className="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <FormattedMessage id="welcome.guest"/>
-                    </a>
-                    <ul className="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-currenty">
-                        <li>
-                            <a href="javascript:void(0);">
-                                <i className="icon-user-plus" />
-                                <FormattedMessage id="register" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <i className="icon-user-check" />
-                                <FormattedMessage id="forgetPassword" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);" onClick={() => login()} >
-                                <i className="icon-enter" />
-                                <FormattedMessage id="login" />
-                            </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             );
         }
-        return items;
+        else {
+            return (
+                <div className="dropdown d-inline-block ml-2">
+                    <button type="button" className="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img className="rounded" src="assets/media/avatars/avatar10.jpg" alt="Header Avatar" style={{ width: "18px" }} />
+                        <span className="d-none d-sm-inline-block ml-1"><FormattedMessage id="welcome.guest" /></span>
+                        <i className="fa fa-fw fa-angle-down d-none d-sm-inline-block"></i>
+                    </button>
+                    <div className="dropdown-menu dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-user-dropdown">
+                        <div className="p-3 text-center bg-primary">
+                            <img className="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg" alt="" />
+                        </div>
+                        <div className="p-2">
+                            <a className="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                                <FormattedMessage id="register" />
+                                <i className="si si-settings"></i>
+                            </a>
+                            <div role="separator" className="dropdown-divider"></div>
+                            <a className="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                                <FormattedMessage id="forgetPassword" />
+                                <i className="si si-lock ml-1"></i>
+                            </a>
+                            <a className="dropdown-item d-flex align-items-center justify-content-between" onClick={login} href="javascript:void(0)">
+                                <FormattedMessage id="login" />
+                                <i className="si si-logout ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
     }
 }
 

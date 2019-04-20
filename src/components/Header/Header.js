@@ -8,19 +8,44 @@ import ProfileMenu from './ProfileMenu';
 import SearchBox from './SearchBox';
 
 class Header extends Component {
-  renderCategories() {
-    var categories = null;
-    if (this.props.categories && this.props.categories.links.create) {
-      categories = (<li><Link to="/categories"><FormattedMessage id="header.categories" /></Link></li>);
-    }
-    return categories;
-  }
+	renderCategories() {
+		if (this.props.categories && this.props.categories.links.create) {
+			return (
+				<Link to="/categories" className="btn btn-sm btn-dual mr-2">
+					<i className="fa fa-boxes mr-2"></i>
+				</Link>
+			);
+		}
 
-  render() {
+		return null;
+	}
 
-    return (
-      <header id="tg-header" className="tg-header tg-headervtwo tg-haslayout">
-			<div className="tg-middlecontainer">
+	render() {
+
+		return (
+			<header id="page-header">
+			<div className="content-header">
+				<div className="d-flex align-items-center">
+					<button type="button" className="btn btn-sm btn-dual mr-2 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
+						<i className="fa fa-fw fa-bars mr-2"></i>
+					</button>
+					<button type="button" className="btn btn-sm btn-dual mr-2 d-none d-lg-inline-block" data-toggle="layout" data-action="sidebar_mini_toggle">
+						<i className="fa fa-fw fa-ellipsis-v"></i>
+					</button>
+					<BooksMenu />
+					<Link to="/authors" className="btn btn-sm btn-dual mr-2">
+						<i className="fa fa-user-friends mr-2"></i>
+					</Link>
+					<Link to="/series" className="btn btn-sm btn-dual mr-2">
+						<i className="si si-link mr-2"></i>
+					</Link>
+					{this.renderCategories()}
+					<SearchBox />
+				</div>
+				<div className="d-flex align-items-center">
+					<ProfileMenu />
+				</div>
+				{/* <div className="tg-middlecontainer">
 				<div className="container">
 					<div className="row">
 						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -60,18 +85,19 @@ class Header extends Component {
 						</div>
 					</div>
 				</div>
+			</div> */}
 			</div>
-		</header>
-    );
-  }
+			</header>
+		);
+	}
 }
 
 
 
 export default (connect(
-  (state) => ({
-    categories: state.apiReducers.categories
-  }),
-  dispatch => bindActionCreators({
-  }, dispatch)
+	(state) => ({
+		categories: state.apiReducers.categories
+	}),
+	dispatch => bindActionCreators({
+	}, dispatch)
 )(Header));

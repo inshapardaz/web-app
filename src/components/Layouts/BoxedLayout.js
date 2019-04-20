@@ -7,7 +7,7 @@ export default class BoxedLayout extends Component {
         const { children } = this.props
         return (
             <>
-            <div id="page-container" className="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
+            <div id="page-container" className="enable-page-overlay side-scroll page-header-fixed page-header-dark">
             <Header />
             {children}
             <Footer mini/>
