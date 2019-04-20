@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom'
 
@@ -15,15 +15,18 @@ class SearchBox extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        alert('search! ' + this.state.value);
         this.props.history.push(`/search?q=${this.state.value}`)
+    }
+
+    onToggleSearchOverlay() {
+        $('#page-header-search').toggleClass('show');
     }
 
     render() {
         const searchMessage = this.props.intl.formatMessage({ id: "header.search.placeholder" });
         return (
             <>
-                <button type="button" className="btn btn-sm btn-dual d-sm-none" data-toggle="layout" data-action="header_search_on">
+                <button type="button" className="btn btn-sm btn-dual d-sm-none" onClick={this.onToggleSearchOverlay}>
                     <i className="si si-magnifier"></i>
                 </button>
                 <form className="d-none d-sm-inline-block" method="POST" onSubmit={this.onSubmit}>
