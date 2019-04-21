@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
@@ -20,7 +20,7 @@ class ChaptersMenu extends Component {
         if (this.props.chapterId != nextProps.chapterId) {
             await this.loadData()
         }
-      }
+    }
 
     async loadData() {
         this.setState({
@@ -52,28 +52,27 @@ class ChaptersMenu extends Component {
 
         let options = [];
         if (!isLoading && chapters) {
-            options =  chapters.items.map(c => (
-                            <Dropdown.Item 
-                                    key={c.id} value={c.id}
-                                    as={Link} 
-                                    to={`/books/${this.props.bookId}/chapters/${c.id}`}>
-                                {c.title}
-                            </Dropdown.Item>))
+            options = chapters.items.map(c => (
+                <li className="nav-main-item" key={c.id}>
+                    <Link className="nav-main-link" to={`/books/${this.props.bookId}/chapters/${c.id}`}>
+                        <i className="nav-main-link-icon fa fa-file-alt text-primary"></i>
+                        <span className="nav-main-link-name">{c.title}</span>
+                    </Link>
+                </li>
+            ));
         }
 
-        return (<Dropdown icon="file alternate outline" pointing
-            error={isError}
-            loading={isLoading}
-            className='link item'
-            value={selectedChapter} >
-             <Dropdown.Menu>{options}</Dropdown.Menu>
-            </Dropdown>);
+        return (
+            <>
+                <li className="nav-main-heading"><FormattedMessage id="chapter.toolbar.chapters" /></li>
+                {options}
+            </>);
     }
 }
 
 export default injectIntl(ChaptersMenu)
 
 ChaptersMenu.propTypes = {
-    bookId: PropTypes.string.isRequired,
-    selectedChapter: PropTypes.string.isRequired
+    bookId: PropTypes.number.isRequired,
+    selectedChapter: PropTypes.number.isRequired
 };
