@@ -76,21 +76,19 @@ class AuthorCard extends Component {
         let actions = [];
 
         if (author.links.update) {
-            actions.push(<li key="edit" className="tg-facebook" onClick={this.onEdit}><i className="fa fa-edit"></i></li>)
+            actions.push(<button type="button" key="edit" className="btn-block-option" onClick={this.onEdit}><i className="far fa-fw fa-edit"></i></button>)
         }
 
         if (author.links.image_upload) {
-            actions.push(<li key="image" className="tg-twitter" onClick={() => this.uploadRef.current.click()}><i className="fa fa-photo"></i></li>)
+            actions.push(<button type="button" key="image" className="btn-block-option" onClick={() => this.uploadRef.current.click()}><i className="far fa-fw fa-image"></i></button>)
         }
 
         if (author.links.delete) {
-            actions.push(<li key="delete" className="tg-linkedin" onClick={this.onDeleteClicked}><i className="fa fa-trash"></i></li>);
+            actions.push(<button type="button" key="delete" className="btn-block-option" onClick={this.onDeleteClicked}><i className="far fa-fw fa-trash-alt"></i></button>);
         }
 
         if (actions.length > 0) {
-            return (<ul className="tg-socialicons">
-                {actions}
-            </ul>);
+            return actions;
         }
 
         return null;
@@ -109,24 +107,22 @@ class AuthorCard extends Component {
         }
 
         return (
-            <>
-                <div className="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                    <div className="tg-author">
-                        <figure>
-                            <Link to={`/authors/${author.id}`}>
-                                <img src={author.links.image || '/resources/img/avatar1.jpg'} alt={author.name} onError={(e) => e.target.src = '/resources/img/avatar1.jpg'} />
-                            </Link>
-                        </figure>
-                        <div className="tg-authorcontent">
-                            <h2><Link to={`/authors/${author.id}`}>{author.name}</Link></h2>
-                            <FormattedMessage id="authors.item.book.count" values={{ count: author.bookCount }} />
-                            {this.renderAuthorActions(author)}
-                        </div>
+            <div className="col-md-6 col-lg-4 col-xl-3">
+                <div className="block block-rounded block-link-pop" >
+                    <div className="block-content block-content-full text-center bg-image" style={{ backgroundImage: `url('${author.links.image || '/resources/img/avatar1.jpg'}')` }} >
+                        <div className="py-7" />
+                    </div>
+                    <div className="block-content block-content-full">
+                        <h4 className="mb-1"><Link to={`/authors/${author.id}`}>{author.name}</Link></h4>
+                        <div className="font-size-sm text-muted"><FormattedMessage id="authors.item.book.count" values={{ count: author.bookCount }} /></div>
+                        {this.renderAuthorActions(author)}
                     </div>
                 </div>
                 {this.renderEdit(author)}
                 <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
-            </>);
+                
+            </div>
+        );
     }
 }
 export default injectIntl(AuthorCard);
