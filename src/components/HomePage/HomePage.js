@@ -14,7 +14,7 @@ class HomePage extends React.Component {
         if (!isLoggedIn) {
             return (<span className="m-2 d-inline-block" data-toggle="appear" data-class="animated fadeInUp" data-timeout="600">
                 <a className="btn btn-primary px-4 py-2" onClick={() => login() }>
-                    <i className="fa fa-fw fa-key mr-1"></i> <FormattedMessage id="login" />
+                    <i className="fa fa-fw fa-key mr-1" /> <FormattedMessage id="login" />
                 </a>
             </span>);
         }
@@ -30,7 +30,7 @@ class HomePage extends React.Component {
                         <div className="hero-inner">
                             <div className="content content-full text-center">
                                 <div className="mb-5 invisible" data-toggle="appear" data-class="animated fadeInDown">
-                                    <i className="fa fa-circle-notch fa-3x text-primary"></i>
+                                    <i className="fa fa-circle-notch fa-3x text-primary" />
                                 </div>
                                 <h1 className="display-4 font-w600 mb-3 text-white">
                                     {<FormattedMessage id="app" />}
@@ -40,7 +40,7 @@ class HomePage extends React.Component {
                                 </h2>
                                 <span className="m-2 d-inline-block" data-toggle="appear" data-class="animated fadeInUp" data-timeout="600">
                                     <Link className="btn btn-success px-4 py-2" data-toggle="click-ripple" to="/books">
-                                        <i className="fa fa-fw fa-book-reader mr-1"></i> <FormattedMessage id="home.getStarted" />
+                                        <i className="fa fa-fw fa-book-reader mr-1" /> <FormattedMessage id="home.getStarted" />
                                     </Link>
                                 </span>
                                 {this.renderLoginLink()}
@@ -49,7 +49,7 @@ class HomePage extends React.Component {
                         <div className="hero-meta">
                             <div className="js-appear-enabled animated fadeIn" data-toggle="appear" data-timeout="450">
                                 <span className="d-inline-block animated slideInDown infinite">
-                                    <i className="fa fa-angle-down text-white-50 fa-2x"></i>
+                                    <i className="fa fa-angle-down text-white-50 fa-2x" />
                                 </span>
                             </div>
                         </div>

@@ -20,10 +20,10 @@ class Header extends Component {
 				<div className="content-header">
 					<div className="d-flex align-items-center">
 						<button type="button" className="btn btn-sm btn-dual mr-2 d-lg-none" onClick={this.onToggleCompact.bind(this)}>
-							<i className="fa fa-fw fa-bars mr-2"></i>
+							<i className="fa fa-fw fa-bars mr-2" />
 						</button>
 						<button type="button" className="btn btn-sm btn-dual mr-2 d-none d-lg-inline-block" onClick={this.onToggle.bind(this)}>
-							<i className="fa fa-fw fa-ellipsis-v"></i>
+							<i className="fa fa-fw fa-ellipsis-v" />
 						</button>
 						<SearchBox />
 					</div>

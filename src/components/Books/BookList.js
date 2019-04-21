@@ -195,7 +195,7 @@ class BookList extends Component {
         if (books && books.data && books.data.length > 0) {
             let addButton = null;
             if (createLink) {
-                addButton = <button type="button" className="btn-block-option" onClick={this.onAddClicked.bind(this)}><i className="si si-plus"></i></button>
+                addButton = <button type="button" className="btn-block-option" onClick={this.onAddClicked.bind(this)}><i className="si si-plus"/></button>
             }
 
             if (this.props.simple) {
@@ -204,13 +204,13 @@ class BookList extends Component {
                         <div className="content content-boxed">
                             <div className="row row-deck py-2">
                                 {this.renderBooks(books)}
-                                <Pagination defaultActivePage={pageNumber}
+                            </div>
+                            <Pagination defaultActivePage={pageNumber}
                                     totalPages={books.pageCount}
                                     onPageChange={this.onPageChange}
                                     pointing
                                     secondary attached='bottom' />
-                                {this.renderEditor(createLink)}
-                            </div>
+                            {this.renderEditor(createLink)}
                         </div>
                     </>
                 );

@@ -16,7 +16,7 @@ class SideBar extends Component {
             return (
                 <li key="categories" className="nav-main-item">
                     <Link to="/categories" className="nav-main-link">
-                        <i className="nav-main-link-icon si si-tag"></i>
+                        <i className="nav-main-link-icon si si-tag" />
                         <span className="nav-main-link-name"><FormattedMessage id="header.categories" /></span>
                     </Link>
                 </li>
@@ -37,7 +37,7 @@ class SideBar extends Component {
                     </Link>
                     <div>
                         <a className="d-lg-none text-dual ml-3" onClick={this.onToggleCompact.bind(this)}>
-                            <i className="fa fa-times"></i>
+                            <i className="fa fa-times" />
                         </a>
                     </div>
                 </div>
@@ -45,7 +45,7 @@ class SideBar extends Component {
                     <ul className="nav-main">
                         <li key="home" className="nav-main-item">
                             <Link className="nav-main-link" to="/">
-                                <i className="nav-main-link-icon si si-home"></i>
+                                <i className="nav-main-link-icon si si-home" />
                                 <span className="nav-main-link-name"><FormattedMessage id="header.home" /></span>
                             </Link>
                         </li>
@@ -53,13 +53,13 @@ class SideBar extends Component {
                         <BooksMenu />
                         <li key="authors" className="nav-main-item">
                             <Link className="nav-main-link" to="/authors">
-                                <i className="nav-main-link-icon si si-users"></i>
+                                <i className="nav-main-link-icon si si-users" />
                                 <span className="nav-main-link-name"><FormattedMessage id="header.authors" /></span>
                             </Link>
                         </li>
                         <li key="series" className="nav-main-item">
                             <Link className="nav-main-link" to="/series">
-                                <i className="nav-main-link-icon si si-link"></i>
+                                <i className="nav-main-link-icon si si-link" />
                                 <span className="nav-main-link-name"><FormattedMessage id="header.series" /></span>
                             </Link>
                         </li>

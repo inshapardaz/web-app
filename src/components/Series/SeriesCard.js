@@ -46,11 +46,11 @@ class SeriesCard extends Component {
         const deleteLink = series.links.delete;
 
         if (editLink) {
-            actions.push(<button key="edit" type="button" onClick={this.props.onEdit} className="btn btn-sm btn-light"><i className="fa fa-edit"></i></button>)
+            actions.push(<button key="edit" type="button" onClick={this.props.onEdit} className="btn btn-sm btn-light"><i className="fa fa-edit"/></button>)
         }
 
         if (deleteLink) {
-            actions.push(<button key="delete" type="button" onClick={this.onDeleteClicked} className="btn btn-sm btn-light"><i className="fa fa-trash"></i></button>);
+            actions.push(<button key="delete" type="button" onClick={this.onDeleteClicked} className="btn btn-sm btn-light"><i className="fa fa-trash"/></button>);
         }
 
         if (actions.length > 0) {

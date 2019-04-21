@@ -9,10 +9,10 @@ export default class CategoryCard extends Component {
         const deleteLink = category.links.delete;
 
         if (editLink) {
-            actions.push(<button key="edit" className="tg-facebook" onClick={this.props.onEdit} className="btn btn-sm btn-light"><i className="fa fa-edit"></i></button>)
+            actions.push(<button key="edit" className="tg-facebook" onClick={this.props.onEdit} className="btn btn-sm btn-light"><i className="fa fa-edit" /></button>)
         }
         if (deleteLink) {
-            actions.push(<button key="delete" className="tg-linkedin" onClick={this.props.onDelete} className="btn btn-sm btn-light"><i className="fa fa-trash"></i></button>);
+            actions.push(<button key="delete" className="tg-linkedin" onClick={this.props.onDelete} className="btn btn-sm btn-light"><i className="fa fa-trash" /></button>);
         }
 
         if (actions.length > 0) {

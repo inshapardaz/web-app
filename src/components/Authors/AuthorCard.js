@@ -76,15 +76,15 @@ class AuthorCard extends Component {
         let actions = [];
 
         if (author.links.update) {
-            actions.push(<button type="button" key="edit" className="btn-block-option" onClick={this.onEdit}><i className="far fa-fw fa-edit"></i></button>)
+            actions.push(<button type="button" key="edit" className="btn-block-option" onClick={this.onEdit}><i className="far fa-fw fa-edit"/></button>)
         }
 
         if (author.links.image_upload) {
-            actions.push(<button type="button" key="image" className="btn-block-option" onClick={() => this.uploadRef.current.click()}><i className="far fa-fw fa-image"></i></button>)
+            actions.push(<button type="button" key="image" className="btn-block-option" onClick={() => this.uploadRef.current.click()}><i className="far fa-fw fa-image"/></button>)
         }
 
         if (author.links.delete) {
-            actions.push(<button type="button" key="delete" className="btn-block-option" onClick={this.onDeleteClicked}><i className="far fa-fw fa-trash-alt"></i></button>);
+            actions.push(<button type="button" key="delete" className="btn-block-option" onClick={this.onDeleteClicked}><i className="far fa-fw fa-trash-alt"/></button>);
         }
 
         if (actions.length > 0) {

@@ -48,10 +48,10 @@ class DeleteBook extends Component {
     render() {
         if (this.props.as && this.props.as == "a")
         {
-            return (<a key={this.props.key} className="tg-btn tg-active tg-btn-lg" onClick={this.onDelete} href="javascript:void(0);">{this.props.content}</a>)
+            return (<a key={this.props.key} className="btn btn-sm btn-light" onClick={this.onDelete} href="javascript:void(0);">{this.props.content}</a>)
         }
 
-        return (<button type="button" key="delete" className="btn-block-option" onClick={this.onDelete}><i className="far fa-fw fa-trash-alt"></i></button>);
+        return (<button type="button" key="delete" className="btn-block-option" onClick={this.onDelete}><i className="far fa-fw fa-trash-alt"/></button>);
     }
 }
 

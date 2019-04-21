@@ -27,7 +27,7 @@ class SearchBox extends Component {
         return (
             <>
                 <button type="button" className="btn btn-sm btn-dual d-sm-none" onClick={this.onToggleSearchOverlay}>
-                    <i className="si si-magnifier"></i>
+                    <i className="si si-magnifier" />
                 </button>
                 <form className="d-none d-sm-inline-block" method="POST" onSubmit={this.onSubmit}>
                     <div className="input-group input-group-sm">
@@ -36,7 +36,7 @@ class SearchBox extends Component {
                                value={this.state.value} />
                         <div className="input-group-append" onClick={this.onSubmit}>
                             <span className="input-group-text bg-body border-0">
-                                <i className="si si-magnifier"></i>
+                                <i className="si si-magnifier" />
                             </span>
                         </div>
                     </div>

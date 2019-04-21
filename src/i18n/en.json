@@ -93,6 +93,8 @@
     "books.messages.favorite.empty" : "No favorites",
     "books.action.confirmDelete" : "Do you want to remove '{title}'?",
     "book.by" : "By",
+    "book.public" : "Public",
+    "book.private" : "Private",
     "book.editor.header.add": "Adding book",
     "book.editor.header.edit" : "Editing book '{title}'",
     "book.editor.fields.name.title" : "Name",

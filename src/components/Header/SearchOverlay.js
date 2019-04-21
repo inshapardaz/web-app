@@ -33,7 +33,7 @@ class SearchOverlay extends Component {
                         <div className="input-group input-group-sm">
                             <div className="input-group-prepend">
                                 <button type="button" className="btn btn-danger" onClick={this.onClose}>
-                                    <i className="fa fa-fw fa-times-circle"></i>
+                                    <i className="fa fa-fw fa-times-circle" />
                                 </button>
                             </div>
                             <input type="text" className="form-control" placeholder={searchMessage} id="page-header-search-input" name="page-header-search-input"

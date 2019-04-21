@@ -8,12 +8,12 @@ import ChapterCard from './ChapterCard';
 import { isatty } from 'tty';
 
 class ChapterList extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            isError : false,
+            isError: false,
             isLoading: false,
-            chapters : {}
+            chapters: {}
         };
 
         this.loadChapters = this.loadChapters.bind(this);
@@ -27,7 +27,7 @@ class ChapterList extends Component {
         await this.loadChapters();
     }
 
-    async loadChapters(){
+    async loadChapters() {
         const { book } = this.props;
         if (book) {
             this.setState({
@@ -37,15 +37,15 @@ class ChapterList extends Component {
             try {
                 var chapters = await ApiService.getBookChapters(book);
                 this.setState({
-                    isError : false,
+                    isError: false,
                     isLoading: false,
-                    chapters : chapters
+                    chapters: chapters
                 })
             }
-            catch(e) {
+            catch (e) {
                 console.error(e);
                 this.setState({
-                    isError : true,
+                    isError: true,
                     isLoading: false
                 })
             }
@@ -53,8 +53,8 @@ class ChapterList extends Component {
         }
     }
 
-    onAddChapter = () => this.setState({ isAdding : true})
-    onCloseEdit = () => this.setState({ isAdding : false})
+    onAddChapter = () => this.setState({ isAdding: true })
+    onCloseEdit = () => this.setState({ isAdding: false })
 
     renderLoadingError() {
         const { intl } = this.props;
@@ -88,7 +88,7 @@ class ChapterList extends Component {
             onClose={this.onCloseEdit.bind(this)} />);
     }
 
-    renderChapters = (chapters) => chapters.items.map(c => 
+    renderChapters = (chapters) => chapters.items.map(c =>
         <ChapterCard key={c.id} chapter={c} onUpdate={this.loadChapters} />)
 
 
@@ -111,18 +111,26 @@ class ChapterList extends Component {
         if (chapters && chapters.items && chapters.items.length > 0) {
             let addButton = null;
             if (createLink) {
-            addButton = (<a className="tg-btn" onClick={this.onAddChapter} href="javascript:void(0);"><FormattedMessage id="chapter.action.create" /></a>);
+                addButton = (<button type="button" className="btn-block-option" onClick={this.onAddChapter} href="javascript:void(0);"><i className="si si-plus" /> <FormattedMessage id="chapter.action.create" /></button>);
             }
 
             return (
                 <>
-                    <div className="tg-sectionhead">
-                        <h2><FormattedMessage id="chapter.toolbar.chapters" /></h2>
-                        {addButton}
+                    <div className="block  block-transparent">
+                        <div className="block-header">
+                            <FormattedMessage id="chapter.toolbar.chapters" />
+                            <div className="block-options">
+                                {addButton}
+                            </div>
+                        </div>
+                        <div className="block-content">
+                            <table className="table table-hover table-vcenter font-size-sm">
+                                <tbody>
+                                    {this.renderChapters(chapters)}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <ul className="tg-productinfo">
-                        {this.renderChapters(chapters)}
-                    </ul>
                     {this.renderEditor(createLink)}
                 </>
             )

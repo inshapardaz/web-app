@@ -46,7 +46,7 @@ class BooksMenu extends React.Component {
         return (
             <li key="books" className={`nav-main-item ${submenuOpen ? 'open' : null}`}>
                 <a className="nav-main-link nav-main-link-submenu" onClick={this.toggleMenuOpen} aria-haspopup="true" aria-expanded="false" href="#">
-                    <i className="nav-main-link-icon si si-book-open"></i>
+                    <i className="nav-main-link-icon si si-book-open"/>
                     <span className="nav-main-link-name"><FormattedMessage id="header.books" /></span>
                 </a>
                 <ul className="nav-main-submenu">

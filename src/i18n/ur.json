@@ -93,6 +93,8 @@
     "books.messages.favorite.empty" : "کوئی پسندیدگی موجود نہیں",
     "books.action.confirmDelete" : "کیا آپ '{title}' کو حذف کرنا چاہیں گے؟",
     "book.by" : "از",
+    "book.public" : "عوامی",
+    "book.private" : "‍ذاتی",
     "book.editor.header.add": "کتاب کا اضافہ",
     "book.editor.header.edit" : "کتاب '{title}' کی تدوین",
     "book.editor.fields.name.title" : "نام",

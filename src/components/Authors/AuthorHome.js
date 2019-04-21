@@ -202,7 +202,7 @@ class AuthorsHeader extends React.Component {
                 (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
                   <span className="d-inline-block" data-toggle="appear" data-timeout="350">
                     <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.props.onCreate}>
-                      <i className="fa fa-plus mr-1"></i> <FormattedMessage id="authors.action.create" />
+                      <i className="fa fa-plus mr-1"/> <FormattedMessage id="authors.action.create" />
                     </a>
                   </span>
                 </div>) : null}

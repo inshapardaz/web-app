@@ -20,7 +20,7 @@ export default class ErrorPlaceholder extends Component {
                     <div className="block-content">
                         <div className="text-center py-8">
                             <p>
-                                <i className="far fa-3x fa-times-circle"></i>
+                                <i className="far fa-3x fa-times-circle" />
                             </p>
                             <div className="mb-0">{message}</div>
                             <div className="py-4">{button}</div>

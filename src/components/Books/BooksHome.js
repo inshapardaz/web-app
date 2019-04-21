@@ -126,7 +126,7 @@ class BooksHome extends Component {
                         onChange={this.searchChange} value={this.state.searchQuery} />
                       <div className="input-group-append">
                         <button className="btn btn-primary">
-                          <i className="fa fa-search"></i>
+                          <i className="fa fa-search"/>
                         </button>
                       </div>
                     </div>
@@ -161,7 +161,7 @@ class BooksHeader extends React.Component {
                 (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
                   <span className="d-inline-block" data-toggle="appear" data-timeout="350">
                     <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.props.onCreate}>
-                      <i className="fa fa-plus mr-1"></i> <FormattedMessage id="books.action.create" />
+                      <i className="fa fa-plus mr-1"/> <FormattedMessage id="books.action.create" />
                     </a>
                   </span>
                 </div>) : null}

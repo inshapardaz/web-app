@@ -19,8 +19,8 @@ class ChapterCard extends Component {
         this.deleteChapter = this.deleteChapter.bind(this);
     }
 
-    onEdit = () => this.setState({showEdit : true });
-    onCloseEdit = () => this.setState({showEdit : false });
+    onEdit = () => this.setState({ showEdit: true });
+    onCloseEdit = () => this.setState({ showEdit: false });
     renderEditor = (chapter) => {
         const { showEdit } = this.state;
         if (showEdit && chapter && chapter.links && chapter.links.update) {
@@ -28,7 +28,7 @@ class ChapterCard extends Component {
                 onOk={this.props.onUpdate}
                 onClose={this.onCloseEdit} />);
         }
-    
+
         return null;
     }
 
@@ -49,7 +49,7 @@ class ChapterCard extends Component {
             success(this.props.intl.formatMessage({ id: "chapters.messages.deleted" }));
             this.props.onUpdate();
         }
-        catch (e){
+        catch (e) {
             console.error(e)
             error(this.props.intl.formatMessage({ id: "chapters.messages.error.delete" }));
         }
@@ -77,13 +77,22 @@ class ChapterCard extends Component {
         var actions = []
 
         if (chapter.links.update) {
-            actions.push(<a href="javascript:void(0);" key="edit" onClick={this.onEdit} >Edit</a>)
+            actions.push(<button type="button" key="edit" onClick={this.onEdit} className="btn btn-sm btn-light"><i className="fa fa-edit"/></button>)
         }
 
         if (chapter.links.delete) {
-            actions.push(<a href="javascript:void(0);" key="delete" onClick={this.onDelete} >Delete</a>)
+            actions.push(<button type="button" key="delete" onClick={this.onDelete} className="btn btn-sm btn-light"><i className="fa fa-trash"/></button>)
         }
-        return actions;
+        
+        if (actions.length > 0) {
+            return (<td className="text-center">
+                <div className="btn-group">
+                    {actions}
+                </div>
+            </td>);
+        }
+
+        return null;
     }
 
     render() {
@@ -92,11 +101,13 @@ class ChapterCard extends Component {
         if (!chapter) return null;
         return (
             <>
-                <li key={chapter.id}>
-                    <span>{chapter.chapterNumber}</span>
-                    <span><Link to={`/books/${chapter.bookId}/chapters/${chapter.id}`}>{chapter.title}</Link></span>
-                    <span>{this.renderChapterActions(chapter)}</span>
-                </li>
+                <tr key={chapter.id}>
+                    <td>{chapter.chapterNumber}</td>
+                    <td>
+                        <Link className="font-w300" to={`/books/${chapter.bookId}/chapters/${chapter.id}`}>{chapter.title}</Link>
+                    </td>
+                    {this.renderChapterActions(chapter)}
+                </tr>
                 {this.renderEditor(chapter)}
                 {this.renderDelete()}
             </>

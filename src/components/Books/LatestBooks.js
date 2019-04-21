@@ -48,7 +48,7 @@ class LatestBooks extends Component {
                 <div className="block block-rounded block-fx-pop">
                     <div className="block-content block-content-full">
                         <div className="item item-rounded bg-warning-light mx-auto my-4">
-                            <i className="fa fa-2x fa-book text-warning"></i>
+                            <i className="fa fa-2x fa-book text-warning"/>
                         </div>
                         <h4 className="mb-2"><Link to={`/books/${book.id}`}>{book.title}</Link></h4>
                         <p className="font-size-sm text-muted text-left">
@@ -66,7 +66,7 @@ class LatestBooks extends Component {
                     <div className="tg-backcover"><img src={book.links.image} alt="image description"/></div>
                 </div>
                 <Link className="tg-btnaddtowishlist" to={`/books/${book.id}`} >
-                    <i className="icon-file-text2"></i>
+                    <i className="icon-file-text2"/>
                     <FormattedMessage id="action.view" />
                 </Link>
             </figure>

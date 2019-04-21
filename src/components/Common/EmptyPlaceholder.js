@@ -8,7 +8,7 @@ export default class EmptyPlaceholder extends Component {
         let button = null;
         if (showButton) {
             button = (
-                <button button type="button" className="btn btn-secondary" onClick={buttonAction}>
+                <button type="button" className="btn btn-secondary" onClick={buttonAction}>
                     {buttonText}
                 </button>
             )
@@ -20,7 +20,7 @@ export default class EmptyPlaceholder extends Component {
                     <div className="block-content">
                         <div className="text-center py-8">
                             <p>
-                                <i className="fa fa-3x fa-info"></i>
+                                <i className="fa fa-3x fa-ghost" />
                             </p>
                             <div className="mb-0">{message}</div>
                             <div className="py-4">{button}</div>

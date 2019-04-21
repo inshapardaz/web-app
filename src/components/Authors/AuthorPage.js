@@ -85,63 +85,27 @@ class AuthorPage extends Component {
       return null;
     }
     return (
-      <>
-        <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" data-parallax="scroll" style={{ backgroundImage: `url('/images/parallax/bgparallax-07.jpg')` }}>
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div className="tg-innerbannercontent">
-                  <h1>{author.name}</h1>
-                  <ol className="tg-breadcrumb">
-                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
-                    <li><Link to="/authors">{this.props.intl.formatMessage({ id: 'header.authors' })}</Link></li>
-                  </ol>
+      <main id="main-container">
+        <div className="content">
+          <div className="block">
+            <div className="block-content">
+              <div className="row items-push">
+                <div className="col-md-4 col-lg-5 text-right">
+                  <img src={author.links.image || '/resources/img/avatar1.jpg'} alt={author.name} />
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <main id="tg-main" className="tg-main tg-haslayout">
-          <div className="tg-sectionspace tg-haslayout">
-            <div className="container">
-              <div className="row">
-                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div className="tg-authordetail">
-                    <figure className="tg-authorimg">
-                      <img src={author.links.image} alt="image description" />
-                    </figure>
-                    <div className="tg-authorcontentdetail">
-                      <div className="tg-sectionhead">
-                        <h2><span>{this.props.intl.formatMessage({ id: 'authors.item.book.count' }, { count: author.bookCount })}</span>{author.name}</h2>
-                        {/* <ul className="tg-socialicons">
-                          <li className="tg-facebook"><a href="javascript:void(0);"><i className="fa fa-facebook"></i></a></li>
-                          <li className="tg-twitter"><a href="javascript:void(0);"><i className="fa fa-twitter"></i></a></li>
-                          <li className="tg-linkedin"><a href="javascript:void(0);"><i className="fa fa-linkedin"></i></a></li>
-                          <li className="tg-googleplus"><a href="javascript:void(0);"><i className="fa fa-google-plus"></i></a></li>
-                          <li className="tg-rss"><a href="javascript:void(0);"><i className="fa fa-rss"></i></a></li>
-                        </ul> */}
-                      </div>
-                      <div className="tg-description">
-                        <p>Consectetur adipisicing elit sed do eiusmod tempor incididunt labore toloregna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcoiars nisiuip commodo consequat aute irure dolor in aprehenderit aveli esseati cillum dolor fugiat nulla pariatur cepteur sint occaecat cupidatat.</p>
-                        <p>Caanon proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnisate natus error sit voluptatem accusantium doloremque totam rem aperiam, eaque ipsa quae abillo inventoe veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia.</p>
-                        <p>Voluptas sit asapernatur aut odit aut fugit, sed quia consequuntur magni dolores eos quistan ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-                      </div>
-                      <div className="tg-booksfromauthor">
-                        <div className="tg-sectionhead">
-                          <h2>{this.props.intl.formatMessage({ id: 'authors.book.title' }, { name: author.name })}</h2>
-                        </div>
-                        <div className="row">
-                          <BookList author={author} simple={true} />
-                        </div>
-                      </div>
-                    </div>
+                <div className="col-md-8 col-lg-7">
+                  <h4 className="h3 mb-1"><span className="text-primary-dark">{author.name}</span></h4>
+                  <div className="font-size-sm mb-3">
+                    {this.props.intl.formatMessage({ id: 'authors.item.book.count' }, { count: author.bookCount })}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </main>
-      </>
+          <BookList author={author} simple={true} />
+        </div>
+      </main>
+
     )
   }
 }

@@ -34,7 +34,7 @@ class BookCard extends Component {
     let actions = [];
 
     if (book.links.update) {
-      actions.push(<button type="button" key="edit" className="btn-block-option" onClick={this.onEdit}><i className="far fa-fw fa-edit"></i></button>)
+      actions.push(<button type="button" key="edit" className="btn-block-option" onClick={this.onEdit}><i className="far fa-fw fa-edit"/></button>)
     }
 
     if (book.links.image_upload) {
@@ -78,27 +78,6 @@ class BookCard extends Component {
     }
 
     return null;
-  }
-
-  renderHoverAction(book) {
-    if (book.links.add_favorites) {
-      return (<a href="javascript:void(0);" className="tg-btnaddtowishlist" onClick={this.onAddToFavorite(book)}>
-        <i className="icon-heart"></i>
-        <FormattedMessage id="books.action.favorite.add" />
-      </a>)
-    }
-
-    if (book.links.remove_favorites) {
-      return (<a href="javascript:void(0);" className="tg-btnaddtowishlist" onClick={this.onRemoveFromFavorite(book)}>
-        <i className="icon-heart-broken"></i>
-        <FormattedMessage id="books.action.favorite.add" />
-      </a>)
-    }
-
-    return (<Link className="tg-btnaddtowishlist" to={`/books/${book.id}`} >
-      <i className="icon-file-text2"></i>
-      <FormattedMessage id="action.view" />
-    </Link>);
   }
 
   render() {
