@@ -71,10 +71,10 @@ class SeriesHome extends Component {
       isAdding: false
     });
   }
-  
+
   renderSeries(series) {
     return series.items.map(s =>
-      <SeriesCard key={s.id} series={s} 
+      <SeriesCard key={s.id} series={s}
         onEdit={this.onEditClicked.bind(this, s)}
         OnDeleted={this.loadSeries.bind(this)} />)
   }
@@ -117,42 +117,28 @@ class SeriesHome extends Component {
   render() {
     const { series, isLoading, isError } = this.state;
     const createLink = (series && series.links) ? series.links.create : null;
-
+    
     if (isLoading) {
       return <Loading fullWidth={true} />;
     } else if (isError) {
       return this.renderLoadingError();
     }
 
-    let addButton = null;
-    if (createLink) {
-      addButton = <a className="tg-btn" onClick={this.addSeries.bind(this)} href="javascript:void(0);"><FormattedMessage id="series.action.create" /></a>
-    }
-
     if (series && series.items && series.items.length > 0) {
       return (
-        <>
-          <SeriesHeader />
-          <main id="tg-main" className="tg-main tg-haslayout">
-            <div className="tg-authorsgrid">
-              <div className="container">
-                <div className="row">
-                  <div className="tg-authors">
-                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <div className="tg-sectionhead">
-                        <h2>{this.props.intl.formatMessage({id:'header.series'})}</h2>
-                        {addButton}
-                      </div>
-                    </div>
-
-                    {this.renderSeries(series)}
-                  </div>
-                </div>
-              </div>
+        <main id="main-container">
+          <SeriesHeader createLink={createLink} onCreate={this.addSeries.bind(this)} />
+          <div className="block">
+            <div className="block-content">
+              <table className="table table-hover table-vcenter font-size-sm">
+                <tbody>
+                  {this.renderSeries(series)}
+                </tbody>
+              </table>
+              {this.renderEditor(createLink)}
             </div>
-          {this.renderEditor(createLink)}
-          </main>
-        </>
+          </div>
+        </main>
       );
     }
     else
@@ -165,20 +151,24 @@ export default injectIntl(SeriesHome);
 class SeriesHeader extends React.Component {
   render() {
     return (
-      <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" style={{ backgroundImage: `url('/images/parallax/bgparallax-05.jpg')`}}>
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div className="tg-innerbannercontent">
-                  <h1><FormattedMessage id="header.series" /></h1>
-                  <ol className="tg-breadcrumb">
-                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
-                    <li className="tg-active"><FormattedMessage id="header.series" /></li>
-                  </ol>
-                </div>
+      <div className="bg-image overflow-hidden" style={{ backgroundImage: "url('assets/media/photos/photo3@2x.jpg')" }}>
+        <div className="bg-primary-dark-op">
+          <div className="content content-narrow content-full">
+            <div className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center mt-5 mb-2 text-center text-sm-left">
+              <div className="flex-sm-fill">
+                <h1 className="font-w600 text-white mb-0" data-toggle="appear"><FormattedMessage id="header.series" /></h1>
               </div>
+              {this.props.createLink ?
+                (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
+                  <span className="d-inline-block" data-toggle="appear" data-timeout="350">
+                    <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.props.onCreate}>
+                      <i className="fa fa-plus mr-1"></i> <FormattedMessage id="series.action.create" />
+                    </a>
+                  </span>
+                </div>) : null}
             </div>
           </div>
+        </div>
       </div>);
   }
 }

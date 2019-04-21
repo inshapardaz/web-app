@@ -17,7 +17,8 @@ class BooksHome extends Component {
       seriesId: 0,
       author: null,
       category: null,
-      series: null
+      series: null,
+      searchQuery: '',
     }
   }
 
@@ -80,6 +81,18 @@ class BooksHome extends Component {
     }
   }
 
+  searchChange = (event) => {
+    this.setState({
+      searchQuery: event.target.value
+    });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    this.props.history.push(`/books?q=${this.state.searchQuery}`)
+  }
+
+
   render() {
     const { author, category, series } = this.state;
 
@@ -94,37 +107,39 @@ class BooksHome extends Component {
       headerContent = series.name;
     }
     return (
-      <>
+      <main id="main-container">
         <BooksHeader title={headerContent} />
-        <main id="tg-main" className="tg-main tg-haslayout">
-          <div className="tg-sectionspace tg-haslayout">
-            <div className="container">
-              <div className="row">
-                <div id="tg-twocolumns" className="tg-twocolumns">
-                  <div className="col-xs-12 col-sm-8 col-md-8 col-lg-9 pull-right">
-                    <BookList title={headerContent} />
-                  </div>
-                  <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3 pull-left">
-                    <aside id="tg-sidebar" className="tg-sidebar">
-                      <div className="tg-widget tg-widgetsearch">
-                        <form className="tg-formtheme tg-formsearch">
-                          <div className="form-group">
-                            <button type="submit"><i className="icon-magnifier"></i></button>
-                            <input type="search" name="search" className="form-group" placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })} />
-                          </div>
-                        </form>
+        <div className="content content-boxed">
+          <div className="row">
+            <div className="col-xl-8">
+              <BookList title={headerContent} />
+            </div>
+            <div className="col-xl-4">
+              <div className="block">
+                <div className="block-header block-header-default">
+                  <h3 className="block-title">Search</h3>
+                </div>
+                <div className="block-content block-content-full">
+                  <form method="POST" onSubmit={this.onSubmit}>
+                    <div className="input-group">
+                      <input type="text" className="form-control form-control-alt" placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
+                        onChange={this.searchChange} value={this.state.searchQuery} />
+                      <div className="input-group-append">
+                        <button className="btn btn-primary">
+                          <i className="fa fa-search"></i>
+                        </button>
                       </div>
-                      <CategoriesSidebar />
-                      <FavoriteBooksSidebar />
-                      <LatestBooksSidebar />
-                      </aside>
-                  </div>
+                    </div>
+                  </form>
                 </div>
               </div>
+              <CategoriesSidebar />
+              <FavoriteBooksSidebar />
+              <LatestBooksSidebar />
             </div>
           </div>
-        </main>
-      </>
+        </div>
+      </main >
     );
   }
 }
@@ -134,20 +149,26 @@ export default injectIntl(BooksHome)
 class BooksHeader extends React.Component {
   render() {
     return (
-      <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" style={{ backgroundImage: `url('/images/parallax/bgparallax-07.jpg')` }}>
-        <div className="container">
-          <div className="row">
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div className="tg-innerbannercontent">
-                <h1>{this.props.title}</h1>
-                <ol className="tg-breadcrumb">
-                  <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
-                  <li className="tg-active"><FormattedMessage id="header.books" /></li>
-                </ol>
+      <div className="bg-image overflow-hidden" style={{ backgroundImage: "url('assets/media/photos/photo3@2x.jpg')" }}>
+        <div className="bg-primary-dark-op">
+          <div className="content content-narrow content-full">
+            <div className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center mt-5 mb-2 text-center text-sm-left">
+              <div className="flex-sm-fill">
+                <h1 className="font-w600 text-white mb-0" data-toggle="appear"><FormattedMessage id="header.books" /></h1>
+                <h2 className="h4 font-w400 text-white-75 mb-0" data-toggle="appear" data-timeout="250">{this.props.title}</h2>
               </div>
+              {this.props.createLink ?
+                (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
+                  <span className="d-inline-block" data-toggle="appear" data-timeout="350">
+                    <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.props.onCreate}>
+                      <i className="fa fa-plus mr-1"></i> <FormattedMessage id="books.action.create" />
+                    </a>
+                  </span>
+                </div>) : null}
             </div>
           </div>
         </div>
-      </div>);
+      </div>
+    );
   }
 }

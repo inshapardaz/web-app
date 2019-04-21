@@ -9,16 +9,18 @@ export default class CategoryCard extends Component {
         const deleteLink = category.links.delete;
 
         if (editLink) {
-            actions.push(<li key="edit" className="tg-facebook" onClick={this.props.onEdit}><i className="fa fa-edit"></i></li>)
+            actions.push(<button key="edit" className="tg-facebook" onClick={this.props.onEdit} className="btn btn-sm btn-light"><i className="fa fa-edit"></i></button>)
         }
         if (deleteLink) {
-            actions.push(<li key="delete" className="tg-linkedin" onClick={this.props.onDelete}><i className="fa fa-trash"></i></li>);
+            actions.push(<button key="delete" className="tg-linkedin" onClick={this.props.onDelete} className="btn btn-sm btn-light"><i className="fa fa-trash"></i></button>);
         }
 
         if (actions.length > 0) {
-            return (<ul className="tg-socialicons">
-                {actions}
-            </ul>);
+            return (<td className="text-center">
+                <div className="btn-group">
+                    {actions}
+                </div>
+            </td>);
         }
 
         return null;
@@ -31,20 +33,13 @@ export default class CategoryCard extends Component {
         }
 
         return (
-            <div className="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div className="tg-author">
-                    <figure>
-                        <Link to={`/books?category=${category.id}`}>
-                            <img src='/resources/img/series.svg' />
-                        </Link>
-                    </figure>
-                    <div className="tg-authorcontent">
-                        <h2><Link to={`/books?category=${category.id}`}>{category.name}</Link></h2>
-                        <FormattedMessage id="categories.item.book.count" values={{ count: category.bookCount }} />
-                        {this.renderCategoryActions(category)}
-                    </div>
-                </div>
-            </div>
+            <tr>
+                <td>
+                    <Link className="font-w600" to={`/books?category=${category.id}`}>{category.name}</Link>
+                    <div className="text-muted mt-1"><FormattedMessage id="categories.item.book.count" values={{ count: category.bookCount }} /></div>
+                </td>
+                {this.renderCategoryActions(category)}
+            </tr>
         );
     }
 }

@@ -51,7 +51,7 @@ class DeleteBook extends Component {
             return (<a key={this.props.key} className="tg-btn tg-active tg-btn-lg" onClick={this.onDelete} href="javascript:void(0);">{this.props.content}</a>)
         }
 
-        return (<li key={this.props.key} className="tg-linkedin"  onClick={this.onDelete}><i className="fa fa-trash"></i></li>);
+        return (<button type="button" key="delete" className="btn-block-option" onClick={this.onDelete}><i className="far fa-fw fa-trash-alt"></i></button>);
     }
 }
 

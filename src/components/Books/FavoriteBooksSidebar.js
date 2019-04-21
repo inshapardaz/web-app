@@ -36,51 +36,54 @@ class FavoriteBooksSidebar extends Component {
 
     renderBook(book) {
         return (
-            <li key={book.id}>
-                <article className="tg-post">
-                    <figure><Link to={`/books/${book.id}`}><img src={book.links.image} alt={book.title} style={{width: '77px'}} /></Link></figure>
-                    <div className="tg-postcontent">
-                        <div className="tg-posttitle">
-                            <h3><Link to={`/books/${book.id}`}>{book.title}</Link></h3>
-                        </div>
-                        <span className="tg-bookwriter">{this.props.intl.formatMessage({ id: 'book.by' })} <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></span>
-                    </div>
-                </article>
-            </li>
+            <tr key={book.id}>
+                <td>
+                    <Link to={`/books/${book.id}`}><img src={book.links.image} alt={book.title} style={{ width: '77px' }} /></Link>
+                </td>
+                <td>
+                    <h4><Link className="font-w300" to={`/books/${book.id}`}>{book.title}</Link><br /></h4>
+                    <span >{this.props.intl.formatMessage({ id: 'book.by' })} <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></span>
+                </td>
+            </tr>
         );
     }
 
-    renderBooks(books) 
-    {
-        if (books == null)
-        {
-            return <FormattedMessage id="message.loading" />;
+    renderBooks(books) {
+        if (books == null) {
+            return <tr>
+                <td className="text-center">
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="sr-only"><FormattedMessage id="message.loading" /></span>
+                    </div>
+                </td>
+            </tr>;
         }
 
-        if (books.data.length < 1)
-        {
-            return <FormattedMessage id="books.messages.favorite.empty" />
+        if (books.data.length < 1) {
+            return <tr><td><FormattedMessage id="books.messages.favorite.empty" /></td></tr>
         }
-        
+
         return books.data.slice(1, 5).map(book => this.renderBook(book));
     }
 
     render() {
         const { books } = this.state;
-        if (!books)
-        {
+        if (!books) {
             return null;
         }
 
         return (
-            <div className="tg-widget tg-widgettrending">
-                <div className="tg-widgettitle">
-                    <h3>{this.props.intl.formatMessage({ id: 'home.favoriteBooks' })}</h3>
+            <div className="block block-rounded">
+                <div className="block-header block-header-default text-center">
+                    <h3 className="block-title">{this.props.intl.formatMessage({ id: 'home.favoriteBooks' })}</h3>
                 </div>
-                <div className="tg-widgetcontent">  
-                    <ul>
-                        {this.renderBooks(books)}
-                    </ul>
+
+                <div className="block-content">
+                    <table className="table table-striped table-borderless font-size-sm">
+                        <tbody>
+                            {this.renderBooks(books)}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         );

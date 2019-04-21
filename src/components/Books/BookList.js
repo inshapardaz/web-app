@@ -195,42 +195,51 @@ class BookList extends Component {
         if (books && books.data && books.data.length > 0) {
             let addButton = null;
             if (createLink) {
-                addButton = <a className="tg-btn" onClick={this.onAddClicked.bind(this)} href="javascript:void(0);"><FormattedMessage id="books.action.create" /></a>
+                addButton = <button type="button" className="btn-block-option" onClick={this.onAddClicked.bind(this)}><i className="si si-plus"></i></button>
             }
 
-            if (this.props.simple)
-            {
+            if (this.props.simple) {
                 return (
                     <>
-                    {this.renderBooks(books)}
-                    <Pagination defaultActivePage={pageNumber}
-                    totalPages={books.pageCount}
-                    onPageChange={this.onPageChange}
-                    pointing
-                    secondary attached='bottom' />
-                    {this.renderEditor(createLink)}
+                        <div className="content content-boxed">
+                            <div className="row row-deck py-2">
+                                {this.renderBooks(books)}
+                                <Pagination defaultActivePage={pageNumber}
+                                    totalPages={books.pageCount}
+                                    onPageChange={this.onPageChange}
+                                    pointing
+                                    secondary attached='bottom' />
+                                {this.renderEditor(createLink)}
+                            </div>
+                        </div>
                     </>
                 );
             }
             return (
                 <>
-                <div id="tg-content" className="tg-content">
-                    <div className="tg-products">
-                        <div className="tg-sectionhead">
-                            <h2>{this.props.title}</h2>
-                            {addButton}
+                    <div className="block block-transparent">
+                        <div className="block-header">
+                            <h3 className="block-title"></h3>
+                            <div className="block-options">
+                                {addButton}
+                            </div>
                         </div>
-                        <div className="tg-productgrid">
-                            {this.renderBooks(books)}
+                        <div className="block-content">
+                            <div className="row row-deck py-3">
+                                {this.renderBooks(books)}
+                            </div>
+                        </div>
+                        <div className="block-header">
+                            <Pagination defaultActivePage={pageNumber}
+                                totalPages={books.pageCount}
+                                onPageChange={this.onPageChange}
+                                pointing
+                                secondary attached='bottom' />
                         </div>
                     </div>
-                </div>
-                <Pagination defaultActivePage={pageNumber}
-                totalPages={books.pageCount}
-                onPageChange={this.onPageChange}
-                pointing
-                secondary attached='bottom' />
-                {this.renderEditor(createLink)}
+
+
+                    {this.renderEditor(createLink)}
                 </>
             );
         }

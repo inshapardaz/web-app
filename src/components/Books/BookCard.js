@@ -34,7 +34,7 @@ class BookCard extends Component {
     let actions = [];
 
     if (book.links.update) {
-      actions.push(<li key="edit" className="tg-facebook" onClick={this.onEdit}><i className="fa fa-edit"></i></li>)
+      actions.push(<button type="button" key="edit" className="btn-block-option" onClick={this.onEdit}><i className="far fa-fw fa-edit"></i></button>)
     }
 
     if (book.links.image_upload) {
@@ -47,9 +47,7 @@ class BookCard extends Component {
     }
 
     if (actions.length > 0) {
-      return (<ul className="tg-socialicons">
-        {actions}
-      </ul>);
+      return actions;
     }
 
     return null;
@@ -110,48 +108,24 @@ class BookCard extends Component {
       return
     }
 
-    return (<>
-      <div className="col-xs-6 col-sm-6 col-md-4 col-lg-3" key={book.id}>
-        <div className="tg-postbook">
-          <figure className="tg-featureimg">
-            <div className="tg-bookimg">
-              <div className="tg-frontcover"><img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} /></div>
-              <div className="tg-backcover"><img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} /></div>
-            </div>
-            {this.renderHoverAction(book)}
-          </figure>
-          <div className="tg-postbookcontent">
-            {this.renderCategories(book)}
-            {book.seriesId && book.seriesName ? (
-              <div className="tg-themetagbox">
-                <span className="tg-themetag">
-                  {/* <Link to={`/books?series=${book.seriesId}`}> */}
-                  {book.seriesName}{`${book.seriesIndex}`}
-                  {/* </Link> */}
-                </span>
-              </div>) : null
-            }
-            <div className="tg-booktitle">
-              <h3><Link to={`/books/${book.id}`} >{book.title}</Link></h3>
-            </div>
-            <span className="tg-bookwriter">
+    return (
+      <div className="col-md-6 col-lg-6 col-xl-4" key={book.id}>
+        <div className="block block-rounded block-link-pop" >
+          <div className="block-content block-content-full text-center bg-image" style={{ backgroundImage: `url('${book.links.image || '/resources/img/book_placeholder.png'}')` }} >
+            <div className="py-8" />
+          </div>
+          <div className="block-content block-content-full">
+            <h4 className="mb-1"><Link to={`/books/${book.id}`} >{book.title}</Link></h4>
+            <div className="font-size-sm text-muted">
               {this.props.intl.formatMessage({ id: 'book.by' })}
-              <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link>
+              <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link></div>
               {this.renderBookActions(book)}
-            </span>
-            <Link className="tg-btn tg-btnstyletwo" to={`/books/${book.id}`}>
-              <i className="fa fa-file-text-o"></i>
-              <em>{this.props.intl.formatMessage({ id: 'books.action.read' })}</em>
-            </Link>
-
           </div>
         </div>
+        {this.renderEditor(book)}
       </div>
-
-      {this.renderEditor(book)}
-    </>);
+    );
   }
 }
-
 
 export default injectIntl(BookCard);

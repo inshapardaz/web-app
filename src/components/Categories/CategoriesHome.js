@@ -108,10 +108,10 @@ class CategoriesHome extends Component {
       error(this.props.intl.formatMessage({ id: "categories.messages.error.delete" }));
     }
   }
-  
+
   renderCategories(categories) {
     return categories.items.map(c =>
-      <CategoryCard key={c.id} category={c} 
+      <CategoryCard key={c.id} category={c}
         onEdit={this.onEditClicked.bind(this, c)}
         onDelete={this.onDeleteClicked.bind(this, c)} />)
   }
@@ -132,7 +132,7 @@ class CategoriesHome extends Component {
 
     return (
       <>
-        {createLink ? this.renderEditor(createLink): null}
+        {createLink ? this.renderEditor(createLink) : null}
         <EmptyPlaceholder fullWidth={true} message={message} iconName='folder outline'
           showButton={true} buttonText={buttonText}
           buttonAction={this.addCategory.bind(this)} />
@@ -177,34 +177,22 @@ class CategoriesHome extends Component {
       return this.renderLoadingError();
     }
 
-    let addButton = null;
-    if (createLink) {
-      addButton = <a className="tg-btn" onClick={this.addCategory.bind(this)} href="javascript:void(0);"><FormattedMessage id="categories.action.create" /></a>
-    }
-
     if (categories && categories.items && categories.items.length > 0) {
       return (
         <>
-          <CategoriesHeader />
-          <main id="tg-main" className="tg-main tg-haslayout">
-            <div className="tg-authorsgrid">
-              <div className="container">
-                <div className="row">
-                  <div className="tg-authors">
-                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <div className="tg-sectionhead">
-                        <h2>{this.props.intl.formatMessage({id:'header.categories'})}</h2>
-                        {addButton}
-                      </div>
-                    </div>
-
+          <main id="main-container">
+            <CategoriesHeader createLink={createLink} onCreate={this.addCategory.bind(this)} />
+            <div className="block">
+              <div className="block-content">
+                <table className="table table-hover table-vcenter font-size-sm">
+                  <tbody>
                     {this.renderCategories(categories)}
-                  </div>
-                </div>
+                  </tbody>
+                </table>
               </div>
             </div>
-          {this.renderDelete()}
-          {this.renderEditor(createLink)}
+            {this.renderDelete()}
+            {this.renderEditor(createLink)}
           </main>
         </>
       );
@@ -219,20 +207,24 @@ export default injectIntl(CategoriesHome);
 class CategoriesHeader extends React.Component {
   render() {
     return (
-      <div className="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner" data-z-index="-100" data-appear-top-offset="600" style={{ backgroundImage: `url('/images/parallax/bgparallax-06.jpg')`}}>
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div className="tg-innerbannercontent">
-                  <h1><FormattedMessage id="header.categories" /></h1>
-                  <ol className="tg-breadcrumb">
-                    <li><Link to="/"><FormattedMessage id="header.home" /></Link></li>
-                    <li className="tg-active"><FormattedMessage id="header.categories" /></li>
-                  </ol>
-                </div>
+      <div className="bg-image overflow-hidden" style={{ backgroundImage: "url('assets/media/photos/photo3@2x.jpg')" }}>
+        <div className="bg-primary-dark-op">
+          <div className="content content-narrow content-full">
+            <div className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center mt-5 mb-2 text-center text-sm-left">
+              <div className="flex-sm-fill">
+                <h1 className="font-w600 text-white mb-0" data-toggle="appear"><FormattedMessage id="header.categories" /></h1>
               </div>
+              {this.props.createLink ?
+                (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
+                  <span className="d-inline-block" data-toggle="appear" data-timeout="350">
+                    <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.props.onCreate}>
+                      <i className="fa fa-plus mr-1"></i> <FormattedMessage id="categories.action.create" />
+                    </a>
+                  </span>
+                </div>) : null}
             </div>
           </div>
+        </div>
       </div>);
   }
 }

@@ -151,30 +151,6 @@ class AuthorHome extends Component {
       onClose={this.onCloseEdit.bind(this)} />);
   }
 
-  renderHeader(createLink) {
-      return (
-        <div className="bg-image overflow-hidden" style={{backgroundImage: "url('assets/media/photos/photo3@2x.jpg')"}}>
-          <div className="bg-primary-dark-op">
-            <div className="content content-narrow content-full">
-              <div className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center mt-5 mb-2 text-center text-sm-left">
-                <div className="flex-sm-fill">
-                  <h1 className="font-w600 text-white mb-0" data-toggle="appear"><FormattedMessage id="header.authors" /></h1>
-                </div>
-                {createLink ? 
-                (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
-                  <span className="d-inline-block" data-toggle="appear" data-timeout="350">
-                    <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.addAuthor.bind(this)}>
-                      <i className="fa fa-plus mr-1"></i> <FormattedMessage id="authors.action.create" />
-                                          </a>
-                  </span>
-                </div>) : null}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-  }
-
   render() {
     const { authors, isLoading, isError, pageNumber } = this.state;
     const createLink = (authors && authors.links) ? authors.links.create : null;
@@ -189,7 +165,7 @@ class AuthorHome extends Component {
       return (
         <main id="main-container">
 
-          {this.renderHeader(createLink)}
+          <AuthorsHeader createLink={createLink} onCreate={this.addAuthor.bind(this)} />
           <div className="content content-boxed">
             <div className="row row-deck py-4">
               {this.renderAuthors(authors)}
@@ -211,3 +187,29 @@ class AuthorHome extends Component {
 }
 
 export default injectIntl(AuthorHome);
+
+class AuthorsHeader extends React.Component {
+  render() {
+    return (
+      <div className="bg-image overflow-hidden" style={{ backgroundImage: "url('assets/media/photos/photo3@2x.jpg')" }}>
+        <div className="bg-primary-dark-op">
+          <div className="content content-narrow content-full">
+            <div className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center mt-5 mb-2 text-center text-sm-left">
+              <div className="flex-sm-fill">
+                <h1 className="font-w600 text-white mb-0" data-toggle="appear"><FormattedMessage id="header.authors" /></h1>
+              </div>
+              {this.props.createLink ?
+                (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
+                  <span className="d-inline-block" data-toggle="appear" data-timeout="350">
+                    <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.props.onCreate}>
+                      <i className="fa fa-plus mr-1"></i> <FormattedMessage id="authors.action.create" />
+                    </a>
+                  </span>
+                </div>) : null}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}

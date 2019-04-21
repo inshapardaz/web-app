@@ -1,28 +1,38 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 class CategoriesSidebar extends Component {
     renderCategories() {
-        if (this.props.categories){
-            return this.props.categories.items.map(c => 
-                <li key={c.id}><Link to={`/books?category=${c.id}`}><span>{c.name}</span><em>{c.bookCount || 0}</em></Link></li>
+        if (this.props.categories) {
+            return this.props.categories.items.map(c =>
+                <tr key={c.id}>
+                    <td>
+                        <Link to={`/books?category=${c.id}`}><span>{c.name}</span></Link>
+                    </td>
+                    <td>
+                        <em>{c.bookCount || 0}</em>
+                    </td>
+                </tr>
             );
         }
         return null;
     }
     render() {
         return (
-            <div className="tg-widget tg-catagories">
-                <div className="tg-widgettitle">
-                    <h3><FormattedMessage id="header.categories" /></h3>
+            <div className="block block-rounded">
+                <div className="block-header block-header-default text-center">
+                    <h3 className="block-title">{this.props.intl.formatMessage({ id: 'header.categories' })}</h3>
                 </div>
-                <div className="tg-widgetcontent">
-                    <ul>
-                        {this.renderCategories()}
-                    </ul>
+
+                <div className="block-content">
+                    <table className="table table-striped table-borderless font-size-sm">
+                        <tbody>
+                            {this.renderCategories()}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         )
@@ -36,4 +46,4 @@ export default (connect(
     }),
     dispatch => bindActionCreators({
     }, dispatch)
-)(CategoriesSidebar));
+)(injectIntl(CategoriesSidebar)));

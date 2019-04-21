@@ -28,7 +28,7 @@ export default class ChangeImage extends Component {
       <>
         {this.props.as && this.props.as == "a" ? 
         <a key="image" className="tg-btn tg-active tg-btn-lg" onClick={() => this.uploadRef.current.click()} href="javascript:void(0);">{this.props.content}</a> :
-        <li key="image" className="tg-twitter" onClick={() => this.uploadRef.current.click()}><i className="fa fa-photo"></i></li>}
+        <button type="button" key="image" className="btn-block-option" onClick={() => this.uploadRef.current.click()}><i className="far fa-fw fa-image"></i></button>}
         <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
       </>
     )
