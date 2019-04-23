@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import ApiService from '../../services/ApiService';
 import Reader from '../Reader/Reader';
 import { Menu, Icon, Container, Sticky, Dimmer, Header, Loader } from 'semantic-ui-react';
 import { success, error } from '../../services/toasts';
-
-import FontsSizeMenu from '../Reader/FontsSizeMenu';
-import FontsMenu from '../Reader/FontsMenu';
-import ChaptersMenu from './ChaptersMenu';
 import ErrorPlaceholder from '../Common/ErrorPlaceholder';
 import ChapterContentEditor from './ChapterContentEditor';
 import Loading from '../Common/Loading';
+
+import ChapterSidebar from './ChapterSidebar';
 
 const gotoTop = () => {
   document.body.scrollTop = 0;
@@ -21,6 +18,24 @@ const gotoTop = () => {
 const ChapterReaderStyle = ({ font, size }) => {
   return (
     <style>{`
+    .burgerMenu {
+      position: fixed;
+      z-index: 1032;
+    }
+
+    .burgerMenu__button{
+      top: 0;
+      left: 0;
+      position: absolute;
+      cursor: pointer;
+      margin: .25rem!important;
+      opacity: .25;
+    }
+
+    .burgerMenu__button:hover{
+      opacity: 1;
+    }
+
     .chapter
     {
       font-size: 16px;
@@ -33,25 +48,24 @@ const ChapterReaderStyle = ({ font, size }) => {
       font-size: 2.5rem;
       margin-bottom: 12px;
       font-family: '${font}' !important;
-      /*border-bottom: 1px solid $gray-border;*/
     }
   
-    .chapter__contents
+    .chapter__contents,
+    .chapter__contents span,
+    .chapter__contents a, 
+    .chapter__contents p,
+    .chapter__contents h1, 
+    .chapter__contents h2, 
+    .chapter__contents h3, 
+    .chapter__contents h4, 
+    .chapter__contents h5, 
+    .chapter__contents h6
     {
-      margin: auto;
-      padding: 10px;
-      padding-top : 4em;
       font-family: '${font}' !important;
       font-size: ${size} !important
     }
   `}</style>
   )
-}
-
-const fixedMenuStyle = {
-  backgroundColor: '#fff',
-  border: '1px solid #ddd',
-  boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
 }
 
 class Chapter extends Component {
@@ -152,6 +166,24 @@ class Chapter extends Component {
     }));
   }
 
+  toggleSidebarCompact(){
+    this.setState(prevState => ({
+      sidebarOpenCompact: !prevState.sidebarOpenCompact
+    }));
+  }
+
+  sidebarOpen() {
+    this.setState({
+      sidebarOpen: true
+    });
+  }
+  sidebarClosed() {
+    this.setState({
+      sidebarOpen: false,
+      sidebarOpenCompact: false
+    });
+  }
+
   changeFontSize(value) {
     this.setState({
       fontSize: value
@@ -243,103 +275,8 @@ class Chapter extends Component {
 
   handleContextRef = contextRef => this.setState({ contextRef })
 
-  renderSideBar() {
-    const { book, chapter } = this.state;
-    return (
-      <nav id="sidebar">
-        <div className="sidebar-content">
-          <div className="content-side content-side-full pos-relative">
-            <div className="pos-absolute pos-top-right d-lg-none">
-              <a className="d-inline-block text-danger m-3" href="javascript:void(0)" data-toggle="layout" data-action="sidebar_close">
-                <i className="fa fa-times"></i>
-              </a>
-            </div>
-            <div className="mb-3">
-              <h1 className="font-size-lg font-w700 mb-2">
-                <Link to={`/books/${book.id}`}>{book.title}</Link>
-              </h1>
-              <div className="font-size-sm font-w600 text-muted"><Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></div>
-            </div>
-            <ul className="nav-main">
-              <ChaptersMenu bookId={book.id} selectedChapter={chapter.id} />
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-updating" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-arrow-up text-primary"></i>
-                  <span className="nav-main-link-name">Updating</span>
-                </a>
-              </li>
-              <li className="nav-main-heading">Intro</li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-package" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-briefcase text-muted"></i>
-                  <span className="nav-main-link-name">Package</span>
-                </a>
-              </li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-bootstrap" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-rocket text-muted"></i>
-                  <span className="nav-main-link-name">Bootstrap</span>
-                </a>
-              </li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-gulp" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-cogs text-muted"></i>
-                  <span className="nav-main-link-name">Gulp Tasks</span>
-                </a>
-              </li>
-              <li className="nav-main-heading">Structure</li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-html" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-code text-info"></i>
-                  <span className="nav-main-link-name">HTML</span>
-                </a>
-              </li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-sass" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-code text-info"></i>
-                  <span className="nav-main-link-name">Sass</span>
-                </a>
-              </li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-javascript" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-code text-info"></i>
-                  <span className="nav-main-link-name">JavaScript</span>
-                </a>
-              </li>
-              <li className="nav-main-heading">More</li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-tips" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-thumbs-up text-warning"></i>
-                  <span className="nav-main-link-name">Quick Tips</span>
-                </a>
-              </li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-credits" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-link text-warning"></i>
-                  <span className="nav-main-link-name">Credits</span>
-                </a>
-              </li>
-              <li className="nav-main-heading">Pixelcave</li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="#section-thankyou" data-toggle="scroll-to" data-offset="50">
-                  <i className="nav-main-link-icon fa fa-heart text-danger"></i>
-                  <span className="nav-main-link-name">Thank you</span>
-                </a>
-              </li>
-              <li className="nav-main-item">
-                <a className="nav-main-link" href="https://pixelcave.com">
-                  <i className="nav-main-link-icon fa fa-globe text-danger"></i>
-                  <span className="nav-main-link-name">pixelcave.com</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    );
-  }
   render() {
-    const { isError, isEditing, contents, book, saving, isLoadingContents, isLoading, bookId, chapter, chapterId, font, fontSize, contextRef, sidebarOpen } = this.state;
+    const { isError, isEditing, contents, book, saving, isLoadingContents, isLoading, chapter, font, fontSize, sidebarOpen, sidebarOpenCompact } = this.state;
 
     if (isError) {
       return <ErrorPlaceholder fullWidth={true}
@@ -362,36 +299,43 @@ class Chapter extends Component {
       if (isEditing) {
         display = <ChapterContentEditor contents={contents.contents} onChange={this.onContentChange} />
       } else {
-        display = (<Reader contents={contents.contents} isLoading={isLoadingContents} />);
+        display = (
+          <div className="block">
+            <div className="block-content chapter__contents">
+              <Reader contents={contents.contents} isLoading={isLoadingContents} />
+            </div>
+          </div>);
+      }
+
+      var className = "sidebar-dark side-scroll page-header-fixed page-header-dark";
+      if (sidebarOpen){
+          className = className + " sidebar-o";
+      }
+
+      if (sidebarOpenCompact){
+          className = className + " sidebar-o-xs";
       }
 
       return (
-        <div id="page-container" className={`side-scroll side-trans-enabled ${sidebarOpen ? 'sidebar-o' : null}`}>
-          {this.renderSideBar()}
-          <main id="main-container">
-            <div className="pos-fixed pos-ontop-content d-print-none">
-              <button type="button" className="btn btn-light pos-absolute pos-top-left m-1 m-lg-3"
-                onClick={this.toggleSidebar.bind(this)}>
+        <div id="page-container" className={className}>
+          <ChapterReaderStyle font={font} size={fontSize} />
+          <ChapterSidebar book={book} selectedChapter={chapter} onClose={this.sidebarClosed.bind(this)}
+            onChangeFont={this.changeFont} onChangeFontSize={this.changeFontSize} />
+          <div className="burgerMenu">
+            <button type="button" className="btn btn-light burgerMenu__button d-none d-lg-inline-block"
+              onClick={this.toggleSidebar.bind(this)}>
+              <i className="fa fa-bars"></i>
+            </button>
+            { (sidebarOpenCompact) ? null : (
+              <button type="button" className="btn btn-light burgerMenu__button d-lg-none"
+                onClick={this.toggleSidebarCompact.bind(this)}>
                 <i className="fa fa-bars"></i>
               </button>
-            </div>
-          </main>
-          {/* <ChapterReaderStyle font={font} size={fontSize} />
-          <Sticky active context={contextRef}>
-            <Menu fixed='top' style={fixedMenuStyle}>
-              {book ? (<Menu.Item as={Link} to={`/books/${bookId}`}>
-                <Icon name="book" /> {book.title}
-              </Menu.Item>) : null}
-              
-              <FontsMenu onFontChanged={this.changeFont} />
-              <FontsSizeMenu onFontSizeChanged={this.changeFontSize} />
-              {this.renderEditMenu(chapter, contents, isEditing)}
-            </Menu>
-          </Sticky> */}
-          <Container fluid className="chapter__contents">
-            {header}
-            {display}
-          </Container>
+            )}
+          </div>
+          {/* {this.renderEditMenu(chapter, contents, isEditing)} */}
+          {header}
+          {display}
           <Dimmer active={saving} page>
             <Header as='h2' icon inverted>
               <Icon name="save" />

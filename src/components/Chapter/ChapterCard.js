@@ -96,9 +96,10 @@ class ChapterCard extends Component {
     }
 
     render() {
-        const { chapter } = this.props;
+        const { chapter, hideActions } = this.props;
 
         if (!chapter) return null;
+
         return (
             <>
                 <tr key={chapter.id}>
@@ -106,7 +107,7 @@ class ChapterCard extends Component {
                     <td>
                         <Link className="font-w300" to={`/books/${chapter.bookId}/chapters/${chapter.id}`}>{chapter.title}</Link>
                     </td>
-                    {this.renderChapterActions(chapter)}
+                    {hideActions ? null : this.renderChapterActions(chapter)}
                 </tr>
                 {this.renderEditor(chapter)}
                 {this.renderDelete()}

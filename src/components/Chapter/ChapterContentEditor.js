@@ -11,7 +11,7 @@ class ChapterContentEditor extends Component {
         super(props);
         this.state = {
             contents: '',
-            saving : false
+            saving: false
         }
     }
 
@@ -34,10 +34,14 @@ class ChapterContentEditor extends Component {
 
     render() {
         return (
-            <div style={{ direction: 'ltr', padding: '0 50px' }}>
-                <Editor readOnly={this.props.saving} autoFocus={true} toc={true} uploadImage={this.onImageUpload.bind(this)}
-                    defaultValue={this.props.contents} onChange={this.onChangeValue.bind(this)}
-                />
+            <div className="block">
+                <div className="block-content">
+                    <div style={{ direction: 'ltr', padding: '0 50px' }}>
+                        <Editor readOnly={this.props.saving} autoFocus={true} toc={true} uploadImage={this.onImageUpload.bind(this)}
+                            defaultValue={this.props.contents} onChange={this.onChangeValue.bind(this)}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }

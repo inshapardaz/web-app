@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import ApiService from '../../services/ApiService';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
-import { List, Segment, Button, Icon } from 'semantic-ui-react';
 import ChapterEditor from './ChapterEditor';
 import ChapterCard from './ChapterCard';
-import { isatty } from 'tty';
 
 class ChapterList extends Component {
     constructor(props) {
@@ -88,8 +86,8 @@ class ChapterList extends Component {
             onClose={this.onCloseEdit.bind(this)} />);
     }
 
-    renderChapters = (chapters) => chapters.items.map(c =>
-        <ChapterCard key={c.id} chapter={c} onUpdate={this.loadChapters} />)
+    renderChapters = (chapters, hideAction = false) => chapters.items.map(c =>
+            <ChapterCard key={c.id} chapter={c} onUpdate={this.loadChapters} hideActions={hideAction} />)
 
 
     render() {
@@ -114,6 +112,17 @@ class ChapterList extends Component {
                 addButton = (<button type="button" className="btn-block-option" onClick={this.onAddChapter} href="javascript:void(0);"><i className="si si-plus" /> <FormattedMessage id="chapter.action.create" /></button>);
             }
 
+            if (this.props.simple) {
+                return (
+                    <>
+                        <table className="table table-hover table-vcenter font-size-sm">
+                            <tbody>
+                                {this.renderChapters(chapters, true)}
+                            </tbody>
+                        </table>
+                    </>
+                )
+            }
             return (
                 <>
                     <div className="block  block-transparent">
