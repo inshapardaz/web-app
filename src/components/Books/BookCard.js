@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Image, Label, Dimmer, Header, Icon } from 'semantic-ui-react';
-import { Card, Badge } from 'react-bootstrap';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import BookEditor from './BookEditor';
 import ChangeImage from './ChangeImage';
 import DeleteBook from './DeleteBook';
@@ -88,10 +86,10 @@ class BookCard extends Component {
     }
 
     return (
-      <div className="col-md-6 col-lg-6 col-xl-4" key={book.id}>
+      <div className="col-md-5 col-lg-4 col-xl-3" key={book.id}>
         <div className="block block-rounded block-link-pop" >
           <div className="block-content block-content-full text-center bg-image" style={{ backgroundImage: `url('${book.links.image || '/resources/img/book_placeholder.png'}')` }} >
-            <div className="py-8" />
+            <div className="py-6 mt-6" />
           </div>
           <div className="block-content block-content-full">
             <h4 className="mb-1"><Link to={`/books/${book.id}`} >{book.title}</Link></h4>

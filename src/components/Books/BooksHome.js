@@ -108,7 +108,6 @@ class BooksHome extends Component {
     }
     return (
       <main id="main-container">
-        <BooksHeader title={headerContent} />
         <div className="content content-boxed">
           <div className="row">
             <div className="col-xl-8">

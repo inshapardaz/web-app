@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
-import { Image, Header } from 'semantic-ui-react';
+import { injectIntl } from 'react-intl';
 import { ErrorPlaceholder, Loading } from '../Common';
 import ApiService from '../../services/ApiService';
 import BookList from '../Books/BookList';

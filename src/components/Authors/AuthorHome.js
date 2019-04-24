@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import queryString from 'query-string';
-import { Link } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
-import { Card, Icon, Button, Segment, Header, Confirm, Pagination } from 'semantic-ui-react';
+import { Confirm } from 'semantic-ui-react';
+import ReactPaginate from 'react-paginate';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import AuthorCard from './AuthorCard';
 import EditAuthor from './EditAuthor';
-import { Parallax, Background } from 'react-parallax';
-import PageHeader from '../Common/PageHeader';
 
 class AuthorHome extends Component {
 
@@ -69,7 +67,8 @@ class AuthorHome extends Component {
     }
   }
 
-  onPageChange(e, { activePage }) {
+  onPageChange(data) {
+    let activePage = data.selected + 1;
     if (this.state.pageNumber != activePage) {
       this.props.history.push(`/authors?page=${activePage}`);
     }
@@ -171,14 +170,30 @@ class AuthorHome extends Component {
               {this.renderAuthors(authors)}
             </div>
           </div>
-          <Pagination defaultActivePage={pageNumber}
-            totalPages={authors.pageCount}
-            onPageChange={this.onPageChange}
-            pointing
-            secondary attached='bottom' />
-          {this.renderDelete()}
-          {this.renderEditor(createLink)}
-        </main>
+          <nav aria-label="Page navigation">
+            <ReactPaginate
+              previousLabel={<i className="fa fa-angle-double-left"></i>}
+              nextLabel={<i className="fa fa-angle-double-right"></i>}
+              breakLabel={'...'}
+              pageCount={authors.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.onPageChange}
+              initialPage={pageNumber - 1}
+              containerClassName={'pagination justify-content-center'}
+              subContainerClassName={'test'}
+              breakClassName={'break-me'}
+              activeClassName={'active'}
+              pageClassName={'page-item'}
+              pageLinkClassName={'page-link'}
+              previousClassName={'page-item'}
+              previousLinkClassName={'page-link'}
+              nextClassName={'page-item'}
+              nextLinkClassName={'page-link'} />
+          </nav>
+          { this.renderDelete() }
+      { this.renderEditor(createLink) }
+        </main >
       );
     }
     else
@@ -202,7 +217,7 @@ class AuthorsHeader extends React.Component {
                 (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
                   <span className="d-inline-block" data-toggle="appear" data-timeout="350">
                     <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.props.onCreate}>
-                      <i className="fa fa-plus mr-1"/> <FormattedMessage id="authors.action.create" />
+                      <i className="fa fa-plus mr-1" /> <FormattedMessage id="authors.action.create" />
                     </a>
                   </span>
                 </div>) : null}

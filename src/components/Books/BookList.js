@@ -3,8 +3,8 @@ import ApiService from '../../services/ApiService';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom'
 
-import { injectIntl, FormattedMessage } from 'react-intl';
-import { Segment, Card, Pagination, Button, Icon } from 'semantic-ui-react';
+import { injectIntl } from 'react-intl';
+import ReactPaginate from 'react-paginate';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import BookCard from './BookCard';
 import BookEditor from './BookEditor';
@@ -95,7 +95,8 @@ class BookList extends Component {
         }
     }
 
-    onPageChange(e, { activePage }) {
+    onPageChange(data) {
+        let activePage = data.selected + 1;
         if (this.state.pageNumber != activePage) {
             const { category, series } = this.state;
             const { author } = this.props;
@@ -202,7 +203,7 @@ class BookList extends Component {
                 return (
                     <>
                         <div className="content content-boxed">
-                            <div className="row row-deck py-2">
+                            <div className="row row-deck">
                                 {this.renderBooks(books)}
                             </div>
                             <Pagination defaultActivePage={pageNumber}
@@ -217,26 +218,41 @@ class BookList extends Component {
             }
             return (
                 <>
-                    <div className="block block-transparent">
-                        <div className="block-header">
-                            <h3 className="block-title"></h3>
+                    <div className="block block-themed">
+                        <div className="block-header bg-muted">
+                            <h3 className="block-title">{this.props.title}</h3>
                             <div className="block-options">
                                 {addButton}
                             </div>
                         </div>
                         <div className="block-content">
-                            <div className="row row-deck py-3">
+                            <div className="row row-deck">
                                 {this.renderBooks(books)}
                             </div>
                         </div>
-                        <div className="block-header">
-                            <Pagination defaultActivePage={pageNumber}
-                                totalPages={books.pageCount}
-                                onPageChange={this.onPageChange}
-                                pointing
-                                secondary attached='bottom' />
+                        
+                        <nav aria-label="Page navigation">
+                        <ReactPaginate
+                            previousLabel={<i className="fa fa-angle-double-left"></i>}
+                            nextLabel={<i className="fa fa-angle-double-right"></i>}
+                            breakLabel={'...'}
+                            pageCount={books.pageCount}
+                            marginPagesDisplayed={2}
+                            pageRangeDisplayed={5}
+                            onPageChange={this.onPageChange}
+                            initialPage={pageNumber-1}
+                            containerClassName={'pagination justify-content-center'}
+                            subContainerClassName={'test'}
+                            breakClassName={'break-me'}
+                            activeClassName={'active'}
+                            pageClassName={'page-item'}
+                            pageLinkClassName={'page-link'}
+                            previousClassName={'page-item'}
+                            previousLinkClassName={'page-link'}
+                            nextClassName={'page-item'}
+                            nextLinkClassName={'page-link'}/>
+                            </nav>
                         </div>
-                    </div>
 
 
                     {this.renderEditor(createLink)}

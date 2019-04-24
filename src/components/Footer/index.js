@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Navbar, NavDropdown } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import LocaleService from '../../services/LocaleService';
 
@@ -19,10 +19,16 @@ export default class Footer extends Component {
         return (<footer id="page-footer" className="bg-body-light">
             <div className="content py-3">
                 <div className="row font-size-sm">
-                    <NavDropdown title={selectedLanguage} drop='up' className="col-sm-6 order-sm-2 py-1 text-sm-right">
-                        <NavDropdown.Item onClick={() => this.chooseLanguage("en")}>English</NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => this.chooseLanguage("ur")}>Urdu</NavDropdown.Item>
-                    </NavDropdown>
+                    <Dropdown className="col-sm-6 order-sm-2 pull-right">
+                        <Dropdown.Toggle size="sm" variant="outline-secondary" id="dropdown-basic">
+                            <i className="fa fa-language ml-1 mr-1"/>
+                            {selectedLanguage}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => this.chooseLanguage("en")}>English</Dropdown.Item>
+                        <Dropdown.Item onClick={() => this.chooseLanguage("ur")}>Urdu</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                     <div className="col-sm-6 order-sm-1 py-1 text-center text-sm-left">
                         <a className="font-w600" href="/" target="_blank"><FormattedMessage id="app" /></a> &copy; <span data-toggle="year-copy"></span>
                     </div>
