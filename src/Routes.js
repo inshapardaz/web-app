@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router'
+import { Switch } from 'react-router'
 
 import { BoxedLayout, EmptyLayout, FullScreenLayout } from './components/Layouts';
 
@@ -24,14 +24,7 @@ import Search from './components/Search';
 import ErrorPage from './components/Pages/ErrorPage';
 import NotFoundPage from './components/Pages/NotFound';
 import AboutPage from './components/Pages/AboutPage';
-
-function RouteWithLayout({layout, component, ...rest}){
-  return (
-    <Route {...rest} render={(props) =>
-      React.createElement( layout, props, React.createElement(component, props))
-    }/>
-  );
-}
+import RouteWithLayout from './components/Layouts/RouteWithLayout';
 
 class Routes extends React.Component {
     

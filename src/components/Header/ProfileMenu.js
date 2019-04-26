@@ -33,7 +33,7 @@ class ProfileMenu extends React.Component {
             return (
                 <div className="dropdown d-inline-block ml-2">
                     <button type="button" className="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img className="rounded" src="assets/media/avatars/avatar10.jpg" alt="Header Avatar" style={{ width: "18px" }} />
+                        <img className="rounded" src="/assets/media/avatars/avatar10.jpg" alt="" style={{ width: "18px" }} />
                         <span className="d-none d-sm-inline-block ml-1"><FormattedMessage id="welcome.user" values={{ user: displayName }} /></span>
                         <i className="fa fa-fw fa-angle-down d-none d-sm-inline-block" />
                     </button>
@@ -64,7 +64,7 @@ class ProfileMenu extends React.Component {
             return (
                 <div className="dropdown d-inline-block ml-2">
                     <button type="button" className="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img className="rounded" src="assets/media/avatars/avatar10.jpg" alt="Header Avatar" style={{ width: "18px" }} />
+                        <img className="rounded" src="assets/media/avatars/avatar10.jpg" alt="" style={{ width: "18px" }} />
                         <span className="d-none d-sm-inline-block ml-1"><FormattedMessage id="welcome.guest" /></span>
                         <i className="fa fa-fw fa-angle-down d-none d-sm-inline-block" />
                     </button>

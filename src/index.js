@@ -5,7 +5,6 @@ import { AppContainer } from 'react-hot-loader'
 import App from './App'
 
 import { ConnectedRouter } from 'connected-react-router';
-import userManager from './services/userManager';
 import { Provider } from 'react-redux';
 import { history } from './store/configureStore';
 

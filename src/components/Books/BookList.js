@@ -196,7 +196,7 @@ class BookList extends Component {
         if (books && books.data && books.data.length > 0) {
             let addButton = null;
             if (createLink) {
-                addButton = <button type="button" className="btn-block-option" onClick={this.onAddClicked.bind(this)}><i className="si si-plus"/></button>
+                addButton = <button type="button" className="btn-block-option" onClick={this.onAddClicked.bind(this)}><i className="si si-plus" /></button>
             }
 
             if (this.props.simple) {
@@ -206,11 +206,27 @@ class BookList extends Component {
                             <div className="row row-deck">
                                 {this.renderBooks(books)}
                             </div>
-                            <Pagination defaultActivePage={pageNumber}
-                                    totalPages={books.pageCount}
+                            <nav aria-label="Page navigation">
+                                <ReactPaginate
+                                    previousLabel={<i className="fa fa-angle-double-left"></i>}
+                                    nextLabel={<i className="fa fa-angle-double-right"></i>}
+                                    breakLabel={'...'}
+                                    pageCount={books.pageCount}
+                                    marginPagesDisplayed={2}
+                                    pageRangeDisplayed={5}
                                     onPageChange={this.onPageChange}
-                                    pointing
-                                    secondary attached='bottom' />
+                                    initialPage={pageNumber - 1}
+                                    containerClassName={'pagination justify-content-center'}
+                                    subContainerClassName={'test'}
+                                    breakClassName={'break-me'}
+                                    activeClassName={'active'}
+                                    pageClassName={'page-item'}
+                                    pageLinkClassName={'page-link'}
+                                    previousClassName={'page-item'}
+                                    previousLinkClassName={'page-link'}
+                                    nextClassName={'page-item'}
+                                    nextLinkClassName={'page-link'} />
+                            </nav>
                             {this.renderEditor(createLink)}
                         </div>
                     </>
@@ -230,29 +246,29 @@ class BookList extends Component {
                                 {this.renderBooks(books)}
                             </div>
                         </div>
-                        
+
                         <nav aria-label="Page navigation">
-                        <ReactPaginate
-                            previousLabel={<i className="fa fa-angle-double-left"></i>}
-                            nextLabel={<i className="fa fa-angle-double-right"></i>}
-                            breakLabel={'...'}
-                            pageCount={books.pageCount}
-                            marginPagesDisplayed={2}
-                            pageRangeDisplayed={5}
-                            onPageChange={this.onPageChange}
-                            initialPage={pageNumber-1}
-                            containerClassName={'pagination justify-content-center'}
-                            subContainerClassName={'test'}
-                            breakClassName={'break-me'}
-                            activeClassName={'active'}
-                            pageClassName={'page-item'}
-                            pageLinkClassName={'page-link'}
-                            previousClassName={'page-item'}
-                            previousLinkClassName={'page-link'}
-                            nextClassName={'page-item'}
-                            nextLinkClassName={'page-link'}/>
-                            </nav>
-                        </div>
+                            <ReactPaginate
+                                previousLabel={<i className="fa fa-angle-double-left"></i>}
+                                nextLabel={<i className="fa fa-angle-double-right"></i>}
+                                breakLabel={'...'}
+                                pageCount={books.pageCount}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={this.onPageChange}
+                                initialPage={pageNumber - 1}
+                                containerClassName={'pagination justify-content-center'}
+                                subContainerClassName={'test'}
+                                breakClassName={'break-me'}
+                                activeClassName={'active'}
+                                pageClassName={'page-item'}
+                                pageLinkClassName={'page-link'}
+                                previousClassName={'page-item'}
+                                previousLinkClassName={'page-link'}
+                                nextClassName={'page-item'}
+                                nextLinkClassName={'page-link'} />
+                        </nav>
+                    </div>
 
 
                     {this.renderEditor(createLink)}
