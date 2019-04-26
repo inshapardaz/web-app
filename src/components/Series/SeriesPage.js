@@ -67,6 +67,7 @@ class SeriesPage extends Component {
         </EmptyPlaceholder>
     );
   }
+  
   renderAdd(createLink) {
     if (createLink) {
       return <EditSeries button createLink={createLink} isAdding={true} onUpdated={this.reloadSeries} />

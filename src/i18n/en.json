@@ -44,7 +44,7 @@
     "categories.messages.saved" : "Category saved",
     "categories.messages.deleted" : "Category Deleted",
     "categories.messages.error.saving" : "Error saving category",
-    "categories.messages.error.delete" : "Category Deleted",
+    "categories.messages.error.delete" : "Unable to delete category",
     "categories.messages.error.loading" : "Unable to load categories",
     "categories.messages.empty" : "No category found",
     "categories.action.confirmDelete" : "Do you want to remove '{name}'?",

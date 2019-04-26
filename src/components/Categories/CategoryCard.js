@@ -1,45 +1,84 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 
-export default class CategoryCard extends Component {
+import { FormattedMessage } from 'react-intl';
+import { List, Icon, Card } from 'antd';
+
+import DeleteCategory from './DeleteCategory';
+import EditCategory from './EditCategory';
+
+const { Meta } = Card;
+
+class CategoryCard extends Component {
     renderCategoryActions(category) {
         let actions = [];
+        
+        if (!category || !category.links) return null;
         const editLink = category.links.update;
         const deleteLink = category.links.delete;
 
         if (editLink) {
-            actions.push(<button key="edit" className="tg-facebook" onClick={this.props.onEdit} className="btn btn-sm btn-light"><i className="fa fa-edit" /></button>)
+            actions.push(<EditCategory category={category} onUpdated={this.props.onUpdated}/>)
         }
+
         if (deleteLink) {
-            actions.push(<button key="delete" className="tg-linkedin" onClick={this.props.onDelete} className="btn btn-sm btn-light"><i className="fa fa-trash" /></button>);
+            actions.push(<DeleteCategory category={category} onDeleted={this.props.onUpdated}/>);
         }
 
         if (actions.length > 0) {
-            return (<td className="text-center">
-                <div className="btn-group">
-                    {actions}
-                </div>
-            </td>);
+            return actions;
         }
 
         return null;
     }
 
     render() {
-        const { category } = this.props;
+        const { category, card } = this.props;
         if (category == null) {
             return
         }
 
-        return (
-            <tr>
-                <td>
-                    <Link className="font-w600" to={`/books?category=${category.id}`}>{category.name}</Link>
-                    <div className="text-muted mt-1"><FormattedMessage id="categories.item.book.count" values={{ count: category.bookCount }} /></div>
-                </td>
-                {this.renderCategoryActions(category)}
-            </tr>
-        );
+        const title = <Link className="font-w600" to={`/books?category=${category.id}`}>{category.name}</Link>;
+        const actions = this.renderCategoryActions(category);
+        const bookCount = <FormattedMessage id="categories.item.book.count" values={{ count: category.bookCount }} />;
+        const avatar = <Icon type="appstore" />
+
+        if (card) {
+            return (
+                <List.Item key={category.id} >
+                    <Card
+                        hoverable
+                        actions={actions}
+                        cover={avatar}
+                    >
+                        <Meta
+                            title={title}
+                            description={bookCount} />
+                    </Card>
+                </List.Item>
+            )
+        }
+        else {
+            return (
+                <List.Item key={category.id} actions={actions}>
+                    <List.Item.Meta
+                        avatar={avatar}
+                        title={title}
+                        description={category.description}>
+                    </List.Item.Meta>
+                    <div>{bookCount}</div>
+                </List.Item>
+            );
+
+        }
     }
 }
+
+export default CategoryCard;
+
+CategoryCard.propTypes = {
+    onUpdated: PropTypes.func,
+    category: PropTypes.object.isRequired,
+    card: PropTypes.bool
+};

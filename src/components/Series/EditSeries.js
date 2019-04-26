@@ -114,7 +114,7 @@ class EditSeries extends Component {
             if (isAdding) {
                 await ApiService.post(createLink, series);
             } else {
-                await ApiService.put(series.links.delete, series);
+                await ApiService.put(series.links.update, series);
             }
 
             notification.success({
@@ -135,7 +135,6 @@ class EditSeries extends Component {
                 isBusy: false
             });
         }
-
     }
 
     saveFormRef = (formRef) => {
