@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
+import { Empty } from 'antd';
 
 export default class EmptyPlaceholder extends Component {
 
@@ -12,23 +13,9 @@ export default class EmptyPlaceholder extends Component {
                     {buttonText}
                 </button>
             )
-        }
+        } 
 
-        return (
-            <div className="col-md-12">
-                <div className="block block-transparent">
-                    <div className="block-content">
-                        <div className="text-center py-8">
-                            <p>
-                                <i className="fa fa-3x fa-ghost" />
-                            </p>
-                            <div className="mb-0">{message}</div>
-                            <div className="py-4">{button}</div>
-                        </div>                        
-                     </div>
-                </div>
-            </div>
-        )
+        return <Empty image={this.props.image || Empty.PRESENTED_IMAGE_SIMPLE} description={this.props.description} >{this.props.children}</Empty>;
     }
     render() {
         if (this.props.fullWidth) {

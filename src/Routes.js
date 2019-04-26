@@ -17,8 +17,8 @@ import Chapter from './components/Chapter/Chapter';
 import DictionaryHome from './components/Dictionary/DictionaryHome';
 import DictionaryPage from './components/Dictionary/DictionaryPage';
 
-import CategoriesHome from './components/Categories/CategoriesHome';
-import SeriesHome from './components/Series/SeriesHome';
+import CategoriesPage from './components/Categories/CategoriesPage';
+import SeriesPage from './components/Series/SeriesPage';
 
 import Search from './components/Search';
 import ErrorPage from './components/Pages/ErrorPage';
@@ -44,8 +44,8 @@ class Routes extends React.Component {
         <RouteWithLayout layout={BoxedLayout} path="/books/recent" component={BooksHome} />
         <RouteWithLayout layout={BoxedLayout} path="/books/favorites" component={BooksHome} />
         <RouteWithLayout layout={BoxedLayout} path="/books" component={BooksHome} />
-        <RouteWithLayout layout={BoxedLayout} path="/categories" component={CategoriesHome} />
-        <RouteWithLayout layout={BoxedLayout} path="/series" component={SeriesHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/categories" component={CategoriesPage} />
+        <RouteWithLayout layout={BoxedLayout} path="/series" component={SeriesPage} />
         <RouteWithLayout layout={BoxedLayout} path="/dictionaries/:id" component={DictionaryPage} />
         <RouteWithLayout layout={BoxedLayout} path="/dictionaries" component={DictionaryHome} />
         <RouteWithLayout layout={EmptyLayout} component={NotFoundPage} />

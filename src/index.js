@@ -10,6 +10,7 @@ import { history } from './store/configureStore';
 
 import configureStore from './store/configureStore';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
+import "antd/dist/antd.css";
 
 const store = configureStore();
 

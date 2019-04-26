@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import ApiService from '../../services/ApiService';
 import { Link } from 'react-router-dom';
-import { Card, Icon, Button, Segment, Header, Confirm } from 'semantic-ui-react';
+import { Confirm } from 'semantic-ui-react';
+import { Button, Icon, List, Modal } from 'antd';
+import { Helmet } from 'react-helmet'
 import { injectIntl, FormattedMessage } from 'react-intl';
 
 import { success, error } from '../../services/toasts';
-
+import Page from '../Layouts/Page';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import EditCategory from './EditCategory';
 import CategoryCard from './CategoryCard';
 
-class CategoriesHome extends Component {
+class CategoriesPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -167,6 +169,18 @@ class CategoriesHome extends Component {
     return null;
   }
 
+  renderActions(category) {
+    let actions = [];
+
+    if (category.links.delete) {
+      actions.push(<Icon type="delete" onClick={() => this.onDeleteClicked(category)} />)
+    }
+    if (category.links.update) {
+      actions.push(<Icon type="edit" onClick={() => this.onEditClicked(category)} />)
+    }
+    return actions;
+  }
+
   render() {
     const { categories, isLoading, isAdding, isError, showEdit, selectedCategory } = this.state;
     const createLink = (categories && categories.links) ? categories.links.create : null;
@@ -180,15 +194,21 @@ class CategoriesHome extends Component {
     if (categories && categories.items && categories.items.length > 0) {
       return (
         <>
+          <Helmet title={this.props.intl.formatMessage({id:"header.categories"})} />
           <main id="main-container">
-            <CategoriesHeader createLink={createLink} onCreate={this.addCategory.bind(this)} />
             <div className="block">
               <div className="block-content">
-                <table className="table table-hover table-vcenter font-size-sm">
-                  <tbody>
-                    {this.renderCategories(categories)}
-                  </tbody>
-                </table>
+                <List
+                  size="large"
+                  bordered
+                  dataSource={categories.items}
+                  renderItem={item => (
+                    <List.Item key={item.is} actions={this.renderActions(item)}>
+                      <Link to={`/books?category=${item.id}`}>
+                        {item.name}
+                      </Link>
+                    </List.Item>)}
+                />
               </div>
             </div>
             {this.renderDelete()}
@@ -202,29 +222,5 @@ class CategoriesHome extends Component {
   }
 }
 
-export default injectIntl(CategoriesHome);
+export default injectIntl(CategoriesPage);
 
-class CategoriesHeader extends React.Component {
-  render() {
-    return (
-      <div className="bg-image overflow-hidden" style={{ backgroundImage: "url('assets/media/photos/photo3@2x.jpg')" }}>
-        <div className="bg-primary-dark-op">
-          <div className="content content-narrow content-full">
-            <div className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center mt-5 mb-2 text-center text-sm-left">
-              <div className="flex-sm-fill">
-                <h1 className="font-w600 text-white mb-0" data-toggle="appear"><FormattedMessage id="header.categories" /></h1>
-              </div>
-              {this.props.createLink ?
-                (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
-                  <span className="d-inline-block" data-toggle="appear" data-timeout="350">
-                    <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.props.onCreate}>
-                      <i className="fa fa-plus mr-1" /> <FormattedMessage id="categories.action.create" />
-                    </a>
-                  </span>
-                </div>) : null}
-            </div>
-          </div>
-        </div>
-      </div>);
-  }
-}

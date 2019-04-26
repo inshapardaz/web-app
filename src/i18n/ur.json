@@ -18,6 +18,8 @@
     "action.close" : "اخراج",
     "action.changeImage" : "تصویر تبدیل کریں",
     "action.view" : "ملاحضہ کیجئے",
+    "action.list" : "فہرست",
+    "action.card" : "کارڈ",
     "action.goto.home" : "صفحۃ اوّل کو واپسی",
     "message.loading": "لوڈ ہو رہا ہے",
     "message.image.upload.error" : "تصویر تبدیل کرنے میں ناکامی ہوئی",

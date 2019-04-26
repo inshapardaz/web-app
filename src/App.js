@@ -8,6 +8,7 @@ import LocaleService from './services/LocaleService';
 import AuthService from './services/AuthService';
 import { push } from 'connected-react-router'
 import ReduxToastr from 'react-redux-toastr';
+import { Helmet } from 'react-helmet'
 
 class App extends React.Component {
   state = {
@@ -60,6 +61,7 @@ class App extends React.Component {
       return (
         <IntlProvider locale={locale.locale} messages={locale.messages}>
           <>
+            <Helmet titleTemplate="Inshapardaz - %s" />
             <Routes />
             <ReduxToastr
                 timeOut={4000}
