@@ -6,7 +6,6 @@ import { Icon, Alert, Modal, Input, Form, Button, notification } from 'antd';
 
 
 import ApiService from '../../services/ApiService';
-import { error, success } from '../../services/toasts';
 
 const AuthorForm = Form.create({
     name: 'authorEditor',
@@ -21,12 +20,12 @@ const AuthorForm = Form.create({
 })(
     class extends React.Component {
         render() {
-            const { visible, title, onCancel, onOK, isError, isBusy, form, intl } = this.props;
+            const { visible, header, onCancel, onOK, isError, isBusy, form, intl } = this.props;
             const { getFieldDecorator } = form;
 
             return (
                 <Modal
-                    title={title}
+                    title={header}
                     visible={visible}
                     onOk={onOK}
                     confirmLoading={isBusy}
@@ -135,13 +134,14 @@ class EditAuthor extends Component {
         const { isAdding, intl, author, button } = this.props;
         const { isBusy, isError, visible } = this.state;
         
-        let title = intl.formatMessage({ id: "author.editor.header.edit" }, { name: name });
-        let buttonText = intl.formatMessage({ id: "action.edit" });
-        let icon = "edit";
-        if (isAdding) {
-            title = intl.formatMessage({ id: "author.editor.header.add" });
-            buttonText = intl.formatMessage({ id: "authors.action.create" });
-            icon = "plus";
+        let header = intl.formatMessage({ id: "author.editor.header.add" });
+        let buttonText = intl.formatMessage({ id: "authors.action.create" });
+        let icon = "plus";
+
+        if (!isAdding && author) {
+            header = intl.formatMessage({ id: "author.editor.header.edit" }, { name: author.name });
+            buttonText = intl.formatMessage({ id: "action.edit" });
+            icon = "edit";           
         }
 
         const action = button ?
@@ -154,7 +154,7 @@ class EditAuthor extends Component {
                 <AuthorForm {...author}
                     wrappedComponentRef={this.saveFormRef}
                     visible={visible}
-                    title={title}
+                    header={header}
                     isBusy={isBusy}
                     isError={isError}
                     onCancel={this.onClose}

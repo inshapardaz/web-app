@@ -1,47 +1,37 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { injectIntl } from 'react-intl';
-import BookEditor from './BookEditor';
-import ChangeImage from './ChangeImage';
+import PropTypes from 'prop-types';
+
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { List, Card } from 'antd';
+
+import EditBook from './EditBook';
+import UploadBookImage from './UploadBookImage';
 import DeleteBook from './DeleteBook';
 
+const { Meta } = Card;
+
+const defaultBookImage = '/resources/img/book_placeholder.png';
+
 class BookCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showEdit: false,
-      active: false
-    };
-
-    this.renderEditor = this.renderEditor.bind(this);
-    this.onEdit = this.onEdit.bind(this);
-    this.onCloseEdit = this.onCloseEdit.bind(this);
-  }
-
-  onEdit = () => this.setState({ showEdit: true })
-  onCloseEdit = () => this.setState({ showEdit: false })
-  onAddToFavorite = (book) => {
-    console.log("Added to favorites");
-  }
-
-  onRemoveFromFavorite = (book) => {
-    console.log("Remove from favorites");
-  }
-
   renderBookActions(book) {
     let actions = [];
 
-    if (book.links.update) {
-      actions.push(<button type="button" key="edit" className="btn-block-option" onClick={this.onEdit}><i className="far fa-fw fa-edit"/></button>)
+    if (!book || !book.links) return null;
+    const editLink = book.links.update;
+    const deleteLink = book.links.delete;
+    const imageLink = book.links.image_upload;
+
+    if (editLink) {
+      actions.push(<EditBook book={book} onUpdated={this.props.onUpdated} />)
     }
 
-    if (book.links.image_upload) {
-      actions.push(<ChangeImage key="image" uploadLink={book.links.image_upload}
-        onUpdated={this.props.onUpdated} />)
+    if (imageLink) {
+      actions.push(<UploadBookImage book={book} onUpdated={this.props.onUpdated} />);
     }
 
-    if (book.links.delete) {
-      actions.push(<DeleteBook key="delete" book={book} onDeleted={this.props.onUpdated} />)
+    if (deleteLink) {
+      actions.push(<DeleteBook book={book} onDeleted={this.props.onUpdated} />);
     }
 
     if (actions.length > 0) {
@@ -51,58 +41,56 @@ class BookCard extends Component {
     return null;
   }
 
-  renderEditor(book) {
-    if (this.state.showEdit && book) {
-      return (<BookEditor open={true} book={book}
-        authorId={book.authorId}
-        createLink={null} isAdding={false}
-        onOk={this.props.onUpdated}
-        onClose={this.onCloseEdit} />);
-    }
-
-    return null;
-  }
-
-  handleShow = () => this.setState({ active: true })
-  handleHide = () => this.setState({ active: false })
-
-  renderCategories(book) {
-    if (book.categories.length > 0) {
-      return (
-        <ul className="tg-bookscategories">
-          {book.categories.map(c => <li key={c.id}><Link to={`/books?category=${c.id}`} >{c.name}</Link></li>)}
-        </ul>
-      );
-    }
-
-    return null;
+  setDefaultBookImage(ev) {
+    ev.target.src = defaultBookImage;
   }
 
   render() {
-    const { book } = this.props;
-
+    const { book, card } = this.props;
     if (book == null) {
       return
     }
 
-    return (
-      <div className="col-md-5 col-lg-4 col-xl-3" key={book.id}>
-        <div className="block block-rounded block-link-pop" >
-          <div className="block-content block-content-full text-center bg-image" style={{ backgroundImage: `url('${book.links.image || '/resources/img/book_placeholder.png'}')` }} >
-            <div className="py-6 mt-6" />
-          </div>
-          <div className="block-content block-content-full">
-            <h4 className="mb-1"><Link to={`/books/${book.id}`} >{book.title}</Link></h4>
-            <div className="font-size-sm text-muted">
-              {this.props.intl.formatMessage({ id: 'book.by' })}
-              <Link to={`/authors/${book.authorId}`} >{book.authorName}</Link></div>
-              {this.renderBookActions(book)}
-          </div>
-        </div>
-        {this.renderEditor(book)}
-      </div>
-    );
+    const title = <Link to={`/books/${book.id}`} >{book.title}</Link>
+    const actions = this.renderBookActions(book)
+    const bookDescription = book.description;
+    const author = <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>
+
+    if (card) {
+      return (
+        <List.Item key={book.id} >
+          <Card
+            hoverable
+            actions={actions}
+            cover={<img width={175} alt="logo" src={book.links.image || defaultBookImage} onError={this.setDefaultBookImage} />}
+          >
+            <Meta
+              title={title}
+              description={author} / >
+          </Card>
+        </List.Item>
+      )
+    }
+    else {
+      return (
+        <List.Item key={book.id}
+          actions={actions}
+          extra={<img width={175} alt="logo" src={book.links.image || defaultBookImage} onError={this.setDefaultBookImage} />}>
+          <List.Item.Meta title={title} description={author}>
+          </List.Item.Meta>
+          <div>{bookDescription}</div>
+        </List.Item>
+      );
+
+    }
   }
 }
 
 export default injectIntl(BookCard);
+
+
+BookCard.propTypes = {
+  onUpdated: PropTypes.func,
+  book: PropTypes.object.isRequired,
+  card: PropTypes.bool
+};

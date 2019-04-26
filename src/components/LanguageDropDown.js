@@ -1,51 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux';
-import { Dropdown } from 'semantic-ui-react';
 
-const convertLanguageOptions = (languages) => 
-        languages.map(obj =>{ 
-            var rObj = {};
-            rObj["key"] = obj.value;
-            rObj["text"] = obj.key;
-            rObj["value"] = obj.value;
-            return rObj;
-        });
+import { Select } from 'antd';
+
+const Option = Select.Option;
 
 class LanguageDropDown extends Component {
-    constructor(props) {
-        super(props)
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange = (e, { value }) => this.props.onChange(value)
-
     render() {
-        const { options, value, placeholder, disabled, error } = this.props;
+        let options = this.state && this.state.languages ? this.state.languages.map(l => <Option key={l.key} value={l.key}>{l.name}</Option> ) : [];
+
         return (
-            <Dropdown
-                fluid
-                selection
-                options={options}
-                search={true}
-                value={value}
-                error={error}
-                placeholder={placeholder}
-                onChange={this.handleChange}
-                disabled={disabled}
-            />
+            <Select placeholder={this.props.placeholder}
+                    mode="default"
+                    showSearch
+                    showArrow
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+              {options}
+            </Select>
         )
     }
 }
 
 export default connect(
     state => ({
-        isFetching: false,
-        multiple: false,
-        search: true,
-        searchQuery: null,
-        options: convertLanguageOptions(state.apiReducers.languages)
+        languages: state.apiReducers.languages
     }),
-    dispatch => bindActionCreators({}, dispatch)
+   null
 )(LanguageDropDown)
 

@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import queryString from 'query-string';
-import ApiService from '../../services/ApiService';
-import { Confirm } from 'semantic-ui-react';
-import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 
 import { Pagination, List, Switch } from 'antd';
 import { Helmet } from 'react-helmet'
 
+import ApiService from '../../services/ApiService';
+import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import AuthorCard from './AuthorCard';
 import EditAuthor from './EditAuthor';
 
 class AuthorsPage extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

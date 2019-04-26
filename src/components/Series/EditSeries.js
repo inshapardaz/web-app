@@ -23,12 +23,12 @@ const SeriesForm = Form.create({
 })(
     class extends React.Component {
         render() {
-            const { visible, title, onCancel, onOK, isError, isBusy, form, intl } = this.props;
+            const { visible, header, onCancel, onOK, isError, isBusy, form, intl } = this.props;
             const { getFieldDecorator } = form;
 
             return (
                 <Modal
-                    title={title}
+                    title={header}
                     visible={visible}
                     onOk={onOK}
                     confirmLoading={isBusy}
@@ -145,13 +145,14 @@ class EditSeries extends Component {
         const { isAdding, intl, series, button } = this.props;
         const { isBusy, isError, visible } = this.state;
 
-        let title = intl.formatMessage({ id: "series.editor.header.edit" }, { name: name });
-        let buttonText = intl.formatMessage({ id : "action.edit"});
-        let icon = "edit";
-        if (isAdding) {
-            title = intl.formatMessage({ id: "series.editor.header.add" });
-            buttonText = intl.formatMessage({ id : "series.action.create"});
-            icon = "plus";
+        let header = intl.formatMessage({ id: "series.editor.header.add" });
+        let buttonText = intl.formatMessage({ id : "series.action.create"});
+        let icon = "plus";
+
+        if (!isAdding && series) {
+            header = intl.formatMessage({ id: "series.editor.header.edit" }, { name: series.name });
+            buttonText = intl.formatMessage({ id : "action.edit"});
+            icon = "edit";
         }
 
         const action = button ? 
@@ -164,7 +165,7 @@ class EditSeries extends Component {
                 <SeriesForm {...series}
                     wrappedComponentRef={this.saveFormRef}
                     visible={visible}
-                    title={title}
+                    header={header}
                     isBusy={isBusy}
                     isError={isError}
                     onCancel={this.onClose}

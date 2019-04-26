@@ -8,7 +8,7 @@ import CategoriesSidebar from '../Categories/CategoriesSidebar';
 import LatestBooksSidebar from './LatestBooksSidebar';
 import FavoriteBooksSidebar from './FavoriteBooksSidebar';
 
-class BooksHome extends Component {
+class BooksPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -143,7 +143,7 @@ class BooksHome extends Component {
   }
 }
 
-export default injectIntl(BooksHome)
+export default injectIntl(BooksPage)
 
 class BooksHeader extends React.Component {
   render() {

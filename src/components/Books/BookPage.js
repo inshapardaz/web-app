@@ -5,8 +5,8 @@ import { withRouter } from "react-router";
 import { ErrorPlaceholder, Loading } from '../Common';
 import ApiService from '../../services/ApiService';
 import ChapterList from '../Chapter/ChapterList';
-import BookEditor from './BookEditor';
-import ChangeImage from './ChangeImage';
+import EditBook from './EditBook';
+import UploadBookImage from './UploadBookImage';
 import DeleteBook from './DeleteBook';
 import { history } from '../../store/configureStore';
 
@@ -83,7 +83,7 @@ class BookPage extends Component {
     }
 
     if (book.links.image_upload) {
-      actions.push(<ChangeImage as="a" key="image" fluid icon="picture" uploadLink={book.links.image_upload}
+      actions.push(<UploadBookImage as="a" key="image" fluid icon="picture" uploadLink={book.links.image_upload}
         content={<FormattedMessage id="action.changeImage" />} onUpdated={this.reloadBook} />)
     }
 
@@ -100,7 +100,7 @@ class BookPage extends Component {
 
   renderEdit(book) {
     if (this.state.showEdit && book) {
-      return (<BookEditor open={true} book={book}
+      return (<EditBook open={true} book={book}
         authorId={book.authorId}
         createLink={null} isAdding={false}
         onOk={this.reloadBook}

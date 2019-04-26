@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { List, Avatar, Card } from 'antd';
+import { List, Card } from 'antd';
 
 import EditAuthor from './EditAuthor';
 import UploadAuthorImage from './UploadAuthorImage';
 import DeleteAuthor from './DeleteAuthor';
 
 const { Meta } = Card;
+
+const defaultAuthorImage = '/resources/img/avatar1.jpg';
 
 class AuthorCard extends Component {
     renderAuthorActions(author) {
@@ -38,8 +40,9 @@ class AuthorCard extends Component {
 
         return null;
     }
+
     setDefaultAuthorImage(ev){
-        ev.target.src = '/resources/img/avatar1.jpg';
+        ev.target.src = defaultAuthorImage;
       }
 
     render() {
@@ -58,7 +61,7 @@ class AuthorCard extends Component {
                     <Card
                         hoverable
                         actions={actions}
-                        cover={<img width={175} alt="logo" src={author.links.image || '/resources/img/avatar1.jpg'} onError={this.setDefaultAuthorImage} />}
+                        cover={<img width={175} alt="logo" src={author.links.image || defaultAuthorImage} onError={this.setDefaultAuthorImage} />}
                     >
                         <Meta
                             title={title}
@@ -71,7 +74,7 @@ class AuthorCard extends Component {
             return (
                 <List.Item key={author.id}
                     actions={actions}
-                    extra={<img width={175} alt="logo" src={author.links.image || '/resources/img/avatar1.jpg'} onError={this.setDefaultAuthorImage} />}>
+                    extra={<img width={175} alt="logo" src={author.links.image || defaultAuthorImage} onError={this.setDefaultAuthorImage} />}>
                     <List.Item.Meta title={title}>
                     </List.Item.Meta>
                     <div>{bookCount}</div>

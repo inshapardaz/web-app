@@ -9,7 +9,7 @@ import Callback from './components/Callback';
 import AuthorsPage from './components/Authors/AuthorsPage';
 import AuthorPage from './components/Authors/AuthorPage';
 import BookPage from './components/Books/BookPage';
-import BooksHome from './components/Books/BooksHome';
+import BooksPage from './components/Books/BooksPage';
 
 import ChapterContentEditor from './components/Chapter/ChapterContentEditor';
 import Chapter from './components/Chapter/Chapter';
@@ -40,10 +40,10 @@ class Routes extends React.Component {
         <RouteWithLayout layout={BoxedLayout} path="/authors" component={AuthorsPage} />
         <RouteWithLayout layout={EmptyLayout} path="/books/:id/chapters/:chapterId" component={Chapter} />
         <RouteWithLayout layout={BoxedLayout} path="/books/:id" component={BookPage} />
-        <RouteWithLayout layout={BoxedLayout} path="/books/new" component={BooksHome} />
-        <RouteWithLayout layout={BoxedLayout} path="/books/recent" component={BooksHome} />
-        <RouteWithLayout layout={BoxedLayout} path="/books/favorites" component={BooksHome} />
-        <RouteWithLayout layout={BoxedLayout} path="/books" component={BooksHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/books/new" component={BooksPage} />
+        <RouteWithLayout layout={BoxedLayout} path="/books/recent" component={BooksPage} />
+        <RouteWithLayout layout={BoxedLayout} path="/books/favorites" component={BooksPage} />
+        <RouteWithLayout layout={BoxedLayout} path="/books" component={BooksPage} />
         <RouteWithLayout layout={BoxedLayout} path="/categories" component={CategoriesPage} />
         <RouteWithLayout layout={BoxedLayout} path="/series" component={SeriesPage} />
         <RouteWithLayout layout={BoxedLayout} path="/dictionaries/:id" component={DictionaryPage} />

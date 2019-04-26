@@ -7,9 +7,9 @@ const Option = Select.Option;
 
 import ApiService from '../../services/ApiService';
 
-class SeriesDropDown extends Component {
+class CategoriesDropDown extends Component {
     state = {
-        series: [],
+        categories: [],
         loading: false
     }
 
@@ -19,10 +19,10 @@ class SeriesDropDown extends Component {
                 loading: true
             })
 
-            let series = await ApiService.getSeries();
-            let options = series.items.map(c => <Option key={c.id} value={c.id}>{c.name}</Option> )
+            let categories = await ApiService.getCategories();
+            let options = categories.items.map(c => <Option key={c.id} value={c.id}>{c.name}</Option> )
             this.setState({
-                series: options,
+                categories: options,
                 loading: false
             })
         }
@@ -40,14 +40,14 @@ class SeriesDropDown extends Component {
                     loading= {this.state.loading}
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >
-              {this.state.series}
+              {this.state.categories}
             </Select>
         )
     }
 }
 
-export default SeriesDropDown;
+export default CategoriesDropDown;
 
-SeriesDropDown.propTypes = {
+CategoriesDropDown.propTypes = {
     placeholder: PropTypes.string 
 };

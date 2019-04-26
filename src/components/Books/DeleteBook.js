@@ -1,64 +1,82 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-import { success, error, question } from '../../services/toasts';
-import ApiService from '../../services/ApiService';
 
+import { Modal, Icon, Alert, notification } from 'antd';
+
+import ApiService from '../../services/ApiService';
 class DeleteBook extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            confirmDelete: false
+            isBusy: false,
+            isError: false,
+            show : false
         }
-        this.deleteBook = this.deleteBook.bind(this);
-        this.onDelete = this.onDelete.bind(this);
     }
-
-    onDelete()
-    {
-        const { book } = this.props;
-        const yesAction = this.props.intl.formatMessage({ id: 'action.yes' });
-        const noAction = this.props.intl.formatMessage({ id: 'action.no' });
-        const message = this.props.intl.formatMessage({ id: 'books.action.confirmDelete' }, { title: book.title });
-        question(message, yesAction, this.deleteBook, noAction);
+    onShow = () => {
+        this.setState({
+            show: true
+        });
+    }
+    onClose = () => {
+        this.setState({
+            show: false
+        });
     }
 
     async deleteBook() {
-        const { book, intl } = this.props;
+        const { book } = this.props;
         if (!book) return;
 
         let deleteLink = book.links.delete;
         if (!deleteLink) return;
 
         this.setState({
-            confirmDelete: false
+            isBusy: true,
+            isError: false
         });
 
         try {
             await ApiService.delete(deleteLink);
-            success(intl.formatMessage({ id: "books.messages.deleted" }));
-            this.props.onDeleted();
+            notification.success({
+                message: this.props.intl.formatMessage({ id: "books.messages.deleted" }),
+            });
+            await this.props.onDeleted();
         }
-        catch (e){
-            console.error(e)
-            error(intl.formatMessage({ id: "books.messages.error.delete" }));
+        catch{
+            this.setState({
+                isBusy: false,
+                isError: true
+            });
         }
     }
 
     render() {
-        if (this.props.as && this.props.as == "a")
-        {
-            return (<a key={this.props.key} className="btn btn-sm btn-light" onClick={this.onDelete} href="javascript:void(0);">{this.props.content}</a>)
-        }
-
-        return (<button type="button" key="delete" className="btn-block-option" onClick={this.onDelete}><i className="far fa-fw fa-trash-alt"/></button>);
+        const { book } = this.props;
+        const { show, isBusy, isError } = this.state;
+        const action = this.props.intl.formatMessage({ id: 'action.delete' });
+        const message = this.props.intl.formatMessage({ id: 'books.action.confirmDelete' }, { title: book.title });
+        return <>
+            <Icon type="delete" onClick={this.onShow} />
+            <Modal
+                title={action}
+                visible={show}
+                onOk={this.deleteBook.bind(this)}
+                confirmLoading={isBusy}
+                onCancel={this.onClose}
+                closeIcon={!isBusy}
+            >
+                <p>{message}</p>
+                { isError ? <Alert message={this.props.intl.formatMessage({ id: 'books.messages.error.delete' })} type="error" showIcon/> : null }
+            </Modal>
+        </>
     }
 }
 
 export default injectIntl(DeleteBook)
 
 DeleteBook.propTypes = {
+    onDeleted: PropTypes.func,
     book: PropTypes.object.isRequired,
-    key: PropTypes.string,
-    onDeleted: PropTypes.func.isRequired
 };
