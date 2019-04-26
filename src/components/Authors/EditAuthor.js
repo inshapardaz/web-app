@@ -1,92 +1,175 @@
 import React, { Component } from 'react'
-import { Header, Icon, Modal, Form } from 'semantic-ui-react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
+import { injectIntl } from 'react-intl';
+
+import { Icon, Alert, Modal, Input, Form, Button, notification } from 'antd';
+
+
 import ApiService from '../../services/ApiService';
-import { error, success} from '../../services/toasts';
+import { error, success } from '../../services/toasts';
+
+const AuthorForm = Form.create({
+    name: 'authorEditor',
+    mapPropsToFields(props) {
+        return {
+            name: Form.createFormField({
+                ...props.name,
+                value: props.name || '',
+            })
+        };
+    }
+})(
+    class extends React.Component {
+        render() {
+            const { visible, title, onCancel, onOK, isError, isBusy, form, intl } = this.props;
+            const { getFieldDecorator } = form;
+
+            return (
+                <Modal
+                    title={title}
+                    visible={visible}
+                    onOk={onOK}
+                    confirmLoading={isBusy}
+                    onCancel={onCancel}
+                    closeIcon={!isBusy}
+                    closeOnEscape={true}
+                    maskClosable={false}>
+                    <Form layout="vertical">
+                        <Form.Item label={intl.formatMessage({ id: "author.editor.fields.name.title" })} >
+                            {getFieldDecorator('name', {
+                                rules: [{
+                                    required: true, message: intl.formatMessage({ id: 'author.editor.fields.name.error' }),
+                                }],
+                            })(
+                                <Input />
+                            )}
+                        </Form.Item>
+                    </Form>
+                    {isError ? <Alert message={intl.formatMessage({ id: 'authors.messages.error.saving' })} type="error" showIcon /> : null}
+                </Modal>
+            );
+        }
+    }
+);
 
 class EditAuthor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            saving: false,
-            name: ""
+            visible: false,
+            isBusy: false,
+            isError: false
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.close = this.close.bind(this);
-        this.save = this.save.bind(this);
     }
 
-    componentDidMount = () => this.setState({name : this.props.author ? this.props.author.name : ''});
-    handleChange = (event) => this.setState({ name: event.target.value });
-    close = () => this.props.onClose();
+    onOpen = () => {
+        this.setState({ visible: true });
+    }
 
-    async save() {
+    onClose = () => {
+        if (this.formRef) {
+            const form = this.formRef.props.form;
+            form.resetFields();
+        }
+        this.setState({ visible: false, isError: false });
+    }
+
+    onSave = async () => {
+        const form = this.formRef.props.form;
+
+        await form.validateFields(async (err, values) => {
+            if (err) {
+                return;
+            }
+
+            await this.save(values);
+        });
+    }
+
+    async save(values) {
         this.setState({
-            saving: true
+            isBusy: true,
+            isError: false
         });
 
-        const { createLink, author, isAdding } = this.props;
+        let { createLink, author, isAdding } = this.props;
 
         try {
-            author.name = this.state.name;
+
+            if (isAdding && author == null) {
+                author = { name: '' }
+            }
+
+            author.name = values.name;
 
             if (isAdding) {
                 await ApiService.post(createLink, author);
             } else {
                 await ApiService.put(author.links.update, author);
             }
-            
-            success(this.props.intl.formatMessage({ id: "authors.messages.saved" }));
-            this.props.onOk();
-            this.close();
+
+            notification.success({
+                message: this.props.intl.formatMessage({ id: "authors.messages.saved" }),
+            });
+
+            this.props.onUpdated();
         }
-        catch{
-            error(this.props.intl.formatMessage({ id: "authors.messages.error.saving" }));
+        catch (e) {
+            console.error(e)
+            this.setState({
+                isError: true
+            });
         }
         finally {
             this.setState({
-                saving: false
+                isBusy: false
             });
         }
+    }
 
+    saveFormRef = (formRef) => {
+        this.formRef = formRef;
     }
 
     render() {
-        const { open, isAdding, intl, author   } = this.props;
-        const { saving, name } = this.state;
-        if (!open || !author) {
-            return null;
+        const { isAdding, intl, author, button } = this.props;
+        const { isBusy, isError, visible } = this.state;
+        
+        let title = intl.formatMessage({ id: "author.editor.header.edit" }, { name: name });
+        let buttonText = intl.formatMessage({ id: "action.edit" });
+        let icon = "edit";
+        if (isAdding) {
+            title = intl.formatMessage({ id: "author.editor.header.add" });
+            buttonText = intl.formatMessage({ id: "authors.action.create" });
+            icon = "plus";
         }
 
-        let header = intl.formatMessage({ id: "author.editor.header.edit" }, { name: name });
-        if (isAdding) {
-            header = intl.formatMessage({ id: "author.editor.header.add" });
-        }
+        const action = button ?
+            <Button icon={icon} onClick={this.onOpen} >{buttonText}</Button> :
+            <Icon type={icon} onClick={this.onOpen} />;
 
         return (
-            <Modal open={open} size='mini' onClose={this.close}
-                closeOnEscape={true} closeOnDimmerClick={false} closeIcon={!saving}>
-                <Header icon='edit' content={header} />
-                <Modal.Content>
-                    <Form>
-                        <Form.Input label={<FormattedMessage id="author.editor.fields.name.title" />}
-                            placeholder={intl.formatMessage({ id: "author.editor.fields.name.title" })}
-                            disabled={saving} content="test" value={name} onChange={this.handleChange}
-                            error={!name} />
-
-                        <Form.Button fluid type="submit" 
-                            onClick={this.save} 
-                            loading={saving}
-                            disabled={!name}>
-                            <Icon name='save' /> <FormattedMessage id="action.save" />
-                        </Form.Button>
-                    </Form>
-                </Modal.Content>
-            </Modal>
+            <>
+                {action}
+                <AuthorForm {...author}
+                    wrappedComponentRef={this.saveFormRef}
+                    visible={visible}
+                    title={title}
+                    isBusy={isBusy}
+                    isError={isError}
+                    onCancel={this.onClose}
+                    onOK={this.onSave}
+                    intl={intl}
+                />
+            </>
         )
     }
 }
 
 
 export default injectIntl(EditAuthor);
+
+EditAuthor.propTypes = {
+    onUpdated: PropTypes.func,
+    author: PropTypes.object
+};

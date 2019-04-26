@@ -3,7 +3,6 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import queryString from 'query-string';
 import ApiService from '../../services/ApiService';
 import { Confirm } from 'semantic-ui-react';
-import ReactPaginate from 'react-paginate';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 
 import { Pagination, List, Switch } from 'antd';
@@ -20,15 +19,11 @@ class AuthorsPage extends Component {
       isError: false,
       isLoading: true,
       authors: { items: [] },
-      showEditor: false,
-      selectedAuthor: {},
-      isAdding: false,
-      confirmDelete: false,
-      pageNumber: 1
+      pageNumber: 1,
+      showCard: true
     };
 
-    this.onPageChange = this.onPageChange.bind(this);
-    this.onAuthorUpdated = this.onAuthorUpdated.bind(this);
+    this.reloadAuthors = this.reloadAuthors.bind(this);
   }
 
   async componentDidMount() {
@@ -59,7 +54,7 @@ class AuthorsPage extends Component {
         isLoading: false,
         isError: false,
         authors: result,
-        pageNumber: pageNumber
+        pageNumber: parseInt(pageNumber)
       });
     }
     catch (e) {
@@ -71,53 +66,19 @@ class AuthorsPage extends Component {
     }
   }
 
-  onPageChanged = (page, pageSize) => {
+  onPageChanged = (page) => {
     if (this.state.pageNumber != page) {
       this.props.history.push(`/authors?page=${page}`);
     }
   }
-  onPageChange(data) {
-    let activePage = data.selected + 1;
-    if (this.state.pageNumber != activePage) {
-      this.props.history.push(`/authors?page=${activePage}`);
-    }
-  }
 
-  addAuthor() {
-    this.setState({
-      selectedAuthor: {},
-      isAdding: true,
-    });
-  }
-
-  onCloseEdit() {
-    this.setState({
-      isAdding: false
-    });
-  }
-
-  async onAuthorUpdated() {
-    await this.reloadAuthors();
-    this.setState({
-      selectedAuthor: null
-    });
-  }
-
-  renderEmptyPlaceHolder(create) {
+  renderEmptyPlaceHolder(createLink) {
     const { intl } = this.props;
     const message = intl.formatMessage({ id: 'authors.messages.empty' });
-    const buttonText = intl.formatMessage({ id: 'authors.action.create' });
-
     return (
-      <>
-        {createLink ? this.renderEditor(createLink) : null}
-        <main id="tg-main" className="tg-main tg-haslayout">
-          <EmptyPlaceholder fullWidth={true} message={message} iconName='folder outline'
-            showButton={true} buttonText={buttonText}
-            buttonAction={this.addAuthor.bind(this)} />
-        </main>
-      </>
-    );
+      <EmptyPlaceholder fullWidth={true} message={message} iconName='user' showButton={false} >
+        {this.renderAdd(createLink)}
+      </EmptyPlaceholder>);
   }
 
   renderLoadingError() {
@@ -127,36 +88,6 @@ class AuthorsPage extends Component {
     return (<ErrorPlaceholder fullWidth={true} message={message}
       showButton={true} buttonText={buttonText}
       buttonAction={this.reloadAuthors.bind(this)} />)
-  }
-
-  renderAuthors(authors) {
-    return authors.data.map(a =>
-      <AuthorCard key={a.id} author={a} onUpdated={this.onAuthorUpdated} />)
-  }
-
-
-  renderDelete() {
-    const { confirmDelete, selectedAuthor } = this.state;
-    if (confirmDelete && selectedAuthor) {
-      const { intl } = this.props;
-
-      return (<Confirm size="mini" open={confirmDelete}
-        content={intl.formatMessage({ id: 'authors.action.confirmDelete' }, { name: selectedAuthor.name })}
-        cancelButton={intl.formatMessage({ id: 'action.no' })}
-        confirmButton={intl.formatMessage({ id: 'action.yes' })}
-        onCancel={() => this.setState({ confirmDelete: false })}
-        onConfirm={this.deleteAuthor.bind(this)} closeIcon />);
-    }
-
-    return null;
-  }
-
-  renderEditor(createLink) {
-    const { isAdding, showEditor, selectedAuthor } = this.state;
-    return (<EditAuthor open={isAdding | showEditor} author={selectedAuthor}
-      createLink={createLink} isAdding={isAdding}
-      onOk={this.reloadAuthors.bind(this)}
-      onClose={this.onCloseEdit.bind(this)} />);
   }
 
   renderAdd(createLink) {
@@ -183,61 +114,38 @@ class AuthorsPage extends Component {
 
     if (authors && authors.data && authors.data.length > 0) {
       return (
-        <main id="main-container">
-          <div className="block">
-            <div className="block-header">
-              <FormattedMessage id="header.categories" />
-              <div className="block-options">
-                {this.renderAdd(createLink)}
-                <span className="ml-2" />
-                <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.list" })}
-                  unCheckedChildren={this.props.intl.formatMessage({ id: "action.card" })}
-                  onChange={this.onToggleCardView.bind(this)} />
-              </div>
-            </div>
-            <div className="block-content">
-              <List
-                size="large"
-                grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-                bordered
-                dataSource={authors.data}
-                renderItem={a => (<AuthorCard key={a.id} card={showCard} author={a} onUpdated={this.reloadAuthors.bind(this)} />)}
-              />
-
-              <Pagination hideOnSinglePage
-                defaultCurrent={pageNumber}
-                total={authors.totalCount}
-                pageSize={authors.pageSize}
-                onChange={this.onPageChanged} />
-
-            </div>
-          </div>
-        </main>
-      );
-    }
-    else
-      return this.renderEmptyPlaceHolder(createLink);
-
-    if (authors && authors.data && authors.data.length > 0) {
-      return (
         <>
           <Helmet title={this.props.intl.formatMessage({ id: "header.authors" })} />
           <main id="main-container">
+            <div className="block">
+              <div className="block-header">
+                <FormattedMessage id="header.authors" />
+                <div className="block-options">
+                  {this.renderAdd(createLink)}
+                  <span className="ml-2" />
+                  <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.list" })}
+                    unCheckedChildren={this.props.intl.formatMessage({ id: "action.card" })}
+                    onChange={this.onToggleCardView.bind(this)} />
+                </div>
+              </div>
+              <div className="block-content">
+                <List
+                  itemLayout={showCard ? null : "vertical"}
+                  size="large"
+                  grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
+                  bordered
+                  dataSource={authors.data}
+                  renderItem={a => (<AuthorCard key={a.id} card={showCard} author={a} onUpdated={this.reloadAuthors} />)}
+                  footer={<Pagination hideOnSinglePage
+                    defaultCurrent={pageNumber}
+                    total={authors.totalCount}
+                    pageSize={authors.pageSize}
+                    onChange={this.onPageChanged} />}
+                />
 
-            <AuthorsHeader createLink={createLink} onCreate={this.addAuthor.bind(this)} />
-            <div className="content content-boxed">
-              <div className="row row-deck py-4">
-                {this.renderAuthors(authors)}
               </div>
             </div>
-            <Pagination hideOnSinglePage
-              defaultCurrent={pageNumber}
-              total={authors.totalCount}
-              pageSize={authors.pageSize}
-              onChange={this.onPageChanged} />
-            {this.renderDelete()}
-            {this.renderEditor(createLink)}
-          </main >
+          </main>
         </>
       );
     }
@@ -247,29 +155,3 @@ class AuthorsPage extends Component {
 }
 
 export default injectIntl(AuthorsPage);
-
-class AuthorsHeader extends React.Component {
-  render() {
-    return (
-      <div className="bg-image overflow-hidden" style={{ backgroundImage: "url('assets/media/photos/photo3@2x.jpg')" }}>
-        <div className="bg-primary-dark-op">
-          <div className="content content-narrow content-full">
-            <div className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center mt-5 mb-2 text-center text-sm-left">
-              <div className="flex-sm-fill">
-                <h1 className="font-w600 text-white mb-0" data-toggle="appear"><FormattedMessage id="header.authors" /></h1>
-              </div>
-              {this.props.createLink ?
-                (<div className="flex-sm-00-auto mt-3 mt-sm-0 ml-sm-3">
-                  <span className="d-inline-block" data-toggle="appear" data-timeout="350">
-                    <a className="btn btn-primary px-4 py-2" data-toggle="click-ripple" href="javascript:void(0)" onClick={this.props.onCreate}>
-                      <i className="fa fa-plus mr-1" /> <FormattedMessage id="authors.action.create" />
-                    </a>
-                  </span>
-                </div>) : null}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
