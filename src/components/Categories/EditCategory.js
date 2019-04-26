@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl';
-import ApiService from '../../services/ApiService';
-import { error, success} from '../../services/toasts';
+import PropTypes from 'prop-types';
+import { injectIntl } from 'react-intl';
+
 import { Icon, Alert, Modal, Input, Form, Button, notification } from 'antd';
+
+import ApiService from '../../services/ApiService';
 
 const CategoryForm = Form.create({
     name: 'categoryEditor',
@@ -165,3 +167,8 @@ class EditCategory extends Component {
 
 
 export default injectIntl(EditCategory);
+
+EditCategory.propTypes = {
+    onUpdated: PropTypes.func,
+    category: PropTypes.object 
+};

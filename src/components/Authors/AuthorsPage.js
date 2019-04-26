@@ -5,10 +5,14 @@ import ApiService from '../../services/ApiService';
 import { Confirm } from 'semantic-ui-react';
 import ReactPaginate from 'react-paginate';
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
+
+import { Pagination, List, Switch } from 'antd';
+import { Helmet } from 'react-helmet'
+
 import AuthorCard from './AuthorCard';
 import EditAuthor from './EditAuthor';
 
-class AuthorHome extends Component {
+class AuthorsPage extends Component {
 
   constructor(props) {
     super(props);
@@ -67,6 +71,11 @@ class AuthorHome extends Component {
     }
   }
 
+  onPageChanged = (page, pageSize) => {
+    if (this.state.pageNumber != page) {
+      this.props.history.push(`/authors?page=${page}`);
+    }
+  }
   onPageChange(data) {
     let activePage = data.selected + 1;
     if (this.state.pageNumber != activePage) {
@@ -150,8 +159,20 @@ class AuthorHome extends Component {
       onClose={this.onCloseEdit.bind(this)} />);
   }
 
+  renderAdd(createLink) {
+    if (createLink) {
+      return <EditAuthor button createLink={createLink} isAdding={true} onUpdated={this.reloadAuthors} />
+    }
+
+    return null;
+  }
+
+  onToggleCardView(checked) {
+    this.setState({ showCard: checked })
+  }
+
   render() {
-    const { authors, isLoading, isError, pageNumber } = this.state;
+    const { authors, isLoading, showCard, isError, pageNumber } = this.state;
     const createLink = (authors && authors.links) ? authors.links.create : null;
 
     if (isLoading) {
@@ -163,37 +184,61 @@ class AuthorHome extends Component {
     if (authors && authors.data && authors.data.length > 0) {
       return (
         <main id="main-container">
+          <div className="block">
+            <div className="block-header">
+              <FormattedMessage id="header.categories" />
+              <div className="block-options">
+                {this.renderAdd(createLink)}
+                <span className="ml-2" />
+                <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.list" })}
+                  unCheckedChildren={this.props.intl.formatMessage({ id: "action.card" })}
+                  onChange={this.onToggleCardView.bind(this)} />
+              </div>
+            </div>
+            <div className="block-content">
+              <List
+                size="large"
+                grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
+                bordered
+                dataSource={authors.data}
+                renderItem={a => (<AuthorCard key={a.id} card={showCard} author={a} onUpdated={this.reloadAuthors.bind(this)} />)}
+              />
 
-          <AuthorsHeader createLink={createLink} onCreate={this.addAuthor.bind(this)} />
-          <div className="content content-boxed">
-            <div className="row row-deck py-4">
-              {this.renderAuthors(authors)}
+              <Pagination hideOnSinglePage
+                defaultCurrent={pageNumber}
+                total={authors.totalCount}
+                pageSize={authors.pageSize}
+                onChange={this.onPageChanged} />
+
             </div>
           </div>
-          <nav aria-label="Page navigation">
-            <ReactPaginate
-              previousLabel={<i className="fa fa-angle-double-left"></i>}
-              nextLabel={<i className="fa fa-angle-double-right"></i>}
-              breakLabel={'...'}
-              pageCount={authors.pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={this.onPageChange}
-              initialPage={pageNumber - 1}
-              containerClassName={'pagination justify-content-center'}
-              subContainerClassName={'test'}
-              breakClassName={'break-me'}
-              activeClassName={'active'}
-              pageClassName={'page-item'}
-              pageLinkClassName={'page-link'}
-              previousClassName={'page-item'}
-              previousLinkClassName={'page-link'}
-              nextClassName={'page-item'}
-              nextLinkClassName={'page-link'} />
-          </nav>
-          { this.renderDelete() }
-      { this.renderEditor(createLink) }
-        </main >
+        </main>
+      );
+    }
+    else
+      return this.renderEmptyPlaceHolder(createLink);
+
+    if (authors && authors.data && authors.data.length > 0) {
+      return (
+        <>
+          <Helmet title={this.props.intl.formatMessage({ id: "header.authors" })} />
+          <main id="main-container">
+
+            <AuthorsHeader createLink={createLink} onCreate={this.addAuthor.bind(this)} />
+            <div className="content content-boxed">
+              <div className="row row-deck py-4">
+                {this.renderAuthors(authors)}
+              </div>
+            </div>
+            <Pagination hideOnSinglePage
+              defaultCurrent={pageNumber}
+              total={authors.totalCount}
+              pageSize={authors.pageSize}
+              onChange={this.onPageChanged} />
+            {this.renderDelete()}
+            {this.renderEditor(createLink)}
+          </main >
+        </>
       );
     }
     else
@@ -201,7 +246,7 @@ class AuthorHome extends Component {
   }
 }
 
-export default injectIntl(AuthorHome);
+export default injectIntl(AuthorsPage);
 
 class AuthorsHeader extends React.Component {
   render() {

@@ -6,7 +6,7 @@ import { BoxedLayout, EmptyLayout, FullScreenLayout } from './components/Layouts
 import HomePage from "./components/HomePage/HomePage";
 import Callback from './components/Callback';
 
-import AuthorHome from './components/Authors/AuthorHome';
+import AuthorsPage from './components/Authors/AuthorsPage';
 import AuthorPage from './components/Authors/AuthorPage';
 import BookPage from './components/Books/BookPage';
 import BooksHome from './components/Books/BooksHome';
@@ -37,7 +37,7 @@ class Routes extends React.Component {
         <RouteWithLayout layout={EmptyLayout} path="/error" component={ErrorPage} exact />   
         <RouteWithLayout layout={BoxedLayout} path="/search" component={Search} exact />
         <RouteWithLayout layout={BoxedLayout} path="/authors/:id" component={AuthorPage} />
-        <RouteWithLayout layout={BoxedLayout} path="/authors" component={AuthorHome} />
+        <RouteWithLayout layout={BoxedLayout} path="/authors" component={AuthorsPage} />
         <RouteWithLayout layout={EmptyLayout} path="/books/:id/chapters/:chapterId" component={Chapter} />
         <RouteWithLayout layout={BoxedLayout} path="/books/:id" component={BookPage} />
         <RouteWithLayout layout={BoxedLayout} path="/books/new" component={BooksHome} />
