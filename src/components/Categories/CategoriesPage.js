@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ApiService from '../../services/ApiService';
-import { List, Switch } from 'antd';
+import { List, Switch, Card } from 'antd';
 import { Helmet } from 'react-helmet'
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import EditCategory from './EditCategory';
@@ -21,10 +21,13 @@ class CategoriesPage extends Component {
   }
 
   async componentDidMount() {
+    this.setState({
+      showCard: JSON.parse(localStorage.getItem('categories.cardview'))
+    })
     await this.loadCategories();
   }
 
-  reloadCategories = async() => {
+  reloadCategories = async () => {
     await this.loadCategories();
   }
 
@@ -63,22 +66,23 @@ class CategoriesPage extends Component {
     const message = intl.formatMessage({ id: 'categories.messages.empty' });
     return (
       <EmptyPlaceholder fullWidth={true} message={message} iconName='appstore' showButton={false} >
-          {this.renderAdd(createLink)}
+        {this.renderAdd(createLink)}
       </EmptyPlaceholder>
-  );
+    );
   }
-  
+
   renderAdd(createLink) {
     if (createLink) {
       return <EditCategory button createLink={createLink} isAdding={true} onUpdated={this.reloadCategories} />
     }
-    
+
     return null;
   }
 
 
   onToggleCardView(checked) {
-    this.setState({showCard: checked})
+    localStorage.setItem('categories.cardview', checked);
+    this.setState({ showCard: checked })
   }
 
   render() {
@@ -92,30 +96,28 @@ class CategoriesPage extends Component {
     }
 
     if (categories && categories.items && categories.items.length > 0) {
+      const extras = (<>
+        {this.renderAdd(createLink)}
+        <span className="ml-2" />
+        <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.card" })}
+          unCheckedChildren={this.props.intl.formatMessage({ id: "action.list" })}
+          onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
+      </>)
+
       return (
         <>
           <Helmet title={this.props.intl.formatMessage({ id: "header.categories" })} />
           <main id="main-container">
-            <div className="block">
-              <div className="block-header">
-                <FormattedMessage id="header.categories" />
-                <div className="block-options">
-                  {this.renderAdd(createLink)}
-                  <span className="ml-2" />
-                  <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.list" })}
-                    unCheckedChildren={this.props.intl.formatMessage({ id: "action.card" })}
-                    onChange={this.onToggleCardView.bind(this)} />
-                </div>
-              </div>
-              <div className="block-content">
+            <div className="content content-boxed">
+
+              <Card title={this.props.intl.formatMessage({ id: "header.categories" })} type="inner" extra={extras} >
                 <List
                   size="large"
                   grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-                  bordered
                   dataSource={categories.items}
                   renderItem={c => (<CategoryCard key={c.id} card={showCard} category={c} onUpdated={this.loadCategories.bind(this)} />)}
                 />
-              </div>
+              </Card>
             </div>
           </main>
         </>

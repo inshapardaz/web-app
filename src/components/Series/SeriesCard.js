@@ -46,7 +46,6 @@ class SeriesCard extends Component {
         const title = <Link to={`/books?series=${series.id}`}>{series.name}</Link>;
         const actions = this.renderSeriesActions(series);
         const bookCount = <FormattedMessage id="series.item.book.count" values={{ count: series.bookCount }} />;
-        const avatar = <Avatar src="/resources/img/series.svg" />
         
         if (card) {
             return (
@@ -54,7 +53,7 @@ class SeriesCard extends Component {
                     <Card
                         hoverable
                         actions={actions}
-                        cover={avatar}
+                        cover={<img className="p-4" width="64px" src="/resources/img/series.png" />}
                     >
                         <Meta
                             title={title}
@@ -67,7 +66,7 @@ class SeriesCard extends Component {
             return (
                 <List.Item key={series.id} actions={actions}>
                     <List.Item.Meta
-                        avatar={avatar}
+                        avatar={<img width="48" height="48" src="/resources/img/series.png" />}
                         title={title}
                         description={series.description}>
                     </List.Item.Meta>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import queryString from 'query-string';
 
-import { Pagination, List, Switch } from 'antd';
+import { Pagination, List, Switch, Card } from 'antd';
 import { Helmet } from 'react-helmet'
 
 import ApiService from '../../services/ApiService';
@@ -18,13 +18,16 @@ class AuthorsPage extends Component {
       isLoading: true,
       authors: { items: [] },
       pageNumber: 1,
-      showCard: true
+      showCard: false
     };
 
     this.reloadAuthors = this.reloadAuthors.bind(this);
   }
 
   async componentDidMount() {
+    this.setState({
+      showCard: JSON.parse(localStorage.getItem('authors.cardview'))
+    })
     const values = queryString.parse(this.props.location.search)
     await this.loadAuthors(values.page ? values.page : 1);
   }
@@ -97,6 +100,7 @@ class AuthorsPage extends Component {
   }
 
   onToggleCardView(checked) {
+    localStorage.setItem('authors.cardview', checked);
     this.setState({ showCard: checked })
   }
 
@@ -110,23 +114,22 @@ class AuthorsPage extends Component {
       return this.renderLoadingError();
     }
 
+    const extras = (<>
+      {this.renderAdd(createLink)}
+      <span className="ml-2" />
+      <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.card" })}
+        unCheckedChildren={this.props.intl.formatMessage({ id: "action.list" })}
+        onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
+    </>)
+
     if (authors && authors.data && authors.data.length > 0) {
       return (
         <>
           <Helmet title={this.props.intl.formatMessage({ id: "header.authors" })} />
           <main id="main-container">
-            <div className="block">
-              <div className="block-header">
-                <FormattedMessage id="header.authors" />
-                <div className="block-options">
-                  {this.renderAdd(createLink)}
-                  <span className="ml-2" />
-                  <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.list" })}
-                    unCheckedChildren={this.props.intl.formatMessage({ id: "action.card" })}
-                    onChange={this.onToggleCardView.bind(this)} />
-                </div>
-              </div>
-              <div className="block-content">
+            <div className="content content-boxed">
+
+              <Card title={this.props.intl.formatMessage({ id: "header.authors" })} type="inner" extra={extras} >
                 <List
                   itemLayout={showCard ? null : "vertical"}
                   size="large"
@@ -139,8 +142,7 @@ class AuthorsPage extends Component {
                     pageSize={authors.pageSize}
                     onChange={this.onPageChanged} />}
                 />
-
-              </div>
+              </Card>
             </div>
           </main>
         </>

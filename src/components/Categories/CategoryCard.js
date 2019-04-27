@@ -42,7 +42,6 @@ class CategoryCard extends Component {
         const title = <Link className="font-w600" to={`/books?category=${category.id}`}>{category.name}</Link>;
         const actions = this.renderCategoryActions(category);
         const bookCount = <FormattedMessage id="categories.item.book.count" values={{ count: category.bookCount }} />;
-        const avatar = <Icon type="appstore" />
 
         if (card) {
             return (
@@ -50,7 +49,7 @@ class CategoryCard extends Component {
                     <Card
                         hoverable
                         actions={actions}
-                        cover={avatar}
+                        cover={<img className="p-4" width="64px" src="/resources/img/book_tag.png" />}
                     >
                         <Meta
                             title={title}
@@ -63,7 +62,7 @@ class CategoryCard extends Component {
             return (
                 <List.Item key={category.id} actions={actions}>
                     <List.Item.Meta
-                        avatar={avatar}
+                        avatar={<img width="48" height="48" src="/resources/img/book_tag.png" />}
                         title={title}
                         description={category.description}>
                     </List.Item.Meta>

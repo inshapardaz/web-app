@@ -25,14 +25,14 @@ class BooksPage extends Component {
       author: null,
       category: null,
       series: null,
-      query:''
+      query: ''
     }
   }
 
   async componentDidMount() {
     const values = queryString.parse(this.props.location.search);
 
-    this.setState({ query : values.q ? values.q : ''});
+    this.setState({ query: values.q ? values.q : '' });
 
     if (values.category && values.category > 0) {
       await this.loadData(0, values.category, 0);
@@ -47,7 +47,7 @@ class BooksPage extends Component {
 
   async componentWillReceiveProps(nextProps) {
     const values = queryString.parse(nextProps.location.search);
-    this.setState({ query : values.q ? values.q : ''});
+    this.setState({ query: values.q ? values.q : '' });
 
     if (values.category && this.state.categoryId != values.category) {
       await this.loadData(0, values.category);
@@ -69,17 +69,17 @@ class BooksPage extends Component {
       if (author > 0) {
         var author = await ApiService.getAuthor(authorId);
         this.setState({ author: author });
-      } 
+      }
 
       if (categoryId > 0) {
         var category = await ApiService.getCategory(categoryId);
         this.setState({ category: category });
-      } 
+      }
 
       if (seriesId > 0) {
         var series = await ApiService.getSeriesById(seriesId);
         this.setState({ series: series });
-      } 
+      }
     }
     catch (e) {
       console.error(e);
@@ -116,13 +116,13 @@ class BooksPage extends Component {
             </div>
             <div className="col-xl-4">
               <Card title={this.props.intl.formatMessage({ id: 'header.search' })} type="inner" style={cardStyle}>
-              <Search
+                <Search
                   placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
                   onSearch={this.onSubmit}
                   enterButton
                 />
               </Card>
-              <CategoriesSidebar selectedCategory={category}/>
+              <CategoriesSidebar selectedCategory={category} />
               <FavoriteBooksSidebar />
               <LatestBooksSidebar />
             </div>

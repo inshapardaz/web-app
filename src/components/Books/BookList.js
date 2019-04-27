@@ -33,6 +33,10 @@ class BookList extends Component {
     }
 
     async componentDidMount() {
+        this.setState({
+            showCard: JSON.parse(localStorage.getItem('booklist.cardview'))
+        })
+        
         const values = queryString.parse(this.props.location.search)
         await this.loadBooks(this.props.author,
             values.category ? values.category : 0,
@@ -166,6 +170,7 @@ class BookList extends Component {
     }
 
     onToggleCardView(checked) {
+        localStorage.setItem('booklist.cardview', checked);
         this.setState({ showCard: checked })
     }
 
