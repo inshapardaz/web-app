@@ -3,6 +3,7 @@ import queryString from 'query-string';
 
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Card, Input } from 'antd';
+import { Helmet } from 'react-helmet'
 
 import ApiService from '../../services/ApiService';
 import BookList from './BookList';
@@ -96,7 +97,7 @@ class BooksPage extends Component {
   render() {
     const { author, category, series } = this.state;
 
-    let headerContent = <FormattedMessage id="header.books" />;
+    let headerContent = this.props.intl.formatMessage({ id: 'header.books' });
     if (author) {
       headerContent = author.name;
     }
@@ -108,27 +109,30 @@ class BooksPage extends Component {
     }
 
     return (
-      <main id="main-container">
-        <div className="content content-boxed">
-          <div className="row">
-            <div className="col-xl-8">
-              <BookList title={headerContent} />
-            </div>
-            <div className="col-xl-4">
-              <Card title={this.props.intl.formatMessage({ id: 'header.search' })} type="inner" style={cardStyle}>
-                <Search
-                  placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
-                  onSearch={this.onSubmit}
-                  enterButton
-                />
-              </Card>
-              <CategoriesSidebar selectedCategory={category} />
-              <FavoriteBooksSidebar />
-              <LatestBooksSidebar />
+      <>
+        <Helmet title={headerContent} />
+        <main id="main-container">
+          <div className="content content-boxed">
+            <div className="row">
+              <div className="col-xl-8">
+                <BookList title={headerContent} />
+              </div>
+              <div className="col-xl-4">
+                <Card title={this.props.intl.formatMessage({ id: 'header.search' })} type="inner" style={cardStyle}>
+                  <Search
+                    placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
+                    onSearch={this.onSubmit}
+                    enterButton
+                  />
+                </Card>
+                <CategoriesSidebar selectedCategory={category} />
+                <FavoriteBooksSidebar />
+                <LatestBooksSidebar />
+              </div>
             </div>
           </div>
-        </div>
-      </main >
+        </main >
+      </>
     );
   }
 }

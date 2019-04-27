@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Modal, Icon, Alert, notification } from 'antd';
+import { Modal, Icon, Alert, Button, notification } from 'antd';
 
 import ApiService from '../../services/ApiService';
 class DeleteBook extends Component {
@@ -53,14 +53,18 @@ class DeleteBook extends Component {
     }
 
     render() {
-        const { book } = this.props;
+        const { book, button } = this.props;
         const { show, isBusy, isError } = this.state;
-        const action = this.props.intl.formatMessage({ id: 'action.delete' });
+        const title = this.props.intl.formatMessage({ id: 'action.delete' });
         const message = this.props.intl.formatMessage({ id: 'books.action.confirmDelete' }, { title: book.title });
+        const action = button ?
+        <Button icon="delete" onClick={this.onShow} >{title}</Button> :
+        <Icon type="delete" onClick={this.onShow} />
+
         return <>
-            <Icon type="delete" onClick={this.onShow} />
+            {action}
             <Modal
-                title={action}
+                title={title}
                 visible={show}
                 onOk={this.deleteBook.bind(this)}
                 confirmLoading={isBusy}
@@ -79,4 +83,5 @@ export default injectIntl(DeleteBook)
 DeleteBook.propTypes = {
     onDeleted: PropTypes.func,
     book: PropTypes.object.isRequired,
+    button: PropTypes.bool
 };

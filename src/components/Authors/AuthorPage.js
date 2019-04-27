@@ -5,6 +5,7 @@ import ApiService from '../../services/ApiService';
 import BookList from '../Books/BookList';
 
 import { PageHeader, Typography, Button } from 'antd';
+import { Helmet } from 'react-helmet'
 
 import EditAuthor from './EditAuthor';
 import UploadAuthorImage from './UploadAuthorImage';
@@ -101,7 +102,8 @@ class AuthorPage extends Component {
       buttonAction={this.reloadAuthor.bind(this)} />)
   }
 
-  gotoAuthors = () =>  {this.props.history.push('/authors')}
+  gotoAuthors = () => { this.props.history.push('/authors') }
+
   renderAuthorActions(author) {
     let actions = [];
 
@@ -111,23 +113,23 @@ class AuthorPage extends Component {
     const imageLink = author.links.image_upload;
 
     if (editLink) {
-        actions.push(<EditAuthor button key="edit" author={author} onUpdated={this.reloadAuthor} />) 
+      actions.push(<EditAuthor button key="edit" author={author} onUpdated={this.reloadAuthor} />)
     }
 
     if (imageLink) {
-        actions.push(<UploadAuthorImage button key="uploadimage" author={author} onUpdated={this.reloadAuthor} />);
+      actions.push(<UploadAuthorImage button key="uploadimage" author={author} onUpdated={this.reloadAuthor} />);
     }
 
     if (deleteLink) {
-        actions.push(<DeleteAuthor button key="delete" author={author} onDeleted={this.gotoAuthors} />);
+      actions.push(<DeleteAuthor button key="delete" author={author} onDeleted={this.gotoAuthors} />);
     }
 
     if (actions.length > 0) {
-        return actions;
+      return actions;
     }
 
     return null;
-}
+  }
 
   render() {
     const { author, isLoading, isError } = this.state;
@@ -147,19 +149,20 @@ class AuthorPage extends Component {
     const content = (
       <div className="content">
         <Paragraph>
-        <Text type="secondary">No Description</Text>
+          <Text type="secondary">No Description</Text>
         </Paragraph>
-        <p className="contentLink">
+        <div className="contentLink">
           <ButtonGroup>
             {this.renderAuthorActions(author)}
           </ButtonGroup>
-        </p>
+        </div>
       </div>
     );
 
     return (
       <main id="main-container">
         <HeaderStyle />
+        <Helmet title={author.name} />
         <div className="content content-boxed">
           <PageHeader title={<Title level={3}>{author.name}</Title>} onBack={() => window.history.back()} subTitle={this.props.intl.formatMessage({ id: 'authors.item.book.count' }, { count: author.bookCount })}>
             <div className="wrap">

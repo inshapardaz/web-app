@@ -2,13 +2,44 @@ import React, { Component } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
+
+import { PageHeader, Typography, Button } from 'antd';
+import { Helmet } from 'react-helmet'
+
 import { ErrorPlaceholder, Loading } from '../Common';
 import ApiService from '../../services/ApiService';
 import ChapterList from '../Chapter/ChapterList';
 import EditBook from './EditBook';
 import UploadBookImage from './UploadBookImage';
 import DeleteBook from './DeleteBook';
-import { history } from '../../store/configureStore';
+
+const ButtonGroup = Button.Group;
+const { Text, Paragraph, Title } = Typography;
+
+const HeaderStyle = () => {
+  return <style>{`
+    .wrap {
+      display: flex;
+    }
+    .content {
+      flex: 1;
+    }
+    .extraContent {
+      min-width: 240px;
+      text-align: right;
+    }
+    .contentLink {
+      padding-top: 16px;
+    }
+    .contentLink a {
+      display: inline-block;
+      vertical-align: text-top;
+      margin-right: 32px;
+    }
+    .contentLink a img {
+      margin-right: 8px;
+    }`}</style>;
+}
 
 class BookPage extends Component {
   constructor(props) {
@@ -76,23 +107,31 @@ class BookPage extends Component {
   }
 
   renderBookActions(book) {
+
     let actions = [];
 
-    if (book.links.update) {
-      actions.push(<a key="edit" className="btn btn-sm btn-light" onClick={this.onEdit} href="javascript:void(0);"><FormattedMessage id="action.edit" /></a>)
+    if (!book || !book.links) return null;
+    const editLink = book.links.update;
+    const deleteLink = book.links.delete;
+    const imageLink = book.links.image_upload;
+
+    if (editLink) {
+        actions.push(<EditBook button key="edit" book={book} onUpdated={this.reloadBook} />) 
     }
 
-    if (book.links.image_upload) {
-      actions.push(<UploadBookImage as="a" key="image" fluid icon="picture" uploadLink={book.links.image_upload}
-        content={<FormattedMessage id="action.changeImage" />} onUpdated={this.reloadBook} />)
+    if (imageLink) {
+        actions.push(<UploadBookImage button key="uploadimage" book={book} onUpdated={this.reloadBook} />);
     }
 
-    if (book.links.delete) {
-      actions.push(<DeleteBook as="a" key="delete" fluid onDeleted={this.onDeleted} icon="delete" book={book}
-        content={<FormattedMessage id="action.delete" />} />)
+    if (deleteLink) {
+        actions.push(<DeleteBook button key="delete" book={book} onDeleted={this.reloadBook} />);
     }
 
-    return (<div className="btn-group">{actions}</div>);
+    if (actions.length > 0) {
+        return actions;
+    }
+
+    return null;
   }
 
   onEdit = () => this.setState({ showEdit: true });
@@ -108,7 +147,7 @@ class BookPage extends Component {
     }
   }
 
-  onDeleted = () => history.push(`/books`)
+  onDeleted = () => this.props.history.push(`/books`)
 
   render() {
     const { book, isLoading, isError } = this.state;
@@ -128,35 +167,35 @@ class BookPage extends Component {
     var availability = (<em className="text-muted">{book.isPublic ?
       <><i className="fa fa-globe" /> <FormattedMessage id="book.public" /></> :
       <><i className="fa fa-lock" /> <FormattedMessage id="book.private" /></>}</em>);
+
+    const content = (
+      <div className="content">
+        <Paragraph>
+        <Text type="secondary">{book.description}</Text>
+        </Paragraph>
+        <div className="contentLink">
+          <ButtonGroup>
+            {this.renderBookActions(book)}
+          </ButtonGroup>
+        </div>
+      </div>
+    );
+
     return (
-      <>
-        <main id="main-container">
-          <div className="content">
-            <div className="block">
-              <div className="block-content">
-                <div className="row items-push">
-                  <div className="col-md-4 col-lg-5 text-right">
-                    <img src={book.links.image || '/resources/img/book_placeholder.png'} alt="image description" />
-                  </div>
-                  <div className="col-md-8 col-lg-7">
-                    <h4 className="h3 mb-1"><span className="text-primary-dark">{book.title}</span></h4>
-                    <div className="font-size-sm mb-3">
-                      <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>
-                    </div>
-                    <div className="font-size-sm mb-3">{availability}</div>
-                    <p className="font-size-sm">
-                      {book.description}
-                    </p>
-                    {this.renderBookActions(book)}
-                  </div>
-                </div>
-              </div>
+      <main id="main-container">
+        <HeaderStyle />
+        <Helmet title={book.title} />
+        <div className="content content-boxed">
+          <PageHeader title={<Title level={3}>{book.title}</Title>} onBack={() => window.history.back()} 
+                      subTitle={<Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>}>
+            <div className="wrap">
+              <div className="content">{content}</div>
+              <div className="extraContent">{<img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} />}</div>
             </div>
-            <ChapterList book={book} />
-          </div>
-        </main>
-        {this.renderEdit(book)}
-      </>
+          </PageHeader>
+          <ChapterList book={book} />
+        </div>
+      </main>
     )
   }
 }

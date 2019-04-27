@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, notification } from 'antd';
+import { Icon, notification, Button } from 'antd';
 
 import ApiService from '../../services/ApiService';
 
@@ -31,9 +31,15 @@ class UploadBookImage extends Component {
     }
   }
 
+  onClick = () =>  this.uploadRef.current.click()
+
   render() {
+    const action = this.props.button ?
+            <Button icon="picture" onClick={this.onClick} >{this.props.intl.formatMessage({ id: 'action.changeImage' })}</Button> :
+            <Icon type="picture" onClick={this.onClick} />
+
     return <>
-      <Icon type="picture" onClick={() => this.uploadRef.current.click()} />
+      {action}
       <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadImage(e.target.files)} />
     </>
   }
@@ -43,5 +49,6 @@ export default injectIntl(UploadBookImage);
 
 UploadBookImage.propTypes = {
   onUpdated: PropTypes.func,
-  book: PropTypes.object.isRequired 
+  book: PropTypes.object.isRequired,
+  button: PropTypes.bool
 };
