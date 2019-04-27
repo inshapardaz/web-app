@@ -21,9 +21,11 @@ class DeleteSeries extends Component {
         });
     }
     onClose = () => {
-        this.setState({
-            show: false
-        });
+        if (!this.state.isBusy){
+            this.setState({
+                show: false
+            });
+        }
     }
     async deleteSeries() {
         const { series } = this.props;
@@ -42,6 +44,8 @@ class DeleteSeries extends Component {
             notification.success({
                 message: this.props.intl.formatMessage({ id: "series.messages.deleted" }),
             });
+
+            this.onClose();
             await this.props.onDeleted();
         }
         catch{
@@ -65,7 +69,8 @@ class DeleteSeries extends Component {
                 onOk={this.deleteSeries.bind(this)}
                 confirmLoading={isBusy}
                 onCancel={this.onClose}
-                closeIcon={!isBusy}
+                closable={!isBusy}
+                maskClosable={!isBusy}
             >
                 <p>{message}</p>
                 { isError ? <Alert message={this.props.intl.formatMessage({ id: 'series.messages.error.delete' })} type="error" showIcon/> : null }

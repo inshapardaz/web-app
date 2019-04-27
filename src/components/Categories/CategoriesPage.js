@@ -65,7 +65,7 @@ class CategoriesPage extends Component {
     const { intl } = this.props;
     const message = intl.formatMessage({ id: 'categories.messages.empty' });
     return (
-      <EmptyPlaceholder fullWidth={true} message={message} iconName='appstore' showButton={false} >
+      <EmptyPlaceholder fullWidth={true} description={message} iconName='appstore' showButton={false} >
         {this.renderAdd(createLink)}
       </EmptyPlaceholder>
     );

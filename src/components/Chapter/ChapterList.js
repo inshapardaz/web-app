@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import ApiService from '../../services/ApiService';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import { List, Switch, Card } from 'antd';
+
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
-import ChapterEditor from './ChapterEditor';
+import EditChapter from './EditChapter';
 import ChapterCard from './ChapterCard';
 
 class ChapterList extends Component {
@@ -66,37 +68,35 @@ class ChapterList extends Component {
     renderEmptyPlaceHolder(createLink) {
         const { intl } = this.props;
         const message = intl.formatMessage({ id: 'chapters.messages.empty' });
-        const buttonText = intl.formatMessage({ id: 'chapter.action.create' });
-
         return (
-            <>
-                {createLink ? this.renderEditor(createLink) : null}
-                <EmptyPlaceholder message={message} iconName='file alternate outline'
-                    showButton={true} buttonText={buttonText}
-                    buttonAction={this.onAddChapter.bind(this)} />
-            </>
+          <EmptyPlaceholder fullWidth={true} description={message} iconName='file' showButton={false} >
+            {this.renderAdd(createLink)}
+          </EmptyPlaceholder>
         );
     }
 
-    renderEditor(createLink) {
-        const { isAdding } = this.state;
-        return (<ChapterEditor open={isAdding} chapter={{}}
-            createLink={createLink} isAdding={isAdding}
-            onOk={this.loadChapters.bind(this)}
-            onClose={this.onCloseEdit.bind(this)} />);
-    }
+    renderAdd(createLink) {
+        if (createLink) {
+         return <EditChapter button createLink={createLink} isAdding={true} onUpdated={this.loadChapters} />
+        }
+    
+        return null;
+      }
 
-    renderChapters = (chapters, hideAction = false) => chapters.items.map(c =>
-            <ChapterCard key={c.id} chapter={c} onUpdate={this.loadChapters} hideActions={hideAction} />)
+    renderChapters = (hideAction = false) => {
+        const { isLoading, chapters } = this.state;
+        return (<List
+            size="large"
+            loading={isLoading}
+            dataSource={chapters.items}
+            renderItem={c => <ChapterCard key={c.id} chapter={c} onUpdated={this.loadChapters} hideActions={hideAction} />}
+        />);
+    }
 
 
     render() {
-        const { isLoading, isError, chapters } = this.state;
+        const { isError, chapters } = this.state;
         const createLink = (chapters && chapters.links) ? chapters.links.create : null;
-
-        if (isLoading) {
-            return <Loading fullWidth={true} />;
-        }
 
         if (isError) {
             return this.renderLoadingError();
@@ -107,42 +107,25 @@ class ChapterList extends Component {
         }
 
         if (chapters && chapters.items && chapters.items.length > 0) {
-            let addButton = null;
-            if (createLink) {
-                addButton = (<button type="button" className="btn-block-option" onClick={this.onAddChapter} href="javascript:void(0);"><i className="si si-plus" /> <FormattedMessage id="chapter.action.create" /></button>);
-            }
-
             if (this.props.simple) {
                 return (
                     <>
                         <table className="table table-hover table-vcenter font-size-sm">
                             <tbody>
-                                {this.renderChapters(chapters, true)}
+                                {this.renderChapters(true)}
                             </tbody>
                         </table>
                     </>
                 )
             }
+
             return (
                 <>
-                    <div className="block  block-transparent">
-                        <div className="block-header">
-                            <FormattedMessage id="chapter.toolbar.chapters" />
-                            <div className="block-options">
-                                {addButton}
-                            </div>
-                        </div>
-                        <div className="block-content">
-                            <table className="table table-hover table-vcenter font-size-sm">
-                                <tbody>
-                                    {this.renderChapters(chapters)}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    {this.renderEditor(createLink)}
+                    <Card title={this.props.intl.formatMessage({ id: "chapter.toolbar.chapters" })} type="inner" extra={this.renderAdd(createLink)} >
+                        {this.renderChapters()}
+                    </Card>
                 </>
-            )
+            );
         } else {
             return this.renderEmptyPlaceHolder(createLink);
         }

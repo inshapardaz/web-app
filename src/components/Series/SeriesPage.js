@@ -65,7 +65,7 @@ class SeriesPage extends Component {
     const message = intl.formatMessage({ id: 'series.messages.empty' });
 
     return (
-      <EmptyPlaceholder fullWidth={true} message={message} iconName='chain' showButton={false} >
+      <EmptyPlaceholder fullWidth={true} description={message} iconName='chain' showButton={false} >
         {this.renderAdd(createLink)}
       </EmptyPlaceholder>
     );

@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { List, Button, Icon, Confirm } from 'semantic-ui-react';
+
+import { List, Icon, Card } from 'antd';
+
 import { success, error } from '../../services/toasts';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import ApiService from '../../services/ApiService';
-import ChapterEditor from './ChapterEditor';
+import EditChapter from './EditChapter';
+import DeleteChapter from './DeleteChapter';
 
 class ChapterCard extends Component {
     constructor(props) {
@@ -24,7 +28,7 @@ class ChapterCard extends Component {
     renderEditor = (chapter) => {
         const { showEdit } = this.state;
         if (showEdit && chapter && chapter.links && chapter.links.update) {
-            return (<ChapterEditor open={true} chapter={chapter}
+            return (<EditChapter open={true} chapter={chapter}
                 onOk={this.props.onUpdate}
                 onClose={this.onCloseEdit} />);
         }
@@ -76,23 +80,19 @@ class ChapterCard extends Component {
     renderChapterActions = (chapter) => {
         var actions = []
 
-        if (chapter.links.update) {
-            actions.push(<button type="button" key="edit" onClick={this.onEdit} className="btn btn-sm btn-light"><i className="fa fa-edit"/></button>)
+        if (!chapter || !chapter.links) return null;
+        const editLink = chapter.links.update;
+        const deleteLink = chapter.links.delete;
+
+        if (editLink) {
+            actions.push(<EditChapter key="edit" chapter={chapter} onUpdated={this.props.onUpdated}/>)
         }
 
-        if (chapter.links.delete) {
-            actions.push(<button type="button" key="delete" onClick={this.onDelete} className="btn btn-sm btn-light"><i className="fa fa-trash"/></button>)
+        if (deleteLink) {
+            actions.push(<DeleteChapter key="delete" onClick={this.onDelete} chapter={chapter} onDeleted={this.props.onUpdated} />)
         }
         
-        if (actions.length > 0) {
-            return (<td className="text-center">
-                <div className="btn-group">
-                    {actions}
-                </div>
-            </td>);
-        }
-
-        return null;
+        return actions;
     }
 
     render() {
@@ -101,19 +101,19 @@ class ChapterCard extends Component {
         if (!chapter) return null;
 
         return (
-            <>
-                <tr key={chapter.id}>
-                    <td>{chapter.chapterNumber}</td>
-                    <td>
-                        <Link className="font-w300" to={`/books/${chapter.bookId}/chapters/${chapter.id}`}>{chapter.title}</Link>
-                    </td>
-                    {hideActions ? null : this.renderChapterActions(chapter)}
-                </tr>
-                {this.renderEditor(chapter)}
-                {this.renderDelete()}
-            </>
-        )
+            <List.Item key={chapter.id} actions={hideActions ? null : this.renderChapterActions(chapter)}>
+                <List.Item.Meta
+                    title={<Link className="font-w300" to={`/books/${chapter.bookId}/chapters/${chapter.id}`}>{chapter.chapterNumber} - {chapter.title}</Link>}>
+                </List.Item.Meta>
+            </List.Item>
+        );
     }
 }
 
 export default injectIntl(ChapterCard);
+
+ChapterCard.propTypes = {
+    onUpdated: PropTypes.func,
+    chapter: PropTypes.object.isRequired,
+    card: PropTypes.bool
+};

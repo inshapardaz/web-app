@@ -20,9 +20,11 @@ class DeleteBook extends Component {
         });
     }
     onClose = () => {
-        this.setState({
-            show: false
-        });
+        if (!this.state.isBusy){
+            this.setState({
+                show: false
+            });
+        }
     }
 
     async deleteBook() {
@@ -42,9 +44,12 @@ class DeleteBook extends Component {
             notification.success({
                 message: this.props.intl.formatMessage({ id: "books.messages.deleted" }),
             });
+
+            this.onClose();
             await this.props.onDeleted();
         }
-        catch{
+        catch(e){
+            console.error(e)
             this.setState({
                 isBusy: false,
                 isError: true
@@ -69,7 +74,8 @@ class DeleteBook extends Component {
                 onOk={this.deleteBook.bind(this)}
                 confirmLoading={isBusy}
                 onCancel={this.onClose}
-                closeIcon={!isBusy}
+                closable={!isBusy}
+                maskClosable={!isBusy}
             >
                 <p>{message}</p>
                 { isError ? <Alert message={this.props.intl.formatMessage({ id: 'books.messages.error.delete' })} type="error" showIcon/> : null }

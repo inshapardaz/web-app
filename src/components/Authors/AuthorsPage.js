@@ -77,7 +77,7 @@ class AuthorsPage extends Component {
     const { intl } = this.props;
     const message = intl.formatMessage({ id: 'authors.messages.empty' });
     return (
-      <EmptyPlaceholder fullWidth={true} message={message} iconName='user' showButton={false} >
+      <EmptyPlaceholder fullWidth={true} description={message} iconName='user' showButton={false} >
         {this.renderAdd(createLink)}
       </EmptyPlaceholder>);
   }

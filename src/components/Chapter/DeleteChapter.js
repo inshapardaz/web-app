@@ -6,7 +6,7 @@ import { Modal, Icon, Alert, notification } from 'antd';
 
 import ApiService from '../../services/ApiService';
 
-class DeleteCategory extends Component {
+class DeleteChapter extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,11 +27,11 @@ class DeleteCategory extends Component {
             });
         }
     }
-    async deleteCategory() {
-        const { category } = this.props;
-        if (!category) return;
+    async deleteChapter() {
+        const { chapter } = this.props;
+        if (!chapter) return;
 
-        let deleteLink = category.links.delete;
+        let deleteLink = chapter.links.delete;
         if (!deleteLink) return;
 
         this.setState({
@@ -42,9 +42,8 @@ class DeleteCategory extends Component {
         try {
             await ApiService.delete(deleteLink);
             notification.success({
-                message: this.props.intl.formatMessage({ id: "categories.messages.deleted" }),
+                message: this.props.intl.formatMessage({ id: "chapters.messages.deleted" }),
             });
-
             this.onClose();
             await this.props.onDeleted();
         }
@@ -57,32 +56,32 @@ class DeleteCategory extends Component {
     }
 
     render() {
-        const { category } = this.props;
+        const { chapter } = this.props;
         const { show, isBusy, isError } = this.state;
         const action = this.props.intl.formatMessage({ id: 'action.delete' });
-        const message = this.props.intl.formatMessage({ id: 'categories.action.confirmDelete' }, { name: category.name });
+        const message = this.props.intl.formatMessage({ id: 'chapters.action.confirmDelete' }, { title: chapter.title });
         return <>
             <Icon type="delete" onClick={this.onShow} />
             <Modal
                 title={action}
                 visible={show}
-                onOk={this.deleteCategory.bind(this)}
+                onOk={this.deleteChapter.bind(this)}
                 confirmLoading={isBusy}
                 onCancel={this.onClose}
                 closable={!isBusy}
                 maskClosable={!isBusy}
             >
                 <p>{message}</p>
-                { isError ? <Alert message={this.props.intl.formatMessage({ id: 'categories.messages.error.delete' })} type="error" showIcon/> : null }
+                { isError ? <Alert message={this.props.intl.formatMessage({ id: 'chapters.messages.error.delete' })} type="error" showIcon/> : null }
             </Modal>
         </>
     }
 }
 
 
-export default injectIntl(DeleteCategory);
+export default injectIntl(DeleteChapter);
 
-DeleteCategory.propTypes = {
+DeleteChapter.propTypes = {
     onDeleted: PropTypes.func,
-    category: PropTypes.object.isRequired 
+    chapter: PropTypes.object.isRequired 
 };

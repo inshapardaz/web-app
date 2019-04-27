@@ -21,9 +21,11 @@ class DeleteAuthor extends Component {
         });
     }
     onClose = () => {
-        this.setState({
-            show: false
-        });
+        if (!this.state.isBusy){
+            this.setState({
+                show: false
+            });
+        }
     }
     async deleteAuthor() {
         const { author } = this.props;
@@ -42,6 +44,8 @@ class DeleteAuthor extends Component {
             notification.success({
                 message: this.props.intl.formatMessage({ id: "authors.messages.deleted" }),
             });
+
+            this.onClose();
             await this.props.onDeleted();
         }
         catch{
@@ -69,7 +73,8 @@ class DeleteAuthor extends Component {
                 onOk={this.deleteAuthor.bind(this)}
                 confirmLoading={isBusy}
                 onCancel={this.onClose}
-                closeIcon={!isBusy}
+                closable={!isBusy}
+                maskClosable={!isBusy}
             >
                 <p>{message}</p>
                 { isError ? <Alert message={this.props.intl.formatMessage({ id: 'authors.messages.error.delete' })} type="error" showIcon/> : null }
