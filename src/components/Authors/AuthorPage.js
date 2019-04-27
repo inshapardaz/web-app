@@ -4,6 +4,39 @@ import { ErrorPlaceholder, Loading } from '../Common';
 import ApiService from '../../services/ApiService';
 import BookList from '../Books/BookList';
 
+import { PageHeader, Typography, Button } from 'antd';
+
+import EditAuthor from './EditAuthor';
+import UploadAuthorImage from './UploadAuthorImage';
+import DeleteAuthor from './DeleteAuthor';
+
+const ButtonGroup = Button.Group;
+const { Text, Paragraph, Title } = Typography;
+
+const HeaderStyle = () => {
+  return <style>{`
+    .wrap {
+      display: flex;
+    }
+    .content {
+      flex: 1;
+    }
+    .extraContent {
+      min-width: 240px;
+      text-align: right;
+    }
+    .contentLink {
+      padding-top: 16px;
+    }
+    .contentLink a {
+      display: inline-block;
+      vertical-align: text-top;
+      margin-right: 32px;
+    }
+    .contentLink a img {
+      margin-right: 8px;
+    }`}</style>;
+}
 class AuthorPage extends Component {
   constructor(props) {
     super(props);
@@ -68,6 +101,34 @@ class AuthorPage extends Component {
       buttonAction={this.reloadAuthor.bind(this)} />)
   }
 
+  gotoAuthors = () =>  {this.props.history.push('/authors')}
+  renderAuthorActions(author) {
+    let actions = [];
+
+    if (!author || !author.links) return null;
+    const editLink = author.links.update;
+    const deleteLink = author.links.delete;
+    const imageLink = author.links.image_upload;
+
+    if (editLink) {
+        actions.push(<EditAuthor button key="edit" author={author} onUpdated={this.reloadAuthor} />) 
+    }
+
+    if (imageLink) {
+        actions.push(<UploadAuthorImage button key="uploadimage" author={author} onUpdated={this.reloadAuthor} />);
+    }
+
+    if (deleteLink) {
+        actions.push(<DeleteAuthor button key="delete" author={author} onDeleted={this.gotoAuthors} />);
+    }
+
+    if (actions.length > 0) {
+        return actions;
+    }
+
+    return null;
+}
+
   render() {
     const { author, isLoading, isError } = this.state;
 
@@ -82,25 +143,31 @@ class AuthorPage extends Component {
     if (!author) {
       return null;
     }
+
+    const content = (
+      <div className="content">
+        <Paragraph>
+        <Text type="secondary">No Description</Text>
+        </Paragraph>
+        <p className="contentLink">
+          <ButtonGroup>
+            {this.renderAuthorActions(author)}
+          </ButtonGroup>
+        </p>
+      </div>
+    );
+
     return (
       <main id="main-container">
-        <div className="content">
-          <div className="block">
-            <div className="block-content">
-              <div className="row items-push">
-                <div className="col-md-4 col-lg-5 text-right">
-                  <img src={author.links.image || '/resources/img/avatar1.jpg'} alt={author.name} />
-                </div>
-                <div className="col-md-8 col-lg-7">
-                  <h4 className="h3 mb-1"><span className="text-primary-dark">{author.name}</span></h4>
-                  <div className="font-size-sm mb-3">
-                    {this.props.intl.formatMessage({ id: 'authors.item.book.count' }, { count: author.bookCount })}
-                  </div>
-                </div>
-              </div>
+        <HeaderStyle />
+        <div className="content content-boxed">
+          <PageHeader title={<Title level={3}>{author.name}</Title>} onBack={() => window.history.back()} subTitle={this.props.intl.formatMessage({ id: 'authors.item.book.count' }, { count: author.bookCount })}>
+            <div className="wrap">
+              <div className="content">{content}</div>
+              <div className="extraContent">{<img src={author.links.image || '/resources/img/avatar1.jpg'} alt={author.name} />}</div>
             </div>
-          </div>
-          <BookList author={author} simple={true} />
+          </PageHeader>
+          <BookList author={author} wide title={this.props.intl.formatMessage({ id: "authors.book.title" }, { name: author.name })} type="inner" />
         </div>
       </main>
 

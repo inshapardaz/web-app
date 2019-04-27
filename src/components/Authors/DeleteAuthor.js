@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Modal, Icon, Alert, notification } from 'antd';
+import { Modal, Icon, Alert, Button,    notification } from 'antd';
 
 import ApiService from '../../services/ApiService';
 
@@ -53,14 +53,18 @@ class DeleteAuthor extends Component {
     }
 
     render() {
-        const { author } = this.props;
+        const { author, button } = this.props;
         const { show, isBusy, isError } = this.state;
-        const action = this.props.intl.formatMessage({ id: 'action.delete' });
+        const title = this.props.intl.formatMessage({ id: 'action.delete' });
         const message = this.props.intl.formatMessage({ id: 'authors.action.confirmDelete' }, { name: author.name });
-        return <>
+
+        const action = button ?
+            <Button icon="delete" onClick={this.onShow} >{title}</Button> :
             <Icon type="delete" onClick={this.onShow} />
+        return <>
+            {action}
             <Modal
-                title={action}
+                title={title}
                 visible={show}
                 onOk={this.deleteAuthor.bind(this)}
                 confirmLoading={isBusy}
@@ -79,5 +83,6 @@ export default injectIntl(DeleteAuthor);
 
 DeleteAuthor.propTypes = {
     onDeleted: PropTypes.func,
-    author: PropTypes.object.isRequired 
+    author: PropTypes.object.isRequired,
+    button: PropTypes.bool
 };

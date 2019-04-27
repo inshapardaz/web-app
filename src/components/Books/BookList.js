@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ApiService from '../../services/ApiService';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 import { injectIntl } from 'react-intl';
 
@@ -36,7 +37,7 @@ class BookList extends Component {
         this.setState({
             showCard: JSON.parse(localStorage.getItem('booklist.cardview'))
         })
-        
+
         const values = queryString.parse(this.props.location.search)
         await this.loadBooks(this.props.author,
             values.category ? values.category : 0,
@@ -146,11 +147,13 @@ class BookList extends Component {
 
     renderBooks = (books) => {
         const { showCard, pageNumber } = this.state;
-
+        const grid = this.props.wide ?  
+                        { gutter: 4, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 6 } : 
+                        { gutter: 4, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 }
         return (<List
             itemLayout={showCard ? null : "vertical"}
             size="small"
-            grid={showCard ? { gutter: 4, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 } : null}
+            grid={showCard ? grid : null}
             dataSource={books.data}
             renderItem={b => (<BookCard key={b.id} card={showCard} book={b} onUpdated={this.reloadBooks} />)}
             footer={<Pagination hideOnSinglePage
@@ -229,3 +232,8 @@ class BookList extends Component {
 
 export default injectIntl(withRouter(BookList));
 
+BookList.propTypes = {
+    onUpdated: PropTypes.func,
+    simple: PropTypes.bool,
+    title: PropTypes.string
+};

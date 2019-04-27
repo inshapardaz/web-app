@@ -171,5 +171,6 @@ export default injectIntl(EditAuthor);
 
 EditAuthor.propTypes = {
     onUpdated: PropTypes.func,
-    author: PropTypes.object
+    author: PropTypes.object,
+    button: PropTypes.bool
 };
