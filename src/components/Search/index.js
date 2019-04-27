@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ApiService from '../../services/ApiService';
 import { Link } from 'react-router-dom';
-import { Image } from 'semantic-ui-react'
 import { injectIntl, FormattedMessage } from 'react-intl';
 
 export default class Search extends Component {
@@ -33,7 +32,7 @@ export default class Search extends Component {
   resultRenderer = ({ link, image, price, title, description }) => [
     image && (
       <div key='image' className='image'>
-        <Image src={image} size="tiny" />
+        <img src={image} size="tiny" />
       </div>
     ),
     <Link key={link} to={link}>

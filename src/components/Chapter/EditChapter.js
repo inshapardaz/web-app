@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, Alert, Modal, Input, Form, Button, notification } from 'antd';
+import { Icon, Alert, Modal, Input, Form, Button, notification, InputNumber  } from 'antd';
 
 import ApiService from '../../services/ApiService';
 
@@ -13,6 +13,10 @@ const ChapterForm = Form.create({
             title: Form.createFormField({
                 ...props.title,
                 value: props.title || '',
+            }),
+            chapterNumber: Form.createFormField({
+                ...props.chapterNumber,
+                value: props.chapterNumber || 1,
             })
         };
     }
@@ -40,6 +44,15 @@ const ChapterForm = Form.create({
                                 }],
                             })(
                                 <Input />
+                            )}
+                        </Form.Item>
+                        <Form.Item label={intl.formatMessage({ id: "chapter.editor.fields.name.title" })} >
+                            {getFieldDecorator('chapterNumber', {
+                                rules: [{
+                                    required: true, message: intl.formatMessage({ id: 'chapter.editor.fields.name.title' }),
+                                }],
+                            })(
+                                <InputNumber min={1} />
                             )}
                         </Form.Item>
                     </Form>
@@ -103,6 +116,7 @@ class EditChapter extends Component {
             } 
 
             chapter.title = values.title;    
+            chapter.chapterNumber = values.chapterNumber;
 
             if (isAdding) {
                 await ApiService.post(createLink, chapter);
