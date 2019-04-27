@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { Empty } from 'antd';
+import { Empty, Card, Button } from 'antd';
 
 export default class EmptyPlaceholder extends Component {
 
@@ -9,22 +9,20 @@ export default class EmptyPlaceholder extends Component {
         let button = null;
         if (showButton) {
             button = (
-                <button type="button" className="btn btn-secondary" onClick={buttonAction}>
+                <Button type="default" onClick={buttonAction}>
                     {buttonText}
-                </button>
+                </Button>
             )
         } 
 
-        return <Empty image={this.props.image || Empty.PRESENTED_IMAGE_SIMPLE} description={this.props.description} >{this.props.children}</Empty>;
+        return <Empty image={this.props.image || Empty.PRESENTED_IMAGE_SIMPLE} description={this.props.description} >{button}{this.props.children}</Empty>;
     }
     render() {
         if (this.props.fullWidth) {
             return (
-                <main id="main-container">
-                    <div className="row">
-                        {this.renderPlaceHolder()}
-                    </div>
-                </main>);
+                <Card >
+                    {this.renderPlaceHolder()}
+                </Card>);
         }
         else {
             return this.renderPlaceHolder();

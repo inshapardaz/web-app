@@ -3,7 +3,14 @@ import ApiService from '../../services/ApiService';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import { Spin, Card, Avatar, List } from 'antd';
+
+const defaultBookImage = '/resources/img/book_placeholder.png';
+
+const cardStyle = {
+    marginBottom: "12px"
+}
 
 class LatestBooksSidebar extends Component {
     constructor(props) {
@@ -22,7 +29,7 @@ class LatestBooksSidebar extends Component {
             this.setState({
                 isLoading: false,
                 isError: false,
-                books: result
+                books: result.slice(1, 5)
             });
         }
         catch (e) {
@@ -36,41 +43,40 @@ class LatestBooksSidebar extends Component {
 
     renderBook(book) {
         return (
-            <tr key={book.id}>
-                <td>
-                    <Link to={`/books/${book.id}`}><img src={book.links.image} alt={book.title} style={{ width: '77px' }} /></Link>
-                </td>
-                <td>
-                    <h4><Link className="font-w300" to={`/books/${book.id}`}>{book.title}</Link><br /></h4>
-                    <span >{this.props.intl.formatMessage({ id: 'book.by' })} <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></span>
-                </td>
-            </tr>
+            <List.Item.Meta
+                key={book.id}
+                avatar={<Avatar shape="square" size="large" src={book.links.image || defaultBookImage} onError={this.setDefaultBookImage} />}
+                title={<Link to={`/books/${book.id}`}>{book.title}</Link>}
+                description={<Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>}
+            />
         );
     }
 
-    render() {
-        const { books } = this.state;
-        return (
-            <div className="block block-rounded">
-                <div className="block-header block-header-default text-center">
-                    <h3 className="block-title">{this.props.intl.formatMessage({ id: 'home.latestBooks' })}</h3>
-                </div>
+    setDefaultBookImage(ev) {
+        ev.target.src = defaultBookImage;
+    }
 
-                <div className="block-content">
-                    <table className="table table-striped table-borderless font-size-sm">
-                        <tbody>
-                            {books != null ? books.slice(1, 5).map(book => this.renderBook(book)) :
-                                <tr>
-                                    <td className="text-center">
-                                        <div className="spinner-border text-primary" role="status">
-                                            <span className="sr-only"><FormattedMessage id="message.loading" /></span>
-                                        </div>
-                                    </td>
-                                </tr>}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    render() {
+        const { books, isLoading } = this.state;
+        if (isLoading) {
+            return <Spin />
+        }
+
+        if (books == null) return null;
+
+        return (
+            <Card title={this.props.intl.formatMessage({ id: 'home.latestBooks' })} type="inner" style={cardStyle}>
+                <List
+                    dataSource={books}
+                    loading={isLoading}
+                    itemLayout="horizontal"
+                    renderItem={book => (
+                        <List.Item key={book.id}>
+                            {this.renderBook(book)}
+                        </List.Item>
+                    )}
+                />
+            </Card>
         );
     }
 }

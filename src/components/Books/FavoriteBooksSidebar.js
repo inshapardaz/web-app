@@ -4,6 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import { Spin, Card, Avatar, List } from 'antd';
+
+const defaultBookImage = '/resources/img/book_placeholder.png';
+
+const cardStyle = {
+    marginBottom: "12px"
+}
 
 class FavoriteBooksSidebar extends Component {
     constructor(props) {
@@ -36,15 +43,12 @@ class FavoriteBooksSidebar extends Component {
 
     renderBook(book) {
         return (
-            <tr key={book.id}>
-                <td>
-                    <Link to={`/books/${book.id}`}><img src={book.links.image} alt={book.title} style={{ width: '77px' }} /></Link>
-                </td>
-                <td>
-                    <h4><Link className="font-w300" to={`/books/${book.id}`}>{book.title}</Link><br /></h4>
-                    <span >{this.props.intl.formatMessage({ id: 'book.by' })} <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></span>
-                </td>
-            </tr>
+            <List.Item.Meta
+                key={book.id}
+                avatar={<Avatar shape="square" size="large" src={book.links.image || defaultBookImage} onError={this.setDefaultBookImage} />}
+                title={<Link to={`/books/${book.id}`}>{book.title}</Link>}
+                description={<Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>}
+            />
         );
     }
 
@@ -66,26 +70,33 @@ class FavoriteBooksSidebar extends Component {
         return books.data.slice(1, 5).map(book => this.renderBook(book));
     }
 
+    setDefaultBookImage(ev) {
+        ev.target.src = defaultBookImage;
+    }
+
     render() {
-        const { books } = this.state;
-        if (!books) {
-            return null;
+        const { books, isLoading } = this.state;
+        if (isLoading) {
+            return <Spin />
         }
 
+        if (books == null) return null;
         return (
-            <div className="block block-rounded">
-                <div className="block-header block-header-default text-center">
-                    <h3 className="block-title">{this.props.intl.formatMessage({ id: 'home.favoriteBooks' })}</h3>
-                </div>
-
-                <div className="block-content">
-                    <table className="table table-striped table-borderless font-size-sm">
-                        <tbody>
-                            {this.renderBooks(books)}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <Card title={this.props.intl.formatMessage({ id: 'home.favoriteBooks' })} type="inner" style={cardStyle}>
+                <List
+                    dataSource={books.data}
+                    loading={isLoading}
+                    itemLayout="horizontal"
+                    locale={{
+                        emptyText: this.props.intl.formatMessage({ id: 'books.messages.favorite.empty' })
+                    }}
+                    renderItem={book => (
+                        <List.Item key={book.id}>
+                            {this.renderBook(book)}
+                        </List.Item>
+                    )}
+                />
+            </Card>
         );
     }
 }

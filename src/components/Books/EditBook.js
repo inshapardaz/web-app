@@ -50,6 +50,17 @@ const BookForm = Form.create({
     }
 })(
     class extends React.Component {
+        handleAuthorChange = (value) => {
+            console.log('value', value)
+            // let autoCompleteResult;
+            // if (!value) {
+            //   autoCompleteResult = [];
+            // } else {
+            //   autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
+            // }
+            // this.setState({ autoCompleteResult });
+          }
+
         render() {
             const { visible, header, onCancel, onOK, isError, isBusy, form, intl } = this.props;
             const { getFieldDecorator } = form;
@@ -81,7 +92,8 @@ const BookForm = Form.create({
                                     required: true, message: intl.formatMessage({ id: 'book.editor.fields.author.error' })
                                 }],
                             })(
-                                <AuthorsDropDown placeholder={intl.formatMessage({ id: 'book.editor.fields.author.placeholder' })} />
+                                <AuthorsDropDown placeholder={intl.formatMessage({ id: 'book.editor.fields.author.placeholder' })} 
+                                            onSelect={this.handleAuthorChange}/>
                             )}
                         </Form.Item>
 
@@ -155,6 +167,7 @@ class EditBook extends Component {
         const form = this.formRef.props.form;
 
         await form.validateFields(async (err, values) => {
+            console.log('values', values)
             if (err) {
                 return;
             }
@@ -178,6 +191,12 @@ class EditBook extends Component {
             }
 
             book.title = values.title;
+            book.description = values.description;
+            book.language = values.language;
+            book.authorId = values.authorId;
+            book.isPublic = values.isPublic
+            book.categories = values.categories;
+            book.series = values.series;
 
             if (isAdding) {
                 await ApiService.post(createLink, book);

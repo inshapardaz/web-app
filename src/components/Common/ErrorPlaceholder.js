@@ -1,43 +1,29 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { Icon, Button, Segment, Header } from 'semantic-ui-react';
-
+import { Empty, Card, Button } from 'antd';
 
 export default class ErrorPlaceholder extends Component {
+
     renderPlaceHolder() {
-        const { message, showButton, buttonText, buttonAction, icon } = this.props;
+        const { message, showButton, buttonText, buttonAction } = this.props;
         let button = null;
         if (showButton) {
             button = (
-                <button type="button" className="btn btn-secondary" onClick={buttonAction}>
+                <Button type="default" className="btn btn-secondary" onClick={buttonAction}>
                     {buttonText}
-                </button>)
-        }
+                </Button>
+            )   
+        } 
 
-        return (
-            <div className="col-md-12">
-                <div className="block block-transparent">
-                    <div className="block-content">
-                        <div className="text-center py-8">
-                            <p>
-                                <i className="far fa-3x fa-times-circle" />
-                            </p>
-                            <div className="mb-0">{message}</div>
-                            <div className="py-4">{button}</div>
-                        </div>                        
-                     </div>
-                </div>
-            </div>
-        )
+        return <Empty image='/resources/error_circle.png' description={this.props.description||''} >{button}{this.props.children}</Empty>;
     }
+
     render() {
         if (this.props.fullWidth) {
             return (
-                <main id="main-container">
-                    <div className="row">
+                <Card>
                         {this.renderPlaceHolder()}
-                    </div>
-                </main>);
+                </Card>);
         }
         else {
             return this.renderPlaceHolder();

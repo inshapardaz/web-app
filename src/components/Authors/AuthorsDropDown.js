@@ -27,6 +27,7 @@ class AuthorsDropDown extends Component {
         return (
             <AutoComplete placeholder={this.props.placeholder}
                 dataSource={this.state.authors}
+                onSelect={this.props.onSelect}
                 onSearch={this.onSearch} />
         )
     }
@@ -35,5 +36,6 @@ class AuthorsDropDown extends Component {
 export default AuthorsDropDown;
 
 AuthorsDropDown.propTypes = {
-    placeholder: PropTypes.string 
+    placeholder: PropTypes.string,
+    onSelect: PropTypes.func
 };

@@ -7,7 +7,7 @@ const Option = Select.Option;
 
 class LanguageDropDown extends Component {
     render() {
-        let options = this.state && this.state.languages ? this.state.languages.map(l => <Option key={l.key} value={l.key}>{l.name}</Option> ) : [];
+        let options = this.props && this.props.languages ? this.props.languages.map(l => <Option key={l.value} value={l.value}>{l.key}</Option> ) : [];
 
         return (
             <Select placeholder={this.props.placeholder}

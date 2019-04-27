@@ -132,19 +132,19 @@ class ApiService {
     return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
   }
 
-  getBooks(page = 1, pageSize = 12) {
+  getBooks(page = 1, pageSize = 12, query = null) {
     const url = `${baseUrl}/books`;
-    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}`);
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
-  getBooksByCategory(category, page = 1, pageSize = 12) {
+  getBooksByCategory(category, page = 1, pageSize = 12, query = null) {
     const url = `${baseUrl}/categories/${category}/books`;
-    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}`);
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
-  getBooksBySeries(series, page = 1, pageSize = 12) {
+  getBooksBySeries(series, page = 1, pageSize = 12, query = null) {
     const url = `${baseUrl}/series/${series}/books`;
-    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}`);
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
   getBook(id) {
@@ -172,15 +172,15 @@ class ApiService {
   }
 
   searchAuthors(query, page = 1, pageSize = 6) {
-    return this.get(`${baseUrl}/authors?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
+    return this.get(`${baseUrl}/authors?&pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
   getAuthor(id) {
     return this.get(`${baseUrl}/authors/${id}`);
   }
 
-  getAuthorBooks(link, page = 1, pageSize= 12) {
-    return this.get(`${link}?pageNumber=${page}&pageSize=${pageSize}`);
+  getAuthorBooks(link, page = 1, pageSize= 12, query = null) {
+    return this.get(`${link}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
   getDictionary(id){
@@ -205,6 +205,8 @@ class ApiService {
   {
     return this.get(`${baseUrl}/dictionaries/${dictionaryId}/words/${wordId}/relationships`);
   }
+
+  getQueryParameter = (query) => (query) ? `&query=${query}` : "";
 
   parseObject(source){
     if (source)

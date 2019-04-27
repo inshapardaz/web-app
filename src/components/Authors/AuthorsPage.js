@@ -131,7 +131,6 @@ class AuthorsPage extends Component {
                   itemLayout={showCard ? null : "vertical"}
                   size="large"
                   grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-                  bordered
                   dataSource={authors.data}
                   renderItem={a => (<AuthorCard key={a.id} card={showCard} author={a} onUpdated={this.reloadAuthors} />)}
                   footer={<Pagination hideOnSinglePage

@@ -1,40 +1,42 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import { injectIntl } from 'react-intl';
+import { Button, Card } from 'antd';
 
 class CategoriesSidebar extends Component {
     renderCategories() {
+        const { selectedCategory } = this.props;
+        const buttonStyle = {
+            marginBottom: "12px"
+        }
+
         if (this.props.categories) {
-            return this.props.categories.items.map(c =>
-                <tr key={c.id}>
-                    <td>
-                        <Link to={`/books?category=${c.id}`}><span>{c.name}</span></Link>
-                    </td>
-                    <td>
-                        <em>{c.bookCount || 0}</em>
-                    </td>
-                </tr>
+            const allButton = [(<Button type={selectedCategory ? "default" : "primary"} block key="all" style={buttonStyle}>
+                <Link to={`/books`} >{this.props.intl.formatMessage({ id : 'header.books.list'})}</Link>
+            </Button>)];
+            const cats = this.props.categories.items.map(c =>
+                <Button type={ selectedCategory && c.id == selectedCategory.id ? "primary" : "default"} block key={c.id} style={buttonStyle}>
+                    <Link to={`/books?category=${c.id}`} >{c.name}</Link>
+                </Button>
             );
+
+            return allButton.concat(cats);
         }
         return null;
     }
     render() {
-        return (
-            <div className="block block-rounded">
-                <div className="block-header block-header-default text-center">
-                    <h3 className="block-title">{this.props.intl.formatMessage({ id: 'header.categories' })}</h3>
-                </div>
+        const cardStyle = {
+            marginBottom: "12px"
+        }
 
-                <div className="block-content">
-                    <table className="table table-striped table-borderless font-size-sm">
-                        <tbody>
-                            {this.renderCategories()}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        return (
+            <Card title={this.props.intl.formatMessage({ id: 'header.categories' })} type="inner" style={cardStyle}>
+                {this.renderCategories()}
+            </Card>
         )
     }
 }
@@ -47,3 +49,7 @@ export default (connect(
     dispatch => bindActionCreators({
     }, dispatch)
 )(injectIntl(CategoriesSidebar)));
+
+CategoriesSidebar.propTypes = {
+    selectedCategory: PropTypes.object
+};

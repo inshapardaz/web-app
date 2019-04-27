@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 import { injectIntl } from 'react-intl';
 
-import { Pagination, List, Switch } from 'antd';
+import { Pagination, List, Card, Switch } from 'antd';
 import { Helmet } from 'react-helmet'
 
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
@@ -22,6 +22,7 @@ class BookList extends Component {
             authorId: 0,
             category: 0,
             series: 0,
+            query: null,
             pageNumber: 1,
             selectedBook: null,
             showCard: true,
@@ -36,7 +37,8 @@ class BookList extends Component {
         await this.loadBooks(this.props.author,
             values.category ? values.category : 0,
             values.series ? values.series : 0,
-            values.page ? values.page : 1);
+            values.page ? values.page : 1,
+            values.q? values.q: null);
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -51,20 +53,22 @@ class BookList extends Component {
             await this.loadBooks(author,
                 values.category ? values.category : 0,
                 values.series ? values.series : 0,
-                values.page ? values.page : 1);
+                values.page ? values.page : 1,
+                values.q? values.q: null);
         }
     }
 
     async reloadBooks() {
-        await this.loadBooks(this.props.author, this.state.category, this.state.series, this.state.pageNumber);
+        await this.loadBooks(this.props.author, this.state.category, this.state.series, this.state.pageNumber, this.state.query);
     }
 
-    async loadBooks(author = null, category = 0, series = 0, pageNumber = 1) {
+    async loadBooks(author = null, category = 0, series = 0, pageNumber = 1, query = null) {
         this.setState({
             isLoading: true,
             authorId: author ? author.id : null,
             series: series,
             category: category,
+            query: query,
             pageNumber: parseInt(pageNumber)
         });
 
@@ -72,16 +76,16 @@ class BookList extends Component {
 
             let result = [];
             if (author) {
-                result = await ApiService.getAuthorBooks(author.links.books, pageNumber);
+                result = await ApiService.getAuthorBooks(author.links.books, pageNumber, 12, query);
             }
             else if (category && category > 0) {
-                result = await ApiService.getBooksByCategory(category, pageNumber);
+                result = await ApiService.getBooksByCategory(category, pageNumber, 12, query);
             }
             else if (series && series > 0) {
-                result = await ApiService.getBooksBySeries(series, pageNumber);
+                result = await ApiService.getBooksBySeries(series, pageNumber, 12, query);
             }
             else {
-                result = await ApiService.getBooks(pageNumber);
+                result = await ApiService.getBooks(pageNumber, 12, query);
             }
             this.setState({
                 isLoading: false,
@@ -121,7 +125,7 @@ class BookList extends Component {
         const { intl } = this.props;
         const message = intl.formatMessage({ id: 'books.messages.error.loading' });
         const buttonText = intl.formatMessage({ id: 'action.retry' });
-        return (<ErrorPlaceholder message={message}
+        return (<ErrorPlaceholder message={message} fullWidth={true}
             showButton={true} buttonText={buttonText}
             buttonAction={this.reloadBooks.bind(this)} />)
     }
@@ -131,20 +135,18 @@ class BookList extends Component {
         const message = intl.formatMessage({ id: 'books.messages.empty' });
 
         return (
-            <EmptyPlaceholder fullWidth={true} message={message} iconName='book' showButton={false} >
-              {this.renderAdd(createLink)}
+            <EmptyPlaceholder fullWidth={true} description={message} iconName='book' showButton={false} >
+                {this.renderAdd(createLink)}
             </EmptyPlaceholder>);
     }
 
     renderBooks = (books) => {
-        const { showCard } = this.props;
-        const { pageNumber } = this.state;
-        
+        const { showCard, pageNumber } = this.state;
+
         return (<List
             itemLayout={showCard ? null : "vertical"}
-            size="large"
-            grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-            bordered
+            size="small"
+            grid={showCard ? { gutter: 4, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 } : null}
             dataSource={books.data}
             renderItem={b => (<BookCard key={b.id} card={showCard} book={b} onUpdated={this.reloadBooks} />)}
             footer={<Pagination hideOnSinglePage
@@ -157,11 +159,11 @@ class BookList extends Component {
 
     renderAdd(createLink) {
         if (createLink) {
-          return <EditBook button createLink={createLink} isAdding={true} onUpdated={this.reloadBooks} />
+            return <EditBook button createLink={createLink} isAdding={true} onUpdated={this.reloadBooks} />
         }
-    
+
         return null;
-      }
+    }
 
     onToggleCardView(checked) {
         this.setState({ showCard: checked })
@@ -197,22 +199,20 @@ class BookList extends Component {
                     </>
                 );
             }
+
+            const extras = (<>
+                {this.renderAdd(createLink)}
+                <span className="ml-2" />
+                <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.card" })}
+                    unCheckedChildren={this.props.intl.formatMessage({ id: "action.list" })}
+                    onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
+            </>)
             return (
                 <>
-                    <Helmet title={this.props.intl.formatMessage({ id: "header.books" })} />
-                    <div className="block block-themed">
-                        <div className="block-header bg-muted">
-                            <h3 className="block-title">{this.props.title}</h3>
-                            <div className="block-options">
-                                {this.renderAdd(createLink)}
-                            </div>
-                        </div>
-                        <div className="block-content">
-                            <div className="row row-deck">
-                                {this.renderBooks(books)}
-                            </div>
-                        </div>
-                    </div>
+                    <Helmet title={`${this.props.intl.formatMessage({ id: "header.books" })} > ${this.props.title}`} />
+                    <Card title={this.props.title} type="inner" extra={extras} >
+                        {this.renderBooks(books)}
+                    </Card>
                 </>
             );
         }
