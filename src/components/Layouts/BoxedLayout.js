@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Footer from '../Footer';
+import AppFooter from '../AppFooter';
 import Header from '../Header';
 import SideBar from '../Sidebar';
 import LocaleService from '../../services/LocaleService';
@@ -29,7 +29,7 @@ class BoxedLayout extends Component {
                     <SideBar />
                     <Header />
                     {children}
-                    <Footer mini />
+                    <AppFooter mini />
                 </div>
             </>
         );

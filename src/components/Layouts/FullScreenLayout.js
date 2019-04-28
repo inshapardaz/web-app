@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Footer from '../Footer';
+import AppFooter from '../AppFooter';
 
 export default class FullScreenLayout extends Component {
     render() {
@@ -9,7 +9,7 @@ export default class FullScreenLayout extends Component {
             <div id="page-container" className="main-content-boxed">
             <main id="main-container">
                 {children}
-                <Footer />
+                <AppFooter />
             </main>
             </div>
             </>
