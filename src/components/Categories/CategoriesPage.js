@@ -8,6 +8,10 @@ import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import EditCategory from './EditCategory';
 import CategoryCard from './CategoryCard';
 
+const cardStyle = {
+  marginBottom: "12px"
+}
+
 class CategoriesPage extends Component {
   constructor(props) {
     super(props);
@@ -110,7 +114,7 @@ class CategoriesPage extends Component {
           <main id="main-container">
             <div className="content content-boxed">
 
-              <Card title={this.props.intl.formatMessage({ id: "header.categories" })} type="inner" extra={extras} >
+              <Card title={this.props.intl.formatMessage({ id: "header.categories" })} type="inner" extra={extras} style={cardStyle}>
                 <List
                   size="large"
                   grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}

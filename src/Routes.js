@@ -39,6 +39,7 @@ class Routes extends React.Component {
         <RouteWithLayout layout={BoxedLayout} path="/authors/:id" component={AuthorPage} />
         <RouteWithLayout layout={BoxedLayout} path="/authors" component={AuthorsPage} />
         <RouteWithLayout layout={EmptyLayout} path="/books/:id/chapters/:chapterId" component={Chapter} />
+        <RouteWithLayout layout={EmptyLayout} path="/books/:id/chapters/:chapterId/edit" component={Chapter} />
         <RouteWithLayout layout={BoxedLayout} path="/books/:id" component={BookPage} />
         <RouteWithLayout layout={BoxedLayout} path="/books/new" component={BooksPage} />
         <RouteWithLayout layout={BoxedLayout} path="/books/recent" component={BooksPage} />

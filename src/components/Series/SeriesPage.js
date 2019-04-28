@@ -8,6 +8,10 @@ import EditSeries from './EditSeries';
 import SeriesCard from './SeriesCard';
 import { Helmet } from 'react-helmet'
 
+const cardStyle = {
+  marginBottom: "12px"
+}
+
 class SeriesPage extends Component {
   constructor(props) {
     super(props);
@@ -107,7 +111,7 @@ class SeriesPage extends Component {
           <Helmet title={this.props.intl.formatMessage({ id: "header.series" })} />
           <main id="main-container">
             <div className="content content-boxed">
-              <Card title={this.props.intl.formatMessage({ id: "header.categories" })} type="inner" extra={extras} >
+              <Card title={this.props.intl.formatMessage({ id: "header.series" })} type="inner" extra={extras} style={cardStyle}>
                 <List
                   size="large"
                   grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}

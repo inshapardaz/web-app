@@ -10,6 +10,10 @@ import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import AuthorCard from './AuthorCard';
 import EditAuthor from './EditAuthor';
 
+const cardStyle = {
+  marginBottom: "12px"
+}
+
 class AuthorsPage extends Component {
   constructor(props) {
     super(props);
@@ -129,7 +133,7 @@ class AuthorsPage extends Component {
           <main id="main-container">
             <div className="content content-boxed">
 
-              <Card title={this.props.intl.formatMessage({ id: "header.authors" })} type="inner" extra={extras} >
+              <Card title={this.props.intl.formatMessage({ id: "header.authors" })} type="inner" extra={extras} style={cardStyle}>
                 <List
                   itemLayout={showCard ? null : "vertical"}
                   size="large"

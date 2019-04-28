@@ -138,6 +138,7 @@
     "chapter.toolbar.chapters" : "Chapters",
     "chapter.toolbar.font" : "Font",
     "chapter.toolbar.fontSize" : "Font Size",
+    "chapter.toolbar.theme" : "Theme",
     "chapter.toolbar.fullScreen" : "Fullscreen",
     "chapter.toolbar.exitFullScreen" : "Exit Fullscreen",
     "search.messages.noresult" : "No result found"

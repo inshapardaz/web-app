@@ -13,6 +13,10 @@ import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import BookCard from './BookCard';
 import EditBook from './EditBook';
 
+const cardStyle = {
+    marginBottom: "12px"
+}
+
 class BookList extends Component {
     constructor(props) {
         super(props);
@@ -218,7 +222,7 @@ class BookList extends Component {
             return (
                 <>
                     <Helmet title={`${this.props.intl.formatMessage({ id: "header.books" })} > ${this.props.title}`} />
-                    <Card title={this.props.title} type="inner" extra={extras} >
+                    <Card title={this.props.title} type="inner" extra={extras} style={cardStyle} >
                         {this.renderBooks(books)}
                     </Card>
                 </>

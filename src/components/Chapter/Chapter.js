@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
+
 import ApiService from '../../services/ApiService';
 import Reader from '../Reader/Reader';
-import { Menu, Icon, Container, Sticky, Dimmer, Header, Loader } from 'semantic-ui-react';
+
+import { BackTop, PageHeader, Anchor, Button } from 'antd';
+
 import { success, error } from '../../services/toasts';
 import ErrorPlaceholder from '../Common/ErrorPlaceholder';
-import ChapterContentEditor from './ChapterContentEditor';
 import Loading from '../Common/Loading';
 
 import ChapterSidebar from './ChapterSidebar';
@@ -84,8 +87,7 @@ class Chapter extends Component {
       theme: localStorage.getItem('reader.theme') || 'default',
       font: '',
       dirty: false,
-      saving: false,
-      sidebarOpen: false
+      saving: false
     };
 
     this.changeFontSize = this.changeFontSize.bind(this);
@@ -160,30 +162,6 @@ class Chapter extends Component {
     }
   }
 
-  toggleSidebar() {
-    this.setState(prevState => ({
-      sidebarOpen: !prevState.sidebarOpen
-    }));
-  }
-
-  toggleSidebarCompact(){
-    this.setState(prevState => ({
-      sidebarOpenCompact: !prevState.sidebarOpenCompact
-    }));
-  }
-
-  sidebarOpen() {
-    this.setState({
-      sidebarOpen: true
-    });
-  }
-  sidebarClosed() {
-    this.setState({
-      sidebarOpen: false,
-      sidebarOpenCompact: false
-    });
-  }
-
   changeFontSize(value) {
     this.setState({
       fontSize: value
@@ -256,18 +234,13 @@ class Chapter extends Component {
     })
   }
 
-  renderEditMenu(chapter, contents, isEditing) {
-    if (!contents) return null;
+  renderEditMenu() {
+    const { contents, chapter } = this.state;
 
-    const addLink = chapter && chapter.links ? chapter.links.add_contents : null;
     const editLink = contents && contents.links ? contents.links.update : null;
-    if (editLink || addLink) {
-      if (isEditing) {
-        return [<Menu.Item color="green" icon="save" onClick={this.onSave} />,
-        <Menu.Item color="orange" icon="close" onClick={this.onCloseEdit} />];
-      }
 
-      return (<Menu.Item color="blue" icon="edit" onClick={this.onEdit} />);
+    if (editLink) {
+      return <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}/edit`}><Button shape="round" icon="edit"></Button></Link>
     }
 
     return null;
@@ -276,7 +249,7 @@ class Chapter extends Component {
   handleContextRef = contextRef => this.setState({ contextRef })
 
   render() {
-    const { isError, isEditing, contents, book, saving, isLoadingContents, isLoading, chapter, font, fontSize, sidebarOpen, sidebarOpenCompact } = this.state;
+    const { isError, contents, book, isLoadingContents, isLoading, chapter, font, fontSize } = this.state;
 
     if (isError) {
       return <ErrorPlaceholder fullWidth={true}
@@ -290,58 +263,31 @@ class Chapter extends Component {
     if (isLoadingContents || isLoading) {
       return <Loading fullWidth={true} />;
     }
-    var header = null;
-    if (chapter) {
-      header = <h2 className="chapter__title text-center" >{chapter.title}</h2>
-    }
+
     if (contents) {
-      var display;
-      if (isEditing) {
-        display = <ChapterContentEditor contents={contents.contents} onChange={this.onContentChange} />
-      } else {
-        display = (
-          <div className="block">
-            <div className="block-content chapter__contents">
-              <Reader contents={contents.contents} isLoading={isLoadingContents} />
-            </div>
-          </div>);
-      }
-
-      var className = "sidebar-dark side-scroll page-header-fixed page-header-dark";
-      if (sidebarOpen){
-          className = className + " sidebar-o";
-      }
-
-      if (sidebarOpenCompact){
-          className = className + " sidebar-o-xs";
-      }
-
-      return (
-        <div id="page-container" className={className}>
-          <ChapterReaderStyle font={font} size={fontSize} />
-          <ChapterSidebar book={book} selectedChapter={chapter} onClose={this.sidebarClosed.bind(this)}
-            onChangeFont={this.changeFont} onChangeFontSize={this.changeFontSize} />
-          <div className="burgerMenu">
-            <button type="button" className="btn btn-light burgerMenu__button d-none d-lg-inline-block"
-              onClick={this.toggleSidebar.bind(this)}>
-              <i className="fa fa-bars"></i>
-            </button>
-            { (sidebarOpenCompact) ? null : (
-              <button type="button" className="btn btn-light burgerMenu__button d-lg-none"
-                onClick={this.toggleSidebarCompact.bind(this)}>
-                <i className="fa fa-bars"></i>
-              </button>
-            )}
+      const display = (
+        <div className="block">
+          <div className="block-content chapter__contents">
+            <Reader contents={contents.contents} isLoading={isLoadingContents} />
           </div>
-          {/* {this.renderEditMenu(chapter, contents, isEditing)} */}
-          {header}
+        </div>);
+
+      const extra = (<>
+        {this.renderEditMenu()}
+        <ChapterSidebar book={book} selectedChapter={chapter}
+          onFontChanged={this.changeFont} onChangeFontSize={this.changeFontSize} />
+      </>);
+      return (
+        <div id="page-container">
+          <Anchor affix>
+            <PageHeader title={book.title}
+              subTitle={chapter.title}
+              onBack={() => window.history.back()}
+              extra={extra} />
+          </Anchor>
+          <ChapterReaderStyle font={font} size={fontSize} />
           {display}
-          <Dimmer active={saving} page>
-            <Header as='h2' icon inverted>
-              <Icon name="save" />
-              Saving...
-            </Header>
-          </Dimmer>
+          <BackTop />
         </div>
       )
     } else {

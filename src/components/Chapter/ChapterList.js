@@ -7,6 +7,10 @@ import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import EditChapter from './EditChapter';
 import ChapterCard from './ChapterCard';
 
+const cardStyle = {
+    marginBottom: "12px"
+}
+
 class ChapterList extends Component {
     constructor(props) {
         super(props);
@@ -121,7 +125,7 @@ class ChapterList extends Component {
 
             return (
                 <>
-                    <Card title={this.props.intl.formatMessage({ id: "chapter.toolbar.chapters" })} type="inner" extra={this.renderAdd(createLink)} >
+                    <Card title={this.props.intl.formatMessage({ id: "chapter.toolbar.chapters" })} type="inner" extra={this.renderAdd(createLink)}  style={cardStyle}>
                         {this.renderChapters()}
                     </Card>
                 </>
