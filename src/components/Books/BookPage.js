@@ -116,19 +116,19 @@ class BookPage extends Component {
     const imageLink = book.links.image_upload;
 
     if (editLink) {
-        actions.push(<EditBook button key="edit" book={book} onUpdated={this.reloadBook} />) 
+      actions.push(<EditBook button key="edit" book={book} onUpdated={this.reloadBook} />)
     }
 
     if (imageLink) {
-        actions.push(<UploadBookImage button key="uploadimage" book={book} onUpdated={this.reloadBook} />);
+      actions.push(<UploadBookImage button key="uploadimage" book={book} onUpdated={this.reloadBook} />);
     }
 
     if (deleteLink) {
-        actions.push(<DeleteBook button key="delete" book={book} onDeleted={this.reloadBook} />);
+      actions.push(<DeleteBook button key="delete" book={book} onDeleted={this.reloadBook} />);
     }
 
     if (actions.length > 0) {
-        return actions;
+      return actions;
     }
 
     return null;
@@ -171,7 +171,7 @@ class BookPage extends Component {
     const content = (
       <div className="content">
         <Paragraph>
-        <Text type="secondary">{book.description}</Text>
+          <Text type="secondary">{book.description}</Text>
         </Paragraph>
         <div className="contentLink">
           <ButtonGroup>
@@ -182,20 +182,18 @@ class BookPage extends Component {
     );
 
     return (
-      <main id="main-container">
+      <>
         <HeaderStyle />
         <Helmet title={book.title} />
-        <div className="content content-boxed">
-          <PageHeader title={<Title level={3}>{book.title}</Title>} onBack={() => window.history.back()} 
-                      subTitle={<Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>}>
-            <div className="wrap">
-              <div className="content">{content}</div>
-              <div className="extraContent">{<img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} />}</div>
-            </div>
-          </PageHeader>
-          <ChapterList book={book} />
-        </div>
-      </main>
+        <PageHeader title={<Title level={3}>{book.title}</Title>} onBack={() => window.history.back()}
+          subTitle={<Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>}>
+          <div className="wrap">
+            <div className="content">{content}</div>
+            <div className="extraContent">{<img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} />}</div>
+          </div>
+        </PageHeader>
+        <ChapterList book={book} />
+      </>
     )
   }
 }

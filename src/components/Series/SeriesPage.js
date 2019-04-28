@@ -109,18 +109,14 @@ class SeriesPage extends Component {
       return (
         <>
           <Helmet title={this.props.intl.formatMessage({ id: "header.series" })} />
-          <main id="main-container">
-            <div className="content content-boxed">
-              <Card title={this.props.intl.formatMessage({ id: "header.series" })} type="inner" extra={extras} style={cardStyle}>
-                <List
-                  size="large"
-                  grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-                  dataSource={series.items}
-                  renderItem={s => (<SeriesCard key={s.id} card={showCard} series={s} onUpdated={this.loadSeries.bind(this)} />)}
-                />
-              </Card>
-            </div>
-          </main>
+          <Card title={this.props.intl.formatMessage({ id: "header.series" })} type="inner" extra={extras} style={cardStyle}>
+            <List
+              size="large"
+              grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
+              dataSource={series.items}
+              renderItem={s => (<SeriesCard key={s.id} card={showCard} series={s} onUpdated={this.loadSeries.bind(this)} />)}
+            />
+          </Card>
         </>
       );
     }

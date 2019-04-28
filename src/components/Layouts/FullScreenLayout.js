@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import AppFooter from '../AppFooter';
 
+import { Layout } from 'antd';
+
+const { Content } = Layout;
+
 export default class FullScreenLayout extends Component {
     render() {
         const { children } = this.props
         return (
             <>
-            <div id="page-container" className="main-content-boxed">
-            <main id="main-container">
-                {children}
+                <Content >
+                    {children}
+                </Content>
                 <AppFooter />
-            </main>
-            </div>
             </>
         );
     }

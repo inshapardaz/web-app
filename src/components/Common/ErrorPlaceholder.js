@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { Empty, Card, Button } from 'antd';
 
+const cardStyle = {
+    marginBottom: "12px"
+}
+
 export default class ErrorPlaceholder extends Component {
 
     renderPlaceHolder() {
@@ -12,17 +16,17 @@ export default class ErrorPlaceholder extends Component {
                 <Button type="default" className="btn btn-secondary" onClick={buttonAction}>
                     {buttonText}
                 </Button>
-            )   
-        } 
+            )
+        }
 
-        return <Empty image='/resources/error_circle.png' description={this.props.description||''} >{button}{this.props.children}</Empty>;
+        return <Empty image='/resources/error_circle.png' description={this.props.description || ''} >{button}{this.props.children}</Empty>;
     }
 
     render() {
         if (this.props.fullWidth) {
             return (
-                <Card>
-                        {this.renderPlaceHolder()}
+                <Card style={cardStyle}>
+                    {this.renderPlaceHolder()}
                 </Card>);
         }
         else {

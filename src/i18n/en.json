@@ -40,6 +40,7 @@
     "home.getStarted": "Get Started",
     "home.latestBooks": "Latest Additions",
     "home.favoriteBooks": "Favorites",
+    "home.recent": "Recently Read",
     "categories.action.create" : "Create new category",
     "categories.messages.saved" : "Category saved",
     "categories.messages.deleted" : "Category Deleted",

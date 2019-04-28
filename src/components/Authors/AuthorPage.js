@@ -160,10 +160,9 @@ class AuthorPage extends Component {
     );
 
     return (
-      <main id="main-container">
+      <>
         <HeaderStyle />
         <Helmet title={author.name} />
-        <div className="content content-boxed">
           <PageHeader title={<Title level={3}>{author.name}</Title>} onBack={() => window.history.back()} subTitle={this.props.intl.formatMessage({ id: 'authors.item.book.count' }, { count: author.bookCount })}>
             <div className="wrap">
               <div className="content">{content}</div>
@@ -171,8 +170,7 @@ class AuthorPage extends Component {
             </div>
           </PageHeader>
           <BookList author={author} wide title={this.props.intl.formatMessage({ id: "authors.book.title" }, { name: author.name })} type="inner" />
-        </div>
-      </main>
+      </>
 
     )
   }

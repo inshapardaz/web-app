@@ -111,19 +111,14 @@ class CategoriesPage extends Component {
       return (
         <>
           <Helmet title={this.props.intl.formatMessage({ id: "header.categories" })} />
-          <main id="main-container">
-            <div className="content content-boxed">
-
-              <Card title={this.props.intl.formatMessage({ id: "header.categories" })} type="inner" extra={extras} style={cardStyle}>
-                <List
-                  size="large"
-                  grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-                  dataSource={categories.items}
-                  renderItem={c => (<CategoryCard key={c.id} card={showCard} category={c} onUpdated={this.loadCategories.bind(this)} />)}
-                />
-              </Card>
-            </div>
-          </main>
+          <Card title={this.props.intl.formatMessage({ id: "header.categories" })} type="inner" extra={extras} style={cardStyle}>
+            <List
+              size="large"
+              grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
+              dataSource={categories.items}
+              renderItem={c => (<CategoryCard key={c.id} card={showCard} category={c} onUpdated={this.loadCategories.bind(this)} />)}
+            />
+          </Card>
         </>
       );
     }

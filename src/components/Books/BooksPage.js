@@ -111,27 +111,23 @@ class BooksPage extends Component {
     return (
       <>
         <Helmet title={headerContent} />
-        <main id="main-container">
-          <div className="content content-boxed">
-            <div className="row">
-              <div className="col-xl-8">
-                <BookList title={headerContent} />
-              </div>
-              <div className="col-xl-4">
-                <Card title={this.props.intl.formatMessage({ id: 'header.search' })} type="inner" style={cardStyle}>
-                  <Search
-                    placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
-                    onSearch={this.onSubmit}
-                    enterButton
-                  />
-                </Card>
-                <CategoriesSidebar selectedCategory={category} />
-                <FavoriteBooksSidebar />
-                <LatestBooksSidebar />
-              </div>
-            </div>
+        <div className="row">
+          <div className="col-xl-8">
+            <BookList title={headerContent} />
           </div>
-        </main >
+          <div className="col-xl-4">
+            <Card title={this.props.intl.formatMessage({ id: 'header.search' })} type="inner" style={cardStyle}>
+              <Search
+                placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
+                onSearch={this.onSubmit}
+                enterButton
+              />
+            </Card>
+            <CategoriesSidebar selectedCategory={category} />
+            <FavoriteBooksSidebar />
+            <LatestBooksSidebar />
+          </div>
+        </div>
       </>
     );
   }

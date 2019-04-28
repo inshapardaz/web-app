@@ -130,25 +130,20 @@ class AuthorsPage extends Component {
       return (
         <>
           <Helmet title={this.props.intl.formatMessage({ id: "header.authors" })} />
-          <main id="main-container">
-            <div className="content content-boxed">
-
-              <Card title={this.props.intl.formatMessage({ id: "header.authors" })} type="inner" extra={extras} style={cardStyle}>
-                <List
-                  itemLayout={showCard ? null : "vertical"}
-                  size="large"
-                  grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-                  dataSource={authors.data}
-                  renderItem={a => (<AuthorCard key={a.id} card={showCard} author={a} onUpdated={this.reloadAuthors} />)}
-                  footer={<Pagination hideOnSinglePage
-                    defaultCurrent={pageNumber}
-                    total={authors.totalCount}
-                    pageSize={authors.pageSize}
-                    onChange={this.onPageChanged} />}
-                />
-              </Card>
-            </div>
-          </main>
+          <Card title={this.props.intl.formatMessage({ id: "header.authors" })} type="inner" extra={extras} style={cardStyle}>
+            <List
+              itemLayout={showCard ? null : "vertical"}
+              size="large"
+              grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
+              dataSource={authors.data}
+              renderItem={a => (<AuthorCard key={a.id} card={showCard} author={a} onUpdated={this.reloadAuthors} />)}
+              footer={<Pagination hideOnSinglePage
+                defaultCurrent={pageNumber}
+                total={authors.totalCount}
+                pageSize={authors.pageSize}
+                onChange={this.onPageChanged} />}
+            />
+          </Card>
         </>
       );
     }
