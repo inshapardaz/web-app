@@ -121,6 +121,7 @@ class AppHeader extends Component {
 						</Link>
 					</Menu.Item>
 					{this.renderCategories()}
+					<SearchBox />
 				</Menu>
 			</Header>
 
