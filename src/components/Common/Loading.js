@@ -1,30 +1,28 @@
 import React, { Component } from 'react'
-import { FormattedMessage } from 'react-intl';
+import { Spin, Icon, Layout } from 'antd';
 
+const antIcon = <Icon type="loading" style={{ fontSize: 45 }} spin />;
+
+const Style = () => {
+    return (<style>
+        {`
+            .spinner {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+        `}
+    </style>)
+}
 export default class Loading extends Component {
-    renderLoading() {
+    render() {
         return (
-            <div className="col-md-12">
-                <div className="block block-transparent block-mode-loading">
-                    <div className="block-content">
-                        <div className="py-10" />
-                     </div>
-                </div>
+            <div className="spinner">
+                <Style />
+                <Spin size="large" indicator={antIcon} wrapperClassName="spinner" />
             </div>
         );
-    }
-    render() {
-
-        if (this.props.fullWidth) {
-            return (
-            <main id="main-container">
-                <div className="row">
-                    {this.renderLoading()}
-                </div>
-            </main>);
-        }
-        else {
-            return this.renderLoading();
-        }
     }
 }

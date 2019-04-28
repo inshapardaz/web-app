@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+
+import { changeReaderFont, changeReaderFontSize, changeReaderTheme } from '../../actions/uiActions';
 
 import { Drawer, Button, Menu, Icon } from 'antd';
 
@@ -8,22 +12,16 @@ import ApiService from '../../services/ApiService';
 
 const { SubMenu } = Menu;
 
-export default class ChapterSidebar extends Component {
+class ChapterSidebar extends Component {
     state = {
         visible: false,
         isLoading: false,
         isError: false,
-        chapters: null,
-        font: "Mehr-Nastaleeq",
-        size: "100%",
-        theme: 'default'
+        chapters: null
     };
 
     async componentDidMount() {
         await this.loadData();
-        this.loadFont();
-        this.loadFontSize();
-        this.loadTheme();
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -69,66 +67,13 @@ export default class ChapterSidebar extends Component {
         });
     }
 
-    loadFont = () => {
-        var font = localStorage.getItem('reader.font');
-        if (font) {
-            this.setState({
-                font: font
-            });
+    
 
-            this.props.onFontChanged(font);
-        }
-    }
+    changeFont = (e) => this.props.changeReaderFont(e.key)
 
-    loadFontSize = () => {
-        var size = localStorage.getItem('reader.fontSize');
-        if (size) {
-            this.setState({
-                size: size
-            });
+    changeFontSize = (e) => this.props.changeReaderFontSize(e.key) 
 
-            this.props.onChangeFontSize(size);
-        }
-    }
-
-    loadTheme = () => {
-        var size = localStorage.getItem('reader.theme');
-        if (size) {
-            this.setState({
-                size: size
-            });
-        }
-    }
-
-    changeFont = (e) => {
-        const value = e.key;
-        this.setState({
-            font: value
-        });
-
-        localStorage.setItem('reader.font', value);
-        this.props.onFontChanged(value);
-    }
-
-    changeFontSize = (e) => {
-        const value = e.key;
-        this.setState({
-            size: value
-        });
-
-        localStorage.setItem('reader.fontSize', value);
-        this.props.onChangeFontSize(value);
-    }
-
-    changeTheme = (e) => {
-        const value = e.key;
-        this.setState({
-            theme: value
-        });
-
-        localStorage.setItem('reader.theme', value);
-        this.props.onFontSizeChanged(value);
-    }
+    changeTheme = (e) => this.props.changeReaderTheme(e.key)
 
     renderChapters() {
         const { chapters } = this.state;
@@ -145,9 +90,9 @@ export default class ChapterSidebar extends Component {
         return null;
     }
 
-    renderFonts(){
+    renderFonts() {
         const fonts = [
-            { "key": "Jameel Noori Nastaleeq","value": 'جمیل نوری نستعلیق' },
+            { "key": "Jameel Noori Nastaleeq", "value": 'جمیل نوری نستعلیق' },
             { "key": "Mehr-Nastaleeq", "value": 'مہر نستعلیق' },
             { "key": "Noto", "value": 'نوٹو' },
             { "key": "Nafees Nastaleeq", "value": 'نفیس نستعلیق' },
@@ -196,7 +141,7 @@ export default class ChapterSidebar extends Component {
 
         if (!book) return null;
 
-        const selection = [this.props.selectedChapter.id.toString(), this.state.font, this.state.size]
+        const selection = [this.props.selectedChapter.id.toString(), this.props.font, this.props.fontSize, this.props.theme]
         return (
             <>
                 <Button shape="round" onClick={this.showDrawer} icon="more" />
@@ -221,3 +166,16 @@ export default class ChapterSidebar extends Component {
         )
     }
 }
+
+export default (connect(
+    (state) => ({
+        font: state.uiReducer.font,
+        fontSize: state.uiReducer.fontSize,
+        theme: state.uiReducer.theme
+    }),
+    dispatch => bindActionCreators({
+        changeReaderFont: changeReaderFont,
+        changeReaderFontSize: changeReaderFontSize,
+        changeReaderTheme: changeReaderTheme
+    }, dispatch)
+)(ChapterSidebar));

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import Loading from '../Common/Loading';
-import {Container} from 'semantic-ui-react'
+
 const ReactMarkdown = require('react-markdown')
 const htmlParser = require('react-markdown/plugins/html-parser')
 var HtmlToReact = require('html-to-react');
@@ -27,8 +28,8 @@ const parseHtml = htmlParser({
   }]
 })
 
-const InlineStyle = () => (
-    <style>{`
+const InlineStyle = ({ font, size }) => (
+  <style>{`
         .reader
         {
             direction: rtl;
@@ -55,11 +56,16 @@ const InlineStyle = () => (
         .reader > h2,
         .reader > h3,
         .reader > h4,
-        .reader > h5 {
-            font-weight: bold;
-            font-size: 1.5em;
+        .reader > h5,
+        .reader > h6,
+        .reader > span,
+        .reader > a, 
+        .reader > p 
+        {
+            font-weight: initial;
             text-align: right;
-            font-family: inherit;
+            font-family: '${font}' !important;
+            font-size: ${size} !important
         }
             
         .reader__loading{
@@ -67,26 +73,35 @@ const InlineStyle = () => (
             text-align: center;
         }
     `}</style>
-  )
+)
 
-export default class Reader extends Component {
-    linkClicked(url) {
-    }
+class Reader extends Component {
+  linkClicked(url) {
+  }
 
-    render() {
-      const {isLoading} = this.props;
-  
-      if (isLoading){
-        return <Loading fullWidth={true} />
-      }
-  
-      return (
-        <Container >
-            <InlineStyle />
-          <ReactMarkdown source={this.props.contents || ''}
-            astPlugins={[parseHtml]} className="reader"
-            linkTarget={this.linkClicked} />
-        </Container>
-      );
+  render() {
+    const { isLoading, font, fontSize } = this.props;
+
+    if (isLoading) {
+      return <Loading fullWidth={true} />
     }
+          
+    return (
+      <>
+        <InlineStyle font={font} size={fontSize} />
+        <ReactMarkdown source={this.props.contents || ''}
+          astPlugins={[parseHtml]} className="reader"
+          linkTarget={this.linkClicked} />
+      </>
+    );
+  }
 }
+
+
+export default (connect(
+  (state) => ({
+    font: state.uiReducer.font,
+    fontSize: state.uiReducer.fontSize,
+    theme: state.uiReducer.theme
+  }), null
+)(Reader));

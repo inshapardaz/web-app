@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
 import Reader from '../Reader/Reader';
 
-import { BackTop, PageHeader, Anchor, Button } from 'antd';
+import { BackTop, PageHeader, Anchor, Button, Layout } from 'antd';
 
 import { success, error } from '../../services/toasts';
 import ErrorPlaceholder from '../Common/ErrorPlaceholder';
@@ -13,12 +13,13 @@ import Loading from '../Common/Loading';
 
 import ChapterSidebar from './ChapterSidebar';
 
+const { Content } = Layout;
 const gotoTop = () => {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
 
-const ChapterReaderStyle = ({ font, size }) => {
+const ChapterReaderStyle = () => {
   return (
     <style>{`
     .burgerMenu {
@@ -38,35 +39,6 @@ const ChapterReaderStyle = ({ font, size }) => {
     .burgerMenu__button:hover{
       opacity: 1;
     }
-
-    .chapter
-    {
-      font-size: 16px;
-    }
-
-    .chapter__title
-    {
-      display: block;
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 12px;
-      font-family: '${font}' !important;
-    }
-  
-    .chapter__contents,
-    .chapter__contents span,
-    .chapter__contents a, 
-    .chapter__contents p,
-    .chapter__contents h1, 
-    .chapter__contents h2, 
-    .chapter__contents h3, 
-    .chapter__contents h4, 
-    .chapter__contents h5, 
-    .chapter__contents h6
-    {
-      font-family: '${font}' !important;
-      font-size: ${size} !important
-    }
   `}</style>
   )
 }
@@ -83,15 +55,10 @@ class Chapter extends Component {
       isLoadingContents: false,
       isError: false,
       isEditing: false,
-      fontSize: '',
-      theme: localStorage.getItem('reader.theme') || 'default',
-      font: '',
       dirty: false,
       saving: false
     };
 
-    this.changeFontSize = this.changeFontSize.bind(this);
-    this.changeFont = this.changeFont.bind(this);
     this.onEdit = this.onEdit.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
     this.onSave = this.onSave.bind(this);
@@ -162,25 +129,6 @@ class Chapter extends Component {
     }
   }
 
-  changeFontSize(value) {
-    this.setState({
-      fontSize: value
-    });
-  }
-
-  changeFont(font) {
-    this.setState({
-      font: font
-    });
-  }
-
-  changeTheme(e) {
-    this.setState({
-      theme: e.key
-    });
-    localStorage.setItem('reader.theme', e.key);
-  }
-
   onEdit() {
     this.setState({
       isEditing: true,
@@ -249,7 +197,7 @@ class Chapter extends Component {
   handleContextRef = contextRef => this.setState({ contextRef })
 
   render() {
-    const { isError, contents, book, isLoadingContents, isLoading, chapter, font, fontSize } = this.state;
+    const { isError, contents, book, isLoadingContents, isLoading, chapter } = this.state;
 
     if (isError) {
       return <ErrorPlaceholder fullWidth={true}
@@ -266,16 +214,13 @@ class Chapter extends Component {
 
     if (contents) {
       const display = (
-        <div className="block">
-          <div className="block-content chapter__contents">
+        <Content style={{ padding: '10px' }}>
             <Reader contents={contents.contents} isLoading={isLoadingContents} />
-          </div>
-        </div>);
+        </Content>);
 
       const extra = (<>
         {this.renderEditMenu()}
-        <ChapterSidebar book={book} selectedChapter={chapter}
-          onFontChanged={this.changeFont} onChangeFontSize={this.changeFontSize} />
+        <ChapterSidebar book={book} selectedChapter={chapter} />
       </>);
       return (
         <div id="page-container">
@@ -285,7 +230,7 @@ class Chapter extends Component {
               onBack={() => window.history.back()}
               extra={extra} />
           </Anchor>
-          <ChapterReaderStyle font={font} size={fontSize} />
+          <ChapterReaderStyle />
           {display}
           <BackTop />
         </div>

@@ -12,10 +12,25 @@ export default function uiReducer(state = {}, action) {
         sidebarMobile: !state.sidebarMobile
       };
     case 'CLOSE_SIDEBAR_MOBILE':
-    return {
-      ...state,
-      sidebarMobile: false
-    };
+      return {
+        ...state,
+        sidebarMobile: false
+      };
+    case 'READER_FONT':
+      return {
+        ...state,
+        font: action.value
+      };
+    case 'READER_FONT_SIZE':
+      return {
+        ...state,
+        fontSize: action.value
+      };
+    case 'READER_THEME':
+      return {
+        ...state,
+        theme: action.theme
+      };
     default:
       return state;
   }
