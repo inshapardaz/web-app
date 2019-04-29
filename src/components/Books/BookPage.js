@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 
-import { PageHeader, Typography, Button } from 'antd';
+import { PageHeader, Typography, Button, Row, Tag, Icon } from 'antd';
 import { Helmet } from 'react-helmet'
 
 import { ErrorPlaceholder, Loading } from '../Common';
@@ -164,29 +164,45 @@ class BookPage extends Component {
       return null;
     }
 
-    var availability = (<em className="text-muted">{book.isPublic ?
-      <><i className="fa fa-globe" /> <FormattedMessage id="book.public" /></> :
-      <><i className="fa fa-lock" /> <FormattedMessage id="book.private" /></>}</em>);
+    var availability = (<Text type="secondary">{book.isPublic ?
+      <><Tag color="green">{this.props.intl.formatMessage({ id: 'book.public'})}</Tag></> :
+      <><Tag color="red">{this.props.intl.formatMessage({ id: 'book.private'})}</Tag></>}</Text>);
 
+    const categories = book.categories.map(c => <Tag key={c.id}><Link to={`/books?category=${c.id}`}><Icon type="tag" /> {c.name}</Link></Tag>);
+    const publishYear = book.yearPublished > 0 ? (<><Icon type="printer" /> <FormattedMessage id="book.publish" values={{year: book.yearPublished}}/></>) : null;
+    const series = book.seriesName ? (
+      <>
+        {this.props.intl.formatMessage({ id: 'book.series'}, {index : book.seriesIndex})}
+        <Tag style={{marginLeft : '4px'}}>
+          <Icon type="link" />
+          <Link to={`/books?series=${book.seriesId}`}>{book.seriesName}</Link>
+        </Tag>
+      </>) : null;
     const content = (
-      <div className="content">
+      <>
         <Paragraph>
           <Text type="secondary">{book.description}</Text>
         </Paragraph>
+        <Row>
+          <Row>{categories}</Row>
+          <Row>{series}</Row>
+          <Row>{publishYear}</Row>
+          <Row><Icon type="key" />{this.props.intl.formatMessage({ id: `copyrights.${book.copyrights}` })}</Row>
+        </Row>
         <div className="contentLink">
           <ButtonGroup>
             {this.renderBookActions(book)}
           </ButtonGroup>
         </div>
-      </div>
+      </>
     );
 
     return (
       <>
         <HeaderStyle />
         <Helmet title={book.title} />
-        <PageHeader title={<Title level={3}>{book.title}</Title>} onBack={() => window.history.back()}
-          subTitle={<Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>}>
+        <PageHeader title={<Title level={2}>{book.title}</Title>} onBack={() => window.history.back()}
+          subTitle={<>{availability}<Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></>}>
           <div className="wrap">
             <div className="content">{content}</div>
             <div className="extraContent">{<img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} />}</div>

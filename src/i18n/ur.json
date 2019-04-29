@@ -96,8 +96,10 @@
     "books.messages.favorite.empty" : "کوئی پسندیدگی موجود نہیں",
     "books.action.confirmDelete" : "کیا آپ '{title}' کو حذف کرنا چاہیں گے؟",
     "book.by" : "از",
-    "book.public" : "عوامی",
-    "book.private" : "‍ذاتی",
+    "book.public" : "عوامی کتاب",
+    "book.private" : "‍ذاتی کتاب",
+    "book.publish": "{year} میں چھپی",
+    "book.series": "کی {index} کتاب",
     "book.editor.header.add": "کتاب کا اضافہ",
     "book.editor.header.edit" : "کتاب '{title}' کی تدوین",
     "book.editor.fields.name.title" : "نام",
@@ -142,5 +144,11 @@
     "chapter.toolbar.theme" : "تھیم",
     "chapter.toolbar.fullScreen" : "مکمل سکرین",
     "chapter.toolbar.exitFullScreen" : "اخراج مکمل سکرین",
-    "search.messages.noresult" : "کوئی نتیجہ برآمد نہیں ہوا"
+    "search.messages.noresult" : "کوئی نتیجہ برآمد نہیں ہوا",
+    "copyrights.0": "جملہ حقوق محفوظ",
+    "copyrights.1": "جملہ حقوق محفوظ بمعہ اجازت",
+    "copyrights.2": "مفت عوامی کتاب",
+    "copyrights.3": "مفت کریئیٹو کامن",
+    "copyrights.4": "مفت جی پی ایل",
+    "copyrights.5": "مفت متفرق"
 }

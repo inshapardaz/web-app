@@ -11,14 +11,7 @@ const Option = Select.Option;
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
-const copyrights = [
-  {id : 0, name: 'Copyright'},
-  {id : 1, name: 'Copyright With Permission'},
-  {id : 2, name: 'Free - Public Domain'},
-  {id : 3, name: 'Free - Creative Commons'},
-  {id : 4, name: 'Free - GPL'},
-  {id : 5, name: 'Free - Others'},
-];
+
 
 class BookForm extends React.Component {
   constructor(props) {
@@ -29,6 +22,15 @@ class BookForm extends React.Component {
       series: []
     };
   }
+
+  copyrights = [
+    {id : 0, name: this.props.intl.formatMessage({ id: "copyrights.0" })},
+    {id : 1, name: this.props.intl.formatMessage({ id: "copyrights.1" })},
+    {id : 2, name: this.props.intl.formatMessage({ id: "copyrights.2" })},
+    {id : 3, name: this.props.intl.formatMessage({ id: "copyrights.3" })},
+    {id : 4, name: this.props.intl.formatMessage({ id: "copyrights.4" })},
+    {id : 5, name: this.props.intl.formatMessage({ id: "copyrights.5" })},
+  ];
 
   async componentDidMount() {
     const { book } = this.props;
@@ -71,7 +73,7 @@ class BookForm extends React.Component {
     const categoryOptions = this.state.categories.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
     const seriesOptions = this.state.series.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
     const authorOptions = this.state.authors.map(d => ({ value: d.id.toString(), text: d.name }));
-    const copyrightsOptions = copyrights.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
+    const copyrightsOptions = this.copyrights.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
 
     return (<Form layout="vertical">
       <FormItem label={intl.formatMessage({ id: "book.editor.fields.name.title" })}>
