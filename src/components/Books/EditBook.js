@@ -2,144 +2,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, Alert, Modal, Input, Form, Switch, Button, notification } from 'antd';
-
-
+import { Icon, Modal, Form, Button, notification } from 'antd';
 import ApiService from '../../services/ApiService';
 
-import AuthorsDropDown from '../Authors/AuthorsDropDown';
-import LanguageDropDown from '../LanguageDropDown';
-import CategoriesDropDown from '../Categories/CategoriesDropDown';
-import SeriesDropDown from '../Series/SeriesDropDown';
+import BookForm from './BookForm';
 
-const { TextArea } = Input;
-
-const BookForm = Form.create({
-    name: 'bookEditor',
-    mapPropsToFields(props) {
-        return {
-            title: Form.createFormField({
-                ...props.title,
-                value: props.title || '',
-            }),
-            description: Form.createFormField({
-                ...props.description,
-                value: props.description || '',
-            }),
-            isPublic: Form.createFormField({
-                ...props.description,
-                value: props.isPublic || false,
-            }),
-            authorId: Form.createFormField({
-                ...props.description,
-                value: props.authorId || null,
-            }),
-            categories: Form.createFormField({
-                ...props.description,
-                value: props.categories || [],
-            }),
-            language: Form.createFormField({
-                ...props.description,
-                value: props.language || null,
-            }),
-            series: Form.createFormField({
-                ...props.description,
-                value: props.series || [],
-            })
-        };
-    }
-})(
-    class extends React.Component {
-        handleAuthorChange = (value) => {
-            console.log('value', value)
-            // let autoCompleteResult;
-            // if (!value) {
-            //   autoCompleteResult = [];
-            // } else {
-            //   autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-            // }
-            // this.setState({ autoCompleteResult });
-          }
-
-        render() {
-            const { visible, header, onCancel, onOK, isError, isBusy, form, intl } = this.props;
-            const { getFieldDecorator } = form;
-
-            return (
-                <Modal
-                    title={header}
-                    visible={visible}
-                    onOk={onOK}
-                    confirmLoading={isBusy}
-                    onCancel={onCancel}
-                    closeIcon={!isBusy}
-                    closeOnEscape={true}
-                    maskClosable={false}>
-                    <Form layout="horizontal">
-                        <Form.Item label={intl.formatMessage({ id: "book.editor.fields.name.title" })} >
-                            {getFieldDecorator('title', {
-                                rules: [{
-                                    required: true, message: intl.formatMessage({ id: 'book.editor.fields.name.error' }),
-                                }],
-                            })(
-                                <Input placeholder={intl.formatMessage({ id: "book.editor.fields.name.title" })} />
-                            )}
-                        </Form.Item>
-
-                        <Form.Item label={intl.formatMessage({ id: "book.editor.fields.author.title" })}>
-                            {getFieldDecorator('authorId', {
-                                rules: [{
-                                    required: true, message: intl.formatMessage({ id: 'book.editor.fields.author.error' })
-                                }],
-                            })(
-                                <AuthorsDropDown placeholder={intl.formatMessage({ id: 'book.editor.fields.author.placeholder' })} 
-                                            onSelect={this.handleAuthorChange}/>
-                            )}
-                        </Form.Item>
-
-                        <Form.Item label={intl.formatMessage({ id: "book.editor.fields.description.title" })}>
-                            {getFieldDecorator('description', {})(
-                                <TextArea autosize={{ minRows: 2, maxRows: 6 }} placeholder={intl.formatMessage({ id: "book.editor.fields.description.title" })}/>
-                            )}
-                        </Form.Item>
-
-                        <Form.Item label={intl.formatMessage({ id: "book.editor.fields.public" })}>
-                            {getFieldDecorator('isPublic', {
-                                valuePropName: 'checked'
-                            })(
-                                <Switch />
-                            )}
-                        </Form.Item>
-
-
-                        <Form.Item label={intl.formatMessage({ id: "book.editor.fields.language.title" })}>
-                            {getFieldDecorator('language', {
-                                rules: [{
-                                    required: true, message: intl.formatMessage({ id: 'book.editor.fields.language.error' })
-                                }],
-                            })(
-                                <LanguageDropDown placeholder={this.props.intl.formatMessage({ id: 'book.editor.fields.language.placeholder' })} />
-                            )}
-                        </Form.Item>
-
-                        <Form.Item label={intl.formatMessage({ id: "book.editor.fields.categories.title" })}>
-                            {getFieldDecorator('categories', {})(
-                                <CategoriesDropDown placeholder={this.props.intl.formatMessage({ id: 'book.editor.fields.categories.placeholder' })} />
-                            )}
-                        </Form.Item>
-
-                        <Form.Item label={intl.formatMessage({ id: "book.editor.fields.series.title" })}>
-                            {getFieldDecorator('series', {})(
-                                <SeriesDropDown placeholder={this.props.intl.formatMessage({ id: 'book.editor.fields.series.placeholder' })} />
-                            )}
-                        </Form.Item>
-                    </Form>
-                    {isError ? <Alert message={intl.formatMessage({ id: 'books.messages.error.saving' })} type="error" showIcon /> : null}
-                </Modal>
-            );
-        }
-    }
-);
+const WrappedBookForm = Form.create()(BookForm);
+const intToObjectArray = (arr) => arr.map(o => {
+    return { id: o };
+})
 
 class EditBook extends Component {
     constructor(props) {
@@ -156,15 +27,13 @@ class EditBook extends Component {
     }
 
     onClose = () => {
-        if (this.formRef) {
-            const form = this.formRef.props.form;
-            form.resetFields();
-        }
+        const form = this.refs.bookForm;
+        form.resetFields();
         this.setState({ visible: false, isError: false });
     }
 
     onSave = async () => {
-        const form = this.formRef.props.form;
+        const form = this.refs.bookForm;
 
         await form.validateFields(async (err, values) => {
             console.log('values', values)
@@ -195,13 +64,17 @@ class EditBook extends Component {
             book.language = values.language;
             book.authorId = values.authorId;
             book.isPublic = values.isPublic
-            book.categories = values.categories;
-            book.series = values.series;
+            book.categories = intToObjectArray(values.categories);
+            book.seriesId = values.seriesId;
+            book.seriesIndex = values.seriesIndex;
+            book.yearPublished = values.yearPublished;
+            
+            console.log(book);
 
             if (isAdding) {
                 await ApiService.post(createLink, book);
             } else {
-                await ApiService.put(author.links.update, book);
+                await ApiService.put(book.links.update, book);
             }
 
             notification.success({
@@ -223,10 +96,6 @@ class EditBook extends Component {
         }
     }
 
-    saveFormRef = (formRef) => {
-        this.formRef = formRef;
-    }
-
     render() {
         const { isAdding, intl, book, button } = this.props;
         const { isBusy, isError, visible } = this.state;
@@ -244,20 +113,23 @@ class EditBook extends Component {
         const action = button ?
             <Button icon={icon} onClick={this.onOpen} >{buttonText}</Button> :
             <Icon type={icon} onClick={this.onOpen} />;
+        let title = book && book.title ? `${book.title} کی تدوین ` : `نئی کتاب`;
 
         return (
             <>
                 {action}
-                <BookForm {...book}
-                    wrappedComponentRef={this.saveFormRef}
+                <Modal
+                    title={title}
                     visible={visible}
-                    header={header}
-                    isBusy={isBusy}
-                    isError={isError}
+                    okText='محفوظ کریں'
+                    cancelText="اخراج"
+                    onOk={this.onSave}
+                    confirmLoading={isBusy}
                     onCancel={this.onClose}
-                    onOK={this.onSave}
-                    intl={intl}
-                />
+                    closeOnEscape={true}
+                    maskClosable={false}>
+                    <WrappedBookForm ref="bookForm" book={book} />
+                </Modal>
             </>
         )
     }
