@@ -131,7 +131,7 @@ class EditAuthor extends Component {
     }
 
     render() {
-        const { isAdding, intl, author, button } = this.props;
+        const { isAdding, intl, author, button, block } = this.props;
         const { isBusy, isError, visible } = this.state;
         
         let header = intl.formatMessage({ id: "author.editor.header.add" });
@@ -145,7 +145,7 @@ class EditAuthor extends Component {
         }
 
         const action = button ?
-            <Button icon={icon} onClick={this.onOpen} >{buttonText}</Button> :
+            <Button icon={icon} block={block} onClick={this.onOpen} >{buttonText}</Button> :
             <Icon type={icon} onClick={this.onOpen} />;
 
         return (
@@ -172,5 +172,6 @@ export default injectIntl(EditAuthor);
 EditAuthor.propTypes = {
     onUpdated: PropTypes.func,
     author: PropTypes.object,
-    button: PropTypes.bool
+    button: PropTypes.bool,
+    block: PropTypes.bool
 };

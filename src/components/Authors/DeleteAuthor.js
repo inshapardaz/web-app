@@ -57,13 +57,13 @@ class DeleteAuthor extends Component {
     }
 
     render() {
-        const { author, button } = this.props;
+        const { author, button, block } = this.props;
         const { show, isBusy, isError } = this.state;
         const title = this.props.intl.formatMessage({ id: 'action.delete' });
         const message = this.props.intl.formatMessage({ id: 'authors.action.confirmDelete' }, { name: author.name });
 
         const action = button ?
-            <Button icon="delete" onClick={this.onShow} >{title}</Button> :
+            <Button icon="delete" block={block} onClick={this.onShow} >{title}</Button> :
             <Icon type="delete" onClick={this.onShow} />
         return <>
             {action}
@@ -89,5 +89,6 @@ export default injectIntl(DeleteAuthor);
 DeleteAuthor.propTypes = {
     onDeleted: PropTypes.func,
     author: PropTypes.object.isRequired,
-    button: PropTypes.bool
+    button: PropTypes.bool,
+    block: PropTypes.bool
 };

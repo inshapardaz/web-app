@@ -35,7 +35,7 @@ class UploadBookImage extends Component {
 
   render() {
     const action = this.props.button ?
-            <Button icon="picture" onClick={this.onClick} >{this.props.intl.formatMessage({ id: 'action.changeImage' })}</Button> :
+            <Button icon="picture" block={this.props.block} onClick={this.onClick} >{this.props.intl.formatMessage({ id: 'action.changeImage' })}</Button> :
             <Icon type="picture" onClick={this.onClick} />
 
     return <>
@@ -50,5 +50,6 @@ export default injectIntl(UploadBookImage);
 UploadBookImage.propTypes = {
   onUpdated: PropTypes.func,
   book: PropTypes.object.isRequired,
-  button: PropTypes.bool
+  button: PropTypes.bool,
+  block: PropTypes.bool
 };

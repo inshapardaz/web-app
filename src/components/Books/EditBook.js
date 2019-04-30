@@ -111,15 +111,14 @@ class EditBook extends Component {
         }
 
         const action = button ?
-            <Button icon={icon} onClick={this.onOpen} >{buttonText}</Button> :
+            <Button icon={icon} block={this.props.block} onClick={this.onOpen} >{buttonText}</Button> :
             <Icon type={icon} onClick={this.onOpen} />;
-        let title = book && book.title ? `${book.title} کی تدوین ` : `نئی کتاب`;
 
         return (
             <>
                 {action}
                 <Modal
-                    title={title}
+                    title={header}
                     visible={visible}
                     okText='محفوظ کریں'
                     cancelText="اخراج"
@@ -139,5 +138,6 @@ export default injectIntl(EditBook);
 
 EditBook.propTypes = {
     onUpdated: PropTypes.func,
-    book: PropTypes.object
+    book: PropTypes.object,
+    block: PropTypes.bool
 };

@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 
-import { PageHeader, Typography, Button, Row, Tag, Icon } from 'antd';
+import { Typography, Row, Tag, Icon, Card, Col } from 'antd';
 import { Helmet } from 'react-helmet'
 
 import { ErrorPlaceholder, Loading } from '../Common';
@@ -13,34 +13,15 @@ import EditBook from './EditBook';
 import UploadBookImage from './UploadBookImage';
 import DeleteBook from './DeleteBook';
 
-const ButtonGroup = Button.Group;
 const { Text, Paragraph, Title } = Typography;
 
-const HeaderStyle = () => {
-  return <style>{`
-    .wrap {
-      display: flex;
-    }
-    .content {
-      flex: 1;
-    }
-    .extraContent {
-      min-width: 240px;
-      text-align: right;
-    }
-    .contentLink {
-      padding-top: 16px;
-    }
-    .contentLink a {
-      display: inline-block;
-      vertical-align: text-top;
-      margin-right: 32px;
-    }
-    .contentLink a img {
-      margin-right: 8px;
-    }`}</style>;
+const cardStyle = {
+  marginBottom: "12px"
 }
-
+const imageCardStyle = {
+  marginBottom: "12px",
+  textAlign: 'center'
+}
 class BookPage extends Component {
   constructor(props) {
     super(props);
@@ -116,15 +97,15 @@ class BookPage extends Component {
     const imageLink = book.links.image_upload;
 
     if (editLink) {
-      actions.push(<EditBook button key="edit" book={book} onUpdated={this.reloadBook} />)
+      actions.push(<EditBook block button key="edit" book={book} onUpdated={this.reloadBook} />)
     }
 
     if (imageLink) {
-      actions.push(<UploadBookImage button key="uploadimage" book={book} onUpdated={this.reloadBook} />);
+      actions.push(<UploadBookImage block button key="uploadimage" book={book} onUpdated={this.reloadBook} />);
     }
 
     if (deleteLink) {
-      actions.push(<DeleteBook button key="delete" book={book} onDeleted={this.reloadBook} />);
+      actions.push(<DeleteBook block button key="delete" book={book} onDeleted={this.reloadBook} />);
     }
 
     if (actions.length > 0) {
@@ -165,15 +146,15 @@ class BookPage extends Component {
     }
 
     var availability = (<Text type="secondary">{book.isPublic ?
-      <><Tag color="green">{this.props.intl.formatMessage({ id: 'book.public'})}</Tag></> :
-      <><Tag color="red">{this.props.intl.formatMessage({ id: 'book.private'})}</Tag></>}</Text>);
+      <><Tag color="green">{this.props.intl.formatMessage({ id: 'book.public' })}</Tag></> :
+      <><Tag color="red">{this.props.intl.formatMessage({ id: 'book.private' })}</Tag></>}</Text>);
 
     const categories = book.categories.map(c => <Tag key={c.id}><Link to={`/books?category=${c.id}`}><Icon type="tag" /> {c.name}</Link></Tag>);
-    const publishYear = book.yearPublished > 0 ? (<><Icon type="printer" /> <FormattedMessage id="book.publish" values={{year: book.yearPublished}}/></>) : null;
+    const publishYear = book.yearPublished > 0 ? (<><Icon type="printer" /> {this.props.intl.formatMessage({ id: 'book.publish' }, { year: book.yearPublished })}</>) : null;
     const series = book.seriesName ? (
       <>
-        {this.props.intl.formatMessage({ id: 'book.series'}, {index : book.seriesIndex})}
-        <Tag style={{marginLeft : '4px'}}>
+        {this.props.intl.formatMessage({ id: 'book.series' }, { index: book.seriesIndex })}
+        <Tag style={{ marginLeft: '4px' }}>
           <Icon type="link" />
           <Link to={`/books?series=${book.seriesId}`}>{book.seriesName}</Link>
         </Tag>
@@ -181,34 +162,44 @@ class BookPage extends Component {
     const content = (
       <>
         <Paragraph>
+          <Title level={2}>{book.title}</Title>
+        </Paragraph>
+        <Paragraph>
+          <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>
+        </Paragraph>
+        <Paragraph>
+          {availability}
+        </Paragraph>
+        <Paragraph>
           <Text type="secondary">{book.description}</Text>
         </Paragraph>
-        <Row>
-          <Row>{categories}</Row>
-          <Row>{series}</Row>
-          <Row>{publishYear}</Row>
-          <Row><Icon type="key" />{this.props.intl.formatMessage({ id: `copyrights.${book.copyrights}` })}</Row>
-        </Row>
-        <div className="contentLink">
-          <ButtonGroup>
-            {this.renderBookActions(book)}
-          </ButtonGroup>
-        </div>
+        <Paragraph>{categories}</Paragraph>
+        <Paragraph>{series}</Paragraph>
+        <Paragraph>{publishYear}</Paragraph>
+        <Paragraph><Icon type="key" />{this.props.intl.formatMessage({ id: `copyrights.${book.copyrights}` })}</Paragraph>
+        <Paragraph>
+          {this.renderBookActions(book)}
+        </Paragraph>
       </>
     );
 
     return (
       <>
-        <HeaderStyle />
         <Helmet title={book.title} />
-        <PageHeader title={<Title level={2}>{book.title}</Title>} onBack={() => window.history.back()}
-          subTitle={<>{availability}<Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></>}>
-          <div className="wrap">
-            <div className="content">{content}</div>
-            <div className="extraContent">{<img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} />}</div>
-          </div>
-        </PageHeader>
-        <ChapterList book={book} />
+        <Row gutter={16}>
+          <Col md={24} lg={8}>
+            <Card type="inner" style={imageCardStyle} >
+              <img src={book.links.image || '/resources/img/avatar1.jpg'} alt={book.title} />
+            </Card>
+            <Card type="inner" style={cardStyle}>
+              {content}
+            </Card>
+          </Col>
+          <Col md={24} lg={16}>
+            <ChapterList book={book} />
+          </Col>
+        </Row>
+        
       </>
     )
   }

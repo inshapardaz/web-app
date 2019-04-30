@@ -63,7 +63,7 @@ class DeleteBook extends Component {
         const title = this.props.intl.formatMessage({ id: 'action.delete' });
         const message = this.props.intl.formatMessage({ id: 'books.action.confirmDelete' }, { title: book.title });
         const action = button ?
-        <Button icon="delete" onClick={this.onShow} >{title}</Button> :
+        <Button icon="delete" block={this.props.block} onClick={this.onShow} >{title}</Button> :
         <Icon type="delete" onClick={this.onShow} />
 
         return <>
@@ -89,5 +89,6 @@ export default injectIntl(DeleteBook)
 DeleteBook.propTypes = {
     onDeleted: PropTypes.func,
     book: PropTypes.object.isRequired,
-    button: PropTypes.bool
+    button: PropTypes.bool,
+    block: PropTypes.bool
 };
