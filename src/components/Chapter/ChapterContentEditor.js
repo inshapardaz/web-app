@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { injectIntl } from 'react-intl';
-import PropTypes from 'prop-types';
+
+import { PageHeader, Anchor, Button } from 'antd';
+
+import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import Editor from "rich-markdown-editor";
 import ApiService from '../../services/ApiService';
 
@@ -10,10 +13,68 @@ class ChapterContentEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            book : null,
+            chapter : null,
             contents: '',
-            saving: false
+            saving: false,
+            isLoading: true,
+            isError: false
         }
     }
+
+    async componentDidMount() {
+        const {
+            match: { params },
+        } = this.props
+
+        await this.loadChapter(params.id, params.chapterId);
+    }
+
+    async componentWillReceiveProps(nextProps) {
+        const {
+            match: { params },
+        } = nextProps
+
+        await this.loadChapter(params.id, params.chapterId);
+    }
+
+    async loadChapter(bookId, chapterId) {
+        this.setState({
+            bookId: bookId,
+            chapterId: chapterId,
+            isLoading: true,
+        });
+
+        try {
+            var book = await ApiService.getBook(bookId);
+            var chapter = await ApiService.getChapter(bookId, chapterId);
+            var contents = (chapter.links.update_contents)
+                ? await ApiService.getChapterContents(bookId, chapterId)
+                : { contents : '' };
+
+            this.setState({
+                isLoading: false,
+                book: book,
+                chapter: chapter,
+                contents: contents.contents
+            });
+        }
+        catch (e) {
+            if (e.response.status == 404) {
+                this.setState({
+                    isLoading: false,
+                    contents: ''
+                });
+            }
+            else {
+                this.setState({
+                    isLoading: false,
+                    isError: true
+                });
+            }
+        }
+    }
+
 
     handleChange = (event) => {
         const value = event.target.value;
@@ -23,26 +84,34 @@ class ChapterContentEditor extends Component {
     onChangeValue = (value) => {
         const val = value();
         this.setState({ contents: val });
-        this.props.onChange(val);
     }
 
     onImageUpload = async (file) => {
         var response = await ApiService.upload(this.props.entry.links.image_upload, file);
-        console.log(response.links.self)
         return response.links.self;
     }
 
     render() {
+        const { book, chapter, contents, saving, isLoading} = this.state;
+        if (isLoading) return <Loading />;
+
+        const extra = (<>
+            <Button>Save</Button>
+          </>);
+
         return (
-            <div className="block">
-                <div className="block-content">
-                    <div style={{ direction: 'ltr', padding: '0 50px' }}>
-                        <Editor readOnly={this.props.saving} autoFocus={true} toc={true} uploadImage={this.onImageUpload.bind(this)}
-                            defaultValue={this.props.contents} onChange={this.onChangeValue.bind(this)}
-                        />
-                    </div>
+            <>
+                <Anchor affix>
+                    <PageHeader title={book.title}
+                        subTitle={chapter.title}
+                        onBack={() => window.history.back()}
+                        extra={extra} />
+                </Anchor>
+                <div style={{direction: 'rtl'}}>
+                    <Editor readOnly={saving} autoFocus={true} toc={true} uploadImage={this.onImageUpload}
+                            defaultValue={contents} onChange={this.onChangeValue}/>
                 </div>
-            </div>
+            </>
         );
     }
 }
@@ -57,7 +126,4 @@ export default (connect(
 
 
 ChapterContentEditor.propTypes = {
-    contents: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    saving: PropTypes.bool
 };

@@ -189,7 +189,7 @@ class BookPage extends Component {
         <Row gutter={16}>
           <Col md={24} lg={8}>
             <Card type="inner" style={imageCardStyle} >
-              <img src={book.links.image || '/resources/img/avatar1.jpg'} alt={book.title} />
+              <img src={book.links.image || '/resources/img/book_placeholder.png'} alt={book.title} />
             </Card>
             <Card type="inner" style={cardStyle}>
               {content}

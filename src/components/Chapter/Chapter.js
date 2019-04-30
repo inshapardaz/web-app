@@ -185,9 +185,11 @@ class Chapter extends Component {
   renderEditMenu() {
     const { contents, chapter } = this.state;
 
-    const editLink = contents && contents.links ? contents.links.update : null;
+    const hasEditLink = contents && 
+                     contents.links && 
+                     (chapter.links.add_contents || chapter.links.update_contents);
 
-    if (editLink) {
+    if (hasEditLink) {
       return <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}/edit`}><Button shape="round" icon="edit"></Button></Link>
     }
 

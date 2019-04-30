@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import { List, Icon, Card } from 'antd';
 
@@ -77,15 +77,24 @@ class ChapterCard extends Component {
         return null;
     }
 
+    editContents = () => {
+        const { chapter } = this.props;
+        this.props.history.push(`/books/${chapter.bookId}/chapters/${chapter.id}/edit`)
+    }
     renderChapterActions = (chapter) => {
         var actions = []
 
         if (!chapter || !chapter.links) return null;
         const editLink = chapter.links.update;
         const deleteLink = chapter.links.delete;
+        const editContentLink = chapter.links.add_contents || chapter.links.update_contents;
 
         if (editLink) {
             actions.push(<EditChapter key="edit" chapter={chapter} onUpdated={this.props.onUpdated}/>)
+        }
+
+        if (editContentLink){
+            actions.push(<Icon type="form" onClick={this.editContents} />);
         }
 
         if (deleteLink) {
@@ -110,7 +119,7 @@ class ChapterCard extends Component {
     }
 }
 
-export default injectIntl(ChapterCard);
+export default withRouter(injectIntl(ChapterCard));
 
 ChapterCard.propTypes = {
     onUpdated: PropTypes.func,

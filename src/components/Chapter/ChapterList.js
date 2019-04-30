@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ApiService from '../../services/ApiService';
-import { injectIntl, FormattedMessage } from 'react-intl';
-import { List, Switch, Card } from 'antd';
+import { injectIntl } from 'react-intl';
+import { List, Card } from 'antd';
 
 import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
 import EditChapter from './EditChapter';
@@ -16,7 +16,7 @@ class ChapterList extends Component {
         super(props);
         this.state = {
             isError: false,
-            isLoading: false,
+            isLoading: true,
             chapters: {}
         };
 

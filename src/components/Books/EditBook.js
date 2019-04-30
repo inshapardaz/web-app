@@ -36,7 +36,6 @@ class EditBook extends Component {
         const form = this.refs.bookForm;
 
         await form.validateFields(async (err, values) => {
-            console.log('values', values)
             if (err) {
                 return;
             }
@@ -68,8 +67,6 @@ class EditBook extends Component {
             book.seriesId = values.seriesId;
             book.seriesIndex = values.seriesIndex;
             book.yearPublished = values.yearPublished;
-            
-            console.log(book);
 
             if (isAdding) {
                 await ApiService.post(createLink, book);
