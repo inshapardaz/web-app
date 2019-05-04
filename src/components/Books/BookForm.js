@@ -79,7 +79,7 @@ class BookForm extends React.Component {
       <FormItem label={intl.formatMessage({ id: "book.editor.fields.name.title" })}>
         {getFieldDecorator('title', {
           rules: [{ required: true, message: intl.formatMessage({ id: 'book.editor.fields.name.error' }) }],
-          initialValue: book.title
+          initialValue: book ? book.title : ''
         })(
           <Input placeholder={intl.formatMessage({ id: "book.editor.fields.name.title" })} />
         )}
@@ -88,7 +88,7 @@ class BookForm extends React.Component {
       <FormItem label={intl.formatMessage({ id: "book.editor.fields.author.title" })}>
         {getFieldDecorator('authorId', {
           rules: [{ required: true, message: intl.formatMessage({ id: 'book.editor.fields.author.error' }) }],
-          initialValue: book.authorId ? book.authorId.toString() : ""
+          initialValue: book && book.authorId ? book.authorId.toString() : ""
         })(
           <AutoComplete placeholder={intl.formatMessage({ id: 'book.editor.fields.author.placeholder' })}
             dataSource={authorOptions}
@@ -98,7 +98,7 @@ class BookForm extends React.Component {
 
       <FormItem label={intl.formatMessage({ id: "book.editor.fields.description.title" })}>
         {getFieldDecorator('description', {
-          initialValue: book.description
+          initialValue: book ? book.description : ''
         })(
           <TextArea autosize={{ minRows: 2, maxRows: 6 }} placeholder={intl.formatMessage({ id: "book.editor.fields.description.title" })} />
         )}
@@ -110,7 +110,7 @@ class BookForm extends React.Component {
                   style={{ display: 'inline-block', width: 'calc(25% - 12px)' }}>
           {getFieldDecorator('isPublic', {
             valuePropName: 'checked',
-            initialValue: book.isPublic
+            initialValue: book ? book.isPublic : false
           })(
             <Switch />
           )}
@@ -118,7 +118,7 @@ class BookForm extends React.Component {
         <Form.Item label={intl.formatMessage({ id: "book.editor.fields.yearPublished.title" })}
                    style={{ display: 'inline-block', width: 'calc(75% - 12px)' }} >
           {getFieldDecorator('yearPublished', {
-            initialValue: book.yearPublished
+            initialValue: book ? book.yearPublished : new Date().getFullYear()
           })(
             <InputNumber min={1800} max={new Date().getFullYear()} />
           )}
@@ -128,7 +128,7 @@ class BookForm extends React.Component {
       <FormItem label={intl.formatMessage({ id: "book.editor.fields.language.title" })}>
         {getFieldDecorator('language', {
           rules: [{ required: true, message: intl.formatMessage({ id: 'book.editor.fields.language.error' }) }],
-          initialValue: book.language
+          initialValue: book ? book.language : 0
         })(
           <Select placeholder={this.props.intl.formatMessage({ id: 'book.editor.fields.language.placeholder' })}
             showSearch
@@ -141,7 +141,7 @@ class BookForm extends React.Component {
 
       <FormItem label={intl.formatMessage({ id: "book.editor.fields.categories.title" })}>
         {getFieldDecorator('categories', {
-          initialValue: book.categories ? book.categories.map(c => c.id) : []
+          initialValue: book && book.categories ? book.categories.map(c => c.id) : []
         })(
           <Select placeholder={this.props.intl.formatMessage({ id: 'book.editor.fields.categories.placeholder' })}
             mode="multiple"
@@ -157,7 +157,7 @@ class BookForm extends React.Component {
         style={{ marginBottom: 0 }}>
         <FormItem style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
           {getFieldDecorator('seriesId', {
-            initialValue: book.seriesId
+            initialValue: book ? book.seriesId : null
           })(
             <Select placeholder={this.props.intl.formatMessage({ id: 'book.editor.fields.series.placeholder' })}
               mode="single"
@@ -173,7 +173,7 @@ class BookForm extends React.Component {
         </span>
         <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }} >
           {getFieldDecorator('seriesIndex', {
-            initialValue: book.seriesIndex
+            initialValue: book ? book.seriesIndex : null
           })(
             <InputNumber min={1} />
           )}
@@ -181,7 +181,7 @@ class BookForm extends React.Component {
       </Form.Item>
       <FormItem label={intl.formatMessage({ id: "book.editor.fields.copyrights.title" })}>
         {getFieldDecorator('copyrights', {
-          initialValue: book.copyrights
+          initialValue: book ? book.copyrights : 0
         })(
           <Select placeholder={this.props.intl.formatMessage({ id: 'book.editor.fields.copyrights.placeholder' })}
             mode="single"
