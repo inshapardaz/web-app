@@ -6,17 +6,90 @@ import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl';
 
 
-import { Layout, Menu, Icon } from 'antd';
-
-const { Header } = Layout;
+import { Menu, Icon, Dropdown } from 'antd';
 
 const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 
 import ProfileMenu from './ProfileMenu';
 import SearchBox from './SearchBox';
-import SearchOverlay from './SearchOverlay';
+import LanguageSelector from './LanguageSelector';
+import BooksMenu from '../Books/BooksMenu';
 
+const Styles = () => {
+	return <style>{`
+	.topbar {
+		background: #fff;
+		padding: 0 rem(20);
+		min-height: 64px;
+		height: 64px;
+		border-bottom: 1px solid #e4e9f0;
+		color: #74708d;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+	}
+
+	.link {
+		color: #74708d;
+        padding-right: 15px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+	}
+	
+	.dropdown {
+        padding-right: 15px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+    .dropdown::after {
+      color: #d2d9e5;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      margin-top: -2px;
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin-left: 0.255em;
+      vertical-align: 0.255em;
+      content: '';
+      border-top: 0.3em solid;
+      border-right: 0.3em solid transparent;
+      border-bottom: 0;
+      border-left: 0.3em solid transparent;
+      transition: all 0.2s ease-in-out;
+    }
+  
+	.link:hover,
+    .dropdown:hover {
+        color: #08f;
+	}
+	.link:hover::after,
+	.link:hover .icon,
+    .dropdown:hover::after,
+    .dropdown:hover .icon {
+        color: #b8beca;
+    }
+  
+    .title {
+        display: block;
+        padding: rem(8) rem(20);
+    }
+  
+    .icon {
+        margin-right: rem(6);
+        color: #d2d9e5;
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .menuIcon {
+        margin-right: rem(5);
+    }
+	`}</style>
+}
 class AppHeader extends Component {
 	onToggle() {
 		this.props.toggleSidebar();
@@ -82,11 +155,16 @@ class AppHeader extends Component {
 	renderCategories() {
 		if (this.props.categories && this.props.categories.links.create) {
 			return (
-				<Menu.Item key="categories">
-					<Link to="/categories">
-						<Icon type="appstore" /><FormattedMessage id="header.categories" />
+				<div className="mr-4">
+					<Link to="/categories" className="link">
+						<i className="fa fa-th-large menuIcon mr-2" />
+						<span className="d-none d-xl-inline">
+							<strong>
+								<FormattedMessage id="header.categories" />
+							</strong>
+						</span>
 					</Link>
-				</Menu.Item>
+				</div>
 			);
 		}
 
@@ -95,55 +173,49 @@ class AppHeader extends Component {
 
 	render() {
 
-		return (
-			<Header>
-				<Menu
-					theme="dark"
-					mode="horizontal"
-					defaultSelectedKeys={['2']}
-					style={{ lineHeight: '64px' }}
-				>
-					<Menu.Item style={{ backgroundColor: "rgba(255,255,255,.2)" }}>
-						<Link to="/">
-							<img height="24" width="24" src="/resources/img/logo.png" style={{ marginRight: "4px" }} />
-							<FormattedMessage id="app" />
-						</Link>
-					</Menu.Item>
-					{this.renderBooks()}
-					<Menu.Item key="authors">
-						<Link to="/authors">
-							<Icon type="user" /> <FormattedMessage id="header.authors" />
-						</Link>
-					</Menu.Item>
-					<Menu.Item key="series">
-						<Link to="/series">
-							<Icon type="link" /><FormattedMessage id="header.series" />
-						</Link>
-					</Menu.Item>
-					{this.renderCategories()}
-					<SearchBox />
-				</Menu>
-			</Header>
 
-		)
 		return (
-			<header id="page-header">
-				<div className="content-header">
-					<div className="d-flex align-items-center">
-						<button type="button" className="btn btn-sm btn-dual mr-2 d-lg-none" onClick={this.onToggleCompact.bind(this)}>
-							<i className="fa fa-fw fa-bars" />
-						</button>
-						<button type="button" className="btn btn-sm btn-dual mr-2 d-none d-lg-inline-block" onClick={this.onToggle.bind(this)}>
-							<i className="fa fa-fw fa-ellipsis-v" />
-						</button>
+			<>
+				<Styles />
+				<div className="topbar">
+					<div className="mr-4 ml-4">
+						<img height="24" width="24" src="/resources/img/logo.png" style={{ margin: "4px" }} />
+					</div>
+					<div className="mr-4">
+						<BooksMenu />
+					</div>
+					<div className="mr-4">
+						<Link to="/authors" className="link">
+							<i className="fa fa-user menuIcon mr-2" />
+							<span className="d-none d-xl-inline">
+								<strong>
+									<FormattedMessage id="header.authors" />
+								</strong>
+							</span>
+						</Link>
+					</div>
+					<div className="mr-4">
+						<Link to="/series" className="link">
+							<i className="fa fa-link menuIcon mr-2" />
+							<span className="d-none d-xl-inline">
+								<strong>
+									<FormattedMessage id="header.series" />
+								</strong>
+							</span>
+						</Link>
+					</div>
+					{this.renderCategories()}
+					<div className="mr-auto">
 						<SearchBox />
 					</div>
-					<div className="d-flex align-items-center">
+					<div className="mr-4">
+						<LanguageSelector />
+					</div>
+					<div className="mr-4">
 						<ProfileMenu />
 					</div>
 				</div>
-				<SearchOverlay />
-			</header>
+			</>
 		);
 	}
 }

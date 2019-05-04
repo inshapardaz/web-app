@@ -3,63 +3,84 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FormattedMessage } from 'react-intl';
-import { closeSidebarCompact } from  '../../actions/uiActions';
+import { closeSidebarCompact } from '../../actions/uiActions';
+import { Menu, Dropdown } from 'antd';
 
 class BooksMenu extends React.Component {
-    state = {
-        submenuOpen : false
-    }
     renderCategory(c) {
         return (
-            <li key={c.id} className="nav-main-item">
-                <Link className="nav-main-link"  onClick={this.closeMenu}
-                    to={`/books?category=${c.id}`}>
-                    <i className="fa fa-book mr-2" />
-                    <span className="nav-main-link-name">{c.name}</span>
+            <Menu.Item key={c.id}>
+                <Link to={`/books?category=${c.id}`}>
+                    <i className="fa fa-book menuIcon mr-2" />
+                    {c.name}
                 </Link>
-            </li>);
+            </Menu.Item>);
     }
     renderCategories(categories) {
         if (categories && categories.items) {
             var menuItems = [];
-            menuItems.push(
-                <li key="booksMenu" className="nav-main-item">
-                    <Link className="nav-main-link" to={`/books`}  onClick={this.closeMenu}>
-                        <i className="fa fa-book mr-2" />
-                        <span className="nav-main-link-name"><FormattedMessage id="header.books.list" /></span>
-                    </Link>
-                </li>);
-            menuItems.push(<div key="booksMenu-sep" className="dropdown-divider"></div>);
             menuItems.push(categories.items.map(c => this.renderCategory(c)));
 
-            return menuItems;
+            return (<Menu selectable={false}>
+                <Menu.Item key="new">
+					<Link to="/books/new">
+						<i className="fa fa-star menuIcon mr-2" />
+						<FormattedMessage id="home.latestBooks" />
+					</Link>
+				</Menu.Item>
+				<Menu.Item key="recent">
+					<Link to="/books/recent">
+                        <i className="far fa-clock menuIcon mr-2" />
+						<FormattedMessage id="home.recent" />
+					</Link>
+				</Menu.Item>
+				{this.props.entry && this.props.entry.links.favorites
+					? (<Menu.Item key="favorites">
+						<Link to="/books/favorites">
+                            <i className="far fa-heart menuIcon mr-2" />
+							<FormattedMessage id="home.favoriteBooks" />
+						</Link>
+					</Menu.Item>)
+					: null
+				}
+				<Menu.Item key="allbooks">
+					<Link to="/books">
+                        <i className="fa fa-book menuIcon mr-2" />
+						<FormattedMessage id="header.books.list" /> 
+					</Link>
+				</Menu.Item>
+				<Menu.Divider />
+                {/* <Menu.ItemGroup title={<FormattedMessage id="header.categories"/>}> */}
+                    {menuItems}
+                {/* </Menu.ItemGroup> */}
+            </Menu>
+            );
         }
 
         return null;
     }
 
-    toggleMenuOpen = () => this.setState({ submenuOpen: !this.state.submenuOpen });
-    closeMenu = () => this.props.closeSidebarCompact();
     render() {
         const { categories } = this.props;
-        const { submenuOpen } = this.state;
         return (
-            <li key="books" className={`nav-main-item ${submenuOpen ? 'open' : null}`}>
-                <a className="nav-main-link nav-main-link-submenu" onClick={this.toggleMenuOpen} aria-haspopup="true" aria-expanded="false" href="#">
-                    <i className="nav-main-link-icon si si-book-open"/>
-                    <span className="nav-main-link-name"><FormattedMessage id="header.books" /></span>
-                </a>
-                <ul className="nav-main-submenu">
-                    {this.renderCategories(categories)}
-                </ul>
-            </li>
+            <Dropdown overlay={this.renderCategories(categories)} trigger={['click']} placement="bottomLeft">
+                <div className="dropdown">
+                    <i className="fa fa-book menuIcon mr-2" />
+                    <span className="d-none d-xl-inline">
+                        <strong>
+                            <FormattedMessage id="header.books" />
+                        </strong>
+                    </span>
+                </div>
+            </Dropdown>
         );
     }
 }
 
 export default (connect(
     (state) => ({
-        categories: state.apiReducers.categories
+        categories: state.apiReducers.categories,
+        entry: state.apiReducers.entry
     }),
     dispatch => bindActionCreators({
         closeSidebarCompact: closeSidebarCompact

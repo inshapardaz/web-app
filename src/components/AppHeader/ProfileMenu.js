@@ -4,7 +4,55 @@ import { bindActionCreators } from 'redux';
 import { login, logout } from '../../actions/authActions'
 import { FormattedMessage } from 'react-intl';
 import AuthService from '../../services/AuthService';
+import { Menu, Dropdown, Avatar, Icon } from 'antd';
 
+const Styles = () => {
+    return (<style>{`
+    .dropdown {
+        padding-right: 15px;
+        position: relative;
+        cursor: pointer;
+    }
+    .dropdown::after {
+        color: #d2d9e5;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin-top: -2px;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        content: '';
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+        transition: all 0.2s ease-in-out;
+    }  
+    .dropdown:hover {
+        color: #08f;
+    } 
+    .dropdown:hover::after {
+        color: #b8beca;
+    }
+      
+    .avatar {
+        background-color: #e4e9f0;
+    }
+
+    .icon {
+        margin-right: rem(6);
+        color: d2d9e5;
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .menuIcon {
+        margin-right: rem(5);
+    }
+    `}</style>);
+}
 class ProfileMenu extends React.Component {
     constructor(props) {
         super(props);
@@ -27,70 +75,48 @@ class ProfileMenu extends React.Component {
         const { profile } = this.state;
         const isLoggedIn = AuthService.isLoggedIn();
 
-        if (isLoggedIn) {
-            const displayName = profile != null ? profile.nickname : "";
+        const displayName = isLoggedIn && profile ? profile.nickname : "";
 
-            return (
-                <div className="dropdown d-inline-block ml-2">
-                    <button type="button" className="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img className="rounded" src="/assets/media/avatars/avatar10.jpg" alt="" style={{ width: "18px" }} />
-                        <span className="d-none d-sm-inline-block ml-1"><FormattedMessage id="welcome.user" values={{ user: displayName }} /></span>
-                        <i className="fa fa-fw fa-angle-down d-none d-sm-inline-block" />
-                    </button>
-                    <div className="dropdown-menu dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-user-dropdown">
-                        <div className="p-3 text-center bg-primary">
-                            <img className="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg" alt="" />
-                        </div>
-                        <div className="p-2">
-                            <a className="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                <FormattedMessage id="header.settings" />
-                                <i className="si si-settings" />
-                            </a>
-                            <div role="separator" className="dropdown-divider"></div>
-                            <a className="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                <FormattedMessage id="changePassword" />
-                                <i className="si si-lock ml-1" />
-                            </a>
-                            <a className="dropdown-item d-flex align-items-center justify-content-between" onClick={logout} href="javascript:void(0)">
-                                <FormattedMessage id="logout" />
-                                <i className="si si-logout ml-1" />
-                            </a>
-                        </div>
+        const loginAction = isLoggedIn ?
+            (<Menu.Item>
+                <a href="javascript: void(0);" onClick={logout}>
+                    <i className="fa fa-sign-out-alt menuIcon mr-2" />
+                    <FormattedMessage id="logout" />
+                </a>
+            </Menu.Item>)
+            :
+            (<Menu.Item>
+                <a href="javascript: void(0);" onClick={login}>
+                <i className="fa fa-sign-in-alt menuIcon mr-2" />
+                    <FormattedMessage id="login" />
+                </a>
+            </Menu.Item>);
+
+        const menu = (
+            <Menu selectable={false}>
+                <Menu.Item>
+                    <strong>
+                        <FormattedMessage id="welcome.user" values={{ user: displayName }} />
+                    </strong>
+                </Menu.Item>
+                <Menu.Divider />
+                {loginAction}
+            </Menu>
+        )
+        const avatar = profile.picture ? 
+            (<Avatar className="avatar" shape="square" size="large" src={profile.picture} />) : 
+            (<Avatar className="avatar" shape="square" size="large" icon="user" />)
+
+        return (
+            <>
+                <Styles />
+                <Dropdown overlay={menu} trigger={['click']} onVisibleChange={this.addCount}>
+                    <div className="dropdown">
+                        {avatar}
                     </div>
-                </div>
-            );
-        }
-        else {
-            return (
-                <div className="dropdown d-inline-block ml-2">
-                    <button type="button" className="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img className="rounded" src="assets/media/avatars/avatar10.jpg" alt="" style={{ width: "18px" }} />
-                        <span className="d-none d-sm-inline-block ml-1"><FormattedMessage id="welcome.guest" /></span>
-                        <i className="fa fa-fw fa-angle-down d-none d-sm-inline-block" />
-                    </button>
-                    <div className="dropdown-menu dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-user-dropdown">
-                        <div className="p-3 text-center bg-primary">
-                            <img className="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg" alt="" />
-                        </div>
-                        <div className="p-2">
-                            <a className="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                <FormattedMessage id="register" />
-                                <i className="si si-settings" />
-                            </a>
-                            <div role="separator" className="dropdown-divider"></div>
-                            <a className="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                <FormattedMessage id="forgetPassword" />
-                                <i className="si si-lock ml-1" />
-                            </a>
-                            <a className="dropdown-item d-flex align-items-center justify-content-between" onClick={login} href="javascript:void(0)">
-                                <FormattedMessage id="login" />
-                                <i className="si si-logout ml-1" />
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
+                </Dropdown>
+            </>
+        )
     }
 }
 
