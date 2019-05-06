@@ -1,14 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { injectIntl } from 'react-intl';
 
-import { PageHeader, Anchor, Button } from 'antd';
+import { PageHeader, Anchor, Button, message, Input } from 'antd';
 
-import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
-import Editor from "rich-markdown-editor";
+import { Loading } from '../Common';
 import ApiService from '../../services/ApiService';
+const { TextArea } = Input;
 
+const Style = () => (<style>
+    {`
+        .editor {
+            padding-left: 50px;
+            padding-right: 50px;    
+            direction: rtl;         
+        }
+
+        .editor .text{
+            resize: none;
+            outline: none;
+            width: 100%;
+            border: none;
+            height: 100%;
+            margin: -10px;
+          }
+    `}
+</style>)
 class ChapterContentEditor extends Component {
     constructor(props) {
         super(props);
@@ -16,6 +35,7 @@ class ChapterContentEditor extends Component {
             book : null,
             chapter : null,
             contents: '',
+            chapterContents : null,
             saving: false,
             isLoading: true,
             isError: false
@@ -56,7 +76,8 @@ class ChapterContentEditor extends Component {
                 isLoading: false,
                 book: book,
                 chapter: chapter,
-                contents: contents.contents
+                contents: contents.contents,
+                chapterContents : contents
             });
         }
         catch (e) {
@@ -81,14 +102,53 @@ class ChapterContentEditor extends Component {
         this.onChangeValue(value);
     }
 
-    onChangeValue = (value) => {
-        const val = value();
+    onChangeValue = (e) => {
+        const val = e.target.value;
         this.setState({ contents: val });
     }
 
     onImageUpload = async (file) => {
         var response = await ApiService.upload(this.props.entry.links.image_upload, file);
+        console.log
         return response.links.self;
+    }
+
+    saveContents = async() => {
+
+        const { chapter, chapterContents, contents} = this.state;
+        this.setState({
+            saving: true,
+        });
+        
+        const hide = message.loading(this.props.intl.formatMessage({ id: "message.saving" }), 0);
+
+        try{
+            const updateLink = chapterContents.links.update;
+            const createLink = chapter.links.add_contents;
+
+            if (updateLink){
+                await ApiService.post(updateLink, JSON.stringify(contents));
+            }
+            else if (createLink) {
+                await ApiService.put(createLink, JSON.stringify(contents));
+            }
+            else {
+                throw "Invalid operation";
+            }
+            hide();
+            message.success(this.props.intl.formatMessage({ id: "message.saved" }));
+            this.setState({
+                saving : false
+            })
+        }
+        catch(e){
+            console.error(e);
+            this.setState({
+                saving : false
+            })
+            hide();
+            message.error(this.props.intl.formatMessage({ id: "message.error.saving" }));   
+        }
     }
 
     render() {
@@ -96,7 +156,8 @@ class ChapterContentEditor extends Component {
         if (isLoading) return <Loading />;
 
         const extra = (<>
-            <Button>Save</Button>
+            <Button onClick={() => this.props.history.push(`/books/${chapter.bookId}/chapters/${chapter.id}`)}>View</Button>
+            <Button onClick={this.saveContents}>Save</Button>
           </>);
 
         return (
@@ -107,9 +168,10 @@ class ChapterContentEditor extends Component {
                         onBack={() => window.history.back()}
                         extra={extra} />
                 </Anchor>
-                <div style={{direction: 'rtl'}}>
-                    <Editor readOnly={saving} autoFocus={true} toc={true} uploadImage={this.onImageUpload}
-                            defaultValue={contents} onChange={this.onChangeValue}/>
+                <Style />
+                <div className="editor" >
+                    {/* uploadImage={this.onImageUpload} */}
+                    <TextArea className="text" defaultValue={contents} autosize onChange={this.onChangeValue}/>
                 </div>
             </>
         );
@@ -122,7 +184,7 @@ export default (connect(
     }),
     dispatch => bindActionCreators({
     }, dispatch)
-)(injectIntl(ChapterContentEditor)));
+)(withRouter(injectIntl(ChapterContentEditor))));
 
 
 ChapterContentEditor.propTypes = {
