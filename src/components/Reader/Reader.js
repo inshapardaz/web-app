@@ -60,7 +60,9 @@ const InlineStyle = ({ font, size }) => (
         .reader > h6,
         .reader > span,
         .reader > a, 
-        .reader > p 
+        .reader > p,
+        .reader > blockquote,
+        .reader > blockquote > *
         {
             font-weight: initial;
             text-align: right;
