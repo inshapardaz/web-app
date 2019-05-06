@@ -40,16 +40,16 @@ const ChapterForm = Form.create({
                         <Form.Item label={intl.formatMessage({ id: "chapter.editor.fields.name.title" })} >
                             {getFieldDecorator('title', {
                                 rules: [{
-                                    required: true, message: intl.formatMessage({ id: 'chapter.editor.fields.name.title' }),
+                                    required: true, message: intl.formatMessage({ id: 'chapter.editor.fields.name.error' }),
                                 }],
                             })(
                                 <Input />
                             )}
                         </Form.Item>
-                        <Form.Item label={intl.formatMessage({ id: "chapter.editor.fields.name.title" })} >
+                        <Form.Item label={intl.formatMessage({ id: "chapter.editor.fields.number.title" })} >
                             {getFieldDecorator('chapterNumber', {
                                 rules: [{
-                                    required: true, message: intl.formatMessage({ id: 'chapter.editor.fields.name.title' }),
+                                    required: true, message: intl.formatMessage({ id: 'chapter.editor.fields.number.error' }),
                                 }],
                             })(
                                 <InputNumber min={1} />
@@ -112,7 +112,7 @@ class EditChapter extends Component {
         try {
 
             if (isAdding && chapter == null){
-                chapter = { }
+                chapter = { chapterNumber : this.props.chapterIndex || 1 }
             } 
 
             chapter.title = values.title;    
@@ -128,6 +128,7 @@ class EditChapter extends Component {
                 message: this.props.intl.formatMessage({ id: "chapter.messages.saved" }),
             });
 
+            this.onClose();
             this.props.onUpdated();
         }
         catch(e){
@@ -158,6 +159,13 @@ class EditChapter extends Component {
             icon = "edit";
         }
 
+        var chapterToEdit = chapter;
+        if (isAdding && !chapter){
+            chapterToEdit = { chapterNumber : this.props.chapterIndex || 1 }
+        }
+
+
+
         const action = button ? 
          <Button icon={icon} onClick={this.onOpen} >{buttonText}</Button> : 
          <Icon type={icon} onClick={this.onOpen} />;
@@ -165,7 +173,7 @@ class EditChapter extends Component {
         return (
             <>
                 {action}
-                <ChapterForm {...chapter}
+                <ChapterForm {...chapterToEdit}
                     wrappedComponentRef={this.saveFormRef}
                     visible={visible}
                     header={header}
@@ -186,5 +194,6 @@ export default injectIntl(EditChapter);
 
 EditChapter.propTypes = {
     onUpdated: PropTypes.func,
-    chapter: PropTypes.object 
+    chapter: PropTypes.object ,
+    chapterIndex: PropTypes.number
 };

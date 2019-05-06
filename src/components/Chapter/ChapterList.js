@@ -81,7 +81,9 @@ class ChapterList extends Component {
 
     renderAdd(createLink) {
         if (createLink) {
-         return <EditChapter button createLink={createLink} isAdding={true} onUpdated={this.loadChapters} />
+         const { chapters } = this.state;
+         var nextChapter = (chapters && chapters.items) ? chapters.items.length + 1 : 1;
+         return <EditChapter button createLink={createLink} isAdding={true} onUpdated={this.loadChapters} chapterIndex={nextChapter} />
         }
     
         return null;
