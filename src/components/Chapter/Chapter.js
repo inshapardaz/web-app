@@ -190,7 +190,7 @@ class Chapter extends Component {
                      (chapter.links.add_contents || chapter.links.update_contents);
 
     if (hasEditLink) {
-      return <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}/edit`}><Button shape="round" icon="edit"></Button></Link>
+      return <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}/edit`}><Button icon="edit"></Button></Link>
     }
 
     return null;

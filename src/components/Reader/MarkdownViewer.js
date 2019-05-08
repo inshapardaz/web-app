@@ -2,11 +2,22 @@ import React, { Component } from 'react'
 var Remarkable = require('remarkable');
 import RemarkableReactRenderer from 'remarkable-react';
 
+class Paragraph extends Component {
+    render() {
+        return (<div>{this.props.children}</div>)
+    }
+}
 export default class MarkdownViewer extends Component {
 
     getRawMarkup() {
         const md = new Remarkable();
-        md.renderer = new RemarkableReactRenderer();
+        md.renderer = new RemarkableReactRenderer({
+            remarkableProps : {
+            },
+            components : {
+                p : Paragraph
+            }
+        });
 
         return md.render(this.props.source);
     }

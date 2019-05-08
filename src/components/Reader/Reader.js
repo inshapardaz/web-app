@@ -9,7 +9,15 @@ const InlineStyle = ({ font, size }) => (
         .reader
         {
             direction: rtl;
-            text-align: initial;
+            text-align: justify;
+            max-width: 844px;
+            margin: 0 auto;
+            padding: 10px;
+            color : black;
+            font-size: ${size} !important;
+            text-rendering: unset;
+            font-weight: initial;
+            text-rendering: auto;
         }
 
         .reader > blockquote
@@ -17,21 +25,21 @@ const InlineStyle = ({ font, size }) => (
             text-align: center;
         }
         
-        .reader > blockquote > p
+        .reader > blockquote > div
         {
           text-align: center;
         }
       
-        .reader > p 
+        .reader > div
         {
-            text-align: justify;
             line-height: 2.0;
         }
-        .reader {
-          font-size: ${size} !important
-        }
-            
 
+        .reader > blockquote
+        {
+          margin-top: 1em;
+        }
+        
         .reader > h1,
         .reader > h2,
         .reader > h3,
@@ -40,13 +48,11 @@ const InlineStyle = ({ font, size }) => (
         .reader > h6,
         .reader > span,
         .reader > a, 
-        .reader > p,
+        .reader > div,
         .reader > blockquote,
         .reader > blockquote > *,
-        .reader > section > ol > li > p
+        .reader > section > ol > li > div
         {
-            font-weight: initial;
-            text-align: right;
             font-family: '${font}' !important;
         }
             
@@ -67,11 +73,11 @@ class Reader extends Component {
     if (isLoading) {
       return <Loading fullWidth={true} />
     }
-          
+
     return (
       <>
         <InlineStyle font={font} size={fontSize} />
-        <MarkdownViewer className="reader" source={this.props.contents || ''}/>
+        <MarkdownViewer className="reader" source={this.props.contents || ''} />
       </>
     );
   }
