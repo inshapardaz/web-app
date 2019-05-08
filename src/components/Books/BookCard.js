@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { injectIntl, FormattedMessage } from 'react-intl';
-import { List, Card } from 'antd';
+import { injectIntl } from 'react-intl';
+import { List, Card, Tag, Icon } from 'antd';
 
 import EditBook from './EditBook';
 import UploadBookImage from './UploadBookImage';
@@ -36,6 +36,30 @@ class BookCard extends Component {
 
     if (actions.length > 0) {
       return actions;
+    }
+
+    return null;
+  }
+
+  renderCategories = (book) => {
+    if (book && book.categories && book.categories.length > 0){
+      return (<div style={{ padding: '8px 0' }}>
+          { book.categories.map(c => <Tag key={c.id}><Link to={`/books?category=${c.id}`}><Icon type="tag" /> {c.name}</Link></Tag>)}
+      </div>);
+    }
+    return null;
+  }
+
+  renderSeries = (book) => {
+    if (book && book.seriesName){
+      return (
+        <div style={{ padding: '8px 0' }}>
+          {this.props.intl.formatMessage({ id: 'book.series' }, { index: book.seriesIndex })}
+          <Tag style={{ marginLeft: '4px' }}>
+            <Icon type="link" />
+            <Link to={`/books?series=${book.seriesId}`}>{book.seriesName}</Link>
+          </Tag>
+        </div>);
     }
 
     return null;
@@ -79,6 +103,8 @@ class BookCard extends Component {
           <List.Item.Meta title={title} description={author}>
           </List.Item.Meta>
           <div>{bookDescription}</div>
+          {this.renderSeries(book)}
+          {this.renderCategories(book)}
         </List.Item>
       );
 
