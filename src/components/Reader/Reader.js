@@ -2,31 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import Loading from '../Common/Loading';
 
-const ReactMarkdown = require('react-markdown')
-const htmlParser = require('react-markdown/plugins/html-parser')
-var HtmlToReact = require('html-to-react');
-
-//var HtmlToReactParser = require('html-to-react').Parser;
-
-
-var processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
-const parseHtml = htmlParser({
-  isValidNode: node => node.type !== 'script',
-  processingInstructions: [{
-    shouldProcessNode: function (node) {
-      return node.parent && node.parent.name && node.parent.name === 'p';
-    },
-    processNode: function (node, children) {
-      return node.data.toUpperCase();
-    }
-  }, {
-    // Anything else
-    shouldProcessNode: function (node) {
-      return true;
-    },
-    processNode: processNodeDefinitions.processDefaultNode
-  }]
-})
+import MarkdownViewer from './MarkdownViewer';
 
 const InlineStyle = ({ font, size }) => (
   <style>{`
@@ -51,7 +27,11 @@ const InlineStyle = ({ font, size }) => (
             text-align: justify;
             line-height: 2.0;
         }
+        .reader {
+          font-size: ${size} !important
+        }
             
+
         .reader > h1,
         .reader > h2,
         .reader > h3,
@@ -62,12 +42,12 @@ const InlineStyle = ({ font, size }) => (
         .reader > a, 
         .reader > p,
         .reader > blockquote,
-        .reader > blockquote > *
+        .reader > blockquote > *,
+        .reader > section > ol > li > p
         {
             font-weight: initial;
             text-align: right;
             font-family: '${font}' !important;
-            font-size: ${size} !important
         }
             
         .reader__loading{
@@ -91,9 +71,7 @@ class Reader extends Component {
     return (
       <>
         <InlineStyle font={font} size={fontSize} />
-        <ReactMarkdown source={this.props.contents || ''}
-          astPlugins={[parseHtml]} className="reader"
-          linkTarget={this.linkClicked} />
+        <MarkdownViewer className="reader" source={this.props.contents || ''}/>
       </>
     );
   }
@@ -107,3 +85,4 @@ export default (connect(
     theme: state.uiReducer.theme
   }), null
 )(Reader));
+

@@ -70,13 +70,13 @@ class ChapterContentEditor extends Component {
             var chapter = await ApiService.getChapter(bookId, chapterId);
             var contents = (chapter.links.update_contents)
                 ? await ApiService.getChapterContents(bookId, chapterId)
-                : { contents : '' };
+                : null
 
             this.setState({
                 isLoading: false,
                 book: book,
                 chapter: chapter,
-                contents: contents.contents,
+                contents: contents ? contents.contents : '',
                 chapterContents : contents
             });
         }
@@ -123,7 +123,7 @@ class ChapterContentEditor extends Component {
         const hide = message.loading(this.props.intl.formatMessage({ id: "message.saving" }), 0);
 
         try{
-            const updateLink = chapterContents.links.update;
+            const updateLink = chapterContents ? chapterContents.links.update : null;
             const createLink = chapter.links.add_contents;
 
             if (updateLink){
