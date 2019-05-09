@@ -10,7 +10,12 @@ class Paragraph extends Component {
 export default class MarkdownViewer extends Component {
 
     getRawMarkup() {
-        const md = new Remarkable();
+        const md = new Remarkable({
+            breaks: true,
+            typographer:  true,
+            quotes: '“”‘’'
+        });
+
         md.renderer = new RemarkableReactRenderer({
             remarkableProps : {
             },
