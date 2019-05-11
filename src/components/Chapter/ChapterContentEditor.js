@@ -127,10 +127,10 @@ class ChapterContentEditor extends Component {
             const createLink = chapter.links.add_contents;
 
             if (updateLink){
-                await ApiService.post(updateLink, JSON.stringify(contents));
+                await ApiService.put(updateLink, JSON.stringify(contents));
             }
             else if (createLink) {
-                await ApiService.put(createLink, JSON.stringify(contents));
+                await ApiService.post(createLink, JSON.stringify(contents));
             }
             else {
                 throw "Invalid operation";
