@@ -4,9 +4,7 @@ import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './App'
 
-import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
-import { history } from './store/configureStore';
 
 import configureStore from './store/configureStore';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
@@ -18,9 +16,7 @@ const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
       <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <Component />
-        </ConnectedRouter>
+          <Component />
       </Provider>
     </AppContainer>,
     document.getElementById('root'),
