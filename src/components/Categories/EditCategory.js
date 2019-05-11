@@ -111,6 +111,7 @@ class EditCategory extends Component {
                 message: this.props.intl.formatMessage({ id: "categories.messages.saved" }),
             });
 
+            this.onClose();
             this.props.onUpdated();
         }
         catch(e){

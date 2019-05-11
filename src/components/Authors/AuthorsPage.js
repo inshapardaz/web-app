@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import queryString from 'query-string';
 
 import { Pagination, List, Switch, Card } from 'antd';
 import { Helmet } from 'react-helmet'
 
 import ApiService from '../../services/ApiService';
-import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
+import { ErrorPlaceholder } from '../Common';
 import AuthorCard from './AuthorCard';
 import EditAuthor from './EditAuthor';
 
@@ -77,15 +77,6 @@ class AuthorsPage extends Component {
     }
   }
 
-  renderEmptyPlaceHolder(createLink) {
-    const { intl } = this.props;
-    const message = intl.formatMessage({ id: 'authors.messages.empty' });
-    return (
-      <EmptyPlaceholder fullWidth={true} description={message} iconName='user' showButton={false} >
-        {this.renderAdd(createLink)}
-      </EmptyPlaceholder>);
-  }
-
   renderLoadingError() {
     const { intl } = this.props;
     const message = intl.formatMessage({ id: 'authors.messages.error.loading' });
@@ -112,9 +103,7 @@ class AuthorsPage extends Component {
     const { authors, isLoading, showCard, isError, pageNumber } = this.state;
     const createLink = (authors && authors.links) ? authors.links.create : null;
 
-    if (isLoading) {
-      return <Loading fullWidth={true} />
-    } else if (isError) {
+    if (isError) {
       return this.renderLoadingError();
     }
 
@@ -126,29 +115,32 @@ class AuthorsPage extends Component {
         onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
     </>)
 
-    if (authors && authors.data && authors.data.length > 0) {
-      return (
-        <>
-          <Helmet title={this.props.intl.formatMessage({ id: "header.authors" })} />
-          <Card title={this.props.intl.formatMessage({ id: "header.authors" })} type="inner" extra={extras} style={cardStyle}>
-            <List
-              itemLayout={showCard ? null : "vertical"}
-              size="large"
-              grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-              dataSource={authors.data}
-              renderItem={a => (<AuthorCard key={a.id} card={showCard} author={a} onUpdated={this.reloadAuthors} />)}
-              footer={<Pagination hideOnSinglePage
-                defaultCurrent={pageNumber}
-                total={authors.totalCount}
-                pageSize={authors.pageSize}
-                onChange={this.onPageChanged} />}
-            />
-          </Card>
-        </>
-      );
-    }
-    else
-      return this.renderEmptyPlaceHolder(createLink);
+    const pagination =  authors ? (<Pagination hideOnSinglePage
+      size="small"
+      current={pageNumber}
+      total={authors.totalCount}
+      pageSize={authors.pageSize}
+      onChange={this.onPageChanged} />) : null;
+    return (
+      <>
+        <Helmet title={this.props.intl.formatMessage({ id: "header.authors" })} />
+        <Card title={this.props.intl.formatMessage({ id: "header.authors" })} type="inner" extra={extras} style={cardStyle}>
+          <List
+            itemLayout={showCard ? null : "vertical"}
+            size="large"
+            grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
+            dataSource={authors ? authors.data : []}
+            loading={isLoading}
+            locale={{
+              emptyText: this.props.intl.formatMessage({ id: 'authors.messages.empty' })
+            }}
+            renderItem={a => (<AuthorCard key={a.id} card={showCard} author={a} onUpdated={this.reloadAuthors} />)}
+            header={pagination}
+            footer={pagination}
+          />
+        </Card>
+      </>
+    );
   }
 }
 

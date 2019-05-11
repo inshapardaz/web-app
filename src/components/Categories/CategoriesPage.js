@@ -4,7 +4,7 @@ import { List, Switch, Card } from 'antd';
 import { Helmet } from 'react-helmet'
 import { injectIntl } from 'react-intl';
 
-import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
+import { ErrorPlaceholder } from '../Common';
 import EditCategory from './EditCategory';
 import CategoryCard from './CategoryCard';
 
@@ -65,16 +65,6 @@ class CategoriesPage extends Component {
       buttonAction={this.loadCategories.bind(this)} />)
   }
 
-  renderEmptyPlaceHolder(createLink) {
-    const { intl } = this.props;
-    const message = intl.formatMessage({ id: 'categories.messages.empty' });
-    return (
-      <EmptyPlaceholder fullWidth={true} description={message} iconName='appstore' showButton={false} >
-        {this.renderAdd(createLink)}
-      </EmptyPlaceholder>
-    );
-  }
-
   renderAdd(createLink) {
     if (createLink) {
       return <EditCategory button createLink={createLink} isAdding={true} onUpdated={this.reloadCategories} />
@@ -93,37 +83,35 @@ class CategoriesPage extends Component {
     const { categories, isLoading, showCard, isError } = this.state;
     const createLink = (categories && categories.links) ? categories.links.create : null;
 
-    if (isLoading) {
-      return <Loading fullWidth={true} />;
-    } else if (isError) {
+    if (isError) {
       return this.renderLoadingError();
     }
 
-    if (categories && categories.items && categories.items.length > 0) {
-      const extras = (<>
-        {this.renderAdd(createLink)}
-        <span className="ml-2" />
-        <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.card" })}
-          unCheckedChildren={this.props.intl.formatMessage({ id: "action.list" })}
-          onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
-      </>)
+    const extras = (<>
+      {this.renderAdd(createLink)}
+      <span className="ml-2" />
+      <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.card" })}
+        unCheckedChildren={this.props.intl.formatMessage({ id: "action.list" })}
+        onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
+    </>)
 
-      return (
-        <>
-          <Helmet title={this.props.intl.formatMessage({ id: "header.categories" })} />
-          <Card title={this.props.intl.formatMessage({ id: "header.categories" })} type="inner" extra={extras} style={cardStyle}>
-            <List
-              size="large"
-              grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-              dataSource={categories.items}
-              renderItem={c => (<CategoryCard key={c.id} card={showCard} category={c} onUpdated={this.loadCategories.bind(this)} />)}
-            />
-          </Card>
-        </>
-      );
-    }
-    else
-      return this.renderEmptyPlaceHolder(createLink);
+    return (
+      <>
+        <Helmet title={this.props.intl.formatMessage({ id: "header.categories" })} />
+        <Card title={this.props.intl.formatMessage({ id: "header.categories" })} type="inner" extra={extras} style={cardStyle}>
+          <List
+            size="large"
+            grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
+            loading={isLoading}
+            locale={{
+              emptyText: this.props.intl.formatMessage({ id: 'categories.messages.empty' })
+            }}
+            dataSource={categories.items}
+            renderItem={c => (<CategoryCard key={c.id} card={showCard} category={c} onUpdated={this.loadCategories.bind(this)} />)}
+          />
+        </Card>
+      </>
+    );
   }
 }
 

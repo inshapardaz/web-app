@@ -31,7 +31,7 @@ class DeleteChapter extends Component {
 
     render() {
         const { chapter } = this.props;
-        const actionYes = this.props.intl.formatMessage({ id: 'action.yes' });
+        const actionYes = this.props.intl.formatMessage({ id: 'action.delete' });
         const actionNo = this.props.intl.formatMessage({ id: 'action.no' });
         const message = this.props.intl.formatMessage({ id: 'chapters.action.confirmDelete' }, { title: chapter.title });
         return (

@@ -9,7 +9,7 @@ import { injectIntl } from 'react-intl';
 import { Pagination, List, Card, Switch } from 'antd';
 import { Helmet } from 'react-helmet'
 
-import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
+import { ErrorPlaceholder } from '../Common';
 import BookCard from './BookCard';
 import EditBook from './EditBook';
 
@@ -47,7 +47,7 @@ class BookList extends Component {
             values.category ? values.category : 0,
             values.series ? values.series : 0,
             values.page ? values.page : 1,
-            values.q? values.q: null);
+            values.q ? values.q : null);
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -63,11 +63,11 @@ class BookList extends Component {
                 values.category ? values.category : 0,
                 values.series ? values.series : 0,
                 values.page ? values.page : 1,
-                values.q? values.q: null);
+                values.q ? values.q : null);
         }
     }
 
-    reloadBooks = async() => {
+    reloadBooks = async () => {
         await this.loadBooks(this.props.author, this.state.category, this.state.series, this.state.pageNumber, this.state.query);
     }
 
@@ -139,32 +139,29 @@ class BookList extends Component {
             buttonAction={this.reloadBooks.bind(this)} />)
     }
 
-    renderEmptyPlaceHolder(createLink) {
-        const { intl } = this.props;
-        const message = intl.formatMessage({ id: 'books.messages.empty' });
-
-        return (
-            <EmptyPlaceholder fullWidth={true} description={message} iconName='book' showButton={false} >
-                {this.renderAdd(createLink)}
-            </EmptyPlaceholder>);
-    }
-
-    renderBooks = (books) => {
+    renderBooks = (books, isLoading) => {
         const { showCard, pageNumber } = this.state;
-        const grid = this.props.wide ?  
-                        { gutter: 4, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 6 } : 
-                        { gutter: 4, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }
+        const grid = this.props.wide ?
+            { gutter: 4, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 5 } :
+            { gutter: 4, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 };
+        const pagination = books ? (<Pagination hideOnSinglePage
+            size="small"
+            current={pageNumber}
+            total={books ? books.totalCount : 0}
+            pageSize={books ? books.pageSize : 0}
+            onChange={this.onPageChanged} />) : null;
         return (<List
             itemLayout={showCard ? null : "vertical"}
             size="small"
+            loading={isLoading}
+            locale={{
+                emptyText: this.props.intl.formatMessage({ id: 'books.messages.empty' })
+            }}
             grid={showCard ? grid : null}
-            dataSource={books.data}
+            dataSource={books ? books.data: []}
             renderItem={b => (<BookCard key={b.id} card={showCard} book={b} onUpdated={this.reloadBooks} />)}
-            footer={<Pagination hideOnSinglePage
-                defaultCurrent={pageNumber}
-                total={books.totalCount}
-                pageSize={books.pageSize}
-                onChange={this.onPageChanged} />}
+            header={pagination}
+            footer={pagination}
         />);
     }
 
@@ -184,10 +181,6 @@ class BookList extends Component {
     render() {
         const { books, isLoading, isError } = this.state;
 
-        if (isLoading) {
-            return <Loading />;
-        }
-
         if (isError) {
             return this.renderLoadingError();
         }
@@ -197,40 +190,35 @@ class BookList extends Component {
         }
 
         const createLink = (books && books.links) ? books.links.create : null;
-        if (books && books.data && books.data.length > 0) {
 
-            if (this.props.simple) {
-                return (
-                    <>
-                        <Helmet title={this.props.intl.formatMessage({ id: "header.books" })} />
-                        <div className="content content-boxed">
-                            <div className="row row-deck">
-                                {this.renderBooks(books)}
-                            </div>
-                        </div>
-                    </>
-                );
-            }
-
-            const extras = (<>
-                {this.renderAdd(createLink)}
-                <span className="ml-2" />
-                <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.card" })}
-                    unCheckedChildren={this.props.intl.formatMessage({ id: "action.list" })}
-                    onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
-            </>)
+        if (this.props.simple) {
             return (
                 <>
-                    <Helmet title={`${this.props.intl.formatMessage({ id: "header.books" })} > ${this.props.title}`} />
-                    <Card title={this.props.title} type="inner" extra={extras} style={cardStyle} >
-                        {this.renderBooks(books)}
-                    </Card>
+                    <Helmet title={this.props.intl.formatMessage({ id: "header.books" })} />
+                    <div className="content content-boxed">
+                        <div className="row row-deck">
+                            {this.renderBooks(books, isLoading)}
+                        </div>
+                    </div>
                 </>
             );
         }
-        else {
-            return this.renderEmptyPlaceHolder(createLink);
-        }
+
+        const extras = (<>
+            {this.renderAdd(createLink)}
+            <span className="ml-2" />
+            <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.card" })}
+                unCheckedChildren={this.props.intl.formatMessage({ id: "action.list" })}
+                onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
+        </>)
+        return (
+            <>
+                <Helmet title={`${this.props.intl.formatMessage({ id: "header.books" })} > ${this.props.title}`} />
+                <Card title={this.props.title} type="inner" extra={extras} style={cardStyle} >
+                    {this.renderBooks(books, isLoading)}
+                </Card>
+            </>
+        );
     }
 }
 

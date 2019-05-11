@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ApiService from '../../services/ApiService';
-import { injectIntl, FormattedMessage } from 'react-intl';
-import { ErrorPlaceholder, EmptyPlaceholder, Loading } from '../Common';
+import { injectIntl } from 'react-intl';
+import { ErrorPlaceholder } from '../Common';
 import { List, Switch, Card } from 'antd';
 
 import EditSeries from './EditSeries';
@@ -64,17 +64,6 @@ class SeriesPage extends Component {
       buttonAction={this.loadSeries.bind(this)} />)
   }
 
-  renderEmptyPlaceHolder(createLink) {
-    const { intl } = this.props;
-    const message = intl.formatMessage({ id: 'series.messages.empty' });
-
-    return (
-      <EmptyPlaceholder fullWidth={true} description={message} iconName='chain' showButton={false} >
-        {this.renderAdd(createLink)}
-      </EmptyPlaceholder>
-    );
-  }
-
   renderAdd(createLink) {
     if (createLink) {
       return <EditSeries button createLink={createLink} isAdding={true} onUpdated={this.reloadSeries} />
@@ -92,36 +81,34 @@ class SeriesPage extends Component {
     const { series, isLoading, isError, showCard } = this.state;
     const createLink = (series && series.links) ? series.links.create : null;
 
-    if (isLoading) {
-      return <Loading fullWidth={true} />;
-    } else if (isError) {
+    if (isError) {
       return this.renderLoadingError();
     }
 
-    if (series && series.items && series.items.length > 0) {
-      const extras = (<>
-        {this.renderAdd(createLink)}
-        <span className="ml-2" />
-        <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.card" })}
-          unCheckedChildren={this.props.intl.formatMessage({ id: "action.list" })}
-          onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
-      </>)
-      return (
-        <>
-          <Helmet title={this.props.intl.formatMessage({ id: "header.series" })} />
-          <Card title={this.props.intl.formatMessage({ id: "header.series" })} type="inner" extra={extras} style={cardStyle}>
-            <List
-              size="large"
-              grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
-              dataSource={series.items}
-              renderItem={s => (<SeriesCard key={s.id} card={showCard} series={s} onUpdated={this.loadSeries.bind(this)} />)}
-            />
-          </Card>
-        </>
-      );
-    }
-    else
-      return this.renderEmptyPlaceHolder(createLink);
+    const extras = (<>
+      {this.renderAdd(createLink)}
+      <span className="ml-2" />
+      <Switch checkedChildren={this.props.intl.formatMessage({ id: "action.card" })}
+        unCheckedChildren={this.props.intl.formatMessage({ id: "action.list" })}
+        onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
+    </>)
+    return (
+      <>
+        <Helmet title={this.props.intl.formatMessage({ id: "header.series" })} />
+        <Card title={this.props.intl.formatMessage({ id: "header.series" })} type="inner" extra={extras} style={cardStyle}>
+          <List
+            size="large"
+            grid={showCard ? { gutter: 8, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null}
+            loading={isLoading}
+            locale={{
+              emptyText: this.props.intl.formatMessage({ id: 'series.messages.empty' })
+            }}
+            dataSource={series.items}
+            renderItem={s => (<SeriesCard key={s.id} card={showCard} series={s} onUpdated={this.loadSeries.bind(this)} />)}
+          />
+        </Card>
+      </>
+    );
   }
 }
 

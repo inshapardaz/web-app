@@ -2,80 +2,44 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Modal, Icon, Alert, notification } from 'antd';
+import { Icon, message, Popconfirm } from 'antd';
 
 import ApiService from '../../services/ApiService';
 
-class DeleteCategory extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isBusy: false,
-            isError: false,
-            show : false
-        }
-    }
-    onShow = () => {
-        this.setState({
-            show: true
-        });
-    }
-    onClose = () => {
-        if (!this.state.isBusy){
-            this.setState({
-                show: false
-            });
-        }
-    }
-    async deleteCategory() {
+class DeleteCategory extends Component {   
+    deleteCategory = async () => {
         const { category } = this.props;
         if (!category) return;
 
         let deleteLink = category.links.delete;
         if (!deleteLink) return;
-
-        this.setState({
-            isBusy: true,
-            isError: false
-        });
+        
+        const hide = message.loading(this.props.intl.formatMessage({ id: "categories.messages.deleting" },{ name: category.name } ), 0);
 
         try {
             await ApiService.delete(deleteLink);
-            notification.success({
-                message: this.props.intl.formatMessage({ id: "categories.messages.deleted" }),
-            });
-
-            this.onClose();
+            hide();
+            message.success(this.props.intl.formatMessage({ id: "categories.messages.deleted" }));
             await this.props.onDeleted();
         }
-        catch{
-            this.setState({
-                isBusy: false,
-                isError: true
-            });
+        catch (e){
+            console.error(e);
+            hide();
+            message.error(this.props.intl.formatMessage({ id: "categories.messages.error.delete" }));   
         }
     }
 
     render() {
         const { category } = this.props;
-        const { show, isBusy, isError } = this.state;
-        const action = this.props.intl.formatMessage({ id: 'action.delete' });
+        const actionYes = this.props.intl.formatMessage({ id: 'action.delete' });
+        const actionNo = this.props.intl.formatMessage({ id: 'action.no' });
         const message = this.props.intl.formatMessage({ id: 'categories.action.confirmDelete' }, { name: category.name });
-        return <>
-            <Icon type="delete" onClick={this.onShow} />
-            <Modal
-                title={action}
-                visible={show}
-                onOk={this.deleteCategory.bind(this)}
-                confirmLoading={isBusy}
-                onCancel={this.onClose}
-                closable={!isBusy}
-                maskClosable={!isBusy}
-            >
-                <p>{message}</p>
-                { isError ? <Alert message={this.props.intl.formatMessage({ id: 'categories.messages.error.delete' })} type="error" showIcon/> : null }
-            </Modal>
-        </>
+        return (
+            <Popconfirm title={message} onConfirm={this.deleteCategory} okText={actionYes} cancelText={actionNo}
+                icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}>
+                <Icon type="delete" />
+            </Popconfirm>
+        );
     }
 }
 
@@ -84,5 +48,5 @@ export default injectIntl(DeleteCategory);
 
 DeleteCategory.propTypes = {
     onDeleted: PropTypes.func,
-    category: PropTypes.object.isRequired 
+    category: PropTypes.object.isRequired
 };

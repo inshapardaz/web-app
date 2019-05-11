@@ -155,7 +155,7 @@ class AuthorPage extends Component {
             </Card>
           </Col>
           <Col md={24} lg={16}>
-            <BookList author={author} wide title={this.props.intl.formatMessage({ id: "authors.book.title" }, { name: author.name })} type="inner" />
+            <BookList author={author} title={this.props.intl.formatMessage({ id: "authors.book.title" }, { name: author.name })} type="inner" />
           </Col>
         </Row>
       </>
