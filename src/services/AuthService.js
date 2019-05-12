@@ -34,6 +34,17 @@ class AuthService {
     this.auth0.authorize();
   }
 
+  changePassword(){
+    this.getProfile((p) => 
+    {
+      this.auth0.changePassword({email : p.email })
+    });
+  }
+
+  register() {
+    this.auth0.signup();
+  }
+
   handleAuthentication() {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {

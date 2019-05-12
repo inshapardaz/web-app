@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import LocaleService from '../../services/LocaleService';
 import { Layout } from 'antd';
 
 const { Footer } = Layout;

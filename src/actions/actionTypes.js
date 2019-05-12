@@ -1,5 +1,6 @@
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const CHANGEPASSWORD = "CHANGEPASSWORD";
 export const ENTRY = 'ENTRY';
 export const LANGUAGES = 'LANGUAGES';
 export const ATTRIBUTES = 'ATTRIBUTES';
