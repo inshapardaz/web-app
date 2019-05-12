@@ -12,6 +12,7 @@ import ErrorPlaceholder from '../Common/ErrorPlaceholder';
 import Loading from '../Common/Loading';
 
 import ChapterSidebar from './ChapterSidebar';
+import ChapterList from './ChapterList';
 
 const { Content } = Layout;
 const gotoTop = () => {
@@ -224,11 +225,14 @@ class Chapter extends Component {
         {this.renderEditMenu()}
         <ChapterSidebar book={book} selectedChapter={chapter} />
       </>);
+
+      const bookTitle = (<Link to={`/books/${book.id}`}>{book.title}</Link>)
+      const chapterTitle = (<ChapterList dropdown book={book} selectedChapter={chapter} />);
       return (
         <div id="page-container">
           <Anchor affix>
-            <PageHeader title={book.title}
-              subTitle={chapter.title}
+            <PageHeader title={bookTitle}
+              subTitle={chapterTitle}
               onBack={() => window.history.back()}
               extra={extra} />
           </Anchor>

@@ -178,9 +178,9 @@ class AppHeader extends Component {
 			<>
 				<Styles />
 				<div className="topbar">
-					<div className="mr-4 ml-4">
+					<Link className="mr-4 ml-4" to="/">
 						<img height="24" width="24" src="/resources/img/logo.png" style={{ margin: "4px" }} />
-					</div>
+					</Link>
 					<div className="mr-4">
 						<BooksMenu />
 					</div>

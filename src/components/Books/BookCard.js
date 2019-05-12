@@ -90,7 +90,7 @@ class BookCard extends Component {
           >
             <Meta
               title={title}
-              description={author} / >
+              description={author} />
           </Card>
         </List.Item>
       )

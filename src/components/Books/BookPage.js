@@ -154,10 +154,7 @@ class BookPage extends Component {
     const series = book.seriesName ? (
       <>
         {this.props.intl.formatMessage({ id: 'book.series' }, { index: book.seriesIndex })}
-        <Tag style={{ marginLeft: '4px' }}>
-          <Icon type="link" />
-          <Link to={`/books?series=${book.seriesId}`}>{book.seriesName}</Link>
-        </Tag>
+          <Link to={`/books?series=${book.seriesId}`} style={{ marginLeft: '4px',  display: 'inline' }}>{book.seriesName}</Link>
       </>) : null;
     const content = (
       <>

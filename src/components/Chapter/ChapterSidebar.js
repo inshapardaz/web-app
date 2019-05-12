@@ -1,59 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import { changeReaderFont, changeReaderFontSize, changeReaderTheme } from '../../actions/uiActions';
 
-import { Drawer, Button, Menu, Icon } from 'antd';
-
-import ApiService from '../../services/ApiService';
+import { Drawer, Button, Menu, Icon, Dropdown } from 'antd';
 
 const { SubMenu } = Menu;
 
 class ChapterSidebar extends Component {
     state = {
-        visible: false,
-        isLoading: false,
-        isError: false,
-        chapters: null
+        visible: false
     };
-
-    async componentDidMount() {
-        await this.loadData();
-    }
-
-    async componentWillReceiveProps(nextProps) {
-        if (this.props.book.id != nextProps.book.id) {
-            await this.loadData()
-        }
-    }
-
-    async loadData() {
-        this.setState({
-            isLoading: true,
-            isError: false
-        });
-
-        try {
-            var chapters = await ApiService.getChapters(this.props.book.id);
-
-            this.setState({
-                isLoading: false,
-                isError: false,
-                chapters: chapters
-            });
-        }
-        catch (e) {
-            console.error(e);
-            this.setState({
-                isLoading: false,
-                isError: true,
-                chapters: null
-            });
-        }
-    }
 
     showDrawer = () => {
         this.setState({
@@ -67,34 +26,18 @@ class ChapterSidebar extends Component {
         });
     }
 
-    
-
     changeFont = (e) => this.props.changeReaderFont(e.key)
 
-    changeFontSize = (e) => this.props.changeReaderFontSize(e.key) 
+    changeFontSize = (e) => this.props.changeReaderFontSize(e.key)
 
     changeTheme = (e) => this.props.changeReaderTheme(e.key)
-
-    renderChapters() {
-        const { chapters } = this.state;
-        if (chapters != null) {
-            return chapters.items.map(chapter => (
-                <Menu.Item key={chapter.id} >
-                    <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}`}>
-                        {chapter.title}
-                    </Link>
-                </Menu.Item>
-            ));
-        }
-
-        return null;
-    }
 
     renderFonts() {
         const fonts = [
             { "key": "Jameel Noori Nastaleeq", "value": 'جمیل نوری نستعلیق' },
             { "key": "Mehr-Nastaleeq", "value": 'مہر نستعلیق' },
             { "key": "Noto", "value": 'نوٹو' },
+            { "key": "Alvi Lahori Nastaleeq", "value": "علوی نستعلیق"},
             { "key": "Nafees Nastaleeq", "value": 'نفیس نستعلیق' },
             { "key": "Nafees Web Naskh", "value": 'نفیس نسخ' },
             { "key": "AdobeArabic", "value": 'اڈوبی عربک' },
@@ -141,27 +84,23 @@ class ChapterSidebar extends Component {
 
         if (!book) return null;
 
-        const selection = [this.props.selectedChapter.id.toString(), this.props.font, this.props.fontSize, this.props.theme]
+        const selection = [this.props.font, this.props.fontSize, this.props.theme]
+        const menu = (<Menu selectable selectedKeys={selection}>
+            <SubMenu key="sub1" title={<span><Icon type="font-colors" /><FormattedMessage id="chapter.toolbar.font" /></span>}>
+                {this.renderFonts()}
+            </SubMenu>
+            <SubMenu key="sub2" title={<span><Icon type="font-size" /><FormattedMessage id="chapter.toolbar.fontSize" /></span>}>
+                {this.renderFontSize()}
+            </SubMenu>
+            <SubMenu key="sub3" title={<span><Icon type="bg-colors" /><FormattedMessage id="chapter.toolbar.theme" /></span>}>
+                {this.renderThemes()}
+            </SubMenu>
+        </Menu>);
         return (
             <>
-                <Button shape="round" onClick={this.showDrawer} icon="more" />
-
-                <Drawer title={book.title} visible={this.state.visible} mask closable onClose={this.hideDrawer}>
-                    <Menu mode="inline" selectable selectedKeys={selection}>
-                        <SubMenu key="chapters" title={<span><Icon type="read" /><FormattedMessage id="chapter.toolbar.chapters" /></span>}>
-                            {this.renderChapters()}
-                        </SubMenu>
-                        <SubMenu key="sub1" title={<span><Icon type="font-colors" /><FormattedMessage id="chapter.toolbar.font" /></span>}>
-                            {this.renderFonts()}
-                        </SubMenu>
-                        <SubMenu key="sub2" title={<span><Icon type="font-size" /><FormattedMessage id="chapter.toolbar.fontSize" /></span>}>
-                            {this.renderFontSize()}
-                        </SubMenu>
-                        <SubMenu key="sub3" title={<span><Icon type="bg-colors" /><FormattedMessage id="chapter.toolbar.theme" /></span>}>
-                            {this.renderThemes()}
-                        </SubMenu>
-                    </Menu>
-                </Drawer>
+                <Dropdown trigger={['click']} overlay={menu}>
+                    <Button><i className="fa fa-cog"/></Button>
+                </Dropdown>
             </>
         )
     }

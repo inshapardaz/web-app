@@ -1,0 +1,203 @@
+@font-face {
+    font-family: 'Fajer Noori Nastalique';
+    src: url("/resources/fonts/Fajer-Noori-Nastalique.eot");
+    src: url("/resources/fonts/Fajer-Noori-Nastalique.eot") format("embedded-opentype"),
+         url("/resources/fonts/Fajer-Noori-Nastalique.woff") format("woff"),
+         url("/resources/fonts/Fajer-Noori-Nastalique.ttf") format("truetype"),
+         url("/resources/fonts/Fajer-Noori-Nastalique.svg") format("svg");
+    unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+    font-size: 140%;
+  }
+  @font-face {
+    font-family: 'Pak Nastaleeq';
+    src: url("/resources/fonts/Pak-Nastaleeq.eot");
+    src: url("/resources/fonts/Pak-Nastaleeq.eot") format("embedded-opentype"),
+         url("/resources/fonts/Pak-Nastaleeq.woff") format("woff"),
+         url("/resources/fonts/Pak-Nastaleeq.ttf") format("truetype"),
+         url("/resources/fonts/Pak-Nastaleeq.svg") format("svg");
+    unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+  }
+  
+  @font-face {
+    font-family: 'Nafees Web Naskh';
+    src: url("/resources/fonts/Nafees-Web-Naskh.eot");
+    src: url("/resources/fonts/Nafees-Web-Naskh.eot") format("embedded-opentype"),
+         url("/resources/fonts/Nafees-Web-Naskh.woff") format("woff"),
+         url("/resources/fonts/Nafees-Web-Naskh.ttf") format("truetype"),
+         url("/resources/fonts/Nafees-Web-Naskh.svg") format("svg");
+    unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+  }
+  
+  @font-face {
+    font-family: 'Nafees-Nastaleeq';
+    src: url("/resources/fonts/Nafees-Nastaleeq.eot");
+    src: url("/resources/fonts/Nafees-Nastaleeq.eot") format("embedded-opentype"),
+         url("/resources/fonts/Nafees-Nastaleeq.woff") format("woff"),
+         url("/resources/fonts/Nafees-Nastaleeq.ttf") format("truetype"),
+         url("/resources/fonts/Nafees-Nastaleeq.svg") format("svg");
+         unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+    font-size: 120%;
+  }
+  
+  @font-face{
+    font-family: 'Mehr-Nastaleeq';
+    src: url("/resources/fonts/Mehr-Nastaliq-Web.eot");
+    src: url("/resources/fonts/Mehr-Nastaliq-Web.eot") format("embedded-opentype"),
+         url('/resources/fonts/Mehr-Nastaliq-Web.woff') format("woff"),
+         url("/resources/fonts/Mehr-Nastaliq-Web.ttf") format("truetype"),
+         url("/resources/fonts/Mehr-Nastaliq-Web.svg") format("svg");
+         unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 120%;
+  }
+  
+  @font-face{
+    font-family: 'DehalviKhushKhat';
+    src: url("/resources/fonts/DehalviKhushKhat.eot");
+    src: url("/resources/fonts/DehalviKhushKhat.eot") format("embedded-opentype"),
+         url('/resources/fonts/DehalviKhushKhat.woff') format("woff"),
+         url("/resources/fonts/DehalviKhushKhat.ttf") format("truetype"),
+         url("/resources/fonts/DehalviKhushKhat.svg") format("svg");
+         unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 120%;
+  }
+  
+  @font-face{
+    font-family: 'AdobeArabic';
+    src: url("/resources/fonts/AdobeArabic-Regular.eot");
+    src: url("/resources/fonts/AdobeArabic-Regular.eot") format("embedded-opentype"),
+         url('/resources/fonts/AdobeArabic-Regular.woff') format("woff"),
+         url("/resources/fonts/AdobeArabic-Regular.ttf") format("truetype"),
+         url("/resources/fonts/AdobeArabic-Regular.svg") format("svg");
+         unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 150%;
+  }
+  
+  @font-face{
+    font-family: 'MehfilNaskh';
+    src: url("/resources/fonts/mehfil-naskh.eot");
+    src: url("/resources/fonts/mehfil-naskh.eot") format("embedded-opentype"),
+         url('/resources/fonts/mehfil-naskh.woff') format("woff"),
+         url("/resources/fonts/mehfil-naskh.ttf") format("truetype"),
+         url("/resources/fonts/mehfil-naskh.svg") format("svg");
+         unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 150%;
+  }
+  
+  @font-face{
+    font-family: 'Dubai';
+    src: url("/resources/fonts/dubai.eot");
+    src: url("/resources/fonts/dubai.eot") format("embedded-opentype"),
+         url('/resources/fonts/dubai.woff') format("woff"),
+         url("/resources/fonts/dubai.ttf") format("truetype"),
+         url("/resources/fonts/dubai.svg") format("svg");
+         unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 150%;
+  }
+  
+  @font-face{
+    font-family: 'UrduNaskhAsiatype';
+    src: url("/resources/fonts/UrduNaskhAsiatype.eot");
+    src: url("/resources/fonts/UrduNaskhAsiatype.eot") format("embedded-opentype"),
+         url('/resources/fonts/UrduNaskhAsiatype.woff') format("woff"),
+         url("/resources/fonts/UrduNaskhAsiatype.ttf") format("truetype"),
+         url("/resources/fonts/UrduNaskhAsiatype.svg") format("svg");
+         unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 140%;
+  }
+  
+  @font-face {
+    font-family: 'Noto';
+    src: url("/resources/fonts/noto.eot");
+    src: url("/resources/fonts/noto.eot") format("embedded-opentype"),
+         url('/resources/fonts/noto.woff') format("woff"),
+         url("/resources/fonts/noto.ttf") format("truetype"),
+         url("/resources/fonts/noto.svg") format("svg");
+         unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+    font-weight: normal;
+    font-size: 50%;
+  }
+
+  @font-face {
+     font-family: "Alvi Lahori Nastaleeq";
+     src: url("/resources/fonts/alvi_Nastaleeq_Lahori_shipped.eot?")format("eot"),
+     url("/resources/fonts/alvi_Nastaleeq_Lahori_shipped.woff")format("woff"),
+     url("/resources/fonts/alvi_Nastaleeq_Lahori_shipped.ttf")format("truetype"),
+     url("/resources/fonts/alvi_Nastaleeq_Lahori_shipped.svg#Alvi Lahori Nastaleeq")format("svg");
+     font-weight: normal;
+     font-style: normal;
+}
+
+  body,
+  span,
+  a, p,
+  h1, h2, h3, h4, h5, h6 {
+      font-family: "Dubai","Work Sans", Arial, Helvetica, sans-serif;
+  }
+
+  .topbar {
+     background: #fff;
+     padding: 0 rem(20);
+     min-height: 64px;
+     height: 64px;
+     border-bottom: 1px solid #e4e9f0;
+     color: #74708d;
+     display: flex;
+     flex-direction: row;
+     flex-wrap: nowrap;
+     align-items: center;
+  }
+  .dropdown {
+     padding-right: 15px;
+     position: relative;
+     cursor: pointer;
+ }
+ .dropdown::after {
+     color: #d2d9e5;
+     position: absolute;
+     top: 50%;
+     right: 0;
+     margin-top: -2px;
+     display: inline-block;
+     width: 0;
+     height: 0;
+     margin-left: 0.255em;
+     vertical-align: 0.255em;
+     content: '';
+     border-top: 0.3em solid;
+     border-right: 0.3em solid transparent;
+     border-bottom: 0;
+     border-left: 0.3em solid transparent;
+     transition: all 0.2s ease-in-out;
+ }  
+ .dropdown:hover {
+     color: #08f;
+ } 
+ .dropdown:hover::after {
+     color: #b8beca;
+ }
+   
+ .avatar {
+     background-color: #e4e9f0;
+ }
+
+ .icon {
+     margin-right: rem(6);
+     color: d2d9e5;
+     transition: all 0.2s ease-in-out;
+ }
+ 
+ .menuIcon {
+     margin-right: rem(5);
+ }
