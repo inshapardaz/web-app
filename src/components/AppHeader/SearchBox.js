@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 import { Input, Icon, Checkbox, Avatar  } from 'antd';
 import ApiService from '../../services/ApiService';
 
+const defaultAuthorImage = '/resources/img/avatar1.jpg';
+const defaultBookImage = '/resources/img/book_placeholder.png';
 
 const Styles = () => {
     return (<style>{`

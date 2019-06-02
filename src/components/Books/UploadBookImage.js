@@ -23,8 +23,8 @@ class UploadBookImage extends Component {
         });
         await this.props.onUpdated();
       }
-      catch{
-        notification.success({
+      catch(e){
+        notification.error({
           message: this.props.intl.formatMessage({ id: "books.messages.error.saving" }),
         });
       }

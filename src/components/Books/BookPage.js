@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 
-import { Typography, Row, Tag, Icon, Card, Col } from 'antd';
+import { Typography, Row, Tag, Icon, Card, Col, Button } from 'antd';
 import { Helmet } from 'react-helmet'
 
 import { ErrorPlaceholder, Loading } from '../Common';
@@ -12,6 +12,8 @@ import ChapterList from '../Chapter/ChapterList';
 import EditBook from './EditBook';
 import UploadBookImage from './UploadBookImage';
 import DeleteBook from './DeleteBook';
+import UploadFile from './UploadFile';
+import DownloadFile from './DownloadFile';
 
 const { Text, Paragraph, Title } = Typography;
 
@@ -28,7 +30,8 @@ class BookPage extends Component {
     this.state = {
       bookId: null,
       book: null,
-      confirmDelete: false
+      confirmDelete: false,
+      files : []
     }
 
     this.reloadBook = this.reloadBook.bind(this);
@@ -58,15 +61,19 @@ class BookPage extends Component {
     this.setState({
       isLoading: true,
       showEdit: false,
-      bookId: bookId
+      bookId: bookId,
     });
 
     try {
       let result = await ApiService.getBook(bookId);
+
+      let files = await ApiService.getBookFiles(result.links.files);
+
       this.setState({
         isLoading: false,
         isError: false,
-        book: result
+        book: result,
+        files: files.files
       });
     }
     catch (e) {
@@ -95,6 +102,7 @@ class BookPage extends Component {
     const editLink = book.links.update;
     const deleteLink = book.links.delete;
     const imageLink = book.links.image_upload;
+    const addFileLink = book.links.add_file;
 
     if (editLink) {
       actions.push(<EditBook block button key="edit" book={book} onUpdated={this.reloadBook} />)
@@ -106,6 +114,18 @@ class BookPage extends Component {
 
     if (deleteLink) {
       actions.push(<DeleteBook block button key="delete" book={book} onDeleted={this.reloadBook} />);
+    }
+
+    if (addFileLink) {
+      actions.push(<UploadFile block button key="addFile" book={book} onUploaded={this.reloadBook} />);
+    }
+
+    if (this.state)
+
+    if (this.state.files && this.state.files.length > 0){
+      this.state.files.map(f => actions.push(
+        <DownloadFile file={f} key={f.links.self} block/>
+      ))
     }
 
     if (actions.length > 0) {

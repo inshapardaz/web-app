@@ -183,6 +183,10 @@ class ApiService {
     return this.get(`${link}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
+  getBookFiles(link){
+    return this.get(link);
+  }
+
   getDictionary(id){
     return this.get(`${baseUrl}/dictionaries/${id}`);
   }
