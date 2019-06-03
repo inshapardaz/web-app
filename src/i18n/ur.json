@@ -97,6 +97,7 @@
     "books.messages.saved" : "کتاب محفوظ کر دی گئی ہے",
     "books.messages.deleted" : "کتاب ہٹا دی گئی ہے",
     "books.messages.fileUploaded" : "فائل اپلوڈ ہو گئی ہے",
+    "books.messages.fileUploading" : "فائل اپلوڈ ہو رہی ہے۔۔۔",
     "books.messages.error.saving" : "کتاب محفوظ نہیں کی جا سکی",
     "books.messages.error.delete" : "کتاب ہٹائی نہیں جا سکی",
     "books.messages.error.loading" : "کتابوں کے حصول میں ناکامی ہوئی",

@@ -238,6 +238,13 @@ class ApiService {
         source.data = newItems;
       }
 
+      if (source.files)
+      {
+        let newItems = [];
+        source.files.forEach(item => newItems.push(this.parseObject(item)));
+        source.files = newItems;
+      }
+
       if (Array.isArray(source))
       {
         

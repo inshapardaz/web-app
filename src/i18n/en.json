@@ -96,6 +96,7 @@
     "books.action.favorite.remove" : "Remove Favorites",
     "books.messages.saved" : "Book saved",
     "books.messages.deleted" : "Book Deleted",
+    "books.messages.fileUploading" : "File uploading...",
     "books.messages.fileUploaded" : "File uploaded",
     "books.messages.error.saving" : "Error saving book",
     "books.messages.error.delete" : "Book Deleted",
