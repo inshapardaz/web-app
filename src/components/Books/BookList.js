@@ -31,7 +31,7 @@ class BookList extends Component {
             pageNumber: 1,
             selectedBook: null,
             showCard: true,
-            books: []
+            books: null
         };
 
         this.onPageChanged = this.onPageChanged.bind(this);
@@ -144,7 +144,7 @@ class BookList extends Component {
         const grid = this.props.wide ?
             { gutter: 4, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 5 } :
             { gutter: 4, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 };
-        const pagination = books & books.pageSize & books.totalCount ? (<Pagination hideOnSinglePage
+        const pagination = books ? (<Pagination hideOnSinglePage
             size="small"
             current={pageNumber}
             total={books ? books.totalCount : 0}
