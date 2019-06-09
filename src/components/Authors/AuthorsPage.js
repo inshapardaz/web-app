@@ -115,7 +115,7 @@ class AuthorsPage extends Component {
         onChange={this.onToggleCardView.bind(this)} checked={this.state.showCard} />
     </>)
 
-    const pagination =  authors ? (<Pagination hideOnSinglePage
+    const pagination =  authors & authors.pageSize & authors.totalCount ? (<Pagination hideOnSinglePage
       size="small"
       current={pageNumber}
       total={authors.totalCount}

@@ -23,6 +23,8 @@ class FavoriteBooksSidebar extends Component {
     }
 
     async componentDidMount() {
+        if (!this.props.entry.links.favorites) return;
+        
         try {
             this.setState({ isLoading: true, isError: false })
             let result = await ApiService.get(this.props.entry.links.favorites);
