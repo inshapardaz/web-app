@@ -29,7 +29,7 @@ class LatestBooksSidebar extends Component {
             this.setState({
                 isLoading: false,
                 isError: false,
-                books: result.slice(1, 5)
+                books: result.items.slice(1, 5)
             });
         }
         catch (e) {

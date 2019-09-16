@@ -111,8 +111,13 @@ class AuthService {
   }
 
   isAuthenticated() {
-    let expiresAt = localStorage.getItem(expiresAt);
-    return new Date().getTime() < expiresAt;
+    let expiresAtValue = localStorage.getItem(expiresAt);
+    if (expiresAtValue)
+    {
+      return new Date().getTime() < expiresAtValue;
+    }
+
+    return false;
   }
 }
 

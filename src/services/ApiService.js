@@ -5,7 +5,7 @@ const baseUrl = Config.apiUrl;
 
 class ApiService {
   appendAuthentication(headers){
-    if (AuthService.isAuthenticated) {
+    if (AuthService.isAuthenticated()) {
       var authorization = `Bearer ${AuthService.getAccessToken()}`;
       headers['Authorization'] = authorization;
     } 
@@ -109,7 +109,7 @@ class ApiService {
   }
 
   getEntry() {
-    return this.get(baseUrl);
+    return this.get(`${baseUrl}/entry`);
   }
 
   getCategories(){

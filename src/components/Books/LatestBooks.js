@@ -30,7 +30,7 @@ class LatestBooks extends Component {
             this.setState({
                 isLoading: false,
                 isError: false,
-                books: result
+                books: result.items
             });
         }
         catch (e) {
