@@ -3,6 +3,6 @@
       "authority" : "http://inshapardaz.eu.auth0.com",
       "audience" : "http://api.inshapardaz.org"
     },
-    "apiUrl" : "https://api-nawishta.azurewebsites.net/api"
+    "apiUrl" : "https://api-inshapardaz.azurewebsites.net/api"
   }
   
