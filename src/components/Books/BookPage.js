@@ -73,7 +73,7 @@ class BookPage extends Component {
         isLoading: false,
         isError: false,
         book: result,
-        files: files.files
+        files: files.items
       });
     }
     catch (e) {

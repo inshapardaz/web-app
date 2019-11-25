@@ -124,7 +124,7 @@ class ChapterList extends Component {
             var overlay = this.renderDropDown(chapters);
             return (<Dropdown overlay={overlay} trigger={['click']}>
                 <a className="ant-dropdown-link" href="#">
-                    {this.props.selectedChapter.title} <Icon type="down" />
+                    {this.props.selectedChapter ? this.props.selectedChapter.title : ''} <Icon type="down" />
                 </a>
             </Dropdown>);
         }
