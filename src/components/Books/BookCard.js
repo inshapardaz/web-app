@@ -99,7 +99,7 @@ class BookCard extends Component {
       return (
         <List.Item key={book.id}
           actions={actions}
-          extra={<img width={175} alt="logo" src={book.links.image || defaultBookImage} onError={this.setDefaultBookImage} />}>
+          extra={<img width={175} alt="logo" src={ (book.links && book.links.image) || defaultBookImage} onError={this.setDefaultBookImage} />}>
           <List.Item.Meta title={title} description={author}>
           </List.Item.Meta>
           <div>{bookDescription}</div>
