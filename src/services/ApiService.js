@@ -2,6 +2,14 @@ import AuthService from './AuthService';
 var Config = require('Config')
 const axios = require('axios');
 const baseUrl = Config.apiUrl;
+let libraryId = Config.libraryId; 
+
+var overrideLibraryId  = localStorage.getItem('libraryId');
+if (overrideLibraryId != null)
+{
+  console.log(`Overriding to library ${overrideLibraryId}`);
+  libraryId = overrideLibraryId;
+}
 
 class ApiService {
   appendAuthentication(headers){
@@ -109,46 +117,51 @@ class ApiService {
   }
 
   getEntry() {
-    return this.get(`${baseUrl}/entry`);
+    return this.get(`${baseUrl}/library/${libraryId}`);
   }
 
   getCategories(){
-    return this.get(`${baseUrl}/categories`);
+    return this.get(`${baseUrl}/library/${libraryId}/categories`);
   }
 
   getCategory(id){
-    return this.get(`${baseUrl}/categories/${id}`);
+    return this.get(`${baseUrl}/library/${libraryId}/categories/${id}`);
   }
 
   getSeries(){
-    return this.get(`${baseUrl}/series`);
+    return this.get(`${baseUrl}/library/${libraryId}/series`);
   }
 
   getSeriesById(id){
-    return this.get(`${baseUrl}/series/${id}`);
+    return this.get(`${baseUrl}/library/${libraryId}/series/${id}`);
   }
 
   searchBooks(query, page = 1, pageSize = 12) {
-    return this.get(`${baseUrl}/books?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
+    return this.get(`${baseUrl}/library/${libraryId}/books?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
   }
 
   getBooks(page = 1, pageSize = 12, query = null) {
-    const url = `${baseUrl}/books`;
+    const url = `${baseUrl}/library/${libraryId}/books`;
     return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
+  }
+
+  getLatestBooks(page = 1, pageSize = 12) {
+    const url = `${baseUrl}/library/${libraryId}/books`;
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}&sortby=datecreated&sort=descending`);
   }
 
   getBooksByCategory(category, page = 1, pageSize = 12, query = null) {
-    const url = `${baseUrl}/categories/${category}/books`;
-    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
+    const url = `${baseUrl}/library/${libraryId}/books`;
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}&categoryid=${category}${this.getQueryParameter(query)}`);
   }
 
   getBooksBySeries(series, page = 1, pageSize = 12, query = null) {
-    const url = `${baseUrl}/series/${series}/books`;
-    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
+    const url = `${baseUrl}/library/${libraryId}/books`;
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}&seriesid=${series}${this.getQueryParameter(query)}`);
   }
 
   getBook(id) {
-    return this.get(`${baseUrl}/books/${id}`);
+    return this.get(`${baseUrl}/library/${libraryId}/books/${id}`);
   }
 
   getBookChapters(book) {
@@ -156,37 +169,38 @@ class ApiService {
   }
 
   getChapters(bookId) {
-    return this.get(`${baseUrl}/books/${bookId}/chapters`);
+    return this.get(`${baseUrl}/library/${libraryId}/books/${bookId}/chapters`);
   }
 
   getChapter(id, chapterId) {
-    return this.get(`${baseUrl}/books/${id}/chapters/${chapterId}`);
+    return this.get(`${baseUrl}/library/${libraryId}/books/${id}/chapters/${chapterId}`);
   }
 
   getChapterContents(id, chapterId) {
-    return this.get(`${baseUrl}/books/${id}/chapters/${chapterId}/contents`);
+    return this.get(`${baseUrl}/library/${libraryId}/books/${id}/chapters/${chapterId}/contents`);
   }
 
   getAuthors(page = 1) {
-    return this.get(`${baseUrl}/authors?pageNumber=${page}&pageSize=12`);
+    return this.get(`${baseUrl}/library/${libraryId}/authors?pageNumber=${page}&pageSize=12`);
   }
 
   searchAuthors(query, page = 1, pageSize = 6) {
-    return this.get(`${baseUrl}/authors?&pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
+    return this.get(`${baseUrl}/library/${libraryId}/authors?&pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
   getAuthor(id) {
-    return this.get(`${baseUrl}/authors/${id}`);
+    return this.get(`${baseUrl}/library/${libraryId}/authors/${id}`);
   }
 
-  getAuthorBooks(link, page = 1, pageSize= 12, query = null) {
-    return this.get(`${link}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
+  getAuthorBooks(authorId, page = 1, pageSize= 12, query = null) {
+    return this.get(`${baseUrl}/library/${libraryId}/books?pageNumber=${page}&pageSize=${pageSize}&authorid=${authorId}`);
   }
 
   getBookFiles(link){
     return this.get(link);
   }
 
+  /** Obsolete */
   getDictionary(id){
     return this.get(`${baseUrl}/dictionaries/${id}`);
   }
@@ -224,13 +238,6 @@ class ApiService {
         source.links = newLinks;
       }
 
-      if (source.items)
-      {
-        let newItems = [];
-        source.items.forEach(item => newItems.push(this.parseObject(item)));
-        source.item = newItems;
-      }
-
       if (source.data)
       {
         let newItems = [];
@@ -238,11 +245,11 @@ class ApiService {
         source.data = newItems;
       }
 
-      if (source.files)
+      if (source.contents)
       {
         let newItems = [];
-        source.files.forEach(item => newItems.push(this.parseObject(item)));
-        source.files = newItems;
+        source.contents.forEach(item => newItems.push(this.parseObject(item)));
+        source.contents = newItems;
       }
 
       if (Array.isArray(source))

@@ -18,7 +18,7 @@ class CategoriesSidebar extends Component {
             const allButton = [(<Button type={selectedCategory ? "default" : "primary"} block key="all" style={buttonStyle}>
                 <Link to={`/books`} >{this.props.intl.formatMessage({ id : 'header.books.list'})}</Link>
             </Button>)];
-            const cats = this.props.categories.items.map(c =>
+            const cats = this.props.categories.data.map(c =>
                 <Button type={ selectedCategory && c.id == selectedCategory.id ? "primary" : "default"} block key={c.id} style={buttonStyle}>
                     <Link to={`/books?category=${c.id}`} >{c.name}</Link>
                 </Button>

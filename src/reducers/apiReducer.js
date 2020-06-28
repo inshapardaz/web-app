@@ -1,4 +1,4 @@
-import {ENTRY, LANGUAGES, ATTRIBUTES, RELATIONSHIPTYPES, CATEGORIES, SERIES } from '../actions/actionTypes';
+import {ENTRY, CATEGORIES, SERIES } from '../actions/actionTypes';
 
 export default function apiReducer(state = {}, action) {
     switch (action.type) {
@@ -6,21 +6,6 @@ export default function apiReducer(state = {}, action) {
         return {
           ...state,
           entry: action.payload,
-        };
-      case LANGUAGES:
-        return {
-          ...state,
-          languages: action.payload,
-        };
-      case ATTRIBUTES:
-        return {
-          ...state,
-          attributes: action.payload,
-        };
-      case RELATIONSHIPTYPES:
-        return {
-          ...state,
-          relationshipTypes: action.payload,
         };
       case CATEGORIES:
         return {

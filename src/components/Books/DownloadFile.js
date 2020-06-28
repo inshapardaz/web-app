@@ -13,9 +13,9 @@ class DownloadFile extends Component {
             icon = "file-pdf";
         }
 
-        console.log(this.props.file.links.self);
+        console.dir(this.props.file);
         return (
-            <Button href={this.props.file.links.self} target="_blank" type="link" icon={icon} block={this.props.block} >{title}</Button>
+            <Button href={this.props.file.links.download} target="_blank" type="link" icon={icon} block={this.props.block} >{title}</Button>
         )
     }
 }

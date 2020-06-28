@@ -67,13 +67,11 @@ class BookPage extends Component {
     try {
       let result = await ApiService.getBook(bookId);
 
-      let files = await ApiService.getBookFiles(result.links.files);
-
       this.setState({
         isLoading: false,
         isError: false,
         book: result,
-        files: files.items
+        files: result.contents
       });
     }
     catch (e) {

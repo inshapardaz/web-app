@@ -85,7 +85,7 @@ class BookList extends Component {
 
             let result = [];
             if (author) {
-                result = await ApiService.getAuthorBooks(author.links.books, pageNumber, 12, query);
+                result = await ApiService.getAuthorBooks(author.id, pageNumber, 12, query);
             }
             else if (category && category > 0) {
                 result = await ApiService.getBooksByCategory(category, pageNumber, 12, query);
@@ -150,6 +150,7 @@ class BookList extends Component {
             total={books ? books.totalCount : 0}
             pageSize={books ? books.pageSize : 0}
             onChange={this.onPageChanged} />) : null;
+            console.log(`isloading`, isLoading);
         return (<List
             itemLayout={showCard ? null : "vertical"}
             size="small"

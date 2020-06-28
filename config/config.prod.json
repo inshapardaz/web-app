@@ -3,6 +3,7 @@
       "authority" : "http://inshapardaz.eu.auth0.com",
       "audience" : "http://api.inshapardaz.org"
     },
-    "apiUrl" : "https://api-inshapardaz.azurewebsites.net/api"
+    "apiUrl" : "https://api-library.azurewebsites.net/api",
+    "libraryId": 6
   }
   

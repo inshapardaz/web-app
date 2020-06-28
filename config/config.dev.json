@@ -3,6 +3,7 @@
       "authority" : "http://inshapardaz.eu.auth0.com",
       "audience" : "http://api.inshapardaz.org"
     },
-    "apiUrl" : "http://localhost:5000/api"
+    "apiUrl" : "http://localhost:7071/api",
+    "libraryId": 6
   }
   

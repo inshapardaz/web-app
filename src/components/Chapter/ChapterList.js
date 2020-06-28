@@ -81,7 +81,7 @@ class ChapterList extends Component {
     renderAdd(createLink) {
         if (createLink) {
             const { chapters } = this.state;
-            var nextChapter = (chapters && chapters.items) ? chapters.items.length + 1 : 1;
+            var nextChapter = (chapters && chapters.data) ? chapters.data.length + 1 : 1;
             return <EditChapter button createLink={createLink} isAdding={true} onUpdated={this.loadChapters} chapterIndex={nextChapter} />
         }
 
@@ -93,22 +93,22 @@ class ChapterList extends Component {
         return (<List
             size="large"
             loading={isLoading}
-            dataSource={chapters.items}
+            dataSource={chapters.data}
             renderItem={c => <ChapterCard key={c.id} chapter={c} onUpdated={this.loadChapters} hideActions={hideAction} />}
         />);
     }
 
     renderDropDown = (chapters) => {
         const { selectedChapter } = this.props;
-        var items = [];
-        if (chapters && chapters.items) {
-            items = chapters.items.map(c => (
+        var data = [];
+        if (chapters && chapters.data) {
+            data = chapters.data.map(c => (
                 <Menu.Item key={c.id}>
                     <Link to={`/books/${c.bookId}/chapters/${c.id}`}>{c.title}</Link>
                 </Menu.Item>));
         }
         const selectedKey = selectedChapter ? selectedChapter.id : null;
-        return (<Menu selectedKeys={[`${selectedKey}`]}> {items} </Menu>);
+        return (<Menu selectedKeys={[`${selectedKey}`]}> {data} </Menu>);
     }
 
 

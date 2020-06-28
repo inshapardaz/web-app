@@ -19,7 +19,7 @@ class SeriesPage extends Component {
       isError: false,
       isLoading: true,
       showCard: false,
-      series: { items: [] }
+      series: { data: [] }
     };
   }
 
@@ -103,7 +103,7 @@ class SeriesPage extends Component {
             locale={{
               emptyText: this.props.intl.formatMessage({ id: 'series.messages.empty' })
             }}
-            dataSource={series.items}
+            dataSource={series.data}
             renderItem={s => (<SeriesCard key={s.id} card={showCard} series={s} onUpdated={this.loadSeries.bind(this)} />)}
           />
         </Card>

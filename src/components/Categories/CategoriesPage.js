@@ -19,7 +19,7 @@ class CategoriesPage extends Component {
       isError: false,
       isLoading: true,
       showCard: false,
-      categories: { items: [] },
+      categories: { data: [] },
       selectedCategory: null
     };
   }
@@ -106,7 +106,7 @@ class CategoriesPage extends Component {
             locale={{
               emptyText: this.props.intl.formatMessage({ id: 'categories.messages.empty' })
             }}
-            dataSource={categories.items}
+            dataSource={categories.data}
             renderItem={c => (<CategoryCard key={c.id} card={showCard} category={c} onUpdated={this.loadCategories.bind(this)} />)}
           />
         </Card>

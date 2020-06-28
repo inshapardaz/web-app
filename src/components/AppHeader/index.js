@@ -141,7 +141,7 @@ class AppHeader extends Component {
 	renderCategoriesMenu() {
 		if (this.props.categories) {
 
-			return this.props.categories.items.map(c => (
+			return this.props.categories.data.map(c => (
 				<Menu.Item key={c.id}>
 					<Link to={`/books?category=${c.id}`}>
 						{c.name}

@@ -52,7 +52,7 @@ class BookForm extends React.Component {
     await ApiService.getCategories()
       .then(res => {
         this.setState({
-          categories: res.items
+          categories: res.data
         })
       })
   }
@@ -61,7 +61,7 @@ class BookForm extends React.Component {
     await ApiService.getSeries()
       .then(res => {
         this.setState({
-          series: res.items
+          series: res.data
         })
       })
   }

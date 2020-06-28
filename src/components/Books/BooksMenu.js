@@ -17,9 +17,9 @@ class BooksMenu extends React.Component {
             </Menu.Item>);
     }
     renderCategories(categories) {
-        if (categories && categories.items) {
+        if (categories && categories.data) {
             var menuItems = [];
-            menuItems.push(categories.items.map(c => this.renderCategory(c)));
+            menuItems.push(categories.data.map(c => this.renderCategory(c)));
 
             return (<Menu selectable={false}>
                 <Menu.Item key="new">

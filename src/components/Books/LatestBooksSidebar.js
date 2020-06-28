@@ -25,11 +25,11 @@ class LatestBooksSidebar extends Component {
     async componentDidMount() {
         try {
             this.setState({ isLoading: true, isError: false })
-            let result = await ApiService.get(this.props.entry.links.latest);
+            let result = await ApiService.getLatestBooks(1, 5);
             this.setState({
                 isLoading: false,
                 isError: false,
-                books: result.items.slice(1, 5)
+                books: result.data.slice(1, 5)
             });
         }
         catch (e) {
