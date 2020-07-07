@@ -1,98 +1,49 @@
 import React, { Component } from 'react'
-import ApiService from '../../services/ApiService';
-import { Link } from 'react-router-dom';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import queryString from 'query-string';
+import { injectIntl } from 'react-intl';
+import { Helmet } from 'react-helmet'
+import { Input, Row, Tabs, Empty } from 'antd';
+import { RobotOutlined } from '@ant-design/icons';
+import BookList from '../Books/BookList';
 
-export default class Search extends Component {
-  state = {
-    isLoading: false,
-    isError: false,
-    value: '',
-    results: []
-  }
+const SearchBox = Input.Search;
+const { TabPane } = Tabs;
 
-  bookToResult = (book) => {
-    return {
-      "link": `/books/${book.id}`,
-      "title": book.title,
-      "image": book.links.image || '/resources/img/book_placeholder.png',
-      "description": book.authorName
-    }
-  }
-
-  authorsToResult = (author) => {
-    return {
-      "link": `/authors/${author.id}`,
-      "title": author.name,
-      "image": author.links.image || '/resources/img/avatar1.jpg',
-      "description": this.props.intl.formatMessage({ id: 'authors.item.book.count' }, { count: author.bookCount })
-    }
-  }
-
-  resultRenderer = ({ link, image, price, title, description }) => [
-    image && (
-      <div key='image' className='image'>
-        <img src={image} size="tiny" />
-      </div>
-    ),
-    <Link key={link} to={link}>
-      <div key='content' className='content'>
-        {price && <div className='price'>{price}</div>}
-        {title && <div className='title'>{title}</div>}
-        {description && <div className='description'>{description}</div>}
-      </div>
-    </Link>,
-  ]
-  resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
-  handleResultSelect = (e, result) => this.setState({ value: result.title })
-  handleSearchChange = async (e, { value }) => {
-    this.setState({
-      isLoading: true,
-      isError: false,
-      value
-    })
-
-    try {
-      var books = await ApiService.searchBooks(value, 1, 6);
-      var booksData = books.data.map(b => this.bookToResult(b));
-      var authors = await ApiService.searchAuthors(value, 1, 6);
-      var authorData = authors.data.map(a => this.authorsToResult(a));
-      var finalResult = {};
-
-      if (booksData && booksData.length > 0) {
-
-        finalResult.books = {
-          "name": "books",
-          "results": booksData
-        };
-      }
-      if (authorData && authorData.length > 0) {
-        finalResult.authors = {
-          "name": "authors",
-          "results": authorData
-        }
-      }
-
-      this.setState({
-        isLoading: false,
-        results: finalResult
-      })
-
-
-    }
-    catch (e) {
-      console.error(e);
-      this.setState({
-        isLoading: false,
-        results: [],
-      })
-    }
+class Search extends Component {
+  onSubmit = (value) => {
+    let values = queryString.parse(this.props.location.search)
+    values.q = value;
+    this.props.history.push(`${this.props.location.pathname}?${queryString.stringify(values)}`)
   }
   render() {
+    let query = queryString.parse(this.props.location.search);
+    const booksHeader = this.props.intl.formatMessage({ id: 'search.books.title' }, { title: query.q });
     return (
-      <div>
-        <h1>Search will appear here...</h1>
-      </div>
+      <>
+        <Helmet title={this.props.intl.formatMessage({ id: "search.title" })} />
+        <Row gutter={[16, 16]}>
+          <SearchBox
+                placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
+                onSearch={this.onSubmit}
+                size="large" 
+                enterButton
+              />
+        </Row>
+        <div className="row">
+          <div className="col-xl-12">
+            <Tabs type="card">
+              <TabPane tab={this.props.intl.formatMessage({ id: "header.books" })} key="books">
+                <BookList title={booksHeader} />
+              </TabPane>
+              <TabPane tab={this.props.intl.formatMessage({ id: "header.authors" })} key="authors">
+                <Empty description={this.props.intl.formatMessage({ id: "comingsoon" })}/>
+              </TabPane>
+            </Tabs>
+          </div>
+        </div>
+      </> 
     )
   }
 }
+
+export default injectIntl(Search)

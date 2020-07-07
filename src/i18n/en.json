@@ -166,5 +166,10 @@
     "copyrights.2": "Free Public Domain",
     "copyrights.3": "Free Creative Commons",
     "copyrights.4": "Free GPL",
-    "copyrights.5": "Free Others"
+    "copyrights.5": "Free Others",
+    "search.title": "Search",
+    "search.books.title" : "Books matching '{title}'",
+    "search.authors.title" : "Authors matching '{title}'",
+    "comingsoon" : "Coming Soon"
+
 }

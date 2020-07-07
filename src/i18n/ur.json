@@ -163,5 +163,9 @@
     "copyrights.2": "مفت عوامی کتاب",
     "copyrights.3": "مفت کریئیٹو کامن",
     "copyrights.4": "مفت جی پی ایل",
-    "copyrights.5": "مفت متفرق"
+    "copyrights.5": "مفت متفرق",
+    "search.title": "تلاش",
+    "search.books.title" : "'{title}' سے ملتی جلتی کتابیں",
+    "search.authors.title" : "'{title}' سے ملتے جلتے مصنّف",
+    "comingsoon" : "انتظار فرمائیے"
 }
