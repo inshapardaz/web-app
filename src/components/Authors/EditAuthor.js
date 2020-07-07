@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, Alert, Modal, Input, Form, Button, notification } from 'antd';
-
+import { Alert, Modal, Input, Form, Button, notification } from 'antd';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 
 import ApiService from '../../services/ApiService';
 
-const AuthorForm = Form.create({
+/*const AuthorForm = Form.create({
     name: 'authorEditor',
     mapPropsToFields(props) {
         return {
@@ -49,7 +49,7 @@ const AuthorForm = Form.create({
             );
         }
     }
-);
+);*/
 
 class EditAuthor extends Component {
     constructor(props) {
@@ -136,19 +136,19 @@ class EditAuthor extends Component {
         
         let header = intl.formatMessage({ id: "author.editor.header.add" });
         let buttonText = intl.formatMessage({ id: "authors.action.create" });
-        let icon = "plus";
+        let icon = <PlusOutlined onClick={this.onOpen}/>;
 
         if (!isAdding && author) {
             header = intl.formatMessage({ id: "author.editor.header.edit" }, { name: author.name });
             buttonText = intl.formatMessage({ id: "action.edit" });
-            icon = "edit";           
+            icon = <EditOutlined onClick={this.onOpen}/>;           
         }
 
         const action = button ?
             <Button icon={icon} block={block} onClick={this.onOpen} >{buttonText}</Button> :
-            <Icon type={icon} onClick={this.onOpen} />;
-
-        return (
+            icon;
+        return null;
+        /*return (
             <>
                 {action}
                 <AuthorForm {...author}
@@ -162,7 +162,7 @@ class EditAuthor extends Component {
                     intl={intl}
                 />
             </>
-        )
+        )*/
     }
 }
 

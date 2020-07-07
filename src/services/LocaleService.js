@@ -80,6 +80,16 @@ class LocaleService {
         window.localStorage.setItem("language", language);
     }
 
+    getLanguages(){
+        return [{
+                "key" :"ur",
+                "label" : "اردو"
+            }, {
+                "key" :"en",
+                "label": "English"
+            }];
+        }
+
     formatMessage = (id) => this.intl.formatMessage({ id });
 
     isRtl() {

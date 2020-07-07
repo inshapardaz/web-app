@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, Modal, Form, Button, notification } from 'antd';
+import { Modal, Form, Button, notification } from 'antd';
+import { PlusOutlined, EditOutlined} from '@ant-design/icons';
 import ApiService from '../../services/ApiService';
 
 import BookForm from './BookForm';
 
-const WrappedBookForm = Form.create()(BookForm);
+//const WrappedBookForm = Form.create()(BookForm);
 const intToObjectArray = (arr) => arr.map(o => {
     return { id: o };
 })
@@ -99,19 +100,19 @@ class EditBook extends Component {
 
         let header = intl.formatMessage({ id: "book.editor.header.add" });
         let buttonText = intl.formatMessage({ id: "books.action.create" });
-        let icon = "plus";
+        let icon = <PlusOutlined onClick={this.onOpen}/>;
 
         if (!isAdding && book) {
             header = intl.formatMessage({ id: "book.editor.header.edit" }, { title: book.title });
             buttonText = intl.formatMessage({ id: "action.edit" });
-            icon = "edit";
+            icon = <EditOutlined onClick={this.onOpen}/>;
         }
 
         const action = button ?
             <Button icon={icon} block={this.props.block} onClick={this.onOpen} >{buttonText}</Button> :
-            <Icon type={icon} onClick={this.onOpen} />;
-
-        return (
+            icon;
+        return null;
+        /*return (
             <>
                 {action}
                 <Modal
@@ -127,7 +128,7 @@ class EditBook extends Component {
                     <WrappedBookForm ref="bookForm" book={book} />
                 </Modal>
             </>
-        )
+        )*/
     }
 }
 

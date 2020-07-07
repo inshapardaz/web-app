@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, Alert, Modal, Input, Form, Button, notification } from 'antd';
+import { Alert, Modal, Input, Form, Button, notification } from 'antd';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 
 import ApiService from '../../services/ApiService';
 
-const CategoryForm = Form.create({
+/*const CategoryForm = Form.create({
     name: 'categoryEditor',
     mapPropsToFields(props) {
         return {
@@ -48,7 +49,7 @@ const CategoryForm = Form.create({
             );
         }
     }
-);
+);*/
 
 
 class EditCategory extends Component {
@@ -137,19 +138,19 @@ class EditCategory extends Component {
 
         let header = intl.formatMessage({ id: "category.editor.header.add" });
         let buttonText = intl.formatMessage({ id : "categories.action.create"});
-        let icon = "plus";
+        let icon = <PlusOutlined onClick={this.onOpen}/>;
 
         if (!isAdding && category) {
             header = intl.formatMessage({ id: "category.editor.header.edit" }, { name: category.name });
             buttonText = intl.formatMessage({ id : "action.edit"});
-            icon = "edit";
+            icon = <EditOutlined onClick={this.onOpen}/>;
         }
 
         const action = button ? 
          <Button icon={icon} onClick={this.onOpen} >{buttonText}</Button> : 
-         <Icon type={icon} onClick={this.onOpen} />;
-
-        return (
+         icon;
+        return null;
+        /*return (
             <>
                 {action}
                 <CategoryForm {...category}
@@ -163,7 +164,7 @@ class EditCategory extends Component {
                     intl={intl}
                 />
             </>
-        )
+        )*/
     }
 }
 

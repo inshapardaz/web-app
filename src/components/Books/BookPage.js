@@ -3,7 +3,8 @@ import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 
-import { Typography, Row, Tag, Icon, Card, Col, Button } from 'antd';
+import { Typography, Row, Tag, Card, Col, Button } from 'antd';
+import { PrinterOutlined, TagOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet'
 
 import { ErrorPlaceholder, Loading } from '../Common';
@@ -167,8 +168,8 @@ class BookPage extends Component {
       <><Tag color="green">{this.props.intl.formatMessage({ id: 'book.public' })}</Tag></> :
       <><Tag color="red">{this.props.intl.formatMessage({ id: 'book.private' })}</Tag></>}</Text>);
 
-    const categories = book.categories.map(c => <Tag key={c.id}><Link to={`/books?category=${c.id}`}><Icon type="tag" /> {c.name}</Link></Tag>);
-    const publishYear = book.yearPublished > 0 ? (<><Icon type="printer" /> {this.props.intl.formatMessage({ id: 'book.publish' }, { year: book.yearPublished })}</>) : null;
+    const categories = book.categories.map(c => <Tag key={c.id}><Link to={`/books?category=${c.id}`}><TagOutlined /> {c.name}</Link></Tag>);
+    const publishYear = book.yearPublished > 0 ? (<><PrinterOutlined /> {this.props.intl.formatMessage({ id: 'book.publish' }, { year: book.yearPublished })}</>) : null;
     const series = book.seriesName ? (
       <>
         {this.props.intl.formatMessage({ id: 'book.series' }, { index: book.seriesIndex })}
@@ -191,7 +192,7 @@ class BookPage extends Component {
         <Paragraph>{categories}</Paragraph>
         <Paragraph>{series}</Paragraph>
         <Paragraph>{publishYear}</Paragraph>
-        <Paragraph><Icon type="key" />{this.props.intl.formatMessage({ id: `copyrights.${book.copyrights}` })}</Paragraph>
+        <Paragraph><KeyOutlined />{this.props.intl.formatMessage({ id: `copyrights.${book.copyrights}` })}</Paragraph>
         <Paragraph>
           {this.renderBookActions(book)}
         </Paragraph>

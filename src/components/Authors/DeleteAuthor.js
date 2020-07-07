@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Modal, Icon, Alert, Button,    notification } from 'antd';
+import { Modal, Alert, Button, notification } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 
 import ApiService from '../../services/ApiService';
 
@@ -63,8 +64,8 @@ class DeleteAuthor extends Component {
         const message = this.props.intl.formatMessage({ id: 'authors.action.confirmDelete' }, { name: author.name });
 
         const action = button ?
-            <Button icon="delete" block={block} onClick={this.onShow} >{title}</Button> :
-            <Icon type="delete" onClick={this.onShow} />
+            <Button icon={<DeleteOutlined />} block={block} onClick={this.onShow} >{title}</Button> :
+            <DeleteOutlined onClick={this.onShow} />
         return <>
             {action}
             <Modal

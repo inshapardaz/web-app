@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { changeReaderFont, changeReaderFontSize, changeReaderTheme } from '../../actions/uiActions';
 
-import { Drawer, Button, Menu, Icon, Dropdown } from 'antd';
+import { Button, Menu, Dropdown } from 'antd';
+import { FontColorsOutlined, FontSizeOutlined, BgColorsOutlined } from '@ant-design/icons';
 
 const { SubMenu } = Menu;
 
@@ -86,13 +87,13 @@ class ChapterSidebar extends Component {
 
         const selection = [this.props.font, this.props.fontSize, this.props.theme]
         const menu = (<Menu selectable selectedKeys={selection}>
-            <SubMenu key="sub1" title={<span><Icon type="font-colors" /><FormattedMessage id="chapter.toolbar.font" /></span>}>
+            <SubMenu key="sub1" title={<span><FontColorsOutlined /><FormattedMessage id="chapter.toolbar.font" /></span>}>
                 {this.renderFonts()}
             </SubMenu>
-            <SubMenu key="sub2" title={<span><Icon type="font-size" /><FormattedMessage id="chapter.toolbar.fontSize" /></span>}>
+            <SubMenu key="sub2" title={<span><FontSizeOutlined /><FormattedMessage id="chapter.toolbar.fontSize" /></span>}>
                 {this.renderFontSize()}
             </SubMenu>
-            <SubMenu key="sub3" title={<span><Icon type="bg-colors" /><FormattedMessage id="chapter.toolbar.theme" /></span>}>
+            <SubMenu key="sub3" title={<span><BgColorsOutlined /><FormattedMessage id="chapter.toolbar.theme" /></span>}>
                 {this.renderThemes()}
             </SubMenu>
         </Menu>);

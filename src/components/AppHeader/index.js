@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl';
 
 
-import { Menu, Icon, Dropdown } from 'antd';
+import { Menu, Dropdown } from 'antd';
+import { HeartOutlined, StarOutlined, ClockCircleOutlined, BookOutlined, AppstoreOutlined } from '@ant-design/icons';
+
 
 const SubMenu = Menu.SubMenu;
 
@@ -100,23 +102,23 @@ class AppHeader extends Component {
 
 	renderBooks() {
 		return (
-			<SubMenu title={<span className="submenu-title-wrapper"><Icon type="book" /><FormattedMessage id="header.books" /></span>}>
+			<SubMenu title={<span className="submenu-title-wrapper"><BookOutlined /><FormattedMessage id="header.books" /></span>}>
 				<Menu.Item key="new">
 					<Link to="/books/new">
-						<Icon type="star" />
+						<StarOutlined />
 						<FormattedMessage id="home.latestBooks" />
 					</Link>
 				</Menu.Item>
 				<Menu.Item key="recent">
 					<Link to="/books/recent">
-						<Icon type="clock-circle" />
+						<ClockCircleOutlined />
 						<FormattedMessage id="home.recent" />
 					</Link>
 				</Menu.Item>
 				{this.props.entry && this.props.entry.links.favorites
 					? (<Menu.Item key="favorites">
 						<Link to="/books/favorites">
-							<Icon type="heart" />
+							<HeartOutlined />
 							<FormattedMessage id="home.favoriteBooks" />
 						</Link>
 					</Menu.Item>)
@@ -124,13 +126,13 @@ class AppHeader extends Component {
 				}
 				<Menu.Item key="allbooks">
 					<Link to="/books">
-						<Icon type="book" />
+						<BookOutlined />
 						<FormattedMessage id="header.books.list" />
 					</Link>
 				</Menu.Item>
 				<Menu.Divider></Menu.Divider>
 				<SubMenu title={<span className="submenu-title-wrapper">
-					<Icon type="appstore" />
+					<AppstoreOutlined />
 					<FormattedMessage id="header.categories" /></span>}>
 					{this.renderCategoriesMenu()}
 				</SubMenu>

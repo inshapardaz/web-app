@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { Button, Link } from 'antd';
+import { Button } from 'antd';
+import { FileOutlined, FilePdfOutlined} from '@ant-design/icons';
 import { injectIntl } from 'react-intl';
 
 class DownloadFile extends Component {
     render() {
         const title = this.props.intl.formatMessage({ id: 'action.download' });
 
-        let icon = "file";
+        let icon = <FileOutlined />;
         if (this.props.file.mimeType == "application/pdf")
         {
-            icon = "file-pdf";
+            icon = <FilePdfOutlined />;
         }
 
         console.dir(this.props.file);

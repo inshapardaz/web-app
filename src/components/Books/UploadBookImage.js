@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, notification, Button } from 'antd';
+import { notification, Button } from 'antd';
+import { PictureOutlined } from '@ant-design/icons';
 
 import ApiService from '../../services/ApiService';
 
@@ -35,8 +36,8 @@ class UploadBookImage extends Component {
 
   render() {
     const action = this.props.button ?
-            <Button icon="picture" block={this.props.block} onClick={this.onClick} >{this.props.intl.formatMessage({ id: 'action.changeImage' })}</Button> :
-            <Icon type="picture" onClick={this.onClick} />
+            <Button icon={<PictureOutlined />} block={this.props.block} onClick={this.onClick} >{this.props.intl.formatMessage({ id: 'action.changeImage' })}</Button> :
+            <PictureOutlined onClick={this.onClick} />
 
     return <>
       {action}

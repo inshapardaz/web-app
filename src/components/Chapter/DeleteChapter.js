@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, message, Popconfirm } from 'antd';
+import { message, Popconfirm } from 'antd';
+import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 import ApiService from '../../services/ApiService';
 
@@ -36,8 +37,8 @@ class DeleteChapter extends Component {
         const message = this.props.intl.formatMessage({ id: 'chapters.action.confirmDelete' }, { title: chapter.title });
         return (
             <Popconfirm title={message} onConfirm={this.deleteChapter} okText={actionYes} cancelText={actionNo}
-                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}>
-                <Icon type="delete" />
+                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}>
+                <DeleteOutlined />
             </Popconfirm>
         );
     }

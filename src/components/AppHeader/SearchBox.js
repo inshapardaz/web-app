@@ -3,9 +3,10 @@ import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
-import { Input, Icon, Checkbox, Avatar  } from 'antd';
-import ApiService from '../../services/ApiService';
+import { Input, Checkbox, Avatar  } from 'antd';
+import { CloseOutlined, SearchOutlined } from '@ant-design/icons';
 
+import ApiService from '../../services/ApiService';
 const defaultAuthorImage = '/resources/img/avatar1.jpg';
 const defaultBookImage = '/resources/img/book_placeholder.png';
 
@@ -380,7 +381,7 @@ class SearchBox extends Component {
                 <Input
                     className="livesearch__topInput"
                     placeholder={searchMessage}
-                    prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    prefix={<SearchOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                     style={{ width: 200 }}
                     onFocus={this.showLiveSearch}
                 />
@@ -390,7 +391,7 @@ class SearchBox extends Component {
                     id="livesearch"
                 >
                     <div className="livesearch__close" onClick={this.hideLiveSearch}>
-                        <Icon type="close" />
+                      <CloseOutlined />
                     </div>
                     <div className="container-fluid">
                         <div className="livesearch__wrapper">

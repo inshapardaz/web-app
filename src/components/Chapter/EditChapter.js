@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, Alert, Modal, Input, Form, Button, notification, InputNumber  } from 'antd';
+import { Alert, Modal, Input, Form, Button, notification, InputNumber  } from 'antd';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 
 import ApiService from '../../services/ApiService';
 
-const ChapterForm = Form.create({
+/*const ChapterForm = Form.create({
     name: 'chapterEditor',
     mapPropsToFields(props) {
         return {
@@ -61,7 +62,7 @@ const ChapterForm = Form.create({
             );
         }
     }
-);
+);*/
 
 class EditChapter extends Component {
     constructor(props) {
@@ -151,12 +152,12 @@ class EditChapter extends Component {
 
         let header = intl.formatMessage({ id: "chapter.editor.header.add" });
         let buttonText = intl.formatMessage({ id : "chapter.action.create"});
-        let icon = "plus";
+        let icon = <PlusOutlined onClick={this.onOpen}/>;
 
         if (!isAdding && chapter) {
             header = intl.formatMessage({ id: "chapter.editor.header.edit" }, { title: chapter.title });
             buttonText = intl.formatMessage({ id : "action.edit"});
-            icon = "edit";
+            icon = <EditOutlined onClick={this.onOpen}/>;
         }
 
         var chapterToEdit = chapter;
@@ -168,9 +169,9 @@ class EditChapter extends Component {
 
         const action = button ? 
          <Button icon={icon} onClick={this.onOpen} >{buttonText}</Button> : 
-         <Icon type={icon} onClick={this.onOpen} />;
-
-        return (
+         icon;
+        return null;
+        /*return (
             <>
                 {action}
                 <ChapterForm {...chapterToEdit}
@@ -184,7 +185,7 @@ class EditChapter extends Component {
                     intl={intl}
                 />
             </>
-        )
+        )*/
     }
 }
 

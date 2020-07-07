@@ -18,10 +18,11 @@ class ApiService {
       headers['Authorization'] = authorization;
     } 
   }
-  get(url) {
+  get(url, language = 'ur', accept = 'application/json') {
     let headers = {
-      'Accept' : 'application/json',
-      'Content-Type': 'application/json'
+      'Accept' : accept,
+      'Content-Type': 'application/json',
+      'Accept-Language': language
     };
 
     this.appendAuthentication(headers);
@@ -176,8 +177,8 @@ class ApiService {
     return this.get(`${baseUrl}/library/${libraryId}/books/${id}/chapters/${chapterId}`);
   }
 
-  getChapterContents(id, chapterId) {
-    return this.get(`${baseUrl}/library/${libraryId}/books/${id}/chapters/${chapterId}/contents`);
+  getChapterContents(id, chapterId, language = 'ur', mimeType = 'text/markdown') {
+    return this.get(`${baseUrl}/library/${libraryId}/books/${id}/chapters/${chapterId}/contents`, language, mimeType);
   }
 
   getAuthors(page = 1) {

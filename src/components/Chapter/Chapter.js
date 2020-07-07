@@ -6,6 +6,7 @@ import ApiService from '../../services/ApiService';
 import Reader from '../Reader/Reader';
 
 import { BackTop, PageHeader, Anchor, Button, Layout } from 'antd';
+import { EditOutlined, FileOutlined } from '@ant-design/icons';
 
 import { success, error } from '../../services/toasts';
 import ErrorPlaceholder from '../Common/ErrorPlaceholder';
@@ -104,7 +105,7 @@ class Chapter extends Component {
       this.setState({
         chapter: chapter,
       });
-      var contents = await ApiService.getChapterContents(bookId, chapterId);
+      var contents = await ApiService.getChapterContents(bookId, chapterId, 'ur', 'text/markdown');
 
       this.setState({
         isLoading: false,
@@ -191,7 +192,7 @@ class Chapter extends Component {
                      (chapter.links.add_contents || chapter.links.update_contents);
 
     if (hasEditLink) {
-      return <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}/edit`}><Button icon="edit"></Button></Link>
+      return <Link to={`/books/${chapter.bookId}/chapters/${chapter.id}/edit`}><Button icon={<EditOutlined />}></Button></Link>
     }
 
     return null;
@@ -205,7 +206,7 @@ class Chapter extends Component {
     if (isError) {
       return <ErrorPlaceholder fullWidth={true}
         message={this.props.intl.formatMessage({ id: 'chapter.messages.error.loading' })}
-        icon="file alternate outline"
+        icon={<FileOutlined />}
         showButton={true}
         buttonText={this.props.intl.formatMessage({ id: 'action.retry' })}
         buttonAction={this.reload.bind(this)} />

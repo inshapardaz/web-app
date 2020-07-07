@@ -9,6 +9,7 @@ import AuthService from './services/AuthService';
 import { push } from 'connected-react-router'
 import ReduxToastr from 'react-redux-toastr';
 import { Helmet } from 'react-helmet'
+import { ConfigProvider } from 'antd';
 
 class App extends React.Component {
   state = {
@@ -59,21 +60,23 @@ class App extends React.Component {
 
     if (locale) {
       return (
-        <IntlProvider locale={locale.locale} messages={locale.messages}>
-          <>
-            <Helmet titleTemplate="Inshapardaz - %s" />
-            <Routes />
-            <ReduxToastr
-                timeOut={4000}
-                newestOnTop={false}
-                preventDuplicates
-                position="top-left"
-                transitionIn="fadeIn"
-                transitionOut="fadeOut"
-                progressBar
-                closeOnToastrClick/>
-          </>
-        </IntlProvider>
+        <ConfigProvider direction={locale.isRtl ? 'rtl' : 'ltr'}>
+          <IntlProvider locale={locale.locale} messages={locale.messages}>
+            <>
+              <Helmet titleTemplate="Inshapardaz - %s" />
+              <Routes />
+              <ReduxToastr
+                  timeOut={4000}
+                  newestOnTop={false}
+                  preventDuplicates
+                  position="top-left"
+                  transitionIn="fadeIn"
+                  transitionOut="fadeOut"
+                  progressBar
+                  closeOnToastrClick/>
+            </>
+          </IntlProvider>
+        </ConfigProvider>
       );
     }
 

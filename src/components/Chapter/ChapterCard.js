@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 
-import { List, Icon, Card } from 'antd';
+import { List } from 'antd';
+import { FormOutlined } from '@ant-design/icons';
 
 import { success, error } from '../../services/toasts';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -94,7 +95,7 @@ class ChapterCard extends Component {
         }
 
         if (editContentLink){
-            actions.push(<Icon type="form" onClick={this.editContents} />);
+            actions.push(<FormOutlined onClick={this.editContents} />);
         }
 
         if (deleteLink) {

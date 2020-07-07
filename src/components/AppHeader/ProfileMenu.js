@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { login, logout } from '../../actions/authActions'
 import { FormattedMessage } from 'react-intl';
 import AuthService from '../../services/AuthService';
-import { Menu, Dropdown, Avatar, Icon } from 'antd';
+import { Menu, Dropdown, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 const Styles = () => {
     return (<style>{`
@@ -105,7 +106,7 @@ class ProfileMenu extends React.Component {
         )
         const avatar = profile.picture ? 
             (<Avatar className="avatar" shape="square" size="large" src={profile.picture} />) : 
-            (<Avatar className="avatar" shape="square" size="large" icon="user" />)
+            (<Avatar className="avatar" shape="square" size="large" icon={<UserOutlined />} />)
 
         return (
             <>

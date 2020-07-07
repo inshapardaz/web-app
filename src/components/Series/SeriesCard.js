@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { List, Avatar, Card } from 'antd';
+import { List, Card } from 'antd';
 
 import DeleteSeries from './DeleteSeries';
 import EditSeries from './EditSeries';

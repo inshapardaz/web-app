@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Spin, Icon, Layout } from 'antd';
+import { Spin, Layout } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
-const antIcon = <Icon type="loading" style={{ fontSize: 45 }} spin />;
+const antIcon = <LoadingOutlined style={{ fontSize: 45 }} />;
 
 const Style = () => {
     return (<style>

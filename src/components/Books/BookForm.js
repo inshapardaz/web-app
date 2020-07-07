@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import { Form, Input, Switch, Select, AutoComplete, InputNumber } from 'antd';
 
 import ApiService from '../../services/ApiService';
+import LocaleService from '../../services/LocaleService';
 
 const Option = Select.Option;
 
@@ -13,7 +14,7 @@ const { TextArea } = Input;
 
 
 
-class BookForm extends React.Component {
+/*class BookForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +70,7 @@ class BookForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { book, intl } = this.props;
-    const languageOptions = this.props.languages.map(d => <Option key={d.value} value={d.value}>{d.key}</Option>);
+    const languageOptions = LocaleService.getLanguages().map(d => <Option key={d.key} value={d.key}>{d.label}</Option>);
     const categoryOptions = this.state.categories.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
     const seriesOptions = this.state.series.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>);
     const authorOptions = this.state.authors.map(d => ({ value: d.id.toString(), text: d.name }));
@@ -197,6 +198,4 @@ class BookForm extends React.Component {
 }
 
 export default connect(
-  state => ({
-    languages: state.apiReducers.languages
-  }), null)(injectIntl(BookForm));
+  state => ({}), null)(injectIntl(BookForm));*/

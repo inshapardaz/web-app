@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
-import { Icon, Alert, Modal, Input, Form, Button, notification } from 'antd';
+import { Alert, Modal, Input, Form, Button, notification } from 'antd';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 
 import ApiService from '../../services/ApiService';
 
-const SeriesForm = Form.create({
+/*const SeriesForm = Form.create({
     name: 'seriesEditor',
     mapPropsToFields(props) {
         return {
@@ -58,7 +59,7 @@ const SeriesForm = Form.create({
             );
         }
     }
-);
+);*/
 
 class EditSeries extends Component {
     constructor(props) {
@@ -147,19 +148,19 @@ class EditSeries extends Component {
 
         let header = intl.formatMessage({ id: "series.editor.header.add" });
         let buttonText = intl.formatMessage({ id : "series.action.create"});
-        let icon = "plus";
+        let icon = <PlusOutlined onClick={this.onOpen}/>;
 
         if (!isAdding && series) {
             header = intl.formatMessage({ id: "series.editor.header.edit" }, { name: series.name });
             buttonText = intl.formatMessage({ id : "action.edit"});
-            icon = "edit";
+            icon = <EditOutlined onClick={this.onOpen}/>;
         }
 
         const action = button ? 
          <Button icon={icon} onClick={this.onOpen} >{buttonText}</Button> : 
-         <Icon type={icon} onClick={this.onOpen} />;
-
-        return (
+         icon;
+        return null;
+        /*return (
             <>
                 {action}
                 <SeriesForm {...series}
@@ -173,7 +174,7 @@ class EditSeries extends Component {
                     intl={intl}
                 />
             </>
-        )
+        )*/
     }
 }
 

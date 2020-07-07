@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
 import { injectIntl } from 'react-intl';
-import { List, Card, Menu, Dropdown, Icon } from 'antd';
+import { List, Card, Menu, Dropdown } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
 import { ErrorPlaceholder, EmptyPlaceholder } from '../Common';
 import EditChapter from './EditChapter';
@@ -124,7 +125,7 @@ class ChapterList extends Component {
             var overlay = this.renderDropDown(chapters);
             return (<Dropdown overlay={overlay} trigger={['click']}>
                 <a className="ant-dropdown-link" href="#">
-                    {this.props.selectedChapter ? this.props.selectedChapter.title : ''} <Icon type="down" />
+                    {this.props.selectedChapter ? this.props.selectedChapter.title : ''} <DownOutlined />
                 </a>
             </Dropdown>);
         }

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { injectIntl } from 'react-intl';
-import { List, Card, Tag, Icon } from 'antd';
+import { List, Card, Tag } from 'antd';
+import { TagOutlined, LinkOutlined } from '@ant-design/icons';
 
 import EditBook from './EditBook';
 import UploadBookImage from './UploadBookImage';
@@ -44,7 +45,7 @@ class BookCard extends Component {
   renderCategories = (book) => {
     if (book && book.categories && book.categories.length > 0){
       return (<div style={{ padding: '8px 0' }}>
-          { book.categories.map(c => <Tag key={c.id}><Link to={`/books?category=${c.id}`}><Icon type="tag" /> {c.name}</Link></Tag>)}
+          { book.categories.map(c => <Tag key={c.id}><Link to={`/books?category=${c.id}`}><TagOutlined /> {c.name}</Link></Tag>)}
       </div>);
     }
     return null;
@@ -56,7 +57,7 @@ class BookCard extends Component {
         <div style={{ padding: '8px 0' }}>
           {this.props.intl.formatMessage({ id: 'book.series' }, { index: book.seriesIndex })}
           <Tag style={{ marginLeft: '4px' }}>
-            <Icon type="link" />
+            <LinkOutlined />
             <Link to={`/books?series=${book.seriesId}`}>{book.seriesName}</Link>
           </Tag>
         </div>);

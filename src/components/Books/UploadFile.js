@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 import ApiService from '../../services/ApiService';
-
-import { Modal, Icon, Alert, Button, notification, message } from 'antd';
+import { CloudUploadOutlined } from '@ant-design/icons';
+import { Button, notification, message } from 'antd';
 
 class UploadFile extends Component {
     constructor(props) {
@@ -53,7 +53,7 @@ class UploadFile extends Component {
         const title = this.props.intl.formatMessage({ id: 'books.action.addFile' });
         return (
             <>
-                <Button icon="upload" block={this.props.block} onClick={this.onClick} disabled={this.state.uploading}>{title}</Button>
+                <Button icon={<CloudUploadOutlined />} block={this.props.block} onClick={this.onClick} disabled={this.state.uploading}>{title}</Button>
                 <input type="file" ref={this.uploadRef} style={{ display: "none" }} onChange={(e) => this.uploadFile(e.target.files)} />
             </>
         )

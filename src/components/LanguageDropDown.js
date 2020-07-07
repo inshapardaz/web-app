@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 import { Select } from 'antd';
+import LocaleService from '../services/LocaleService';
 
 const Option = Select.Option;
 
@@ -38,7 +39,7 @@ class LanguageDropDown extends Component {
     }
 
     render() {
-        let options = this.props && this.props.languages ? this.props.languages.map(l => <Option key={l.value} value={l.value}>{l.key}</Option>) : [];
+        let options = LocaleService.getLanguages().map(l => <Option key={l.key} value={l.key}>{l.value}</Option>);
 
         return (
             <Select placeholder={this.props.placeholder}
@@ -54,10 +55,5 @@ class LanguageDropDown extends Component {
     }
 }
 
-export default connect(
-    state => ({
-        languages: state.apiReducers.languages
-    }),
-    null
-)(LanguageDropDown)
+export default LanguageDropDown;
 
