@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 
 import { Typography, Row, Tag, Card, Col, Button } from 'antd';
-import { PrinterOutlined, TagOutlined } from '@ant-design/icons';
+import { KeyOutlined, PrinterOutlined, TagOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet'
 
 import { ErrorPlaceholder, Loading } from '../Common';
@@ -175,6 +175,7 @@ class BookPage extends Component {
         {this.props.intl.formatMessage({ id: 'book.series' }, { index: book.seriesIndex })}
           <Link to={`/books?series=${book.seriesId}`} style={{ marginLeft: '4px',  display: 'inline' }}>{book.seriesName}</Link>
       </>) : null;
+      console.dir(book);
     const content = (
       <>
         <Paragraph>
