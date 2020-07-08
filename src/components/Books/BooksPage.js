@@ -87,13 +87,6 @@ class BooksPage extends Component {
     }
   }
 
-  onSubmit = (value) => {
-    let values = queryString.parse(this.props.location.search)
-    values.q = value;
-    this.props.history.push(`${this.props.location.pathname}?${queryString.stringify(values)}`)
-  }
-
-
   render() {
     const { author, category, series } = this.state;
 
@@ -116,13 +109,6 @@ class BooksPage extends Component {
             <BookList title={headerContent} />
           </div>
           <div className="col-xl-4">
-            <Card title={this.props.intl.formatMessage({ id: 'header.search' })} type="inner" style={cardStyle}>
-              <Search
-                placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
-                onSearch={this.onSubmit}
-                enterButton
-              />
-            </Card>
             <CategoriesSidebar selectedCategory={category} />
             <FavoriteBooksSidebar />
             <LatestBooksSidebar />

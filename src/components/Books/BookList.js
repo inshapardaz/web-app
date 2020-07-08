@@ -114,7 +114,7 @@ class BookList extends Component {
     onPageChanged = (page) => {
         if (this.state.pageNumber != page) {
             const { category, series } = this.state;
-            const { author } = this.props;
+            const { author, search } = this.props;
             if (author) {
                 this.props.history.push(`/authors/${author.id}?page=${page}`);
             }
@@ -123,6 +123,9 @@ class BookList extends Component {
             }
             else if (series && series > 0) {
                 this.props.history.push(`/books?series=${series}&page=${page}`);
+            }
+            else if (search) {
+                this.props.history.push(`/search?q=${search}&page=${page}`);
             }
             else {
                 this.props.history.push(`/books?page=${page}`);
@@ -145,7 +148,7 @@ class BookList extends Component {
             { gutter: 4, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 5 } :
             { gutter: 4, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 };
         const pagination = books ? (<Pagination hideOnSinglePage
-            size="small"
+            size="small" showSizeChanger={false}
             current={pageNumber}
             total={books ? books.totalCount : 0}
             pageSize={books ? books.pageSize : 0}
@@ -161,8 +164,8 @@ class BookList extends Component {
             grid={showCard ? grid : null}
             dataSource={books ? books.data: []}
             renderItem={b => (<BookCard key={b.id} card={showCard} book={b} onUpdated={this.reloadBooks} />)}
-            header={pagination}
-            footer={pagination}
+            header={this.props.noPaginate ? null : pagination }
+            footer={this.props.noPaginate ? null : pagination }
         />);
     }
 
@@ -186,16 +189,11 @@ class BookList extends Component {
             return this.renderLoadingError();
         }
 
-        if (!books) {
-            return null;
-        }
-
         const createLink = (books && books.links) ? books.links.create : null;
 
         if (this.props.simple) {
             return (
                 <>
-                    <Helmet title={this.props.intl.formatMessage({ id: "header.books" })} />
                     <div className="content content-boxed">
                         <div className="row row-deck">
                             {this.renderBooks(books, isLoading)}
@@ -228,5 +226,7 @@ export default injectIntl(withRouter(BookList));
 BookList.propTypes = {
     onUpdated: PropTypes.func,
     simple: PropTypes.bool,
-    title: PropTypes.string
+    title: PropTypes.string,
+    search: PropTypes.string,
+    noPaginate: PropTypes.bool
 };

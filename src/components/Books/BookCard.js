@@ -87,7 +87,7 @@ class BookCard extends Component {
           <Card
             hoverable
             actions={actions}
-            cover={<img width={175} alt="logo" src={(book.links ? book.links.image : null) || defaultBookImage} onError={this.setDefaultBookImage} />}
+            cover={<img width={175}  height={230} alt={book.title} src={(book.links ? book.links.image : null) || defaultBookImage} onError={this.setDefaultBookImage} />}
           >
             <Meta
               title={title}
@@ -100,7 +100,7 @@ class BookCard extends Component {
       return (
         <List.Item key={book.id}
           actions={actions}
-          extra={<img width={175} alt="logo" src={ (book.links && book.links.image) || defaultBookImage} onError={this.setDefaultBookImage} />}>
+          extra={<img width={175} height={230} alt="logo" src={ (book.links && book.links.image) || defaultBookImage} onError={this.setDefaultBookImage} />}>
           <List.Item.Meta title={title} description={author}>
           </List.Item.Meta>
           <div>{bookDescription}</div>

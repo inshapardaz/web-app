@@ -25,7 +25,7 @@ class Search extends Component {
           <SearchBox
                 placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
                 onSearch={this.onSubmit}
-                size="large" 
+                size="large" value={query.q}
                 enterButton
               />
         </Row>
@@ -33,7 +33,7 @@ class Search extends Component {
           <div className="col-xl-12">
             <Tabs type="card">
               <TabPane tab={this.props.intl.formatMessage({ id: "header.books" })} key="books">
-                <BookList title={booksHeader} />
+                <BookList title={booksHeader} search={query.q} />
               </TabPane>
               <TabPane tab={this.props.intl.formatMessage({ id: "header.authors" })} key="authors">
                 <Empty description={this.props.intl.formatMessage({ id: "comingsoon" })}/>

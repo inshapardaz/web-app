@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import OwlCarousel from 'react-owl-carousel2';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import BookList from './BookList';
+const defaultBookImage = '/resources/img/book_placeholder.png';
 
 const options = {
     items: 6,
@@ -26,7 +28,7 @@ class LatestBooks extends Component {
     async componentDidMount() {
         try {
             this.setState({ isLoading : true, isError: false })
-            let result = await ApiService.get(this.props.entry.links.latest);
+            let result = await ApiService.getLatestBooks(1, 8);
             this.setState({
                 isLoading: false,
                 isError: false,
@@ -42,47 +44,6 @@ class LatestBooks extends Component {
         }
     }
 
-    renderBook(book) {
-        return (
-            <div key={book.id} className="col-sm-6 col-md-4 col-xl-3">
-                <div className="block block-rounded block-fx-pop">
-                    <div className="block-content block-content-full">
-                        <div className="item item-rounded bg-warning-light mx-auto my-4">
-                            <i className="fa fa-2x fa-book text-warning"/>
-                        </div>
-                        <h4 className="mb-2"><Link to={`/books/${book.id}`}>{book.title}</Link></h4>
-                        <p className="font-size-sm text-muted text-left">
-                            {this.props.intl.formatMessage({ id: 'book.by' })} <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        );
-        return (<div className="item" key={book.id}>
-        <div className="tg-postbook" style={{ padding : '5px 0'}} >
-            <figure className="tg-featureimg">
-                <div className="tg-bookimg">
-                    <div className="tg-frontcover"><img src={book.links.image} alt="image description"/></div>
-                    <div className="tg-backcover"><img src={book.links.image} alt="image description"/></div>
-                </div>
-                <Link className="tg-btnaddtowishlist" to={`/books/${book.id}`} >
-                    <i className="icon-file-text2"/>
-                    <FormattedMessage id="action.view" />
-                </Link>
-            </figure>
-            <div className="tg-postbookcontent">
-                <ul className="tg-bookscategories">
-                    {book.categories.map(c => <li key={c.id}><Link to={`/books?category=${c.id}`}>{c.name}</Link></li>)}
-                </ul>
-                <div className="tg-booktitle">
-                    <h3><Link to={`/books/${book.id}`}>{book.title}</Link></h3>
-                </div>
-                <span className="tg-bookwriter">{this.props.intl.formatMessage({ id: 'book.by' })} <Link to={`/authors/${book.authorId}`}>{book.authorName}</Link></span>
-            </div>
-        </div>
-    </div>);
-    }
-
     render() {
         const { books } = this.state;
         return (
@@ -93,7 +54,7 @@ class LatestBooks extends Component {
                                 {this.props.intl.formatMessage({id:'home.latestBooks'})}
                             </h2>
                             <div className="row">
-                                { books != null ? books.slice(0,8).map(book => this.renderBook(book)) : <FormattedMessage id="message.loading" />}
+                                <BookList books={books} simple={true} noPaginate={true} / >
                             </div>
                         </div>
                     </div>

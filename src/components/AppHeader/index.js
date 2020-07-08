@@ -21,7 +21,7 @@ const Styles = () => {
 	return <style>{`
 	.topbar {
 		background: #fff;
-		padding: 0 rem(20);
+		padding: 0 10px;
 		min-height: 64px;
 		height: 64px;
 		border-bottom: 1px solid #e4e9f0;
