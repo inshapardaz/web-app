@@ -11,7 +11,6 @@ const { Search } = Input;
 class SearchBox extends Component {
   
     onSubmit = (value) => {
-      console.log('submit');
       let values = queryString.parse(this.props.location.search)
       values.q = value;
       this.props.history.push(`/search?${queryString.stringify(values)}`)

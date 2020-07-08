@@ -181,8 +181,8 @@ class ApiService {
     return this.get(`${baseUrl}/library/${libraryId}/books/${id}/chapters/${chapterId}/contents`, language, mimeType);
   }
 
-  getAuthors(page = 1) {
-    return this.get(`${baseUrl}/library/${libraryId}/authors?pageNumber=${page}&pageSize=12`);
+  getAuthors(page = 1, pageSize = 12, query = null) {
+    return this.get(`${baseUrl}/library/${libraryId}/authors?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
   searchAuthors(query, page = 1, pageSize = 6) {

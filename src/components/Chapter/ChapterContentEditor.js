@@ -109,7 +109,6 @@ class ChapterContentEditor extends Component {
 
     onImageUpload = async (file) => {
         var response = await ApiService.upload(this.props.entry.links.image_upload, file);
-        console.log
         return response.links.self;
     }
 

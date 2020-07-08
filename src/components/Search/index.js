@@ -5,11 +5,24 @@ import { Helmet } from 'react-helmet'
 import { Input, Row, Tabs, Empty } from 'antd';
 import { RobotOutlined } from '@ant-design/icons';
 import BookList from '../Books/BookList';
+import AuthorList from '../Authors/AuthorList';
 
 const SearchBox = Input.Search;
 const { TabPane } = Tabs;
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      query : ''
+    };
+  }
+
+  async componentDidMount() {
+    let values = queryString.parse(this.props.location.search)
+    this.setState({query : values.q })
+  }
+
   onSubmit = (value) => {
     let values = queryString.parse(this.props.location.search)
     values.q = value;
@@ -24,8 +37,8 @@ class Search extends Component {
         <Row gutter={[16, 16]}>
           <SearchBox
                 placeholder={this.props.intl.formatMessage({ id: "header.search.placeholder" })}
-                onSearch={this.onSubmit}
-                size="large" value={query.q}
+                onSearch={this.onSubmit} onChange={(e) => this.setState({query : e.value})}
+                size="large" value={this.state.query}
                 enterButton
               />
         </Row>
@@ -36,7 +49,7 @@ class Search extends Component {
                 <BookList title={booksHeader} search={query.q} />
               </TabPane>
               <TabPane tab={this.props.intl.formatMessage({ id: "header.authors" })} key="authors">
-                <Empty description={this.props.intl.formatMessage({ id: "comingsoon" })}/>
+                <AuthorList search={query.q} />
               </TabPane>
             </Tabs>
           </div>

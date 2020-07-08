@@ -15,7 +15,6 @@ class UploadFile extends Component {
     }
 
     async uploadFile(files) {
-        console.log("uploading file")
         const { book } = this.props;
 
         if (book.links.add_file && files && files.length) {
