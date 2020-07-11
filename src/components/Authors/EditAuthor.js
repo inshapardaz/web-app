@@ -147,11 +147,10 @@ class EditAuthor extends Component {
         const action = button ?
             <Button icon={icon} block={block} onClick={this.onOpen} >{buttonText}</Button> :
             icon;
-        return null;
-        /*return (
+        return (
             <>
                 {action}
-                <AuthorForm {...author}
+                {/* <AuthorForm {...author}
                     wrappedComponentRef={this.saveFormRef}
                     visible={visible}
                     header={header}
@@ -160,9 +159,9 @@ class EditAuthor extends Component {
                     onCancel={this.onClose}
                     onOK={this.onSave}
                     intl={intl}
-                />
+                /> */}
             </>
-        )*/
+        )
     }
 }
 

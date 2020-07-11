@@ -158,7 +158,7 @@ class ApiService {
 
   getBooksBySeries(series, page = 1, pageSize = 12, query = null) {
     const url = `${baseUrl}/library/${libraryId}/books`;
-    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}&seriesid=${series}${this.getQueryParameter(query)}`);
+    return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}&seriesId=${series}${this.getQueryParameter(query)}`);
   }
 
   getBook(id) {
