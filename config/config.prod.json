@@ -4,6 +4,6 @@
       "audience" : "http://api.inshapardaz.org"
     },
     "apiUrl" : "https://api-library.azurewebsites.net/api",
-    "libraryId": 6
+    "libraryId": 1
   }
   
