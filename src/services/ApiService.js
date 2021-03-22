@@ -118,51 +118,51 @@ class ApiService {
   }
 
   getEntry() {
-    return this.get(`${baseUrl}/library/${libraryId}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}`);
   }
 
   getCategories(){
-    return this.get(`${baseUrl}/library/${libraryId}/categories`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/categories`);
   }
 
   getCategory(id){
-    return this.get(`${baseUrl}/library/${libraryId}/categories/${id}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/categories/${id}`);
   }
 
   getSeries(){
-    return this.get(`${baseUrl}/library/${libraryId}/series`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/series`);
   }
 
   getSeriesById(id){
-    return this.get(`${baseUrl}/library/${libraryId}/series/${id}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/series/${id}`);
   }
 
   searchBooks(query, page = 1, pageSize = 12) {
-    return this.get(`${baseUrl}/library/${libraryId}/books?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/books?query=${query}&pageNumber=${page}&pageSize=${pageSize}`);
   }
 
   getBooks(page = 1, pageSize = 12, query = null) {
-    const url = `${baseUrl}/library/${libraryId}/books`;
+    const url = `${baseUrl}/libraries/${libraryId}/books`;
     return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
   getLatestBooks(page = 1, pageSize = 12) {
-    const url = `${baseUrl}/library/${libraryId}/books`;
+    const url = `${baseUrl}/libraries/${libraryId}/books`;
     return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}&sortby=datecreated&sort=descending`);
   }
 
   getBooksByCategory(category, page = 1, pageSize = 12, query = null) {
-    const url = `${baseUrl}/library/${libraryId}/books`;
+    const url = `${baseUrl}/libraries/${libraryId}/books`;
     return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}&categoryid=${category}${this.getQueryParameter(query)}`);
   }
 
   getBooksBySeries(series, page = 1, pageSize = 12, query = null) {
-    const url = `${baseUrl}/library/${libraryId}/books`;
+    const url = `${baseUrl}/libraries/${libraryId}/books`;
     return this.get(`${url}?pageNumber=${page}&pageSize=${pageSize}&seriesid=${series}${this.getQueryParameter(query)}`);
   }
 
   getBook(id) {
-    return this.get(`${baseUrl}/library/${libraryId}/books/${id}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/books/${id}`);
   }
 
   getBookChapters(book) {
@@ -170,31 +170,31 @@ class ApiService {
   }
 
   getChapters(bookId) {
-    return this.get(`${baseUrl}/library/${libraryId}/books/${bookId}/chapters`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/books/${bookId}/chapters`);
   }
 
   getChapter(id, chapterId) {
-    return this.get(`${baseUrl}/library/${libraryId}/books/${id}/chapters/${chapterId}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/books/${id}/chapters/${chapterId}`);
   }
 
   getChapterContents(id, chapterId, language = 'ur', mimeType = 'text/markdown') {
-    return this.get(`${baseUrl}/library/${libraryId}/books/${id}/chapters/${chapterId}/contents`, language, mimeType);
+    return this.get(`${baseUrl}/libraries/${libraryId}/books/${id}/chapters/${chapterId}/contents`, language, mimeType);
   }
 
   getAuthors(page = 1, pageSize = 12, query = null) {
-    return this.get(`${baseUrl}/library/${libraryId}/authors?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/authors?pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
   searchAuthors(query, page = 1, pageSize = 6) {
-    return this.get(`${baseUrl}/library/${libraryId}/authors?&pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/authors?&pageNumber=${page}&pageSize=${pageSize}${this.getQueryParameter(query)}`);
   }
 
   getAuthor(id) {
-    return this.get(`${baseUrl}/library/${libraryId}/authors/${id}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/authors/${id}`);
   }
 
   getAuthorBooks(authorId, page = 1, pageSize= 12, query = null) {
-    return this.get(`${baseUrl}/library/${libraryId}/books?pageNumber=${page}&pageSize=${pageSize}&authorid=${authorId}`);
+    return this.get(`${baseUrl}/libraries/${libraryId}/books?pageNumber=${page}&pageSize=${pageSize}&authorid=${authorId}`);
   }
 
   getBookFiles(link){
